@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 // import Gnb from "@/common/components/Gnb/GlobalNavigationBar";
 // import Footer from "@/common/components/Footer/Footer";
-import styles from "@/common/components/RootLayout/RootLayout.module.scss";
+import styles from "@/components/RootLayout/RootLayout.module.scss";
 import classNames from "classnames/bind";
 
 const cn = classNames.bind(styles);

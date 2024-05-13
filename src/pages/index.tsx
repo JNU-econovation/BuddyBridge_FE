@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import RootLayout from "@/common/components/RootLayout/RootLayout";
+import RootLayout from "@/components/RootLayout/RootLayout";
 
 export const metadata: Metadata = {
   title: "Buddy Bridge",
