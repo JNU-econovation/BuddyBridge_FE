@@ -3,9 +3,9 @@ import classNames from "classnames/bind";
 
 import BuddyBridge from "@/icons/buddy_bridge.svg";
 import Logo from "@/images/logo.svg";
-import KakaoLogin from "@/icons/kakao_login.png";
-import Image from "next/image";
-import { signIn, useSession } from "next-auth/react";
+import Kakao from "@/icons/kakao.svg";
+
+import { signIn } from "next-auth/react";
 
 const cn = classNames.bind(styles);
 
@@ -27,7 +27,8 @@ export default function Login() {
           <div className={cn("kakaoLoginContainer")}>
             <p>카카오톡으로 로그인</p>
             <button className={cn("kakaoLogin")} onClick={() => signIn("kakao", { callbackUrl: "/" })}>
-              <Image src={KakaoLogin} alt="카카오 로그인" fill />
+              <Kakao />
+              <p>카카오 로그인</p>
             </button>
           </div>
         </div>

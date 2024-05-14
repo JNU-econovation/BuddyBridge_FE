@@ -42,8 +42,11 @@
   }
 
   .kakaoLogin {
-    position: relative;
-    width: 30rem;
+    @include flexSort(null, center, center, 3rem);
+    width: 25rem;
     height: 5rem;
+    background-color: $color-kakao;
+    border-radius: 1.5rem;
+    padding: 3rem;
   }
 }
