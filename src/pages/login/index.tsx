@@ -15,11 +15,11 @@ export default function Login() {
       <div className={cn("content")}>
         <div className={cn("logoContainer")}>
           <div className={cn("logoTitleContainer")}>
-            <BuddyBridge />
+            <BuddyBridge width={360} height={66} />
             <p>장애인 봉사 플랫폼</p>
           </div>
           <div className={cn("logo")}>
-            <Logo />
+            <Logo width={315} height={190} />
           </div>
         </div>
         <div className={cn("loginContainer")}>
