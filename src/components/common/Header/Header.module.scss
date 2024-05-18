@@ -1,0 +1,30 @@
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(0%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header {
+  width: 100%;
+  position: relative;
+  @include flexSort(null, center, center, 9rem);
+  border-bottom: 0.1rem solid $color-gray;
+
+  .logoContainer {
+    @include flexSort(null, null, null, 0.4rem);
+  }
+
+  .nav {
+    @include sopoqa(2rem, 400, normal);
+    @include flexSort(null, null, center, 9rem);
+  }
+
+  .navContent {
+    padding: 2rem 0;
+  }
+}

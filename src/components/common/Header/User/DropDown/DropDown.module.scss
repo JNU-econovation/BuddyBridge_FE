@@ -1,0 +1,55 @@
+@keyframes fadeInDropdown {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropDownContainer {
+  @include flexSort(column, null, null, 3rem);
+  top: 5rem;
+  right: 2rem;
+  position: absolute;
+  z-index: $zindex-dropdown;
+  box-shadow: rgba(0, 0, 0, 0.1) 0rem 0.8rem 4rem 0rem;
+  width: 32rem;
+  display: none;
+}
+
+.hidden {
+  display: inline-flex;
+  animation: fadeInDropdown 0.5s ease-out forwards;
+}
+
+.myProfileContainer {
+  @include flexSort(column, null, center, 2rem);
+  @include sopoqa(1.6rem, 700, normal);
+  padding: 3rem;
+}
+
+.myProfile {
+  position: relative;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.myPage {
+  @include sopoqa(1.4rem, 500, normal);
+  border-top: 0.1rem solid rgb(220, 225, 229);
+  padding: 3rem;
+  padding-bottom: 0;
+  text-align: center;
+}
+
+.logout {
+  @include sopoqa(1.4rem, 500, normal);
+  border-top: 0.1rem solid rgb(220, 225, 229);
+  padding: 3rem;
+  text-align: center;
+}
