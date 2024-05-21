@@ -1,0 +1,98 @@
+.container {
+  @include flexSort(column, null, center, 2rem);
+
+  .title {
+    @include sopoqa(3.2rem, 600, normal);
+    margin-top: 7rem;
+  }
+
+  .contentContainer {
+    width: 100%;
+    background-color: $color-purple;
+    @include flexSort(null, center, center, null);
+    padding: 4rem 0;
+  }
+
+  .formContainer {
+    background-color: $color-white;
+    max-width: 131.7rem;
+    width: 100%;
+    padding: 3rem;
+    position: relative;
+    border-radius: 2rem;
+  }
+
+  .infoButton {
+    background-color: $color-primary;
+    @include sopoqa(1.9rem, 400, normal);
+    @include flexSort(null, center, center, null);
+    width: 17.9rem;
+    height: 4.6rem;
+    position: absolute;
+    right: 2rem;
+  }
+
+  .form {
+    margin-top: 7rem;
+    @include flexSort(column, null, null, 4.6rem);
+  }
+
+  .titleContainer {
+    @include flexSort(null, null, center, 11.2rem);
+  }
+
+  .label {
+    @include sopoqa(2.5rem, 500, normal);
+    white-space: nowrap;
+  }
+
+  .titleInput {
+    border-radius: 2rem;
+    border: 0.1rem solid $color-gray;
+    @include sopoqa(2.5rem, 400, normal);
+    padding: 1rem 2rem;
+    width: 100%;
+  }
+
+  .genderAgeContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+
+  .genderContainer {
+    @include flexSort(null, space-between, center, 11.2rem);
+  }
+
+  .ageContainer {
+    @include flexSort(null, space-between, center, 11.2rem);
+  }
+
+  .ageInput {
+    border-radius: 2rem;
+    border: 0.1rem solid $color-gray;
+    @include sopoqa(2.5rem, 400, normal);
+    padding: 1rem 2rem;
+    width: 100%;
+  }
+
+  .disabilityContainer {
+    @include flexSort(null, space-between, center, 11.2rem);
+  }
+
+  .helpTypeContainer {
+    @include flexSort(null, space-between, center, 11.2rem);
+  }
+
+  .periodContainer {
+    @include flexSort(null, space-between, center, 11.2rem);
+  }
+
+  .periodDetailInput {
+    border-radius: 2rem;
+    border: 0.1rem solid $color-gray;
+    @include sopoqa(2.5rem, 400, normal);
+    padding: 1rem 2rem;
+    width: 100%;
+  }
+}
