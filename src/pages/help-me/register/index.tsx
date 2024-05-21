@@ -31,7 +31,7 @@ export default function HelpMeRegister() {
                 <Label className={cn("label")} htmlFor="gender">
                   성별
                 </Label>
-                {/* <RadioInput /> */}
+                <RadioInput firstValue="male" secondValue="female" firstLabel="남성" secondLabel="여성" name="gender" />
               </div>
               <div className={cn("ageContainer")}>
                 <Label className={cn("label")} htmlFor="age">
@@ -49,13 +49,25 @@ export default function HelpMeRegister() {
                 <Label className={cn("label")} htmlFor="help">
                   도움 유형
                 </Label>
-                <p>라디오 버튼</p>
+                <RadioInput
+                  firstValue="education"
+                  secondValue="life"
+                  firstLabel="교육"
+                  secondLabel="생활"
+                  name="help"
+                />
               </div>
               <div className={cn("periodContainer")}>
                 <Label className={cn("label")} htmlFor="period ">
                   주기 구분
                 </Label>
-                <p>라디오 버튼</p>
+                <RadioInput
+                  firstValue="regular"
+                  secondValue="irregular"
+                  firstLabel="정기"
+                  secondLabel="비정기"
+                  name="period"
+                />
               </div>
               <Input className={cn("periodDetailInput")} id="periodDetail" placeholder="예) 1째주, 화목" />
             </div>

@@ -82,6 +82,7 @@
 
   .helpTypeContainer {
     @include flexSort(null, space-between, center, 11.2rem);
+    height: 5.6rem;
   }
 
   .periodContainer {
