@@ -174,3 +174,45 @@ input:-webkit-autofill:active {
   -webkit-transition: background-color 9999s ease-out;
   -webkit-box-shadow: 0 0 0px 1000px white inset !important;
 }
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+  display: block !important;
+  height: 100%;
+  width: 100%;
+}
+
+.react-datepicker__tab-loop {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.react-datepicker {
+  font-size: 1.6em !important;
+}
+
+.react-datepicker__header {
+  padding-top: 0.8em !important;
+}
+
+.react-datepicker__month {
+  margin: 0.4em 1em !important;
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day {
+  width: 1.9em !important;
+  line-height: 1.9em !important;
+  margin: 0.166em !important;
+}
+
+.react-datepicker__current-month {
+  font-size: 1em !important;
+}
+
+.react-datepicker__navigation {
+  top: 1em !important;
+  line-height: 1.7em !important;
+  border: 0.45em solid transparent !important;
+}

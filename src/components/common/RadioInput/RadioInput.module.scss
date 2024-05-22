@@ -16,9 +16,13 @@
       display: none;
     }
 
-    input[type="radio"]:checked + label {
+    label {
       height: 100%;
       width: 100%;
+      @include flexSort(null, center, center, null);
+    }
+
+    input[type="radio"]:checked + label {
       background: $color-primary;
       @include flexSort(null, center, center, null);
       color: $color-white;
@@ -38,10 +42,13 @@
       display: none;
     }
 
-    input[type="radio"]:checked + label {
+    label {
       height: 100%;
       width: 100%;
-      background: #184da0;
+      @include flexSort(null, center, center, null);
+    }
+
+    input[type="radio"]:checked + label {
       color: $color-white;
       border-radius: 0 1rem 1rem 0;
       background: $color-primary;

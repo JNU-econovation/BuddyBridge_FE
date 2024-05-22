@@ -13,8 +13,10 @@
     "@tanstack/react-query-devtools": "^5.34.2",
     "axios": "^1.6.8",
     "classnames": "^2.5.1",
+    "date-fns": "^3.6.0",
     "next": "^14.2.3",
     "react": "^18",
+    "react-datepicker": "^6.9.0",
     "react-dom": "^18",
     "react-hook-form": "^7.51.4",
     "react-toastify": "^10.0.5"
@@ -24,6 +26,7 @@
     "@tanstack/eslint-plugin-query": "^5.32.1",
     "@types/node": "^20",
     "@types/react": "^18",
+    "@types/react-datepicker": "^6.2.0",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",

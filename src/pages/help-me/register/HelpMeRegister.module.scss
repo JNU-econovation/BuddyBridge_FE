@@ -86,7 +86,7 @@
   }
 
   .periodContainer {
-    @include flexSort(null, space-between, center, 11.2rem);
+    @include flexSort(null, null, center, 11.2rem);
   }
 
   .periodDetailInput {
@@ -95,5 +95,67 @@
     @include sopoqa(2.5rem, 400, normal);
     padding: 1rem 2rem;
     width: 100%;
+  }
+
+  .placeContainer {
+    @include flexSort(null, null, center, 11.2rem);
+    height: 5.6rem;
+    width: 60.9rem;
+  }
+
+  .detailContainer {
+    @include flexSort(null, null, center, 11.2rem);
+    height: 22rem;
+  }
+
+  .detailTextarea {
+    width: 100%;
+    height: 22rem;
+    @include sopoqa(2.5rem, 400, normal);
+    overflow-y: auto;
+    padding: 2rem;
+  }
+
+  .dateContainer {
+    @include flexSort(null, null, center, 11.2rem);
+    height: 5.6rem;
+  }
+
+  .dateBox {
+    width: 100%;
+    height: 100%;
+    @include flexSort(null, space-between, center, 10rem);
+  }
+
+  .datePicker {
+    height: 100%;
+    width: 100%;
+    @include sopoqa(2rem, 400, normal);
+    text-align: center;
+  }
+
+  .date {
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+
+  .dropDownImg {
+    position: absolute;
+    top: 2rem;
+    right: 1rem;
+  }
+
+  .buttonContainer {
+    @include flexSort(null, center, center, null);
+  }
+
+  .button {
+    @include sopoqa(1.7rem, 400, normal);
+    background-color: $color-primary;
+
+    @include flexSort(null, center, center, null);
+    width: 11.7rem;
+    height: 4.6rem;
   }
 }
