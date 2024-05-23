@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { ComponentProps, forwardRef, useEffect, useRef, useState } from "react";
 import useDetectClose from "@/components/common/DropDown/hooks/useDetectClose";
 
 import DropDownImg from "@/icons/dropdown.svg";
@@ -9,26 +9,25 @@ import Input from "../Input/Input";
 
 const cn = classNames.bind(styles);
 
-interface DropdownProps {
+interface DropdownProps extends ComponentProps<"input"> {
   options: string[];
-  id: string;
+  onSelection: (option: string) => void;
 }
 
-export default function Dropdown({ options }: DropdownProps) {
+export default forwardRef<HTMLInputElement, DropdownProps>(function Dropdown({ options, onSelection, ...rest }, ref) {
   const dropdownRef = useRef(null);
   const [isOpen, setIsOpen] = useDetectClose(dropdownRef, false);
-  const [selectedOption, setSelectedOption] = useState("");
 
   const toggleDropdown = () => setIsOpen((prevState) => !prevState);
 
   const handleOptionSelect = (option: string) => {
     setIsOpen(false);
-    setSelectedOption(option);
+    onSelection(option);
   };
 
   return (
     <div ref={dropdownRef} className={cn("container")}>
-      <Input onClick={toggleDropdown} className={cn("input")} readOnly value={selectedOption} />
+      <Input onClick={toggleDropdown} className={cn("input")} readOnly {...rest} ref={ref} />
       <DropDownImg className={cn("img")} onClick={toggleDropdown} />
       {isOpen && (
         <div className={cn("dropDownContainer")}>
@@ -43,4 +42,4 @@ export default function Dropdown({ options }: DropdownProps) {
       )}
     </div>
   );
-}
+});

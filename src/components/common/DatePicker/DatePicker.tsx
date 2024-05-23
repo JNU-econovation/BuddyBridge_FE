@@ -1,4 +1,4 @@
-import { ComponentProps, forwardRef } from "react";
+import { ComponentProps, Ref, forwardRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styles from "@/components/common/DatePicker/DatePicker.module.scss";
@@ -12,6 +12,7 @@ interface CustomDatePickerProps {
   selected: Date;
   onChange: (date: Date) => void;
   dateFormat: string;
+  customInputRef?: Ref<HTMLButtonElement>;
 }
 
 interface CustomInputProps extends ComponentProps<"button"> {}
@@ -24,15 +25,18 @@ const CustomInput = forwardRef<HTMLButtonElement, CustomInputProps>(function Cus
   );
 });
 
-export default function CustomDatePicker({ locale, selected, onChange, dateFormat }: CustomDatePickerProps) {
+export default forwardRef<HTMLButtonElement, CustomDatePickerProps>(function CustomDatePicker(
+  { locale, selected, onChange, dateFormat, customInputRef },
+  ref,
+) {
   return (
     <DatePicker
       locale={locale}
       selected={selected}
       onChange={onChange}
       dateFormat={dateFormat}
-      customInput={<CustomInput />}
+      customInput={<CustomInput ref={customInputRef} />}
       showPopperArrow={false}
     />
   );
-}
+});
