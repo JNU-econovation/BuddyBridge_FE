@@ -7,7 +7,7 @@ import BuddyBridge from "@/icons/buddy_bridge.svg";
 import Link from "next/link";
 
 import User from "@/components/common/Header/User/User";
-import { useSession } from "next-auth/react";
+
 import { ROUTE } from "@/constants/route";
 
 const cn = classNames.bind(styles);

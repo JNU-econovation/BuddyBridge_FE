@@ -1,0 +1,44 @@
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  .input {
+    width: 100%;
+    height: 100%;
+    @include sopoqa(2.5rem, 400, normal);
+    text-align: center;
+    border-radius: 1rem;
+    border: 0.1rem solid $color-gray;
+    cursor: pointer;
+  }
+
+  .img {
+    position: absolute;
+    right: 1rem;
+    top: 2rem;
+  }
+
+  .dropDownContainer {
+    background-color: $color-white;
+    position: absolute;
+    width: 100%;
+    top: 7rem;
+    z-index: $zindex-dropdown;
+    border: 0.1rem solid $color-gray;
+    overflow-y: auto;
+    height: 30.4rem;
+  }
+
+  .option {
+    width: 100%;
+    border-bottom: 0.1rem solid $color-gray;
+    @include sopoqa(2.5rem, 400, normal);
+    text-align: center;
+    padding: 2rem 0;
+
+    &:hover {
+      background-color: $color-gray;
+    }
+  }
+}
