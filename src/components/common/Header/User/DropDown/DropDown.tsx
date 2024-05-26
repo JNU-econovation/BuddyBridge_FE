@@ -2,6 +2,10 @@ import Link from "next/link";
 
 import styles from "@/components/common/Header/User/DropDown/DropDown.module.scss";
 import classNames from "classnames/bind";
+import useUserInfoStore from "@/stores/kakaoInnfo";
+import Image from "next/image";
+
+import NoImg from "@/images/noimg.png";
 
 const cn = classNames.bind(styles);
 
@@ -10,11 +14,19 @@ interface DropDownProps {
 }
 
 export default function DropDown({ isNameClick }: DropDownProps) {
+  const { userInfo } = useUserInfoStore();
+
   return (
     <div className={cn("dropDownContainer", { hidden: isNameClick })}>
       <div className={cn("myProfileContainer")}>
         <p>내 프로필</p>
-        <div className={cn("myProfile")}>이미지</div>
+        <Image
+          className={cn("img")}
+          src={userInfo?.profileImageUrl ? userInfo?.profileImageUrl : NoImg}
+          width={80}
+          height={80}
+          alt="카카오톡 프로필"
+        />
       </div>
       <Link href="/" className={cn("myPage")}>
         마이페이지

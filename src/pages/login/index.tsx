@@ -4,18 +4,24 @@ import classNames from "classnames/bind";
 import BuddyBridge from "@/icons/buddy_bridge.svg";
 import Logo from "@/images/logo.svg";
 import Kakao from "@/icons/kakao.svg";
+import { ReactElement } from "react";
 import { useRouter } from "next/router";
 
 const cn = classNames.bind(styles);
 
+Login.getLayout = function getLayout(page: ReactElement) {
+  return <>{page}</>;
+};
+
 export default function Login() {
-  const router = useRouter();
-  const Rest_api_key = "debec636d22fb3515bf28a05e30c5af2";
-  const redirect_uri = "http://localhost:3000/";
-  // oauth 요청 URL
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
+  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_Rest_api_key}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&response_type=code`;
   const handleLogin = () => {
     window.location.href = kakaoURL;
+  };
+  const router = useRouter();
+
+  const handleLogoClick = () => {
+    router.push("/");
   };
 
   return (
@@ -23,7 +29,7 @@ export default function Login() {
       <div className={cn("content")}>
         <div className={cn("logoContainer")}>
           <div className={cn("logoTitleContainer")}>
-            <BuddyBridge width={360} height={66} />
+            <BuddyBridge width={360} height={66} onClick={handleLogoClick} className={cn("logoImg")} />
             <p>장애인 봉사 플랫폼</p>
           </div>
           <div className={cn("logo")}>

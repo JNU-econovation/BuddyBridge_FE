@@ -1,0 +1,16 @@
+.container {
+  @include flexSort(null, null, center, 3rem);
+
+  .nameBox {
+    @include flexSort(null, null, center, 1rem);
+    @include sopoqa(2rem, 400, normal);
+    border: 0.1rem solid $color-gray;
+    padding: 1rem 2rem;
+    border-radius: 3rem;
+    cursor: pointer;
+  }
+
+  .iconBox {
+    @include flexSort(null, null, center, 1rem);
+  }
+}

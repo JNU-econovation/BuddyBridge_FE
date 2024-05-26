@@ -1,0 +1,52 @@
+.container {
+  width: 110rem;
+  height: 15.8rem;
+  position: relative;
+  border: 0.1rem solid $color-gray;
+  padding: 3rem 7rem;
+  @include flexSort(null, space-between, center, null);
+
+  .order {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    @include sopoqa(1.8rem, 400, normal);
+  }
+
+  .heart {
+    position: absolute;
+    right: 2rem;
+    top: 1rem;
+    cursor: pointer;
+  }
+
+  .contentBox {
+    @include flexSort(null, null, center, 2rem);
+  }
+
+  .badgeBox {
+    @include flexSort(null, null, center, 2rem);
+
+    p {
+      border: 0.1rem solid $color-black;
+      @include sopoqa(1.3rem, 400, normal);
+      padding: 0.5rem 1rem;
+    }
+  }
+
+  .infoBox {
+    @include flexSort(column, null, null, 1rem);
+  }
+
+  .title {
+    @include sopoqa(2.5rem, 600, normal);
+  }
+
+  .detailInfoBox {
+    @include flexSort(null, null, center, 2rem);
+
+    p {
+      @include sopoqa(1.1rem, 400, normal);
+    }
+  }
+}
