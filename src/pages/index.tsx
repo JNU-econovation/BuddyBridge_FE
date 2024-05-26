@@ -56,7 +56,7 @@ export default function Home({ user }: HomeProps) {
     if (user) {
       setUserInfo(user);
     }
-  }, [user]);
+  }, [user, setUserInfo]);
 
   return (
     <>
