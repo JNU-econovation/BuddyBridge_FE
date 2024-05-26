@@ -13,8 +13,14 @@ import styles from "@/pages/help-me/register/HelpMeRegister.module.scss";
 import classNames from "classnames/bind";
 import CustomDatePicker from "@/components/common/DatePicker/DatePicker";
 import { Controller, useForm } from "react-hook-form";
+import RootLayout from "@/components/RootLayout/RootLayout";
+import { ReactElement } from "react";
 
 const cn = classNames.bind(styles);
+
+HelpMeRegister.getLayout = function getLayout(page: ReactElement) {
+  return <RootLayout>{page}</RootLayout>;
+};
 
 export default function HelpMeRegister() {
   const { register, handleSubmit, setValue, control } = useForm();

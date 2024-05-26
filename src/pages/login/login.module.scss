@@ -23,6 +23,10 @@
     @include sopoqa(2rem, 400, 1.6rem);
   }
 
+  .logoImg {
+    cursor: pointer;
+  }
+
   .logo {
     height: 100%;
     @include flexSort(null, center, center, null);
