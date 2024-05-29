@@ -25,6 +25,7 @@ export const metadata: Metadata = {
 
 interface HomeProps {
   user: KaKaoUserInfo;
+  cookie: string[];
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -38,6 +39,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         return {
           props: {
             user: response.data.data,
+            cookie: response.headers["set-cookie"],
           },
         };
       }
@@ -49,7 +51,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return { props: {} };
 }
 
-export default function Home({ user }: HomeProps) {
+export default function Home({ user, cookie }: HomeProps) {
   const { setUserInfo } = useUserInfoStore();
 
   useEffect(() => {
