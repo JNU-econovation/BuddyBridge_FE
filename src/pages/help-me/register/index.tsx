@@ -71,37 +71,41 @@ export default function HelpMeRegister() {
                 />
               </div>
               <div className={cn("helpTypeContainer")}>
-                <Label className={cn("label")} htmlFor="help">
+                <Label className={cn("label")} htmlFor="assistanceType">
                   도움 유형
                 </Label>
                 <Controller
-                  name="help"
+                  name="assistanceType"
                   control={control}
                   render={({ field }) => <RadioInput {...field} firstValue="교육" secondValue="생활" />}
                 />
               </div>
               <div className={cn("periodContainer")}>
-                <Label className={cn("label")} htmlFor="period ">
+                <Label className={cn("label")} htmlFor="scheduleType ">
                   주기 구분
                 </Label>
                 <Controller
-                  name="period"
+                  name="scheduleType"
                   control={control}
                   render={({ field }) => <RadioInput {...field} firstValue="정기" secondValue="비정기" />}
                 />
               </div>
               <Input
                 className={cn("periodDetailInput")}
-                id="periodDetail"
+                id="scheduleDetail"
                 placeholder="예) 1째주, 화목"
-                {...register("periodDetail")}
+                {...register("scheduleDetail")}
               />
             </div>
             <div className={cn("placeContainer")}>
-              <Label className={cn("label")} htmlFor="place">
+              <Label className={cn("label")} htmlFor="district">
                 장소
               </Label>
-              <Dropdown options={PLACE} onSelection={(option) => setValue("place", option)} {...register("place")} />
+              <Dropdown
+                options={PLACE}
+                onSelection={(option) => setValue("district", option)}
+                {...register("district")}
+              />
             </div>
             <div className={cn("dateContainer")}>
               <Label className={cn("label")} htmlFor="date">
@@ -144,15 +148,15 @@ export default function HelpMeRegister() {
               </div>
             </div>
             <div className={cn("detailContainer")}>
-              <Label className={cn("label")} htmlFor="detail">
+              <Label className={cn("label")} htmlFor="content">
                 내용
               </Label>
               <Textarea
                 placeholder="도움이 필요한 정보를 상세하게 적어주세요. (인원/ 시간/ 세부 장소/ 도움 필요 내용)
 ex, 2시에 전대치과병원에서 진료 이동 도움이 필요합니다."
-                id="detail"
+                id="content"
                 className={cn("detailTextarea")}
-                {...register("detail")}
+                {...register("content")}
               />
             </div>
             <div className={cn("buttonContainer")}>
