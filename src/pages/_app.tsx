@@ -7,7 +7,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import RootLayout from "@/components/RootLayout/RootLayout";
+import RootLayout from "@/components/common/RootLayout/RootLayout";
 import { ReactElement, ReactNode } from "react";
 import { NextPage } from "next";
 

@@ -1,5 +1,5 @@
 import { axiosKakaoInstance } from "@/apis/axiosInstance";
-import RootLayout from "@/components/RootLayout/RootLayout";
+import RootLayout from "@/components/common/RootLayout/RootLayout";
 import Post from "@/components/common/Post/Post";
 import useUserInfoStore from "@/stores/kakaoInnfo";
 import { KaKaoUserInfo } from "@/types/user";
