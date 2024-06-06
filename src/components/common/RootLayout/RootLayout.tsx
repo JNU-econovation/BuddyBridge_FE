@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 
-import styles from "@/components/common/RootLayout/RootLayout.module.scss";
 import classNames from "classnames/bind";
 
 import Header from "@/components/common/Header/Header";
+import styles from "@/components/common/RootLayout/RootLayout.module.scss";
 
 const cn = classNames.bind(styles);
 

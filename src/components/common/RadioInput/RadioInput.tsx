@@ -1,7 +1,8 @@
 import { ComponentProps, forwardRef } from "react";
 
-import styles from "@/components/common/RadioInput/RadioInput.module.scss";
 import classNames from "classnames/bind";
+
+import styles from "@/components/common/RadioInput/RadioInput.module.scss";
 
 const cn = classNames.bind(styles);
 interface RadioInputProps extends ComponentProps<"input"> {

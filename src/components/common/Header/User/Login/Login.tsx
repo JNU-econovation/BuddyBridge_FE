@@ -1,12 +1,14 @@
-import styles from "@/components/common/Header/User/Login/Login.module.scss";
+import { useRef, useState } from "react";
+
 import classNames from "classnames/bind";
 
-import Alarm from "@/icons/alarm.svg";
-import Chat from "@/icons/chattig.svg";
-import ArrowDown from "@/icons/arrow_down.svg";
-import { useRef, useState } from "react";
-import DropDown from "../DropDown/DropDown";
 import useDetectClose from "@/components/common/DropDown/hooks/useDetectClose";
+import styles from "@/components/common/Header/User/Login/Login.module.scss";
+import Alarm from "@/icons/alarm.svg";
+import ArrowDown from "@/icons/arrow_down.svg";
+import Chat from "@/icons/chattig.svg";
+
+import DropDown from "../DropDown/DropDown";
 
 const cn = classNames.bind(styles);
 

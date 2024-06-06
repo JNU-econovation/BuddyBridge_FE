@@ -1,10 +1,10 @@
-import styles from "@/components/common/Post/Post.module.scss";
+import { useState } from "react";
+
 import classNames from "classnames/bind";
 
+import styles from "@/components/common/Post/Post.module.scss";
 import Heart from "@/icons/heart.svg";
 import RedHeart from "@/icons/red_haert.svg";
-
-import { useState } from "react";
 
 const cn = classNames.bind(styles);
 

@@ -1,14 +1,14 @@
-import styles from "@/pages/login/login.module.scss";
 import classNames from "classnames/bind";
 
 import { useRouter } from "next/router";
 
-const cn = classNames.bind(styles);
-
-import BuddyBridge from "@/icons/buddy_bridge.svg";
-import Logo from "@/images/logo.svg";
-import Kakao from "@/icons/kakao.svg";
 import { ROUTE } from "@/constants/route";
+import BuddyBridge from "@/icons/buddy_bridge.svg";
+import Kakao from "@/icons/kakao.svg";
+import Logo from "@/images/logo.svg";
+import styles from "@/pages/login/login.module.scss";
+
+const cn = classNames.bind(styles);
 
 export default function LoginLayout() {
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_Rest_api_key}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&response_type=code`;

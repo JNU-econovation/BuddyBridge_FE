@@ -1,11 +1,14 @@
+import { ReactElement, useEffect } from "react";
+
+import { GetServerSidePropsContext, Metadata } from "next";
+
+import Link from "next/link";
+
 import axiosInstance from "@/apis/axiosInstance";
-import RootLayout from "@/components/common/RootLayout/RootLayout";
 import Post from "@/components/common/Post/Post";
+import RootLayout from "@/components/common/RootLayout/RootLayout";
 import useUserInfoStore from "@/stores/kakaoInnfo";
 import { KaKaoUserInfo } from "@/types/user";
-import { GetServerSidePropsContext, Metadata } from "next";
-import Link from "next/link";
-import { ReactElement, useEffect } from "react";
 
 const mockData = {
   title: "같이 이동해요",

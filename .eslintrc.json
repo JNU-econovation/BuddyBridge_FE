@@ -1,3 +1,66 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next/core-web-vitals", "plugin:import/errors", "plugin:import/warnings", "plugin:import/typescript"],
+  "plugins": ["import"],
+  "rules": {
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          ["builtin", "external"],
+          ["internal"],
+          ["parent", "sibling", "index"],
+          ["object", "type"],
+          ["unknown"]
+        ],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "{react/**,react-dom/**}",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "next",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "next/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "{app/**, constants/**,apis/**,types/**,utils/**,hooks/**}",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "{components/**}",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "{icons/**,images/**}",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "{*.css,*.scss,}",
+            "group": "internal",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": [],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ]
+  }
 }
