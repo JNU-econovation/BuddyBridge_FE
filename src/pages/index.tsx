@@ -1,4 +1,4 @@
-import { axiosKakaoInstance } from "@/apis/axiosInstance";
+import axiosInstance from "@/apis/axiosInstance";
 import RootLayout from "@/components/common/RootLayout/RootLayout";
 import Post from "@/components/common/Post/Post";
 import useUserInfoStore from "@/stores/kakaoInnfo";
@@ -33,7 +33,13 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   if (code) {
     try {
-      const response = await axiosKakaoInstance.post("api/oauth/login", { authorizationCode: code });
+      const response = await axiosInstance.post(
+        "api/oauth/login",
+        { authorizationCode: code },
+        {
+          withCredentials: true,
+        },
+      );
 
       if (response.data.data) {
         return {
