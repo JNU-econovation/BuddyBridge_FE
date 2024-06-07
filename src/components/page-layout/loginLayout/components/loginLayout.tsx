@@ -1,12 +1,8 @@
 import classNames from "classnames/bind";
 
-import { useRouter } from "next/router";
-
-import { ROUTE } from "@/constants/route";
-import BuddyBridge from "@/icons/buddy_bridge.svg";
+import styles from "@/components/page-layout/loginLayout/components/loginLayout.module.scss";
 import Kakao from "@/icons/kakao.svg";
-import Logo from "@/images/logo.svg";
-import styles from "@/pages/login/login.module.scss";
+import LoginImg from "@/images/loginImg.svg";
 
 const cn = classNames.bind(styles);
 
@@ -17,35 +13,34 @@ export default function LoginLayout() {
     window.location.href = kakaoURL;
   };
 
-  const router = useRouter();
-
-  const handleLogoClick = () => {
-    router.push(ROUTE.HOME);
-  };
-
   return (
-    <div className={cn("container")}>
-      <div className={cn("content")}>
-        <div className={cn("logoContainer")}>
-          <div className={cn("logoTitleContainer")}>
-            <BuddyBridge width={360} height={66} onClick={handleLogoClick} className={cn("logoImg")} />
-            <p>장애인 봉사 플랫폼</p>
-          </div>
-          <div className={cn("logo")}>
-            <Logo width={315} height={190} />
-          </div>
+    <main className={cn("main")}>
+      <div className={cn("container")}>
+        <div className={cn("logoBox")}>
+          <p className={cn("logoContent")}>
+            안녕하세요. 누구나 온기를 전하도록 이어주는
+            <br />
+            버디브릿지입니다.
+          </p>
+          <LoginImg width={400} height={400} />
         </div>
-        <div className={cn("loginContainer")}>
-          <p className={cn("login")}>로그인</p>
-          <div className={cn("kakaoLoginContainer")}>
-            <p>카카오톡으로 로그인</p>
-            <button className={cn("kakaoLogin")} onClick={handleLogin}>
-              <Kakao />
-              <p>카카오 로그인</p>
-            </button>
+        <article className={cn("loginContainer")}>
+          <div className={cn("loginBox")}>
+            <div className={cn("loginTitleBox")}>
+              <p className={cn("loginEnglishTitle")}>BUDDY BRIDGE LOGIN</p>
+              <p className={cn("loginKoreanTitle")}>버디브릿지 로그인</p>
+            </div>
+            <div className={cn("kakaoLoginBox")}>
+              <p>카카오톡으로 로그인</p>
+              <button onClick={handleLogin} className={cn("kakaoButton")}>
+                <Kakao className={cn("kakao")} />
+                <p className={cn("kakaoLogin")}>카카오 로그인</p>
+              </button>
+            </div>
           </div>
-        </div>
+          <p className={cn("loginInfo")}>※ 사용자의 신원을 보장하기 위해 카카오 로그인만 제공합니다. </p>
+        </article>
       </div>
-    </div>
+    </main>
   );
 }

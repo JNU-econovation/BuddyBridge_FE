@@ -9,7 +9,7 @@
     width: 50%;
     border-radius: 1rem 0 0 1rem;
     border-right: none;
-    @include sopoqa(2.5rem, 400, normal);
+    @include font(2.5rem, 400, normal);
     @include flexSort(null, center, center, null);
 
     input {
@@ -36,7 +36,7 @@
     width: 50%;
     @include flexSort(null, center, center, null);
     border-radius: 0 1rem 1rem 0;
-    @include sopoqa(2.5rem, 400, normal);
+    @include font(2.5rem, 400, normal);
 
     input {
       display: none;

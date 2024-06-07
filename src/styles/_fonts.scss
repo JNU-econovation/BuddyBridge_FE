@@ -5,8 +5,8 @@
   font-style: normal;
 }
 
-@mixin sopoqa($size, $weight, $height) {
-  font-family: "SpoqaHanSansNeo-Regular";
+@mixin font($size, $weight, $height) {
+  font-family: Pretendard;
   font-size: $size;
   font-style: normal;
   font-weight: $weight;

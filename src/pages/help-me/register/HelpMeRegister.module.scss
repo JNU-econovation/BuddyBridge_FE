@@ -2,7 +2,7 @@
   @include flexSort(column, null, center, 2rem);
 
   .title {
-    @include sopoqa(3.2rem, 600, normal);
+    @include font(3.2rem, 600, normal);
     margin-top: 7rem;
   }
 
@@ -24,7 +24,7 @@
 
   .infoButton {
     background-color: $color-primary;
-    @include sopoqa(1.9rem, 400, normal);
+    @include font(1.9rem, 400, normal);
     @include flexSort(null, center, center, null);
     width: 17.9rem;
     height: 4.6rem;
@@ -42,14 +42,14 @@
   }
 
   .label {
-    @include sopoqa(2.5rem, 500, normal);
+    @include font(2.5rem, 500, normal);
     white-space: nowrap;
   }
 
   .titleInput {
     border-radius: 2rem;
     border: 0.1rem solid $color-gray;
-    @include sopoqa(2.5rem, 400, normal);
+    @include font(2.5rem, 400, normal);
     padding: 1rem 2rem;
     width: 100%;
   }
@@ -71,7 +71,7 @@
   .ageInput {
     border-radius: 2rem;
     border: 0.1rem solid $color-gray;
-    @include sopoqa(2.5rem, 400, normal);
+    @include font(2.5rem, 400, normal);
     padding: 1rem 2rem;
     width: 100%;
   }
@@ -92,7 +92,7 @@
   .periodDetailInput {
     border-radius: 2rem;
     border: 0.1rem solid $color-gray;
-    @include sopoqa(2.5rem, 400, normal);
+    @include font(2.5rem, 400, normal);
     padding: 1rem 2rem;
     width: 100%;
   }
@@ -111,7 +111,7 @@
   .detailTextarea {
     width: 100%;
     height: 22rem;
-    @include sopoqa(2.5rem, 400, normal);
+    @include font(2.5rem, 400, normal);
     overflow-y: auto;
     padding: 2rem;
     border-radius: 1rem;
@@ -131,7 +131,7 @@
   .datePicker {
     height: 100%;
     width: 100%;
-    @include sopoqa(2rem, 400, normal);
+    @include font(2rem, 400, normal);
     text-align: center;
   }
 
@@ -152,7 +152,7 @@
   }
 
   .button {
-    @include sopoqa(1.7rem, 400, normal);
+    @include font(1.7rem, 400, normal);
     background-color: $color-primary;
 
     @include flexSort(null, center, center, null);
