@@ -1,4 +1,5 @@
 import { Bounce, toast } from "react-toastify";
+
 import TOAST_TYPE from "@/components/common/Toast/constants/toastType";
 
 type OpenToastType = keyof typeof TOAST_TYPE;

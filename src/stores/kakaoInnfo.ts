@@ -1,5 +1,6 @@
-import { KaKaoUserInfo } from "@/types/user";
 import { create } from "zustand";
+
+import { KaKaoUserInfo } from "@/types/user";
 
 interface UserInfoState {
   userInfo: KaKaoUserInfo | null;

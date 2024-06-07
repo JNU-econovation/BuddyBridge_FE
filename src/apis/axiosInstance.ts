@@ -1,8 +1,10 @@
-import axios, { AxiosInstance } from "axios";
+import axios from "axios";
 
-const axiosKakaoInstance: AxiosInstance = axios.create({
+const axiosInstance = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_KAKAO_API_URL}`,
-  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
-export { axiosKakaoInstance };
+export default axiosInstance;

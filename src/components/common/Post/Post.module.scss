@@ -10,7 +10,7 @@
     position: absolute;
     left: 1rem;
     top: 1rem;
-    @include sopoqa(1.8rem, 400, normal);
+    @include font(1.8rem, 400, normal);
   }
 
   .heart {
@@ -29,7 +29,7 @@
 
     p {
       border: 0.1rem solid $color-black;
-      @include sopoqa(1.3rem, 400, normal);
+      @include font(1.3rem, 400, normal);
       padding: 0.5rem 1rem;
     }
   }
@@ -39,14 +39,14 @@
   }
 
   .title {
-    @include sopoqa(2.5rem, 600, normal);
+    @include font(2.5rem, 600, normal);
   }
 
   .detailInfoBox {
     @include flexSort(null, null, center, 2rem);
 
     p {
-      @include sopoqa(1.1rem, 400, normal);
+      @include font(1.1rem, 400, normal);
     }
   }
 }

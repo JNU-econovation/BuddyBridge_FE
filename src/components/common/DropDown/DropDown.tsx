@@ -1,10 +1,11 @@
 import React, { ComponentProps, forwardRef, useEffect, useRef, useState } from "react";
-import useDetectClose from "@/components/common/DropDown/hooks/useDetectClose";
 
-import DropDownImg from "@/icons/dropdown.svg";
+import classNames from "classnames/bind";
 
 import styles from "@/components/common/DropDown/DropDown.module.scss";
-import classNames from "classnames/bind";
+import useDetectClose from "@/components/common/DropDown/hooks/useDetectClose";
+import DropDownImg from "@/icons/dropdown.svg";
+
 import Input from "../Input/Input";
 
 const cn = classNames.bind(styles);

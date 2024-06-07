@@ -1,11 +1,11 @@
+import classNames from "classnames/bind";
+
+import Image from "next/image";
 import Link from "next/link";
 
 import styles from "@/components/common/Header/User/DropDown/DropDown.module.scss";
-import classNames from "classnames/bind";
-import useUserInfoStore from "@/stores/kakaoInnfo";
-import Image from "next/image";
-
 import NoImg from "@/images/noimg.png";
+import useUserInfoStore from "@/stores/kakaoInnfo";
 
 const cn = classNames.bind(styles);
 

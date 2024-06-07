@@ -1,11 +1,14 @@
-import { axiosKakaoInstance } from "@/apis/axiosInstance";
-import RootLayout from "@/components/RootLayout/RootLayout";
+import { ReactElement, useEffect } from "react";
+
+import { GetServerSidePropsContext, Metadata } from "next";
+
+import Link from "next/link";
+
+import axiosInstance from "@/apis/axiosInstance";
 import Post from "@/components/common/Post/Post";
+import RootLayout from "@/components/common/RootLayout/RootLayout";
 import useUserInfoStore from "@/stores/kakaoInnfo";
 import { KaKaoUserInfo } from "@/types/user";
-import { GetServerSidePropsContext, Metadata } from "next";
-import Link from "next/link";
-import { ReactElement, useEffect } from "react";
 
 const mockData = {
   title: "같이 이동해요",
@@ -25,7 +28,7 @@ export const metadata: Metadata = {
 
 interface HomeProps {
   user: KaKaoUserInfo;
-  cookie: string[];
+  cookie: string;
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -33,7 +36,13 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   if (code) {
     try {
-      const response = await axiosKakaoInstance.post("api/oauth/login", { authorizationCode: code });
+      const response = await axiosInstance.post(
+        "api/oauth/login",
+        { authorizationCode: code },
+        {
+          withCredentials: true,
+        },
+      );
 
       if (response.data.data) {
         return {
@@ -53,6 +62,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 export default function Home({ user, cookie }: HomeProps) {
   const { setUserInfo } = useUserInfoStore();
+
+  if (cookie) {
+    document.cookie = cookie;
+  }
 
   useEffect(() => {
     if (user) {

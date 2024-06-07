@@ -20,7 +20,7 @@
   }
 
   .nav {
-    @include sopoqa(2rem, 400, normal);
+    @include font(2rem, 400, normal);
     @include flexSort(null, null, center, 9rem);
   }
 
