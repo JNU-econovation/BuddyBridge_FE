@@ -9,7 +9,7 @@
     @include font(2.5rem, 400, normal);
     text-align: center;
     border-radius: 1rem;
-    border: 0.1rem solid $color-gray;
+    border: 0.1rem solid $gray;
     cursor: pointer;
   }
 
@@ -20,25 +20,25 @@
   }
 
   .dropDownContainer {
-    background-color: $color-white;
+    background-color: $white;
     position: absolute;
     width: 100%;
     top: 7rem;
     z-index: $zindex-dropdown;
-    border: 0.1rem solid $color-gray;
+    border: 0.1rem solid $gray;
     overflow-y: auto;
     height: 30.4rem;
   }
 
   .option {
     width: 100%;
-    border-bottom: 0.1rem solid $color-gray;
+    border-bottom: 0.1rem solid $gray;
     @include font(2.5rem, 400, normal);
     text-align: center;
     padding: 2rem 0;
 
     &:hover {
-      background-color: $color-gray;
+      background-color: $gray;
     }
   }
 }

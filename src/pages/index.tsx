@@ -11,7 +11,7 @@ import useUserInfoStore from "@/stores/kakaoInnfo";
 import { KaKaoUserInfo } from "@/types/user";
 
 const mockData = {
-  title: "같이 이동해요",
+  title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
   disability: "지체 장애",
   help: "생활",
   place: "광주광역시 북구",
@@ -19,6 +19,7 @@ const mockData = {
   endDate: "2024.05.07",
   period: "정기",
   order: 1,
+  type: "giver",
 };
 
 export const metadata: Metadata = {
@@ -76,7 +77,6 @@ export default function Home({ user, cookie }: HomeProps) {
   return (
     <>
       <Post data={mockData} />
-      <Link href="/login">로그인 페이지로 가기</Link>
     </>
   );
 }

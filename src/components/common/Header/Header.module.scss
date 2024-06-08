@@ -13,7 +13,7 @@
   width: 100%;
   position: relative;
   @include flexSort(null, center, center, 9rem);
-  border-bottom: 0.1rem solid $color-gray;
+  border-bottom: 0.1rem solid $gray;
 
   .logoContainer {
     @include flexSort(null, null, null, 0.4rem);

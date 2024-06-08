@@ -8,13 +8,13 @@
 
   .contentContainer {
     width: 100%;
-    background-color: $color-purple;
+    background-color: $giver;
     @include flexSort(null, center, center, null);
     padding: 4rem 0;
   }
 
   .formContainer {
-    background-color: $color-white;
+    background-color: $white;
     max-width: 131.7rem;
     width: 100%;
     padding: 3rem;
@@ -23,7 +23,7 @@
   }
 
   .infoButton {
-    background-color: $color-primary;
+    background-color: $primary;
     @include font(1.9rem, 400, normal);
     @include flexSort(null, center, center, null);
     width: 17.9rem;
@@ -48,7 +48,7 @@
 
   .titleInput {
     border-radius: 2rem;
-    border: 0.1rem solid $color-gray;
+    border: 0.1rem solid $gray;
     @include font(2.5rem, 400, normal);
     padding: 1rem 2rem;
     width: 100%;
@@ -70,7 +70,7 @@
 
   .ageInput {
     border-radius: 2rem;
-    border: 0.1rem solid $color-gray;
+    border: 0.1rem solid $gray;
     @include font(2.5rem, 400, normal);
     padding: 1rem 2rem;
     width: 100%;
@@ -91,7 +91,7 @@
 
   .periodDetailInput {
     border-radius: 2rem;
-    border: 0.1rem solid $color-gray;
+    border: 0.1rem solid $gray;
     @include font(2.5rem, 400, normal);
     padding: 1rem 2rem;
     width: 100%;
@@ -153,7 +153,7 @@
 
   .button {
     @include font(1.7rem, 400, normal);
-    background-color: $color-primary;
+    background-color: $primary;
 
     @include flexSort(null, center, center, null);
     width: 11.7rem;

@@ -18,36 +18,49 @@ interface PostProps {
     endDate: string;
     period: string;
     order: number;
+    type: string;
   };
 }
 
 export default function Post({ data }: PostProps) {
   const [isHeartClick, setIsHeartClick] = useState(false);
-  const { title, disability, help, place, startDate, endDate, period, order } = data;
+  const { type, title, disability, help, place, startDate, endDate, period, order } = data;
 
   const handleHeartClick = () => {
     setIsHeartClick((prev) => !prev);
   };
 
   return (
-    <div className={cn("container")}>
-      <p className={cn("order")}>{`#${order}`}</p>
-      {isHeartClick ? (
-        <RedHeart width={32} height={32} className={cn("heart")} onClick={handleHeartClick} />
-      ) : (
-        <Heart width={32} height={32} className={cn("heart")} onClick={handleHeartClick} />
-      )}
-      <div className={cn("contentBox")}>
-        <div className={cn("badgeBox")}>
-          <p>{help}</p>
-          <p>{disability}</p>
-        </div>
-        <div className={cn("infoBox")}>
-          <p className={cn("title")}>{title}</p>
-          <div className={cn("detailInfoBox")}>
-            <p>{`일시 | ${startDate} ~ ${endDate}`}</p>
-            <p>{`활동 | ${period}`}</p>
-            <p>{`일시 | ${place}`}</p>
+    <div
+      className={cn("cardContainer", {
+        taker: type === "taker",
+        giver: type === "giver",
+      })}
+    >
+      <div className={cn("contentContainer")}>
+        <p
+          className={cn("progress", {
+            taker: type === "taker",
+            giver: type === "giver",
+          })}
+        >
+          매칭중
+        </p>
+        <Heart width={32} height={32} className={cn("heart")} />
+        <p className={cn("order")}>{order}</p>
+        <div className={cn("contentBox")}>
+          <div className={cn("Box")}>
+            <p className={cn("title")}>{title}</p>
+            <p className={cn("hr")} />
+            <div className={cn("detailBox")}>
+              <p>{`일시 | ${startDate} ~ ${endDate}`}</p>
+              <p>{`활동 | ${period}`}</p>
+              <p>{`장소 | ${place}`}</p>
+            </div>
+          </div>
+          <div className={cn("hashtagBox")}>
+            <p>{`# ${help}`}</p>
+            <p>{`# ${disability}`}</p>
           </div>
         </div>
       </div>
