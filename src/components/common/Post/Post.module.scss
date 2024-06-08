@@ -1,52 +1,91 @@
-.container {
-  width: 110rem;
-  height: 15.8rem;
+.cardContainer {
+  margin-left: 10rem;
+  width: 337px;
+  height: 390px;
+  border-radius: 2rem;
   position: relative;
-  border: 0.1rem solid $color-gray;
-  padding: 3rem 7rem;
-  @include flexSort(null, space-between, center, null);
+  box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.5); /* 그림자 추가 */
 
-  .order {
-    position: absolute;
-    left: 1rem;
-    top: 1rem;
-    @include font(1.8rem, 400, normal);
+  &.giver {
+    background-color: $giver;
   }
 
-  .heart {
-    position: absolute;
-    right: 2rem;
-    top: 1rem;
-    cursor: pointer;
+  &.taker {
+    background-color: $taker;
+  }
+}
+
+.contentContainer {
+  width: 100%;
+  height: calc(100% - 1rem);
+  background-color: $white;
+  position: absolute;
+  bottom: 0;
+  border-radius: 2rem;
+  padding: 0;
+}
+
+.progress {
+  position: absolute;
+  left: 3rem;
+  @include gmarketFont(2.3rem, 500, normal);
+  background-color: $giver;
+  padding: 0 2rem 1rem 2rem;
+  border-radius: 0 0 1rem 1rem;
+
+  &:giver {
+    background-color: $giver;
   }
 
-  .contentBox {
-    @include flexSort(null, null, center, 2rem);
+  &.taker {
+    background-color: $taker;
   }
+}
 
-  .badgeBox {
-    @include flexSort(null, null, center, 2rem);
+.heart {
+  position: absolute;
+  top: 1rem;
+  right: 3rem;
+}
 
-    p {
-      border: 0.1rem solid $color-black;
-      @include font(1.3rem, 400, normal);
-      padding: 0.5rem 1rem;
-    }
-  }
+.order {
+  position: absolute;
+  bottom: 1rem;
+  right: 3rem;
+  text-shadow: 0 0.4rem 0.4rem rgba(0, 0, 0, 0.25);
+  @include gmarketFont(3.2rem, 300, normal);
+}
 
-  .infoBox {
-    @include flexSort(column, null, null, 1rem);
-  }
+.contentBox {
+  height: calc(100% - 7.5rem);
+  margin-top: 7.5rem;
+  padding: 0rem 2rem 0 2rem;
+  @include flexSort(column, null, null, 4rem);
+  position: relative;
+}
 
-  .title {
-    @include font(2.5rem, 600, normal);
-  }
+.Box {
+  @include flexSort(column, null, null, 4rem);
+}
 
-  .detailInfoBox {
-    @include flexSort(null, null, center, 2rem);
+.title {
+  @include font(2rem, 500, normal);
+}
 
-    p {
-      @include font(1.1rem, 400, normal);
-    }
-  }
+.detailBox {
+  margin-left: 1rem;
+  @include flexSort(column, null, null, 1rem);
+  @include font(1.7rem, 300, normal);
+}
+
+.hashtagBox {
+  @include flexSort(null, null, center, 1rem);
+  @include font(2rem, 300, normal);
+}
+
+.hr {
+  width: calc(100% - 4rem);
+  position: absolute;
+  border-bottom: 0.1rem solid $gray;
+  top: 7.5rem;
 }

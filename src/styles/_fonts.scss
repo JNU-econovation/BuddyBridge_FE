@@ -1,12 +1,19 @@
 @font-face {
-  font-family: "SpoqaHanSansNeo-Regular";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
+  font-family: "GmarketSans";
+  font-weight: 100 900;
+  src: url("../assets/fonts/GmarketSansTTFMedium.ttf") format("woff");
 }
 
 @mixin font($size, $weight, $height) {
   font-family: Pretendard;
+  font-size: $size;
+  font-style: normal;
+  font-weight: $weight;
+  line-height: $height;
+}
+
+@mixin gmarketFont($size, $weight, $height) {
+  font-family: "GmarketSans";
   font-size: $size;
   font-style: normal;
   font-weight: $weight;

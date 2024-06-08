@@ -4,7 +4,7 @@
   .nameBox {
     @include flexSort(null, null, center, 1rem);
     @include font(2rem, 400, normal);
-    border: 0.1rem solid $color-gray;
+    border: 0.1rem solid $gray;
     padding: 1rem 2rem;
     border-radius: 3rem;
     cursor: pointer;
