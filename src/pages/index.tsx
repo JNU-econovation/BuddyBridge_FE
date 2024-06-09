@@ -2,35 +2,15 @@ import { ReactElement, useEffect } from "react";
 
 import { GetServerSidePropsContext, Metadata } from "next";
 
-import Link from "next/link";
-
 import axiosInstance from "@/apis/axiosInstance";
-import Post from "@/components/common/Post/Post";
 import RootLayout from "@/components/common/RootLayout/RootLayout";
-import useUserInfoStore from "@/stores/kakaoInnfo";
-import { KaKaoUserInfo } from "@/types/user";
-
-const mockData = {
-  title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
-  disability: "지체 장애",
-  help: "생활",
-  place: "광주광역시 북구",
-  startDate: "2024.05.05",
-  endDate: "2024.05.07",
-  period: "정기",
-  order: 1,
-  type: "giver",
-};
+import HomeLayout from "@/components/page-layout/HomeLayout/components/HomeLayout";
+import HomeProps from "@/components/page-layout/HomeLayout/types";
 
 export const metadata: Metadata = {
   title: "Buddy Bridge",
   description: "장애인을 도와주는 봉사 플랫폼입니다.",
 };
-
-interface HomeProps {
-  user: KaKaoUserInfo;
-  cookie: string;
-}
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { code } = context.query;
@@ -62,23 +42,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 
 export default function Home({ user, cookie }: HomeProps) {
-  const { setUserInfo } = useUserInfoStore();
-
-  if (cookie) {
-    document.cookie = cookie;
-  }
-
-  useEffect(() => {
-    if (user) {
-      setUserInfo(user);
-    }
-  }, [user, setUserInfo]);
-
-  return (
-    <>
-      <Post data={mockData} />
-    </>
-  );
+  return <HomeLayout user={user} cookie={cookie} />;
 }
 
 Home.getLayout = function getLayout(page: ReactElement) {
