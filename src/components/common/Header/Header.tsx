@@ -5,7 +5,6 @@ import Link from "next/link";
 import styles from "@/components/common/Header/Header.module.scss";
 import User from "@/components/common/Header/User/User";
 import { ROUTE } from "@/constants/route";
-import BuddyBridge from "@/icons/buddy_bridge.svg";
 import Logo from "@/images/logo.svg";
 
 const cn = classNames.bind(styles);
@@ -15,8 +14,7 @@ export default function Header() {
     <>
       <header className={cn("header")}>
         <Link href={ROUTE.HOME} className={cn("logoContainer")}>
-          <Logo width={91} height={46} />
-          <BuddyBridge width={230} height={52} />
+          <Logo />
         </Link>
         <nav className={cn("nav")}>
           <Link href="/" className={cn("navContent")}>

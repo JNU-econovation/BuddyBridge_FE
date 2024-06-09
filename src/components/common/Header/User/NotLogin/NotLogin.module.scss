@@ -1,4 +1,5 @@
 .login {
-  @include font(2.4rem, 400, normal);
+  @include gmarketFont(2.3rem, 300, 3.2rem);
   padding: 2rem 0;
+  @include flexSort(null, null, center, null);
 }

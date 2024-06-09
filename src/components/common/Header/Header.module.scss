@@ -1,30 +1,24 @@
-@keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    transform: translateY(0%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .header {
   width: 100%;
   position: relative;
-  @include flexSort(null, center, center, 9rem);
+  @include flexSort(null, space-between, center, null);
   border-bottom: 0.1rem solid $gray;
+  padding: 0 10rem;
 
   .logoContainer {
     @include flexSort(null, null, null, 0.4rem);
   }
 
   .nav {
-    @include font(2rem, 400, normal);
-    @include flexSort(null, null, center, 9rem);
+    // margin-top: 0.8rem;
+    @include gmarketFont(2.3rem, 500, normal);
+    @include flexSort(null, null, center, 15rem);
+    height: 100%;
   }
 
   .navContent {
     padding: 2rem 0;
+    height: 100%;
+    @include flexSort(null, null, center, null);
   }
 }
