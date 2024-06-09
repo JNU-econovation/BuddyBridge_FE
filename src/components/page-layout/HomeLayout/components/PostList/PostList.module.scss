@@ -1,0 +1,10 @@
+.container {
+  padding: 12rem 10rem;
+  @include flexSort(null, center, center, null);
+}
+
+.box {
+  width: 100%;
+  max-width: 150rem;
+  @include flexSort(column, center, center, 4rem);
+}

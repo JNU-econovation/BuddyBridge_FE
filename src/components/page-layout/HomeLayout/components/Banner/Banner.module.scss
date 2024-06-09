@@ -1,0 +1,41 @@
+.container {
+  width: 100%;
+  height: 40rem;
+  background: linear-gradient(90deg, #c2e4ef 0%, #bfbef5 100%);
+  @include flexSort(null, center, null, null);
+}
+
+.box {
+  @include flexSort(null, center, center, null);
+  height: 100%;
+  position: relative;
+  width: 60rem;
+}
+
+.textBox {
+  @include flexSort(column, null, center, 1rem);
+  width: 100%;
+}
+
+.textTitleBox {
+  width: 100%;
+}
+
+.textUpTitle {
+  @include font(5rem, 700, normal);
+}
+
+.textDownTitle {
+  float: right;
+  @include font(5rem, 700, normal);
+}
+
+.textContent {
+  @include font(3.5rem, 300, normal);
+}
+
+.banner {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}

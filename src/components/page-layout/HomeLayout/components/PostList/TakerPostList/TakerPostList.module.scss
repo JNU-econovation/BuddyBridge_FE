@@ -1,0 +1,17 @@
+.container {
+  @include flexSort(column, null, null, 2rem);
+  width: 100%;
+}
+
+.header {
+  @include flexSort(null, space-between, center, null);
+  border-bottom: 0.1rem solid $gray;
+  padding-bottom: 1rem;
+  @include gmarketFont(2.3rem, 500, normal);
+}
+
+.postListBox {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6rem;
+}

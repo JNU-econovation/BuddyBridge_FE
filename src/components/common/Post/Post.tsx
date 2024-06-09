@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import classNames from "classnames/bind";
 
+import Link from "next/link";
+
 import styles from "@/components/common/Post/Post.module.scss";
 import Heart from "@/icons/heart.svg";
 import RedHeart from "@/icons/red_haert.svg";
@@ -31,7 +33,8 @@ export default function Post({ data }: PostProps) {
   };
 
   return (
-    <div
+    <Link
+      href="/"
       className={cn("cardContainer", {
         taker: type === "taker",
         giver: type === "giver",
@@ -64,6 +67,6 @@ export default function Post({ data }: PostProps) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
