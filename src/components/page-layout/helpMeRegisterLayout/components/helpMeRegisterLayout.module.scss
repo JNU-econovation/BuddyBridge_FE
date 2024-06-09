@@ -149,4 +149,11 @@
   border: 0.1rem solid black;
   border-radius: 1rem;
   @include font(2rem, 500, normal);
+
+  &:disabled {
+    cursor: default;
+    border: 0;
+    background-color: $gray;
+    color: $white;
+  }
 }

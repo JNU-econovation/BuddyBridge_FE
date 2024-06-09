@@ -16,7 +16,15 @@ import DropDownImg from "@/icons/dropdown.svg";
 const cn = classNames.bind(styles);
 
 export default function HelpMeRegisterLayout() {
-  const { register, handleSubmit, setValue, control } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    control,
+    formState: { isValid },
+  } = useForm({
+    mode: "onChange",
+  });
 
   return (
     <div className={cn("container")}>
@@ -34,7 +42,7 @@ export default function HelpMeRegisterLayout() {
               className={cn("titleInput")}
               id="title"
               placeholder="구체적으로 필요한 도움을 적어주세요. 예) 이동 도움 필요"
-              {...register("title")}
+              {...register("title", { required: true })}
             />
           </div>
           <div className={cn("genderAgeContainer")}>
@@ -45,6 +53,7 @@ export default function HelpMeRegisterLayout() {
               <Controller
                 name="gender"
                 control={control}
+                rules={{ required: true }}
                 render={({ field }) => <RadioInput {...field} firstValue="남성" secondValue="여성" />}
               />
             </div>
@@ -52,7 +61,12 @@ export default function HelpMeRegisterLayout() {
               <Label className={cn("label")} htmlFor="age">
                 나이
               </Label>
-              <Input className={cn("ageInput")} id="age" placeholder="숫자만 입력" {...register("age")} />
+              <Input
+                className={cn("ageInput")}
+                id="age"
+                placeholder="숫자만 입력"
+                {...register("age", { required: true })}
+              />
             </div>
             <div className={cn("disabilityContainer")}>
               <Label className={cn("label")} htmlFor="disability">
@@ -61,7 +75,7 @@ export default function HelpMeRegisterLayout() {
               <Dropdown
                 options={DISABILITY}
                 onSelection={(option) => setValue("disability", option)}
-                {...register("disability")}
+                {...register("disability", { required: true })}
               />
             </div>
             <div className={cn("helpTypeContainer")}>
@@ -71,6 +85,7 @@ export default function HelpMeRegisterLayout() {
               <Controller
                 name="assistanceType"
                 control={control}
+                rules={{ required: true }}
                 render={({ field }) => <RadioInput {...field} firstValue="교육" secondValue="생활" />}
               />
             </div>
@@ -81,6 +96,7 @@ export default function HelpMeRegisterLayout() {
               <Controller
                 name="scheduleType"
                 control={control}
+                rules={{ required: true }}
                 render={({ field }) => <RadioInput {...field} firstValue="정기" secondValue="비정기" />}
               />
             </div>
@@ -88,7 +104,7 @@ export default function HelpMeRegisterLayout() {
               className={cn("periodDetailInput")}
               id="scheduleDetail"
               placeholder="예) 1째주, 화목"
-              {...register("scheduleDetail")}
+              {...register("scheduleDetail", { required: true })}
             />
           </div>
           <div className={cn("placeContainer")}>
@@ -98,7 +114,7 @@ export default function HelpMeRegisterLayout() {
             <Dropdown
               options={PLACE}
               onSelection={(option) => setValue("district", option)}
-              {...register("district")}
+              {...register("district", { required: true })}
             />
           </div>
           <div className={cn("dateContainer")}>
@@ -110,6 +126,7 @@ export default function HelpMeRegisterLayout() {
                 <Controller
                   name="startDate"
                   control={control}
+                  rules={{ required: true }}
                   render={({ field }) => (
                     <CustomDatePicker
                       locale={ko}
@@ -126,6 +143,7 @@ export default function HelpMeRegisterLayout() {
               <div className={cn("date")}>
                 <Controller
                   name="endDate"
+                  rules={{ required: true }}
                   control={control}
                   render={({ field }) => (
                     <CustomDatePicker
@@ -150,10 +168,12 @@ export default function HelpMeRegisterLayout() {
 ex, 2시에 전대치과병원에서 진료 이동 도움이 필요합니다."
               id="content"
               className={cn("detailTextarea")}
-              {...register("content")}
+              {...register("content", { required: true })}
             />
           </div>
-          <Button className={cn("registerBox")}>등록하기</Button>
+          <Button className={cn("registerBox")} disabled={!isValid}>
+            등록하기
+          </Button>
         </form>
       </div>
     </div>
