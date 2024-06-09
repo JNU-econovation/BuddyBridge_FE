@@ -1,0 +1,159 @@
+.container {
+  margin: 11.2rem 0;
+  @include flexSort(null, center, null, null);
+}
+
+.box {
+  @include flexSort(column, null, center, 2rem);
+}
+
+.title {
+  @include gmarketFont(3.2rem, 700, normal);
+  color: $giver;
+}
+
+.getMyInfo {
+  position: absolute;
+  padding: 1rem 1.5rem;
+  background-color: $giver;
+  top: 2rem;
+  right: 3rem;
+  border-radius: 1rem;
+  @include font(1.5rem, 600, normal);
+  color: $white;
+}
+
+.form {
+  border-top: 0.1rem solid $black;
+  border-bottom: 0.1rem solid $black;
+  padding: 10rem 10rem 5rem 10rem;
+  position: relative;
+  @include flexSort(column, null, null, 4.6rem);
+}
+
+.titleContainer {
+  @include flexSort(null, null, center, 11.2rem);
+}
+
+.label {
+  @include font(2.5rem, 500, normal);
+  white-space: nowrap;
+}
+
+.titleInput {
+  border-radius: 1rem;
+  border: 0.1rem solid $gray;
+  @include font(2.5rem, 400, normal);
+  padding: 1rem 2rem;
+  width: 100%;
+}
+
+.genderAgeContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+
+.genderContainer {
+  @include flexSort(null, space-between, center, 11.2rem);
+}
+
+.ageContainer {
+  @include flexSort(null, space-between, center, 11.2rem);
+}
+
+.ageInput {
+  border-radius: 1rem;
+  border: 0.1rem solid $gray;
+  @include font(2.5rem, 400, normal);
+  padding: 1rem 2rem;
+  width: 100%;
+}
+
+.disabilityContainer {
+  @include flexSort(null, space-between, center, 5.5rem);
+}
+
+.helpTypeContainer {
+  @include flexSort(null, space-between, center, 5.5rem);
+  height: 5.6rem;
+}
+
+.periodContainer {
+  @include flexSort(null, null, center, 5.5rem);
+}
+
+.periodDetailInput {
+  border-radius: 1rem;
+  border: 0.1rem solid $gray;
+  @include font(2.5rem, 400, normal);
+  padding: 1rem 2rem;
+  width: 100%;
+}
+
+.placeContainer {
+  @include flexSort(null, null, center, 11.2rem);
+  height: 5.6rem;
+  width: 48.6rem;
+}
+
+.detailContainer {
+  @include flexSort(null, null, center, 11.2rem);
+  height: 22rem;
+}
+
+.detailTextarea {
+  width: 100%;
+  height: 22rem;
+  @include font(2.5rem, 400, normal);
+  overflow-y: auto;
+  padding: 2rem;
+  border-radius: 1rem;
+}
+
+.dateContainer {
+  @include flexSort(null, null, center, 11.2rem);
+  height: 5.6rem;
+}
+
+.dateBox {
+  width: 100%;
+  height: 100%;
+  @include flexSort(null, space-between, center, 10rem);
+}
+
+.datePicker {
+  height: 100%;
+  width: 100%;
+  @include font(2rem, 400, normal);
+  text-align: center;
+}
+
+.date {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.dropDownImg {
+  position: absolute;
+  top: 2rem;
+  right: 1rem;
+}
+
+.registerBox {
+  position: absolute;
+  padding: 1rem 1.5rem;
+  right: 0;
+  bottom: -8rem;
+  border: 0.1rem solid black;
+  border-radius: 1rem;
+  @include font(2rem, 500, normal);
+
+  &:disabled {
+    cursor: default;
+    border: 0;
+    background-color: $gray;
+    color: $white;
+  }
+}
