@@ -1,10 +1,10 @@
 .cardContainer {
-  margin-left: 10rem;
-  width: 337px;
-  height: 390px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1/ 1.3;
   border-radius: 2rem;
   position: relative;
-  box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.5); /* 그림자 추가 */
+  box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.5);
 
   &.giver {
     background-color: $giver;
@@ -54,33 +54,65 @@
   right: 3rem;
   text-shadow: 0 0.4rem 0.4rem rgba(0, 0, 0, 0.25);
   @include gmarketFont(3.2rem, 300, normal);
+
+  @include smallDesktop {
+    @include gmarketFont(2.8rem, 300, normal);
+  }
 }
 
 .contentBox {
   height: calc(100% - 7.5rem);
   margin-top: 7.5rem;
   padding: 0rem 2rem 0 2rem;
-  @include flexSort(column, null, null, 4rem);
+  @include flexSort(column, space-between, null, null);
   position: relative;
+
+  @include smallDesktop {
+    margin-top: 5rem;
+  }
 }
 
 .Box {
-  @include flexSort(column, null, null, 4rem);
+  @include flexSort(column, null, null, 5rem);
+
+  @include smallDesktop {
+    gap: 3rem;
+  }
 }
 
 .title {
   @include font(2rem, 500, normal);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @include smallDesktop {
+    @include font(1.8rem, 500, normal);
+  }
 }
 
 .detailBox {
   margin-left: 1rem;
   @include flexSort(column, null, null, 1rem);
   @include font(1.7rem, 300, normal);
+
+  @include smallDesktop {
+    @include font(1.4rem, 300, normal);
+    gap: 0.5rem;
+  }
 }
 
 .hashtagBox {
   @include flexSort(null, null, center, 1rem);
   @include font(2rem, 300, normal);
+  padding-bottom: 1rem;
+
+  @include smallDesktop {
+    @include font(1.6rem, 300, normal);
+    padding-top: 2rem;
+  }
 }
 
 .hr {
@@ -88,4 +120,8 @@
   position: absolute;
   border-bottom: 0.1rem solid $gray;
   top: 7.5rem;
+
+  @include smallDesktop {
+    top: 6rem;
+  }
 }

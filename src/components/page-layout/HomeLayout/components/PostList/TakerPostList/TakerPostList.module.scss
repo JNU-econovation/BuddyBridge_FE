@@ -1,6 +1,6 @@
 .container {
-  margin-top: 4rem;
   @include flexSort(column, null, null, 2rem);
+  width: 100%;
 }
 
 .header {

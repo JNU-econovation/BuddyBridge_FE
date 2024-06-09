@@ -12,23 +12,25 @@ const cn = classNames.bind(styles);
 export default function Header() {
   return (
     <>
-      <header className={cn("header")}>
-        <Link href={ROUTE.HOME} className={cn("logoContainer")}>
-          <Logo />
-        </Link>
-        <nav className={cn("nav")}>
-          <Link href="/" className={cn("navContent")}>
-            도와줄래요?
+      <div className={cn("container")}>
+        <header className={cn("header")}>
+          <Link href={ROUTE.HOME} className={cn("logoContainer")}>
+            <Logo />
           </Link>
-          <Link href="/" className={cn("navContent")}>
-            도와줄게요!
-          </Link>
-          <Link href="/" className={cn("navContent")}>
-            내가 쓴 글
-          </Link>
-        </nav>
-        <User />
-      </header>
+          <nav className={cn("nav")}>
+            <Link href="/" className={cn("navContent")}>
+              도와줄래요?
+            </Link>
+            <Link href="/" className={cn("navContent")}>
+              도와줄게요!
+            </Link>
+            <Link href="/" className={cn("navContent")}>
+              내가 쓴 글
+            </Link>
+          </nav>
+          <User />
+        </header>
+      </div>
     </>
   );
 }

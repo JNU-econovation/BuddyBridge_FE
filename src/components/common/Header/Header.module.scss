@@ -1,19 +1,27 @@
+.container {
+  @include flexSort(null, center, center, null);
+}
+
 .header {
+  padding: 0 10rem;
+  max-width: 150rem;
   width: 100%;
   position: relative;
   @include flexSort(null, space-between, center, null);
   border-bottom: 0.1rem solid $gray;
-  padding: 0 10rem;
 
   .logoContainer {
     @include flexSort(null, null, null, 0.4rem);
   }
 
   .nav {
-    // margin-top: 0.8rem;
     @include gmarketFont(2.3rem, 500, normal);
     @include flexSort(null, null, center, 15rem);
     height: 100%;
+
+    @include smallDesktop {
+      gap: 10rem;
+    }
   }
 
   .navContent {
