@@ -1,0 +1,32 @@
+.pagination {
+  @include flexSort(null, null, center, null);
+  margin-top: 2rem;
+}
+
+.button {
+  margin: 0 0.5rem;
+  padding: 1rem 1.5rem;
+  color: $black-1;
+  cursor: pointer;
+
+  &.active {
+    background: $giver;
+  }
+}
+
+.arrow {
+  padding: 1rem;
+
+  &:disabled {
+    fill: $gray-2;
+    cursor: not-allowed;
+
+    path {
+      fill: $gray-2;
+    }
+  }
+}
+
+.rightArrow {
+  transform: rotate(180deg);
+}

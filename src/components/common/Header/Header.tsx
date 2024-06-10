@@ -18,7 +18,7 @@ export default function Header() {
             <Logo />
           </Link>
           <nav className={cn("nav")}>
-            <Link href="/" className={cn("navContent")}>
+            <Link href={ROUTE.HELP_ME} className={cn("navContent")}>
               도와줄래요?
             </Link>
             <Link href="/" className={cn("navContent")}>
