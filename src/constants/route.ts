@@ -3,4 +3,5 @@ export const ROUTE = {
   LOGIN: "/login",
   HELP_ME: "help-me",
   HELP_ME_REGISTER: "help-me/register",
+  GIVER: "giver",
 } as const;
