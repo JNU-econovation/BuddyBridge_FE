@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import Post from "@/components/common/Post/Post";
 import styles from "@/components/page-layout/HomeLayout/components/PostList/GiverPostList/GiverPostList.module.scss";
+import { ROUTE } from "@/constants/route";
 import Plus from "@/icons/plus.svg";
 
 const cn = classNames.bind(styles);
@@ -60,7 +61,7 @@ export default function GiverPostList() {
     <div className={cn("container")}>
       <header className={cn("header")}>
         <p>도와줄래요?</p>
-        <Link href="/">
+        <Link href={ROUTE.HELP_ME}>
           <Plus />
         </Link>
       </header>
