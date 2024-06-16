@@ -24,7 +24,8 @@ const mockData = [
     endDate: "2024.05.07",
     period: "정기",
     order: 1,
-    type: "giver",
+    type: "taker",
+    id: 1,
   },
   {
     title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
@@ -35,7 +36,8 @@ const mockData = [
     endDate: "2024.05.07",
     period: "정기",
     order: 1,
-    type: "giver",
+    type: "taker",
+    id: 1,
   },
   {
     title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
@@ -46,7 +48,8 @@ const mockData = [
     endDate: "2024.05.07",
     period: "정기",
     order: 1,
-    type: "giver",
+    type: "taker",
+    id: 1,
   },
   {
     title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
@@ -57,7 +60,8 @@ const mockData = [
     endDate: "2024.05.07",
     period: "정기",
     order: 1,
-    type: "giver",
+    type: "taker",
+    id: 1,
   },
   {
     title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
@@ -68,7 +72,8 @@ const mockData = [
     endDate: "2024.05.07",
     period: "정기",
     order: 1,
-    type: "giver",
+    type: "taker",
+    id: 1,
   },
   {
     title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
@@ -79,7 +84,8 @@ const mockData = [
     endDate: "2024.05.07",
     period: "정기",
     order: 1,
-    type: "giver",
+    type: "taker",
+    id: 1,
   },
   {
     title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
@@ -90,7 +96,8 @@ const mockData = [
     endDate: "2024.05.07",
     period: "정기",
     order: 1,
-    type: "giver",
+    type: "taker",
+    id: 1,
   },
   {
     title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
@@ -101,7 +108,8 @@ const mockData = [
     endDate: "2024.05.07",
     period: "정기",
     order: 1,
-    type: "giver",
+    type: "taker",
+    id: 1,
   },
 ];
 
