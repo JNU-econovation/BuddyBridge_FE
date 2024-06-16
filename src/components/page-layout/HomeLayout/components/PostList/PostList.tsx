@@ -10,8 +10,8 @@ export default function PostList() {
   return (
     <div className={cn("container")}>
       <div className={cn("box")}>
-        <GiverPostList />
         <TakerPostList />
+        <GiverPostList />
       </div>
     </div>
   );
