@@ -20,6 +20,7 @@ const mockData = [
     period: "정기",
     order: 1,
     type: "giver",
+    id: 1,
   },
   {
     title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
@@ -31,6 +32,7 @@ const mockData = [
     period: "정기",
     order: 1,
     type: "giver",
+    id: 1,
   },
   {
     title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
@@ -42,6 +44,7 @@ const mockData = [
     period: "정기",
     order: 1,
     type: "giver",
+    id: 1,
   },
   {
     title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
@@ -53,15 +56,16 @@ const mockData = [
     period: "정기",
     order: 1,
     type: "giver",
+    id: 1,
   },
 ];
 
-export default function GiverPostList() {
+export default function TakerPostList() {
   return (
     <div className={cn("container")}>
       <header className={cn("header")}>
-        <p>도와줄래요?</p>
-        <Link href={ROUTE.HELP_ME}>
+        <p>도와줄게요!</p>
+        <Link href={ROUTE.GIVER}>
           <Plus />
         </Link>
       </header>
