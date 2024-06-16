@@ -5,6 +5,7 @@ import classNames from "classnames/bind";
 import Link from "next/link";
 
 import styles from "@/components/common/Post/Post.module.scss";
+import { ROUTE } from "@/constants/route";
 import Heart from "@/icons/heart.svg";
 import RedHeart from "@/icons/red_haert.svg";
 
@@ -21,12 +22,13 @@ interface PostProps {
     period: string;
     order: number;
     type: string;
+    id: number;
   };
 }
 
 export default function Post({ data }: PostProps) {
   const [isHeartClick, setIsHeartClick] = useState(false);
-  const { type, title, disability, help, place, startDate, endDate, period, order } = data;
+  const { type, title, disability, help, place, startDate, endDate, period, order, id } = data;
 
   const handleHeartClick = () => {
     setIsHeartClick((prev) => !prev);
@@ -34,7 +36,7 @@ export default function Post({ data }: PostProps) {
 
   return (
     <Link
-      href="/"
+      href={type === "taker" ? `${ROUTE.HELP_ME}/${id}` : `${ROUTE.GIVER}/${id}`}
       className={cn("cardContainer", {
         taker: type === "taker",
         giver: type === "giver",
