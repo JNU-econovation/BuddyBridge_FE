@@ -1,5 +1,6 @@
 .container {
   @include flexSort(null, center, center, null);
+  border-bottom: 0.1rem solid $gray;
 }
 
 .header {
@@ -8,7 +9,6 @@
   width: 100%;
   position: relative;
   @include flexSort(null, space-between, center, null);
-  border-bottom: 0.1rem solid $gray;
 
   .logoContainer {
     @include flexSort(null, null, null, 0.4rem);
