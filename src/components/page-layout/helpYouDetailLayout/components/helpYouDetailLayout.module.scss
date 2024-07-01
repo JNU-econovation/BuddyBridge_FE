@@ -1,0 +1,175 @@
+.container {
+  padding: 10rem 0;
+  @include flexSort(null, center, null, null);
+}
+
+.box {
+  @include flexSort(column, null, center, 1rem);
+  width: 100%;
+  max-width: 130rem;
+}
+
+.header {
+  color: $giver;
+  @include gmarketFont(3.2rem, 500, normal);
+}
+
+.contentContainer {
+  border-radius: 2rem;
+  border: 0.1rem solid $black-1;
+  padding: 7rem 10rem;
+  position: relative;
+  width: 100%;
+  @include flexSort(column, null, null, 1rem);
+}
+
+.title {
+  @include font(2.5rem, 500, normal);
+  @include flexSort(null, center, null, null);
+}
+
+.contentBox {
+  @include flexSort(column, null, null, 7rem);
+}
+
+.profileBox {
+  top: 3rem;
+  right: 3rem;
+  position: absolute;
+  @include flexSort(null, null, center, 1rem);
+}
+
+.profileImg {
+  border-radius: 50%;
+}
+
+.nickname {
+  @include gmarketFont(2.3rem, 300, normal);
+}
+
+.gridBox {
+  margin-top: 5rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 7rem;
+}
+
+.genderContainer,
+.ageContainer,
+.disabilityTypeContainer,
+.assistanceTypeContainer,
+.scheduleTypeContainer,
+.districtContainer,
+.contentDetailContainer {
+  @include flexSort(null, space-between, center, null);
+}
+
+.gender,
+.age,
+.disabilityType,
+.assistanceType,
+.scheduleType,
+.district,
+.period,
+.contentDetail {
+  @include font(2.3rem, 500, normal);
+}
+
+.genderBox,
+.assistanceTypeBox,
+.scheduleTypeBox {
+  border-radius: 2rem;
+  border: 0.1rem solid $gray;
+  @include flexSort(null, null, center, null);
+  width: 30rem;
+  overflow: hidden;
+}
+
+.male,
+.female,
+.education,
+.life,
+.regular,
+.irregular {
+  width: 50%;
+  height: 5.9rem;
+  @include flexSort(null, center, center, null);
+  @include font(2rem, 500, normal);
+}
+
+.male,
+.education,
+.regular {
+  border-right: 0.1rem solid $gray;
+}
+
+.pick {
+  color: $white;
+  background-color: $giver;
+}
+
+.ageContent,
+.disabilityTypeContent,
+.districtContent,
+.time {
+  width: 30rem;
+  height: 5.9rem;
+  @include flexSort(null, center, center, null);
+  border: 0.1rem solid $gray;
+  @include font(2rem, 500, normal);
+  border-radius: 2rem;
+}
+
+.scheduleDetails {
+  width: 100%;
+  height: 5.9rem;
+  @include font(2rem, 500, normal);
+  @include flexSort(null, center, center, null);
+  border: 0.1rem solid $gray;
+  border-radius: 2rem;
+}
+
+.periodContainer {
+  @include flexSort(null, null, center, 17rem);
+}
+
+.periodBox {
+  width: calc(100% - 21.6rem);
+  @include flexSort(null, space-between, center, null);
+
+  p {
+    @include font(2rem, 500, normal);
+  }
+}
+
+.contentDetailTextArea {
+  width: calc(100% - 21.6rem);
+  height: 22rem;
+  border-radius: 2rem;
+  padding: 2rem;
+  @include font(2rem, 500, normal);
+  border: 0.1rem solid $gray;
+}
+
+.modifiedAt {
+  position: absolute;
+  bottom: 2rem;
+  right: 5rem;
+  @include font(2rem, 700, normal);
+  color: $gray-2;
+}
+
+.buttonBox {
+  width: 100%;
+}
+
+.button {
+  float: right;
+  margin-top: 2rem;
+  width: 14rem;
+  height: 6rem;
+  border: 0.1rem solid $black-1;
+  border-radius: 2rem;
+  @include font(2rem, 500, normal);
+  @include flexSort(null, center, center, null);
+}
