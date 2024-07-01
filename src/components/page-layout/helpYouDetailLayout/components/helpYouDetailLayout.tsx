@@ -5,7 +5,7 @@ import classNames from "classnames/bind";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-import styles from "@/components/page-layout/helpMeDetailLayout/components/helpMeDetailLayout.module.scss";
+import styles from "@/components/page-layout/helpYouDetailLayout/components/helpYouDetailLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import NoImg from "@/images/noimg.png";
 
@@ -19,7 +19,7 @@ const content1 = {
   startTime: "2024.05.05",
   endTime: "2024.05.07",
   scheduleType: "정기",
-  postType: "taker",
+  postType: "giver",
   postId: 1,
   age: 23,
   gender: "남성",
@@ -35,7 +35,7 @@ const user = {
   memberId: 1,
 };
 
-export default function HelpMeDetailLayout() {
+export default function HelpYouDetailLayout() {
   const {
     assistanceType,
     disabilityType,
@@ -58,13 +58,13 @@ export default function HelpMeDetailLayout() {
   const router = useRouter();
 
   const handleButtonClick = () => {
-    router.push(ROUTE.HELP_ME_EDIT);
+    router.push(ROUTE.HELP_YOU_EDIT);
   };
 
   return (
     <div className={cn("container")}>
       <div className={cn("box")}>
-        <header className={cn("header")}>도와줄래요?리스트</header>
+        <header className={cn("header")}>도와줄게요! 리스트</header>
         <div className={cn("contentContainer")}>
           <p className={cn("title")}>{title}</p>
           <div className={cn("contentBox")}>
