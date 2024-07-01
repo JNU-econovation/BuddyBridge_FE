@@ -4,5 +4,5 @@ export const ROUTE = {
   HELP_ME: "/help-me",
   HELP_ME_REGISTER: "/help-me/register",
   HELP_ME_EDIT: "/help-me/edit",
-  GIVER: "/giver",
+  HELP_YOU: "/help-you",
 } as const;

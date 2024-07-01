@@ -35,7 +35,7 @@ export default function Post({ data }: PostProps) {
 
   return (
     <Link
-      href={postType === "taker" ? `${ROUTE.HELP_ME}/${postId}` : `${ROUTE.GIVER}/${postId}`}
+      href={postType === "taker" ? `${ROUTE.HELP_ME}/${postId}` : `${ROUTE.HELP_YOU}/${postId}`}
       className={cn("cardContainer", {
         taker: postType === "taker",
         giver: postType === "giver",

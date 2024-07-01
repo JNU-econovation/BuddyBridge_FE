@@ -8,9 +8,15 @@
   padding: 1rem 1.5rem;
   color: $black-1;
   cursor: pointer;
-
+  @include font(1.8rem, 400, normal);
   &.active {
-    background: $giver;
+    &.giver {
+      background: $giver;
+    }
+
+    &.taker {
+      background: $taker;
+    }
   }
 }
 

@@ -61,7 +61,7 @@ export default function TakerPostList() {
     <div className={cn("container")}>
       <header className={cn("header")}>
         <p>도와줄게요!</p>
-        <Link href={ROUTE.GIVER}>
+        <Link href={ROUTE.HELP_YOU}>
           <Plus />
         </Link>
       </header>

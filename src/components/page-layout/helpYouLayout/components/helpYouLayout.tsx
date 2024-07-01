@@ -8,7 +8,7 @@ import Link from "next/link";
 import getPagenationItems from "@/components/common/Pagenation/apis/getHelpMeList";
 import Pagination from "@/components/common/Pagenation/Pagenation";
 import Post from "@/components/common/Post/Post";
-import styles from "@/components/page-layout/helpMeLayout/components/helpMeLayout.module.scss";
+import styles from "@/components/page-layout/helpYouLayout/components/helpYouLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 
 const cn = classNames.bind(styles);
@@ -22,7 +22,7 @@ const mockData = [
     startTime: "2024.05.05",
     endTime: "2024.05.07",
     scheduleType: "정기",
-    postType: "taker",
+    postType: "giver",
     postId: 1,
   },
   {
@@ -33,7 +33,7 @@ const mockData = [
     startTime: "2024.05.05",
     endTime: "2024.05.07",
     scheduleType: "정기",
-    postType: "taker",
+    postType: "giver",
     postId: 2,
   },
   {
@@ -44,7 +44,7 @@ const mockData = [
     startTime: "2024.05.05",
     endTime: "2024.05.07",
     scheduleType: "정기",
-    postType: "taker",
+    postType: "giver",
     postId: 3,
   },
   {
@@ -55,7 +55,7 @@ const mockData = [
     startTime: "2024.05.05",
     endTime: "2024.05.07",
     scheduleType: "정기",
-    postType: "taker",
+    postType: "giver",
     postId: 4,
   },
   {
@@ -66,7 +66,7 @@ const mockData = [
     startTime: "2024.05.05",
     endTime: "2024.05.07",
     scheduleType: "정기",
-    postType: "taker",
+    postType: "giver",
     postId: 5,
   },
   {
@@ -77,7 +77,7 @@ const mockData = [
     startTime: "2024.05.05",
     endTime: "2024.05.07",
     scheduleType: "정기",
-    postType: "taker",
+    postType: "giver",
     postId: 6,
   },
   {
@@ -88,7 +88,7 @@ const mockData = [
     startTime: "2024.05.05",
     endTime: "2024.05.07",
     scheduleType: "정기",
-    postType: "taker",
+    postType: "giver",
     postId: 7,
   },
   {
@@ -99,12 +99,12 @@ const mockData = [
     startTime: "2024.05.05",
     endTime: "2024.05.07",
     scheduleType: "정기",
-    postType: "taker",
+    postType: "giver",
     postId: 8,
   },
 ];
 
-export default function HelpMeLayout() {
+export default function HelpYouLayout() {
   const [page, setPage] = useState(1);
 
   const { data } = useQuery({
@@ -122,7 +122,7 @@ export default function HelpMeLayout() {
   return (
     <main className={cn("container")}>
       <div className={cn("box")}>
-        <p className={cn("title")}>도와줄래요?리스트</p>
+        <p className={cn("title")}>도와줄래요!리스트</p>
         <div className={cn("typeContainer")}>
           <div className={cn("typeBox")}>
             <p>#</p>
@@ -141,7 +141,7 @@ export default function HelpMeLayout() {
             작성하기
           </Link>
         </div>
-        <Pagination type="taker" currentPage={page} itemsPerPage={8} totalItems={20} setPage={setPage} />
+        <Pagination currentPage={page} itemsPerPage={8} totalItems={20} setPage={setPage} type="giver" />
       </div>
     </main>
   );

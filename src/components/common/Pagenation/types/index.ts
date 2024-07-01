@@ -3,4 +3,5 @@ export default interface PaginationProps {
   totalItems: number;
   itemsPerPage: number;
   setPage: (page: number) => void;
+  type: string;
 }
