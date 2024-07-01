@@ -28,5 +28,17 @@
     padding: 2rem 0;
     height: 100%;
     @include flexSort(null, null, center, null);
+
+    &.helpMe {
+      color: $taker;
+    }
+
+    &.helpYou {
+      color: $giver;
+    }
+
+    // &.myWrite {
+    //   color: $taker;
+    // }
   }
 }
