@@ -57,8 +57,6 @@ export default function HelpMeDetailLayout() {
   const { nickname, profileImageUrl, memberId } = user;
   const router = useRouter();
 
-  const [isApplyClick, setIsApplyClick] = useState(false);
-
   const handleButtonClick = () => {
     router.push(ROUTE.HELP_ME_EDIT);
   };
