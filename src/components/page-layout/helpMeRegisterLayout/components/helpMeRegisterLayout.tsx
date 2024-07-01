@@ -54,7 +54,7 @@ export default function HelpMeRegisterLayout() {
                 name="gender"
                 control={control}
                 rules={{ required: true }}
-                render={({ field }) => <RadioInput {...field} firstValue="남성" secondValue="여성" />}
+                render={({ field }) => <RadioInput postType="taker" {...field} firstValue="남성" secondValue="여성" />}
               />
             </div>
             <div className={cn("ageContainer")}>
@@ -86,7 +86,7 @@ export default function HelpMeRegisterLayout() {
                 name="assistanceType"
                 control={control}
                 rules={{ required: true }}
-                render={({ field }) => <RadioInput {...field} firstValue="교육" secondValue="생활" />}
+                render={({ field }) => <RadioInput postType="taker" {...field} firstValue="교육" secondValue="생활" />}
               />
             </div>
             <div className={cn("periodContainer")}>
@@ -97,7 +97,9 @@ export default function HelpMeRegisterLayout() {
                 name="scheduleType"
                 control={control}
                 rules={{ required: true }}
-                render={({ field }) => <RadioInput {...field} firstValue="정기" secondValue="비정기" />}
+                render={({ field }) => (
+                  <RadioInput postType="taker" {...field} firstValue="정기" secondValue="비정기" />
+                )}
               />
             </div>
             <Input

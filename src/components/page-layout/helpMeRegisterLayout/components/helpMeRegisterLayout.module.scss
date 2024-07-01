@@ -9,13 +9,13 @@
 
 .title {
   @include gmarketFont(3.2rem, 700, normal);
-  color: $giver;
+  color: $taker;
 }
 
 .getMyInfo {
   position: absolute;
   padding: 1rem 1.5rem;
-  background-color: $giver;
+  background-color: $taker;
   top: 2rem;
   right: 3rem;
   border-radius: 1rem;
@@ -146,9 +146,10 @@
   padding: 1rem 1.5rem;
   right: 0;
   bottom: -8rem;
-  border: 0.1rem solid black;
   border-radius: 1rem;
   @include font(2rem, 500, normal);
+  background-color: $taker;
+  color: $white;
 
   &:disabled {
     cursor: default;
