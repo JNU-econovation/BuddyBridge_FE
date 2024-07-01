@@ -141,7 +141,7 @@ export default function HelpMeLayout() {
             작성하기
           </Link>
         </div>
-        <Pagination currentPage={page} itemsPerPage={8} totalItems={20} setPage={setPage} />
+        <Pagination type="taker" currentPage={page} itemsPerPage={8} totalItems={20} setPage={setPage} />
       </div>
     </main>
   );
