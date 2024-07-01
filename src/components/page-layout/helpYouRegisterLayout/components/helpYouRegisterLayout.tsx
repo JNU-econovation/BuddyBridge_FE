@@ -10,12 +10,12 @@ import Input from "@/components/common/Input/Input";
 import Label from "@/components/common/Label/Label";
 import RadioInput from "@/components/common/RadioInput/RadioInput";
 import Textarea from "@/components/common/Textarea/Textarea";
-import styles from "@/components/page-layout/helpMeRegisterLayout/components/helpMeRegisterLayout.module.scss";
+import styles from "@/components/page-layout/helpYouRegisterLayout/components/helpYouRegisterLayout.module.scss";
 import DropDownImg from "@/icons/dropdown.svg";
 
 const cn = classNames.bind(styles);
 
-export default function HelpMeRegisterLayout() {
+export default function HelpYouRegisterLayout() {
   const {
     register,
     handleSubmit,
@@ -29,7 +29,7 @@ export default function HelpMeRegisterLayout() {
   return (
     <div className={cn("container")}>
       <div className={cn("box")}>
-        <p className={cn("title")}>도와줄래요? 리스트 작성</p>
+        <p className={cn("title")}>도와줄게요! 리스트 작성</p>
         <form className={cn("form")} onSubmit={handleSubmit((data) => console.log(data))}>
           <Button type="button" className={cn("getMyInfo")}>
             내 정보 불러오기
@@ -54,7 +54,7 @@ export default function HelpMeRegisterLayout() {
                 name="gender"
                 control={control}
                 rules={{ required: true }}
-                render={({ field }) => <RadioInput postType="taker" {...field} firstValue="남성" secondValue="여성" />}
+                render={({ field }) => <RadioInput postType="giver" {...field} firstValue="남성" secondValue="여성" />}
               />
             </div>
             <div className={cn("ageContainer")}>
@@ -75,7 +75,7 @@ export default function HelpMeRegisterLayout() {
               <Dropdown
                 options={DISABILITY}
                 onSelection={(option) => setValue("disability", option)}
-                {...register("disability", { required: true })}
+                {...register("disability")}
               />
             </div>
             <div className={cn("helpTypeContainer")}>
@@ -86,7 +86,7 @@ export default function HelpMeRegisterLayout() {
                 name="assistanceType"
                 control={control}
                 rules={{ required: true }}
-                render={({ field }) => <RadioInput postType="taker" {...field} firstValue="교육" secondValue="생활" />}
+                render={({ field }) => <RadioInput postType="giver" {...field} firstValue="교육" secondValue="생활" />}
               />
             </div>
             <div className={cn("periodContainer")}>
@@ -98,7 +98,7 @@ export default function HelpMeRegisterLayout() {
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
-                  <RadioInput postType="taker" {...field} firstValue="정기" secondValue="비정기" />
+                  <RadioInput postType="giver" {...field} firstValue="정기" secondValue="비정기" />
                 )}
               />
             </div>

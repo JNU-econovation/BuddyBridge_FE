@@ -8,21 +8,26 @@ const cn = classNames.bind(styles);
 interface RadioInputProps extends ComponentProps<"input"> {
   firstValue: string;
   secondValue: string;
+  postType: string;
 }
 
 export default forwardRef<HTMLInputElement, RadioInputProps>(function RadioInput(
-  { firstValue, secondValue, ...rest },
+  { firstValue, secondValue, postType, ...rest },
   ref,
 ) {
   return (
     <div className={cn("container")}>
       <div className={cn("leftInput")}>
         <input id={firstValue} type="radio" ref={ref} {...rest} value={firstValue} />
-        <label htmlFor={firstValue}>{firstValue}</label>
+        <label className={cn(postType)} htmlFor={firstValue}>
+          {firstValue}
+        </label>
       </div>
-      <div className={cn("rightInput")}>
+      <div className={cn("rightInput", postType)}>
         <input id={secondValue} type="radio" {...rest} ref={ref} value={secondValue} />
-        <label htmlFor={secondValue}>{secondValue}</label>
+        <label className={cn(postType)} htmlFor={secondValue}>
+          {secondValue}
+        </label>
       </div>
     </div>
   );

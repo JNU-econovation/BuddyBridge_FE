@@ -137,7 +137,7 @@ export default function HelpYouLayout() {
           {mockData.map((post, idx) => (
             <Post data={post} key={idx} />
           ))}
-          <Link href={ROUTE.HELP_ME_REGISTER} className={cn("button")}>
+          <Link href={ROUTE.HELP_YOU_REGISTER} className={cn("button")}>
             작성하기
           </Link>
         </div>

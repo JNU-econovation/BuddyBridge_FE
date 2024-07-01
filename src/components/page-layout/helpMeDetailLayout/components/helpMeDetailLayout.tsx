@@ -60,11 +60,7 @@ export default function HelpMeDetailLayout() {
   const [isApplyClick, setIsApplyClick] = useState(false);
 
   const handleButtonClick = () => {
-    if (id === memberId) {
-      router.push(ROUTE.HELP_ME_EDIT);
-    } else {
-      setIsApplyClick((prev) => !prev);
-    }
+    router.push(ROUTE.HELP_ME_EDIT);
   };
 
   return (
@@ -128,11 +124,13 @@ export default function HelpMeDetailLayout() {
           </div>
           <p className={cn("modifiedAt")}>{modifiedAt}</p>
         </div>
-        <div className={cn("buttonBox")}>
-          <button onClick={handleButtonClick} className={cn("button")}>
-            {id === memberId ? "수정하기" : "지원하기"}
-          </button>
-        </div>
+        {id === memberId && (
+          <div className={cn("buttonBox")}>
+            <button onClick={handleButtonClick} className={cn("button")}>
+              수정하기
+            </button>
+          </div>
+        )}{" "}
       </div>
     </div>
   );
