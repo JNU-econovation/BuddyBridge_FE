@@ -4,4 +4,6 @@ export interface KaKaoUserInfo {
   email: string;
   age: number;
   profileImageUrl: string;
+  disabilityType: string | null;
+  gender: string;
 }
