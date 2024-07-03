@@ -1,5 +1,4 @@
-import { useState } from "react";
-
+import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Image from "next/image";
@@ -7,59 +6,45 @@ import { useRouter } from "next/router";
 
 import styles from "@/components/page-layout/helpMeDetailLayout/components/helpMeDetailLayout.module.scss";
 import { ROUTE } from "@/constants/route";
-import NoImg from "@/images/noimg.png";
+import { formatDateString } from "@/utils";
+
+import getTakerDetail from "../apis/getTakerDetail";
 
 const cn = classNames.bind(styles);
 
-const content1 = {
-  title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
-  disabilityType: "지체 장애",
-  assistanceType: "생활",
-  district: "광주광역시 북구",
-  startTime: "2024.05.05",
-  endTime: "2024.05.07",
-  scheduleType: "정기",
-  postType: "taker",
-  postId: 1,
-  age: 23,
-  gender: "남성",
-  scheduleDetails: "화,목",
-  content: "위치: 전남대학교 상대 ‘다원’ 시간: 12:30 ~ 13:30 고기 좋아하는 분이면 좋겠습니다!",
-  modifiedAt: "2024.05.05",
-  id: 1,
-};
-
-const user = {
-  nickname: "민보",
-  profileImageUrl: NoImg,
-  memberId: 1,
-};
-
 export default function HelpMeDetailLayout() {
-  const {
-    assistanceType,
-    disabilityType,
-    district,
-    endTime,
-    postId,
-    postType,
-    scheduleType,
-    startTime,
-    title,
-    age,
-    gender,
-    scheduleDetails,
-    content,
-    modifiedAt,
-    id,
-  } = content1;
-
-  const { nickname, profileImageUrl, memberId } = user;
   const router = useRouter();
+
+  const { id: pageId } = router.query;
+
+  const { data, isPending } = useQuery({
+    queryKey: ["takerDetail", pageId],
+    queryFn: () => getTakerDetail(pageId as string),
+  });
 
   const handleButtonClick = () => {
     router.push(ROUTE.HELP_ME_EDIT);
   };
+
+  if (isPending) {
+    return <div></div>;
+  }
+
+  const {
+    assistanceType,
+    district,
+    endTime,
+    id,
+    scheduleType,
+    startTime,
+    title,
+    scheduleDetails,
+    content,
+    modifiedAt,
+    author,
+  } = data;
+
+  const { age, disabilityType, gender, nickname, profileImageUrl, memberId } = author;
 
   return (
     <div className={cn("container")}>
@@ -111,8 +96,8 @@ export default function HelpMeDetailLayout() {
             <div className={cn("periodContainer")}>
               <p className={cn("period")}>기간</p>
               <div className={cn("periodBox")}>
-                <p className={cn("time")}>{startTime}</p>
-                <p>~</p> <p className={cn("time")}>{endTime}</p>
+                <p className={cn("time")}>{formatDateString(startTime)}</p>
+                <p>~</p> <p className={cn("time")}>{formatDateString(endTime)}</p>
               </div>
             </div>
             <div className={cn("contentDetailContainer")}>
@@ -120,7 +105,7 @@ export default function HelpMeDetailLayout() {
               <p className={cn("contentDetailTextArea")}>{content}</p>
             </div>
           </div>
-          <p className={cn("modifiedAt")}>{modifiedAt}</p>
+          <p className={cn("modifiedAt")}>작성일자: {modifiedAt}</p>
         </div>
         {id === memberId && (
           <div className={cn("buttonBox")}>
@@ -128,7 +113,7 @@ export default function HelpMeDetailLayout() {
               수정하기
             </button>
           </div>
-        )}{" "}
+        )}
       </div>
     </div>
   );
