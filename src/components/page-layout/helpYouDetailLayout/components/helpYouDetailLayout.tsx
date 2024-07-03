@@ -1,5 +1,4 @@
-import { useState } from "react";
-
+import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Image from "next/image";
@@ -9,57 +8,43 @@ import styles from "@/components/page-layout/helpYouDetailLayout/components/help
 import { ROUTE } from "@/constants/route";
 import NoImg from "@/images/noimg.png";
 
+import getGiverDetail from "../apis/getGiverDetail";
+
 const cn = classNames.bind(styles);
 
-const content1 = {
-  title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
-  disabilityType: "지체 장애",
-  assistanceType: "생활",
-  district: "광주광역시 북구",
-  startTime: "2024.05.05",
-  endTime: "2024.05.07",
-  scheduleType: "정기",
-  postType: "giver",
-  postId: 1,
-  age: 23,
-  gender: "남성",
-  scheduleDetails: "화,목",
-  content: "위치: 전남대학교 상대 ‘다원’ 시간: 12:30 ~ 13:30 고기 좋아하는 분이면 좋겠습니다!",
-  modifiedAt: "2024.05.05",
-  id: 1,
-};
-
-const user = {
-  nickname: "민보",
-  profileImageUrl: NoImg,
-  memberId: 1,
-};
-
 export default function HelpYouDetailLayout() {
-  const {
-    assistanceType,
-    disabilityType,
-    district,
-    endTime,
-    postId,
-    postType,
-    scheduleType,
-    startTime,
-    title,
-    age,
-    gender,
-    scheduleDetails,
-    content,
-    modifiedAt,
-    id,
-  } = content1;
-
-  const { nickname, profileImageUrl, memberId } = user;
   const router = useRouter();
+
+  const { id: pageId } = router.query;
+
+  const { data, isPending } = useQuery({
+    queryKey: ["giverDetail", pageId],
+    queryFn: () => getGiverDetail(pageId as string),
+  });
 
   const handleButtonClick = () => {
     router.push(ROUTE.HELP_YOU_EDIT);
   };
+
+  if (isPending) {
+    return <div></div>;
+  }
+
+  const {
+    assistanceType,
+    district,
+    endTime,
+    id,
+    scheduleType,
+    startTime,
+    title,
+    scheduleDetails,
+    content,
+    modifiedAt,
+    author,
+  } = data;
+
+  const { age, disabilityType, gender, nickname, profileImageUrl, memberId } = author;
 
   return (
     <div className={cn("container")}>
