@@ -1,62 +1,25 @@
+import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Link from "next/link";
 
 import Post from "@/components/common/Post/Post";
+import Skeleton from "@/components/common/Skeleton/Skeleton";
 import styles from "@/components/page-layout/HomeLayout/components/PostList/GiverPostList/GiverPostList.module.scss";
 import { ROUTE } from "@/constants/route";
 import Plus from "@/icons/plus.svg";
 
+import getGiverPost from "../../../apis/getGiverPost";
+import PostData from "../../../types";
+
 const cn = classNames.bind(styles);
 
-const mockData = [
-  {
-    title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
-    disabilityType: "지체 장애",
-    assistanceType: "생활",
-    district: "광주광역시 북구",
-    startTime: "2024.05.05",
-    endTime: "2024.05.07",
-    scheduleType: "정기",
-    postType: "giver",
-    postId: 1,
-  },
-  {
-    title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
-    disabilityType: "지체 장애",
-    assistanceType: "생활",
-    district: "광주광역시 북구",
-    startTime: "2024.05.05",
-    endTime: "2024.05.07",
-    scheduleType: "정기",
-    postType: "giver",
-    postId: 2,
-  },
-  {
-    title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
-    disabilityType: "지체 장애",
-    assistanceType: "생활",
-    district: "광주광역시 북구",
-    startTime: "2024.05.05",
-    endTime: "2024.05.07",
-    scheduleType: "정기",
-    postType: "giver",
-    postId: 3,
-  },
-  {
-    title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
-    disabilityType: "지체 장애",
-    assistanceType: "생활",
-    district: "광주광역시 북구",
-    startTime: "2024.05.05",
-    endTime: "2024.05.07",
-    scheduleType: "정기",
-    postType: "giver",
-    postId: 4,
-  },
-];
-
 export default function TakerPostList() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["giverPost"],
+    queryFn: () => getGiverPost(),
+  });
+
   return (
     <div className={cn("container")}>
       <header className={cn("header")}>
@@ -66,9 +29,9 @@ export default function TakerPostList() {
         </Link>
       </header>
       <div className={cn("postListBox")}>
-        {mockData.map((post, idx) => (
-          <Post data={post} key={idx} />
-        ))}
+        {isLoading
+          ? Array.from({ length: 4 }).map((_, index) => <Skeleton key={index} className={cn("skeleton")} />)
+          : data?.map((post: PostData) => <Post data={post} key={post.id} />)}
       </div>
     </div>
   );
