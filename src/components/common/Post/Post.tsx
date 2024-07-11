@@ -56,7 +56,7 @@ export default function Post({ data }: PostProps) {
           </div>
           <div className={cn("hashtagBox")}>
             <p>{`# ${assistanceType}`}</p>
-            <p>{`# ${author?.disabilityType}`}</p>
+            {author?.disabilityType && <p>{`# ${author?.disabilityType}`}</p>}
           </div>
         </div>
       </div>
