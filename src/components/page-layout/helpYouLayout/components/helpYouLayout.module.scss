@@ -35,10 +35,12 @@
 
 .cardListBox {
   width: 100%;
+  max-width: 150rem;
   padding: 12rem 0 4rem 0;
   position: relative;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
   gap: 6rem;
 }
 
