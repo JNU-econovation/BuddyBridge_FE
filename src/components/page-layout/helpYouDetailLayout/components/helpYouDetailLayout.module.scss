@@ -14,10 +14,16 @@
   @include gmarketFont(3.2rem, 500, normal);
 }
 
-.contentContainer {
+.totalContainer {
   border-radius: 2rem;
   border: 0.1rem solid $black-1;
   padding: 7rem 10rem;
+  width: 100%;
+}
+
+.contentContainer {
+  border-bottom: 0.1rem solid $black-1;
+  padding: 7rem 10rem 4rem 10rem;
   position: relative;
   width: 100%;
   @include flexSort(column, null, null, 1rem);
@@ -152,9 +158,7 @@
 }
 
 .modifiedAt {
-  position: absolute;
-  bottom: 2rem;
-  right: 5rem;
+  text-align: right;
   @include font(2rem, 700, normal);
   color: $gray-2;
 }
