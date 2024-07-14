@@ -14,10 +14,17 @@
   @include gmarketFont(3.2rem, 500, normal);
 }
 
-.contentContainer {
+.totalContainer {
+  @include flexSort(column, null, center, null);
   border-radius: 2rem;
   border: 0.1rem solid $black-1;
   padding: 7rem 10rem;
+  width: 100%;
+}
+
+.contentContainer {
+  border-bottom: 0.1rem solid $black-1;
+  padding: 7rem 10rem 4rem 10rem;
   position: relative;
   width: 100%;
   @include flexSort(column, null, null, 1rem);
@@ -152,9 +159,7 @@
 }
 
 .modifiedAt {
-  position: absolute;
-  bottom: 2rem;
-  right: 5rem;
+  text-align: right;
   @include font(2rem, 700, normal);
   color: $gray-2;
 }
@@ -172,4 +177,12 @@
   border-radius: 2rem;
   @include font(2rem, 500, normal);
   @include flexSort(null, center, center, null);
+}
+
+.fetchButton {
+  padding: 1rem 2rem;
+  border: 0.1rem solid $gray;
+  border-radius: 3rem;
+  margin-top: 2rem;
+  @include font(1.6rem, 500, normal);
 }
