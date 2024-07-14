@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import classNames from "classnames/bind";
 
@@ -10,7 +10,7 @@ import Kebab from "@/icons/kebab.svg";
 import useUserInfoStore from "@/stores/kakaoInnfo";
 import { formatDateString } from "@/utils";
 
-import Chat from "./Chat/Chat";
+import ChatButton from "./ChatButton/ChatButton";
 
 const cn = classNames.bind(styles);
 
@@ -65,7 +65,7 @@ export default function Comment({ comment, postId }: CommentProps) {
             )}
           </div>
         )}
-        {userInfo?.memberId === postId && <Chat />}
+        {userInfo?.memberId === postId && <ChatButton />}
       </div>
     </div>
   );

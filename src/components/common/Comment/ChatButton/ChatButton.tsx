@@ -4,13 +4,13 @@ import classNames from "classnames/bind";
 
 import Link from "next/link";
 
-import styles from "@/components/common/Comment/Chat/Chat.module.scss";
+import styles from "@/components/common/Comment/ChatButton/ChatButton.module.scss";
 import { ROUTE } from "@/constants/route";
 import useOutsideClick from "@/hooks/useOutsideClick";
 
 const cn = classNames.bind(styles);
 
-export default function Chat() {
+export default function ChatButton() {
   const [isChatClick, setIsChatClick] = useState(false);
   const chatRef = useRef<HTMLDivElement>(null);
   const editBoxRef = useRef<HTMLDivElement>(null);
