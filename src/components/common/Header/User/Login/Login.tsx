@@ -2,8 +2,11 @@ import { useRef, useState } from "react";
 
 import classNames from "classnames/bind";
 
+import { useRouter } from "next/router";
+
 import useDetectClose from "@/components/common/DropDown/hooks/useDetectClose";
 import styles from "@/components/common/Header/User/Login/Login.module.scss";
+import { ROUTE } from "@/constants/route";
 import Alarm from "@/icons/alarm.svg";
 import ArrowDown from "@/icons/arrow_down.svg";
 import Chat from "@/icons/chattig.svg";
@@ -19,9 +22,14 @@ interface LoginProps {
 export default function Login({ name }: LoginProps) {
   const dropdownRef = useRef(null);
   const [isOpen, setIsOpen] = useDetectClose(dropdownRef, false);
+  const router = useRouter();
 
   const handleNameClick = () => {
     setIsOpen((prev) => !prev);
+  };
+
+  const handleChatClick = () => {
+    router.push(ROUTE.CHAT);
   };
 
   return (
@@ -32,8 +40,8 @@ export default function Login({ name }: LoginProps) {
         <DropDown isNameClick={isOpen} />
       </div>
       <div className={cn("iconBox")}>
-        <Alarm width={30} height={30} />
-        <Chat width={30} height={30} />
+        <Alarm width={30} height={30} className={cn("alarm")} />
+        <Chat width={30} height={30} onClick={handleChatClick} className={cn("chat")} />
       </div>
     </div>
   );
