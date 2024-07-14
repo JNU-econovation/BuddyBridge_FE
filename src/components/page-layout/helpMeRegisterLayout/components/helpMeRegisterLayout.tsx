@@ -1,6 +1,9 @@
+import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { ko } from "date-fns/locale";
 import { Controller, useForm } from "react-hook-form";
+
+import { useRouter } from "next/router";
 
 import Button from "@/components/common/Button/Button";
 import CustomDatePicker from "@/components/common/DatePicker/DatePicker";
@@ -11,26 +14,54 @@ import Label from "@/components/common/Label/Label";
 import RadioInput from "@/components/common/RadioInput/RadioInput";
 import Textarea from "@/components/common/Textarea/Textarea";
 import styles from "@/components/page-layout/helpMeRegisterLayout/components/helpMeRegisterLayout.module.scss";
+import { ROUTE } from "@/constants/route";
 import DropDownImg from "@/icons/dropdown.svg";
+
+import postHelpMeReister from "../apis/postHelpMeRegister";
+import { helpMeFormData } from "../types";
 
 const cn = classNames.bind(styles);
 
 export default function HelpMeRegisterLayout() {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
     setValue,
     control,
     formState: { isValid },
-  } = useForm({
+  } = useForm<helpMeFormData>({
     mode: "onChange",
   });
+
+  const uploadHelpMeMutation = useMutation({
+    mutationFn: (content: helpMeFormData) => postHelpMeReister(content),
+    onSuccess: () => {
+      router.push(ROUTE.HELP_ME);
+    },
+  });
+
+  const handleHelpMetUpload = (data: helpMeFormData) => {
+    const content = {
+      title: data.title,
+      assistanceType: data.assistanceType,
+      startTime: data.startTime,
+      endTime: data.endTime,
+      scheduleType: data.scheduleType,
+      scheduleDetails: data.scheduleDetails,
+      district: data.district,
+      content: data.content,
+      postType: "TAKER",
+    };
+    uploadHelpMeMutation.mutate(content);
+  };
 
   return (
     <div className={cn("container")}>
       <div className={cn("box")}>
         <p className={cn("title")}>도와줄래요? 리스트 작성</p>
-        <form className={cn("form")} onSubmit={handleSubmit((data) => console.log(data))}>
+        <form className={cn("form")} onSubmit={handleSubmit(handleHelpMetUpload)}>
           <Button type="button" className={cn("getMyInfo")}>
             내 정보 불러오기
           </Button>
@@ -104,9 +135,9 @@ export default function HelpMeRegisterLayout() {
             </div>
             <Input
               className={cn("periodDetailInput")}
-              id="scheduleDetail"
+              id="scheduleDetails"
               placeholder="예) 1째주, 화목"
-              {...register("scheduleDetail", { required: true })}
+              {...register("scheduleDetails", { required: true })}
             />
           </div>
           <div className={cn("placeContainer")}>
@@ -126,7 +157,7 @@ export default function HelpMeRegisterLayout() {
             <div className={cn("dateBox")}>
               <div className={cn("date")}>
                 <Controller
-                  name="startDate"
+                  name="startTime"
                   control={control}
                   rules={{ required: true }}
                   render={({ field }) => (
@@ -144,7 +175,7 @@ export default function HelpMeRegisterLayout() {
               ~
               <div className={cn("date")}>
                 <Controller
-                  name="endDate"
+                  name="endTime"
                   rules={{ required: true }}
                   control={control}
                   render={({ field }) => (

@@ -12,11 +12,14 @@
 .dropDownContainer {
   @include flexSort(column, null, null, 3rem);
   top: 7rem;
+  right: 10rem;
   position: absolute;
   z-index: $zindex-dropdown;
   box-shadow: rgba(0, 0, 0, 0.1) 0rem 0.8rem 4rem 0rem;
   width: 32rem;
   display: none;
+  background-color: $white;
+  border-radius: 2rem;
 }
 
 .hidden {

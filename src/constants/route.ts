@@ -7,4 +7,5 @@ export const ROUTE = {
   HELP_YOU: "/help-you",
   HELP_YOU_REGISTER: "/help-you/register",
   HELP_YOU_EDIT: "/help-you/edit",
+  CHAT: "/chat",
 } as const;

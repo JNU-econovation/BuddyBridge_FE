@@ -1,134 +1,168 @@
-import { useState } from "react";
-
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Image from "next/image";
 import { useRouter } from "next/router";
 
+import Comment from "@/components/common/Comment/Comment";
+import CommentWrite from "@/components/common/commentWrite/commentWrite";
+import Loader from "@/components/common/Loader/Loader";
 import styles from "@/components/page-layout/helpYouDetailLayout/components/helpYouDetailLayout.module.scss";
 import { ROUTE } from "@/constants/route";
-import NoImg from "@/images/noimg.png";
+import useUserInfoStore from "@/stores/kakaoInnfo";
+import { KaKaoUserInfo } from "@/types/user";
+import { formatDateString } from "@/utils";
+
+import getAllComment from "../apis/getAllComment";
+import getGiverDetail from "../apis/getGiverDetail";
 
 const cn = classNames.bind(styles);
 
-const content1 = {
-  title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
-  disabilityType: "지체 장애",
-  assistanceType: "생활",
-  district: "광주광역시 북구",
-  startTime: "2024.05.05",
-  endTime: "2024.05.07",
-  scheduleType: "정기",
-  postType: "giver",
-  postId: 1,
-  age: 23,
-  gender: "남성",
-  scheduleDetails: "화,목",
-  content: "위치: 전남대학교 상대 ‘다원’ 시간: 12:30 ~ 13:30 고기 좋아하는 분이면 좋겠습니다!",
-  modifiedAt: "2024.05.05",
-  id: 1,
-};
-
-const user = {
-  nickname: "민보",
-  profileImageUrl: NoImg,
-  memberId: 1,
-};
+interface CommentProps {
+  author: {
+    memberId: number;
+    nickname: string;
+    profileImg: string;
+  };
+  content: string;
+  modifiedAt: string;
+  commentId: number;
+}
 
 export default function HelpYouDetailLayout() {
-  const {
-    assistanceType,
-    disabilityType,
-    district,
-    endTime,
-    postId,
-    postType,
-    scheduleType,
-    startTime,
-    title,
-    age,
-    gender,
-    scheduleDetails,
-    content,
-    modifiedAt,
-    id,
-  } = content1;
-
-  const { nickname, profileImageUrl, memberId } = user;
   const router = useRouter();
+
+  const { id: pageId } = router.query;
+
+  const { data, isPending } = useQuery({
+    queryKey: ["giverDetail", pageId],
+    queryFn: () => getGiverDetail(pageId as string),
+  });
+
+  const {
+    data: commentData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["comment"],
+    queryFn: ({ pageParam }) => getAllComment(pageId as string, 4, pageParam),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
+      lastPage.nextPage ? lastPage.cursor : undefined,
+  });
+
+  const { userInfo } = useUserInfoStore();
 
   const handleButtonClick = () => {
     router.push(ROUTE.HELP_YOU_EDIT);
   };
 
+  if (isPending) {
+    return <div></div>;
+  }
+
+  const {
+    assistanceType,
+    district,
+    endTime,
+    id,
+    scheduleType,
+    startTime,
+    title,
+    scheduleDetails,
+    content,
+    modifiedAt,
+    author,
+  } = data;
+
+  const { age, disabilityType, gender, nickname, profileImageUrl, memberId } = author;
+
   return (
     <div className={cn("container")}>
       <div className={cn("box")}>
         <header className={cn("header")}>도와줄게요! 리스트</header>
-        <div className={cn("contentContainer")}>
-          <p className={cn("title")}>{title}</p>
-          <div className={cn("contentBox")}>
-            <div className={cn("profileBox")}>
-              <Image src={profileImageUrl} alt="프로필" width={35} height={35} className={cn("profileImg")} />
-              <p className={cn("nickname")}>{nickname}</p>
-            </div>
-            <div className={cn("gridBox")}>
-              <div className={cn("genderContainer")}>
-                <p className={cn("gender")}>성별</p>
-                <div className={cn("genderBox")}>
-                  <p className={cn("male", { pick: gender === "남성" })}>남성</p>
-                  <p className={cn("female", { pick: gender === "여성" })}>여성</p>
+        <div className={cn("totalContainer")}>
+          <div className={cn("contentContainer")}>
+            <p className={cn("title")}>{title}</p>
+            <div className={cn("contentBox")}>
+              <div className={cn("profileBox")}>
+                <Image src={profileImageUrl} alt="프로필" width={35} height={35} className={cn("profileImg")} />
+                <p className={cn("nickname")}>{nickname}</p>
+              </div>
+              <div className={cn("gridBox")}>
+                <div className={cn("genderContainer")}>
+                  <p className={cn("gender")}>성별</p>
+                  <div className={cn("genderBox")}>
+                    <p className={cn("male", { pick: gender === "남성" })}>남성</p>
+                    <p className={cn("female", { pick: gender === "여성" })}>여성</p>
+                  </div>
+                </div>
+                <div className={cn("ageContainer")}>
+                  <p className={cn("age")}>나이</p>
+                  <p className={cn("ageContent")}>{age}</p>
+                </div>
+                <div className={cn("disabilityTypeContainer")}>
+                  <p className={cn("disabilityType")}>장애유형</p>
+                  <p className={cn("disabilityTypeContent")}>{disabilityType}</p>
+                </div>
+                <div className={cn("assistanceTypeContainer")}>
+                  <p className={cn("assistanceType")}>도움유형</p>
+                  <div className={cn("assistanceTypeBox")}>
+                    <p className={cn("education", { pick: assistanceType === "교육" })}>교육</p>
+                    <p className={cn("life", { pick: assistanceType === "생활" })}>생활</p>
+                  </div>
+                </div>
+                <div className={cn("scheduleTypeContainer")}>
+                  <p className={cn("scheduleType")}>주기 구분</p>
+                  <div className={cn("scheduleTypeBox")}>
+                    <p className={cn("regular", { pick: scheduleType === "정기" })}>정기</p>
+                    <p className={cn("irregular", { pick: scheduleType === "비정기" })}>비정기</p>
+                  </div>
+                </div>
+                <p className={cn("scheduleDetails")}>{scheduleDetails}</p>
+                <div className={cn("districtContainer")}>
+                  <p className={cn("district")}>장소</p>
+                  <p className={cn("districtContent")}>{district}</p>
                 </div>
               </div>
-              <div className={cn("ageContainer")}>
-                <p className={cn("age")}>나이</p>
-                <p className={cn("ageContent")}>{age}</p>
-              </div>
-              <div className={cn("disabilityTypeContainer")}>
-                <p className={cn("disabilityType")}>장애유형</p>
-                <p className={cn("disabilityTypeContent")}>{disabilityType}</p>
-              </div>
-              <div className={cn("assistanceTypeContainer")}>
-                <p className={cn("assistanceType")}>도움유형</p>
-                <div className={cn("assistanceTypeBox")}>
-                  <p className={cn("education", { pick: assistanceType === "교육" })}>교육</p>
-                  <p className={cn("life", { pick: assistanceType === "생활" })}>생활</p>
+              <div className={cn("periodContainer")}>
+                <p className={cn("period")}>기간</p>
+                <div className={cn("periodBox")}>
+                  <p className={cn("time")}>{formatDateString(startTime)}</p>
+                  <p>~</p> <p className={cn("time")}>{formatDateString(endTime)}</p>
                 </div>
               </div>
-              <div className={cn("scheduleTypeContainer")}>
-                <p className={cn("scheduleType")}>주기 구분</p>
-                <div className={cn("scheduleTypeBox")}>
-                  <p className={cn("regular", { pick: scheduleType === "정기" })}>정기</p>
-                  <p className={cn("irregular", { pick: scheduleType === "비정기" })}>비정기</p>
-                </div>
-              </div>
-              <p className={cn("scheduleDetails")}>{scheduleDetails}</p>
-              <div className={cn("districtContainer")}>
-                <p className={cn("district")}>장소</p>
-                <p className={cn("districtContent")}>{district}</p>
+              <div className={cn("contentDetailContainer")}>
+                <p className={cn("contentDetail")}>내용</p>
+                <p className={cn("contentDetailTextArea")}>{content}</p>
               </div>
             </div>
-            <div className={cn("periodContainer")}>
-              <p className={cn("period")}>기간</p>
-              <div className={cn("periodBox")}>
-                <p className={cn("time")}>{startTime}</p>
-                <p>~</p> <p className={cn("time")}>{endTime}</p>
+            <p className={cn("modifiedAt")}>{formatDateString(modifiedAt)}</p>
+            {id === memberId && (
+              <div className={cn("buttonBox")}>
+                <button onClick={handleButtonClick} className={cn("button")}>
+                  수정하기
+                </button>
               </div>
-            </div>
-            <div className={cn("contentDetailContainer")}>
-              <p className={cn("contentDetail")}>내용</p>
-              <p className={cn("contentDetailTextArea")}>{content}</p>
-            </div>
+            )}
           </div>
-          <p className={cn("modifiedAt")}>{modifiedAt}</p>
+          {commentData?.pages.map((page) =>
+            page.content.map((comment: CommentProps) => (
+              <Comment postId={data.author.memberId} comment={comment} key={comment.commentId} />
+            )),
+          )}
+          {isFetchingNextPage ? (
+            <Loader />
+          ) : (
+            hasNextPage && (
+              <button onClick={() => fetchNextPage()} className={cn("fetchButton")}>
+                더 불러오기
+              </button>
+            )
+          )}
+          <CommentWrite id={pageId as string} user={userInfo as KaKaoUserInfo} />
         </div>
-        {id === memberId && (
-          <div className={cn("buttonBox")}>
-            <button onClick={handleButtonClick} className={cn("button")}>
-              수정하기
-            </button>
-          </div>
-        )}{" "}
       </div>
     </div>
   );

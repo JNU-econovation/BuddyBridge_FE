@@ -1,0 +1,64 @@
+.container {
+  border-bottom: 0.1rem solid $black-1;
+  width: 100%;
+}
+
+.box {
+  position: relative;
+  margin: 2rem;
+  @include flexSort(null, null, center, 2rem);
+}
+
+.img {
+  overflow: hidden;
+  width: 3.5rem;
+  height: 3.5rem;
+  position: relative;
+  border-radius: 50%;
+}
+
+.contentBox {
+  @include flexSort(column, null, flex-start, 1rem);
+}
+
+.titleBox {
+  @include flexSort(null, null, center, 1rem);
+}
+
+.nickname {
+  @include font(2rem, 600, normal);
+}
+
+.date {
+  @include font(1.5rem, 400, normal);
+  color: $gray-2;
+}
+
+.content {
+  @include font(2rem, 400, normal);
+}
+
+.kebabBox {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.kebab {
+  cursor: pointer;
+}
+
+.editBox {
+  z-index: 1;
+  border-radius: 1rem;
+  border: 0.1rem solid #4d4d4d;
+  position: absolute;
+  bottom: -4rem;
+  right: -6rem;
+  background-color: white;
+  @include flexSort(column, null, center, null);
+  button {
+    padding: 0.7rem 1.2rem;
+    @include font(1.5rem, 400, normal);
+  }
+}

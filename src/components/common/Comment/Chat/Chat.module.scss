@@ -1,0 +1,44 @@
+.chatBox {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.chat {
+  background-color: #9b99fc;
+  color: white;
+  padding: 0.7rem 1rem;
+  border-radius: 2rem;
+  @include font(1.2rem, 400, normal);
+}
+
+.editBox {
+  position: absolute;
+  bottom: 4rem;
+  right: -11rem;
+  border-radius: 1rem;
+  border: 0.1rem solid #4d4d4d;
+  padding: 2rem;
+  @include flexSort(column, null, center, 1rem);
+  width: 30rem;
+  z-index: 1;
+  background-color: white;
+}
+
+.title {
+  @include font(1.3rem, 700, normal);
+}
+
+.content {
+  @include font(1.1rem, 300, normal);
+  text-align: center;
+}
+
+.chatButton {
+  padding: 0.7rem 1rem;
+  background-color: white;
+  border: 0.1rem solid #9b99fc;
+  color: #9b99fc;
+  border-radius: 2rem;
+  @include font(1.1rem, 600, normal);
+}

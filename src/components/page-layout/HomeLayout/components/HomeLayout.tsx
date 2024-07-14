@@ -1,22 +1,32 @@
 import { useEffect } from "react";
 
+import { useQuery } from "@tanstack/react-query";
+
+import { useRouter } from "next/router";
+
 import Banner from "@/components/page-layout/HomeLayout/components/Banner/Banner";
 import PostList from "@/components/page-layout/HomeLayout/components/PostList/PostList";
-import HomeProps from "@/components/page-layout/HomeLayout/types/index";
 import useUserInfoStore from "@/stores/kakaoInnfo";
 
-export default function HomeLayout({ user, cookie }: HomeProps) {
+import getKakaoInfo from "../apis/getKakaoInfo";
+
+export default function HomeLayout() {
+  const router = useRouter();
+  const { code } = router.query;
+
   const { setUserInfo } = useUserInfoStore();
 
-  if (cookie) {
-    document.cookie = cookie;
-  }
+  const { data } = useQuery({
+    queryKey: [code],
+    queryFn: () => getKakaoInfo(code as string),
+    enabled: !!code,
+  });
 
   useEffect(() => {
-    if (user) {
-      setUserInfo(user);
+    if (data) {
+      setUserInfo(data);
     }
-  }, [user, setUserInfo]);
+  }, [data, setUserInfo]);
 
   return (
     <>

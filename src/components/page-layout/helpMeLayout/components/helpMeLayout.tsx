@@ -1,9 +1,8 @@
-import { useState } from "react";
-
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import getPagenationItems from "@/components/common/Pagenation/apis/getHelpMeList";
 import Pagination from "@/components/common/Pagenation/Pagenation";
@@ -11,105 +10,28 @@ import Post from "@/components/common/Post/Post";
 import styles from "@/components/page-layout/helpMeLayout/components/helpMeLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 
+import PostData from "../../HomeLayout/types";
+
 const cn = classNames.bind(styles);
 
-const mockData = [
-  {
-    title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
-    disabilityType: "지체 장애",
-    assistanceType: "생활",
-    district: "광주광역시 북구",
-    startTime: "2024.05.05",
-    endTime: "2024.05.07",
-    scheduleType: "정기",
-    postType: "taker",
-    postId: 1,
-  },
-  {
-    title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
-    disabilityType: "지체 장애",
-    assistanceType: "생활",
-    district: "광주광역시 북구",
-    startTime: "2024.05.05",
-    endTime: "2024.05.07",
-    scheduleType: "정기",
-    postType: "taker",
-    postId: 2,
-  },
-  {
-    title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
-    disabilityType: "지체 장애",
-    assistanceType: "생활",
-    district: "광주광역시 북구",
-    startTime: "2024.05.05",
-    endTime: "2024.05.07",
-    scheduleType: "정기",
-    postType: "taker",
-    postId: 3,
-  },
-  {
-    title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
-    disabilityType: "지체 장애",
-    assistanceType: "생활",
-    district: "광주광역시 북구",
-    startTime: "2024.05.05",
-    endTime: "2024.05.07",
-    scheduleType: "정기",
-    postType: "taker",
-    postId: 4,
-  },
-  {
-    title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
-    disabilityType: "지체 장애",
-    assistanceType: "생활",
-    district: "광주광역시 북구",
-    startTime: "2024.05.05",
-    endTime: "2024.05.07",
-    scheduleType: "정기",
-    postType: "taker",
-    postId: 5,
-  },
-  {
-    title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
-    disabilityType: "지체 장애",
-    assistanceType: "생활",
-    district: "광주광역시 북구",
-    startTime: "2024.05.05",
-    endTime: "2024.05.07",
-    scheduleType: "정기",
-    postType: "taker",
-    postId: 6,
-  },
-  {
-    title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
-    disabilityType: "지체 장애",
-    assistanceType: "생활",
-    district: "광주광역시 북구",
-    startTime: "2024.05.05",
-    endTime: "2024.05.07",
-    scheduleType: "정기",
-    postType: "taker",
-    postId: 7,
-  },
-  {
-    title: "같이 이동해 ‘다원’에서 점심 식사를 할 사람~ 구합니다!",
-    disabilityType: "지체 장애",
-    assistanceType: "생활",
-    district: "광주광역시 북구",
-    startTime: "2024.05.05",
-    endTime: "2024.05.07",
-    scheduleType: "정기",
-    postType: "taker",
-    postId: 8,
-  },
-];
-
 export default function HelpMeLayout() {
-  const [page, setPage] = useState(1);
+  const router = useRouter();
+  const params = new URLSearchParams(router.query as any);
+  const currentPage = params.get("page");
+  const page = Number(currentPage) || 0;
+
+  const setPage = (newPage: number) => {
+    const pathName = router.pathname;
+    params.set("page", newPage.toString());
+    router.replace({
+      pathname: pathName,
+      query: { ...Object.fromEntries(params.entries()) },
+    });
+  };
 
   const { data } = useQuery({
-    queryKey: ["items", page],
-    queryFn: () => getPagenationItems(page, 8),
+    queryKey: ["post", page],
+    queryFn: () => getPagenationItems("TAKER", page, 8),
     placeholderData: keepPreviousData,
   });
 
@@ -134,14 +56,20 @@ export default function HelpMeLayout() {
       </div>
       <div className={cn("cardListContainer")}>
         <div className={cn("cardListBox")}>
-          {mockData.map((post, idx) => (
-            <Post data={post} key={idx} />
+          {data?.data.content.map((post: PostData) => (
+            <Post data={post} key={post.id} />
           ))}
           <Link href={ROUTE.HELP_ME_REGISTER} className={cn("button")}>
             작성하기
           </Link>
         </div>
-        <Pagination type="taker" currentPage={page} itemsPerPage={8} totalItems={20} setPage={setPage} />
+        <Pagination
+          type="taker"
+          currentPage={page + 1}
+          itemsPerPage={8}
+          totalItems={data?.data.totalElements}
+          setPage={setPage}
+        />
       </div>
     </main>
   );
