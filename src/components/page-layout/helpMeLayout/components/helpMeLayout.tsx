@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
@@ -21,7 +19,6 @@ export default function HelpMeLayout() {
   const params = new URLSearchParams(router.query as any);
   const currentPage = params.get("page");
   const page = Number(currentPage) || 0;
-  console.log(params);
 
   const setPage = (newPage: number) => {
     const pathName = router.pathname;
