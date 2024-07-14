@@ -1,0 +1,44 @@
+.container {
+  margin-top: 10rem;
+  width: 100%;
+  border-radius: 2rem;
+  border: 0.1rem solid #4d4d4d;
+  position: relative;
+}
+
+.box {
+  padding: 2rem;
+  @include flexSort(column, null, flex-start, 5rem);
+}
+
+.userBox {
+  width: 100%;
+  @include flexSort(null, null, center, 1rem);
+}
+
+.img {
+  width: 2.7rem;
+  height: 2.7rem;
+  overflow: hidden;
+  border-radius: 50%;
+  position: relative;
+}
+
+.nickname {
+  @include font(2rem, 400, normal);
+}
+
+.textarea {
+  width: 95%;
+  @include font(2rem, 400, normal);
+  padding: 2rem;
+  height: 10rem;
+  border-radius: 1rem;
+}
+
+.register {
+  @include font(2rem, 500, normal);
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}
