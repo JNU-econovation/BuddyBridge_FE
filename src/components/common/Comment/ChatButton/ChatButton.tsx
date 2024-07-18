@@ -1,22 +1,62 @@
 import { useRef, useState } from "react";
 
+import { useMutation, useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
-import Link from "next/link";
+import { useRouter } from "next/router";
 
 import styles from "@/components/common/Comment/ChatButton/ChatButton.module.scss";
+import getTakerDetail from "@/components/page-layout/helpMeDetailLayout/apis/getTakerDetail";
 import { ROUTE } from "@/constants/route";
 import useOutsideClick from "@/hooks/useOutsideClick";
 
+import postChatAccept from "../apis/postChatAccept";
+
 const cn = classNames.bind(styles);
 
-export default function ChatButton() {
+interface ChatAcceptType {
+  body: {
+    postId: number;
+    takerId: number;
+    giverId: number;
+  };
+}
+
+interface ChatButtonProps {
+  authorId: number;
+}
+
+export default function ChatButton({ authorId }: ChatButtonProps) {
   const [isChatClick, setIsChatClick] = useState(false);
   const chatRef = useRef<HTMLDivElement>(null);
   const editBoxRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  const { id: pageId } = router.query;
+
+  const { data } = useQuery({
+    queryKey: ["takerDetail", pageId],
+    queryFn: () => getTakerDetail(pageId as string),
+  });
+
+  const chatAcceptMutation = useMutation({
+    mutationFn: ({ body }: ChatAcceptType) => postChatAccept({ body }),
+    onSuccess: () => {
+      router.push(ROUTE.CHAT);
+    },
+  });
 
   const handlebuttonClick = () => {
     setIsChatClick((prev) => !prev);
+  };
+
+  const handleChatButtonClick = () => {
+    const body = {
+      postId: data.id,
+      takerId: data.author.memberId,
+      giverId: authorId,
+    };
+    chatAcceptMutation.mutate({ body });
   };
 
   useOutsideClick([chatRef, editBoxRef], () => setIsChatClick(false));
@@ -33,9 +73,9 @@ export default function ChatButton() {
             채팅하기를 진행한다면 상대방에게
             <br /> 실명이 공개됩니다.
           </p>
-          <Link href={ROUTE.CHAT} className={cn("chatButton")}>
+          <button onClick={handleChatButtonClick} className={cn("chatButton")}>
             채팅하기
-          </Link>
+          </button>
         </div>
       )}
     </div>
