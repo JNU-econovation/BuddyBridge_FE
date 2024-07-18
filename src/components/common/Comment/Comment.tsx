@@ -65,7 +65,7 @@ export default function Comment({ comment, postId }: CommentProps) {
             )}
           </div>
         )}
-        {userInfo?.memberId === postId && <ChatButton />}
+        {userInfo?.memberId === postId && <ChatButton authorId={comment.author.memberId} />}
       </div>
     </div>
   );
