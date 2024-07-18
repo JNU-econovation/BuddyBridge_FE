@@ -14,10 +14,10 @@ export default function HomeLayout() {
   const router = useRouter();
   const { code } = router.query;
 
-  const { setUserInfo } = useUserInfoStore();
+  const { setUserInfo, setCode } = useUserInfoStore();
 
   const { data } = useQuery({
-    queryKey: [code],
+    queryKey: ["user"],
     queryFn: () => getKakaoInfo(code as string),
     enabled: !!code,
   });
@@ -25,8 +25,9 @@ export default function HomeLayout() {
   useEffect(() => {
     if (data) {
       setUserInfo(data);
+      setCode(code as string);
     }
-  }, [data, setUserInfo]);
+  }, [data, code, setUserInfo, setCode]);
 
   return (
     <>
