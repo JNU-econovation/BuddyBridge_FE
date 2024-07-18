@@ -52,8 +52,6 @@ export default function HelpMeDetailLayout() {
       lastPage.nextPage ? lastPage.cursor : undefined,
   });
 
-  console.log(data);
-
   const { userInfo } = useUserInfoStore();
 
   const handleButtonClick = () => {
@@ -63,8 +61,6 @@ export default function HelpMeDetailLayout() {
   if (isPending) {
     return <div></div>;
   }
-
-  console.log(commentData);
 
   const {
     assistanceType,
