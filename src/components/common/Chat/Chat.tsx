@@ -1,9 +1,10 @@
 import classNames from "classnames/bind";
 
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 
 import styles from "@/components/common/Chat/Chat.module.scss";
 import { useAccodionContext } from "@/components/page-layout/chatLayout/components/chatLayout";
+import { formatDateString } from "@/utils";
 
 const cn = classNames.bind(styles);
 
@@ -11,8 +12,8 @@ interface ChatProps {
   name: string;
   content: string;
   date: string;
-  type: string;
-  img: StaticImageData;
+  type?: string;
+  img: string;
   id: number;
 }
 
@@ -34,7 +35,7 @@ export default function Chat({ name, content, date, type, img, id }: ChatProps) 
           </div>
           <p className={cn("content")}>{content}</p>
         </div>
-        <p className={cn("date")}>{date}</p>
+        <p className={cn("date")}>{formatDateString(date)}</p>
       </div>
     </button>
   );
