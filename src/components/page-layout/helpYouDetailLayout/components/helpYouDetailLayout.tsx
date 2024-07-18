@@ -147,11 +147,13 @@ export default function HelpYouDetailLayout() {
               </div>
             )}
           </div>
-          {commentData?.pages.map((page) =>
-            page.content.map((comment: CommentProps) => (
-              <Comment postId={data.author.memberId} comment={comment} key={comment.commentId} />
-            )),
-          )}
+          <div className={cn("commentBox")}>
+            {commentData?.pages.map((page) =>
+              page.content.map((comment: CommentProps) => (
+                <Comment postId={data.author.memberId} comment={comment} key={comment.commentId} />
+              )),
+            )}
+          </div>
           {isFetchingNextPage ? (
             <Loader />
           ) : (
