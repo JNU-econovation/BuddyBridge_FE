@@ -1,0 +1,20 @@
+.container {
+  @include flexSort(column, null, center, null);
+  border-radius: 2rem;
+}
+
+.stateBox {
+  width: 100%;
+  @include flexSort(null, space-evenly, center, null);
+
+  button {
+    @include gmarketFont(2rem, 500, normal);
+    padding: 1.5rem 0;
+    color: #8d8d8d;
+
+    &.selected {
+      color: black;
+      border-bottom: 0.4rem solid black;
+    }
+  }
+}
