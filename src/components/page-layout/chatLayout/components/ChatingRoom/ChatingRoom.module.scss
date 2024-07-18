@@ -1,0 +1,16 @@
+.container {
+  background-color: white;
+  border-radius: 2rem;
+  width: 88rem;
+  @include flexSort(column, null, null, null);
+  height: 60rem;
+}
+
+.noChatingRoom {
+  width: 88rem;
+  border-radius: 2rem;
+  height: 60rem;
+  background-color: white;
+  @include flexSort(null, center, center, null);
+  @include gmarketFont(2rem, 500, normal);
+}

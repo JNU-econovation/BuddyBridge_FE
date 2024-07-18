@@ -14,3 +14,8 @@
     @include flexSort(null, null, center, 1rem);
   }
 }
+
+.chat,
+.alarm {
+  cursor: pointer;
+}

@@ -1,0 +1,6 @@
+.container {
+  @include flexSort(column, null, null, null);
+  background-color: white;
+  width: 36rem;
+  border-radius: 2rem;
+}

@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@stomp/stompjs": "^7.0.0",
     "@tanstack/react-query": "^5.34.2",
     "@tanstack/react-query-devtools": "^5.34.2",
+    "@types/sockjs-client": "^1.5.4",
     "axios": "^1.6.8",
     "classnames": "^2.5.1",
     "date-fns": "^3.6.0",
@@ -19,6 +21,7 @@
     "react-datepicker": "^6.9.0",
     "react-dom": "^18",
     "react-hook-form": "^7.51.4",
+    "react-intersection-observer": "^9.13.0",
     "react-toastify": "^10.0.5",
     "zustand": "^4.5.2"
   },

@@ -1,0 +1,14 @@
+.container {
+  padding: 1rem 5rem;
+  @include flexSort(null, space-between, center, null);
+  border-bottom: 0.1rem solid #e6e6ea;
+}
+
+.nameBox {
+  @include flexSort(null, null, center, 1rem);
+  @include gmarketFont(2rem, 500, normal);
+}
+
+.hamburger {
+  cursor: pointer;
+}

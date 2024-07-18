@@ -52,8 +52,6 @@ export default function HelpMeDetailLayout() {
       lastPage.nextPage ? lastPage.cursor : undefined,
   });
 
-  console.log(data);
-
   const { userInfo } = useUserInfoStore();
 
   const handleButtonClick = () => {
@@ -63,8 +61,6 @@ export default function HelpMeDetailLayout() {
   if (isPending) {
     return <div></div>;
   }
-
-  console.log(commentData);
 
   const {
     assistanceType,
@@ -151,11 +147,13 @@ export default function HelpMeDetailLayout() {
               </div>
             )}
           </div>
-          {commentData?.pages.map((page) =>
-            page.content.map((comment: CommentProps) => (
-              <Comment postId={data.author.memberId} comment={comment} key={comment.commentId} />
-            )),
-          )}
+          <div className={cn("commentBox")}>
+            {commentData?.pages.map((page) =>
+              page.content.map((comment: CommentProps) => (
+                <Comment postId={data.author.memberId} comment={comment} key={comment.commentId} />
+              )),
+            )}
+          </div>
           {isFetchingNextPage ? (
             <Loader />
           ) : (

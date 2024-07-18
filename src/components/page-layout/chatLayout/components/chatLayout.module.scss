@@ -1,0 +1,10 @@
+.container {
+  background: #f9fafb;
+  height: 100%;
+  @include flexSort(null, center, center, null);
+}
+
+.box {
+  margin: 10rem 0;
+  @include flexSort(null, null, center, 2rem);
+}
