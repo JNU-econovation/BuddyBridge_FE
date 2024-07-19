@@ -188,6 +188,8 @@
 
 .commentBox {
   width: 100%;
-  height: 41.8rem;
+  max-height: 41.8rem;
   overflow-y: scroll;
+  overflow-y: auto;
+  overflow: visible;
 }
