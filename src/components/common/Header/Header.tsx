@@ -31,7 +31,7 @@ export default function Header() {
             <Link href={ROUTE.HELP_YOU} className={cn("navContent", helpYou)}>
               도와줄게요!
             </Link>
-            <Link href="/" className={cn("navContent", myWrite)}>
+            <Link href={ROUTE.MY_PROFILE} className={cn("navContent", myWrite)}>
               내가 쓴 글
             </Link>
           </nav>
