@@ -29,7 +29,7 @@ export default function DropDown({ isNameClick }: DropDownProps) {
           alt="카카오톡 프로필"
         />
       </div>
-      <Link href={ROUTE.MY_PROFILE} className={cn("myPage")}>
+      <Link href={ROUTE.MY_PAGE} className={cn("myPage")}>
         마이페이지
       </Link>
       <p className={cn("logout")}>로그아웃</p>

@@ -8,5 +8,5 @@ export const ROUTE = {
   HELP_YOU_REGISTER: "/help-you/register",
   HELP_YOU_EDIT: "/help-you/edit",
   CHAT: "/chat",
-  MY_PROFILE: "my-profile",
+  MY_PAGE: "my-page",
 } as const;
