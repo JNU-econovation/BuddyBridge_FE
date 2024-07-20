@@ -1,0 +1,72 @@
+.container {
+  @include flexSort(column, null, null, 2rem);
+  flex: 1;
+}
+
+.title {
+  @include gmarketFont(3rem, 500, normal);
+}
+
+.form {
+  background-color: white;
+  @include flexSort(column, null, null, 4rem);
+  padding: 7rem 3rem;
+}
+
+.imgContainer {
+  @include flexSort(null, center, null, null);
+}
+
+.img {
+  border-radius: 50%;
+}
+
+.contentContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4rem;
+}
+
+.nameContainer,
+.nicknameContainer,
+.ageContainer,
+.genderContainer,
+.disabilityTypeContainer {
+  @include flexSort(column, null, null, 2rem);
+}
+
+.nameTitle,
+.nicknameTitle,
+.ageTitle,
+.genderTitle,
+.disabilityTypeTitle {
+  @include gmarketFont(2rem, 500, normal);
+}
+
+.name,
+.nickname,
+.age,
+.gender {
+  background: #fbfbfd;
+  border-radius: 2rem;
+  border: 0.1rem solid #e6eef5;
+  height: 4rem;
+  padding: 2rem;
+  @include flexSort(null, null, center, null);
+  @include gmarketFont(1.5rem, 400, normal);
+}
+
+.buttonContainer {
+  width: 100%;
+  @include flexSort(null, flex-end, center, null);
+}
+
+.button {
+  border-radius: 1rem;
+  border: 0.1rem solid #0f42f5;
+  background: #0f42f5;
+  color: white;
+  width: 9rem;
+  padding: 1rem;
+  @include flexSort(null, center, center, null);
+}
