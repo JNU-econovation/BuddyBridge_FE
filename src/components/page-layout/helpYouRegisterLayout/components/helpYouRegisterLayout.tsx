@@ -1,4 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
+import { useEffect } from "react";
+
+import { useMutation, useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { ko } from "date-fns/locale";
 import { Controller, useForm } from "react-hook-form";
@@ -13,17 +15,27 @@ import Input from "@/components/common/Input/Input";
 import Label from "@/components/common/Label/Label";
 import RadioInput from "@/components/common/RadioInput/RadioInput";
 import Textarea from "@/components/common/Textarea/Textarea";
+import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/helpYouRegisterLayout/components/helpYouRegisterLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import DropDownImg from "@/icons/dropdown.svg";
+import useUserInfoStore from "@/stores/kakaoInnfo";
 
 import postHelpMeReister from "../../helpMeRegisterLayout/apis/postHelpMeRegister";
 import { helpMeFormData } from "../../helpMeRegisterLayout/types";
+import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
 
 const cn = classNames.bind(styles);
 
 export default function HelpYouRegisterLayout() {
   const router = useRouter();
+
+  const { code } = useUserInfoStore();
+
+  const { data: myInfoData } = useQuery({
+    queryKey: ["info", code],
+    queryFn: getMyInfo,
+  });
 
   const {
     register,
@@ -56,6 +68,18 @@ export default function HelpYouRegisterLayout() {
     };
     uploadHelpMeMutation.mutate(content);
   };
+
+  useEffect(() => {
+    if (myInfoData?.gender) {
+      setValue("gender", myInfoData.gender);
+    }
+    if (myInfoData?.age) {
+      setValue("age", myInfoData.age);
+    }
+    if (myInfoData?.disabilityType) {
+      setValue("disability", myInfoData.disabilityType);
+    }
+  }, [myInfoData, setValue, router]);
 
   return (
     <div className={cn("container")}>
