@@ -21,18 +21,18 @@ interface ReceivedMessage {
   senderId: string;
 }
 
-export default function ChatingRoomContent({ stompClient }: { stompClient: Client | null }) {
+export default function ChatingRoomContent() {
   const { chatingRoomNumber } = useAccodionContext();
   const { userInfo } = useUserInfoStore();
   const { register, handleSubmit, reset } = useForm<MessageType>();
   const [messages, setMessages] = useState<ReceivedMessage[]>([]);
-  const [messageSent, setMessageSent] = useState(false); // 메시지 전송 상태 추가
+  const [messageSent, setMessageSent] = useState(false);
+  const [stompClient, setStompClient] = useState<Client | null>(null);
 
   const onSubmit: SubmitHandler<MessageType> = (data) => {
     const message = {
-      senderId: userInfo?.memberId,
       content: data.content,
-      messageType: "CHAT",
+      alarmType: "CHAT",
     };
 
     if (data.content.trim() && stompClient) {
@@ -40,25 +40,40 @@ export default function ChatingRoomContent({ stompClient }: { stompClient: Clien
         destination: `/api/app/chat/${chatingRoomNumber}`,
         body: JSON.stringify(message),
       });
-      setMessageSent(true); // 메시지를 전송한 후 상태 업데이트
+      setMessageSent(true);
       reset();
     }
   };
 
   useEffect(() => {
-    if (stompClient) {
-      const subscription = stompClient.subscribe(`/api/app/chat/${chatingRoomNumber}`, (message: Message) => {
-        const { content, senderId } = JSON.parse(message.body) as ReceivedMessage;
-        console.log(content);
-        setMessages((prevMessages) => [...prevMessages, { content, senderId }]);
-        setMessageSent(false); // 메시지를 수신한 후 상태 업데이트
-      });
+    const client = new Client({
+      brokerURL: `wss://buddybridge.13.209.34.25.sslip.io/socket/connect`,
+      connectHeaders: {},
+      onConnect: () => {
+        client.subscribe(`/api/app/chat/${chatingRoomNumber}`, (message: Message) => {
+          const { content, senderId } = JSON.parse(message.body) as ReceivedMessage;
+          setMessages((prevMessages) => [...prevMessages, { content, senderId }]);
+          setMessageSent(false);
+        });
+      },
+      onDisconnect: () => {
+        console.log("Disconnected");
+      },
+      onStompError: (frame) => {
+        console.error("Broker reported error: " + frame.headers["message"]);
+        console.error("Additional details: " + frame.body);
+      },
+    });
 
-      return () => {
-        subscription.unsubscribe();
-      };
-    }
-  }, [stompClient, userInfo?.memberId, messageSent, chatingRoomNumber]);
+    client.activate();
+    setStompClient(client);
+
+    return () => {
+      if (client) {
+        client.deactivate();
+      }
+    };
+  }, [chatingRoomNumber]);
 
   console.log(messages);
 
