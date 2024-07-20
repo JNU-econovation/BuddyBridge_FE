@@ -1,0 +1,49 @@
+.container {
+  flex: 1;
+  @include flexSort(column, null, null, 2rem);
+}
+
+.title {
+  @include gmarketFont(3rem, 500, normal);
+}
+
+.myInfoContainer {
+  width: 100%;
+  height: 100%;
+  border-radius: 2rem;
+  position: relative;
+  @include flexSort(null, center, center, null);
+  background-color: white;
+}
+
+.myInfoBox {
+  @include flexSort(column, null, center, 2rem);
+}
+
+.img {
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.title {
+  @include gmarketFont(2.3rem, 500, normal);
+}
+
+.detailBox {
+  @include flexSort(column, null, center, 1rem);
+  p {
+    @include gmarketFont(1.5rem, 300, normal);
+  }
+}
+
+.link {
+  position: absolute;
+  padding: 1.1rem 2rem;
+  border: 0.1rem solid #0f42f5;
+  border-radius: 1rem;
+  bottom: 3rem;
+  right: 5rem;
+  color: #0f42f5;
+  @include gmarketFont(1.3rem, 300, normal);
+  @include flexSort(null, center, center, null);
+}

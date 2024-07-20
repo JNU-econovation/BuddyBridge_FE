@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import styles from "@/components/common/Header/User/DropDown/DropDown.module.scss";
+import { ROUTE } from "@/constants/route";
 import NoImg from "@/images/noimg.png";
 import useUserInfoStore from "@/stores/kakaoInnfo";
 
@@ -28,7 +29,7 @@ export default function DropDown({ isNameClick }: DropDownProps) {
           alt="카카오톡 프로필"
         />
       </div>
-      <Link href="/" className={cn("myPage")}>
+      <Link href={ROUTE.MY_PAGE} className={cn("myPage")}>
         마이페이지
       </Link>
       <p className={cn("logout")}>로그아웃</p>
