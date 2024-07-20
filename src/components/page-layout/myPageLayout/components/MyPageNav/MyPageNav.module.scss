@@ -1,0 +1,31 @@
+.container {
+  background-color: white;
+  padding: 5rem 4rem;
+  @include flexSort(column, null, null, 2rem);
+}
+
+.box {
+  @include flexSort(column, null, null, 1rem);
+  @include gmarketFont(2rem, 500, normal);
+  color: #787373;
+}
+
+.title {
+  padding: 1rem;
+}
+
+.contentBox {
+  @include flexSort(column, null, null, 1rem);
+  @include gmarketFont(1.5rem, 300, normal);
+  color: black;
+}
+
+.button {
+  padding: 1rem;
+  color: black;
+  border-radius: 1rem;
+}
+
+.pick {
+  background-color: #e7efff;
+}
