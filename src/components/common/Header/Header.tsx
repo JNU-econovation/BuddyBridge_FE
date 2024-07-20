@@ -15,7 +15,7 @@ export default function Header() {
   const pathname = router.pathname;
   const helpMe = pathname.split("/")[1] === "help-me" && "helpMe";
   const helpYou = pathname.split("/")[1] === "help-you" && "helpYou";
-  const myWrite = pathname.split("/")[1] === "my-write" && "myWrite";
+  const myWrite = pathname.split("/")[1] === "my-page" && "myWrite";
 
   return (
     <>
