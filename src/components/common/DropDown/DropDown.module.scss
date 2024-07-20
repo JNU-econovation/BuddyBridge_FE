@@ -16,7 +16,8 @@
   .img {
     position: absolute;
     right: 1rem;
-    top: 2rem;
+    top: 50%; /* 중앙 정렬을 위해 50%로 설정 */
+    transform: translateY(-50%); /* 이미지의 높이를 고려하여 중앙으로 이동 */
   }
 
   .dropDownContainer {
