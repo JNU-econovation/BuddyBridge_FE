@@ -19,10 +19,6 @@
 
 .headerBox {
   @include flexSort(null, null, center, 2rem);
-
-  p {
-    @include gmarketFont(1.3rem, 500, normal);
-  }
 }
 
 .content {
@@ -40,4 +36,12 @@
   @include gmarketFont(1.1rem, 500, normal);
   right: 0;
   top: 0;
+}
+
+.name {
+  @include gmarketFont(1.3rem, 400, normal);
+}
+
+.type {
+  @include gmarketFont(1.2rem, 500, normal);
 }
