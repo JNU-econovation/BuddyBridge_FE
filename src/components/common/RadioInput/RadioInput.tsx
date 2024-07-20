@@ -12,19 +12,19 @@ interface RadioInputProps extends ComponentProps<"input"> {
 }
 
 export default forwardRef<HTMLInputElement, RadioInputProps>(function RadioInput(
-  { firstValue, secondValue, postType, ...rest },
+  { firstValue, secondValue, postType, value, ...rest },
   ref,
 ) {
   return (
     <div className={cn("container")}>
       <div className={cn("leftInput")}>
-        <input id={firstValue} type="radio" ref={ref} {...rest} value={firstValue} />
+        <input id={firstValue} type="radio" ref={ref} {...rest} value={firstValue} checked={value === firstValue} />
         <label className={cn(postType)} htmlFor={firstValue}>
           {firstValue}
         </label>
       </div>
       <div className={cn("rightInput", postType)}>
-        <input id={secondValue} type="radio" {...rest} ref={ref} value={secondValue} />
+        <input id={secondValue} type="radio" {...rest} ref={ref} value={secondValue} checked={value === secondValue} />
         <label className={cn(postType)} htmlFor={secondValue}>
           {secondValue}
         </label>
