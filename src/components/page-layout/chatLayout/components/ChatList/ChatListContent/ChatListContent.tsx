@@ -15,6 +15,7 @@ interface ChatType {
   lastMessage: string;
   matchingId: number;
   lastMessageTime: string;
+  postType: string;
   receiverDto: {
     receiverId: number;
     receiverName: string;
@@ -47,7 +48,7 @@ export default function ChatListContent() {
           content={chat.lastMessage}
           date={chat.lastMessageTime}
           name={chat.receiverDto.receiverName}
-          // type={chat.type}
+          type={chat.postType}
           key={chat.matchingId}
           id={chat.matchingId}
         />
