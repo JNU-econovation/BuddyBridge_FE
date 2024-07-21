@@ -44,13 +44,13 @@ export default function ChatListContent() {
     <div className={cn("container")}>
       {data?.pages[0].matchings?.map((chat: ChatType) => (
         <Chat
-          img={chat.receiverDto.receiverProfileImg}
-          content={chat.lastMessage}
-          date={chat.lastMessageTime}
-          name={chat.receiverDto.receiverName}
-          type={chat.postType}
-          key={chat.matchingId}
-          id={chat.matchingId}
+          img={chat?.receiverDto?.receiverProfileImg}
+          content={chat?.lastMessage}
+          date={chat?.lastMessageTime}
+          name={chat?.receiverDto?.receiverName}
+          type={chat?.postType}
+          key={chat?.matchingId}
+          id={chat?.matchingId}
         />
       ))}
       <div ref={lastRef}></div>
