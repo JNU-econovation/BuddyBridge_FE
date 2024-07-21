@@ -87,7 +87,7 @@
 
 .title {
   @include font(2rem, 500, normal);
-  @include line-clamp(1); // 라인 클램프 적용
+  @include line-clamp(1);
 
   @include smallDesktop {
     @include font(1.8rem, 500, normal);
