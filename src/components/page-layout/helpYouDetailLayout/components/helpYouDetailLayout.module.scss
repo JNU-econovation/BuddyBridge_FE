@@ -193,4 +193,7 @@
   width: 100%;
   max-height: 41.8rem;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
