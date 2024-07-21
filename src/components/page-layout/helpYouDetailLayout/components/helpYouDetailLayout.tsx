@@ -83,7 +83,7 @@ export default function HelpYouDetailLayout() {
       <div className={cn("box")}>
         <header className={cn("header")}>도와줄게요! 리스트</header>
         <div className={cn("totalContainer")}>
-          <div className={cn("contentContainer")}>
+          <div className={cn("contentContainer", { isLogin: !userInfo })}>
             <p className={cn("title")}>{title}</p>
             <div className={cn("contentBox")}>
               <div className={cn("profileBox")}>
@@ -139,7 +139,7 @@ export default function HelpYouDetailLayout() {
               </div>
             </div>
             <p className={cn("modifiedAt")}>{formatDateString(modifiedAt)}</p>
-            {id === memberId && (
+            {userInfo?.memberId === memberId && (
               <div className={cn("buttonBox")}>
                 <button onClick={handleButtonClick} className={cn("button")}>
                   수정하기
@@ -147,23 +147,27 @@ export default function HelpYouDetailLayout() {
               </div>
             )}
           </div>
-          <div className={cn("commentBox")}>
-            {commentData?.pages.map((page) =>
-              page.content.map((comment: CommentProps) => (
-                <Comment postId={data.author.memberId} comment={comment} key={comment.commentId} />
-              )),
-            )}
-          </div>
-          {isFetchingNextPage ? (
-            <Loader />
-          ) : (
-            hasNextPage && (
-              <button onClick={() => fetchNextPage()} className={cn("fetchButton")}>
-                더 불러오기
-              </button>
-            )
+          {userInfo && (
+            <>
+              <div className={cn("commentBox")}>
+                {commentData?.pages.map((page) =>
+                  page.content.map((comment: CommentProps) => (
+                    <Comment postId={data.author.memberId} comment={comment} key={comment.commentId} />
+                  )),
+                )}
+              </div>
+              {isFetchingNextPage ? (
+                <Loader />
+              ) : (
+                hasNextPage && (
+                  <button onClick={() => fetchNextPage()} className={cn("fetchButton")}>
+                    더 불러오기
+                  </button>
+                )
+              )}
+            </>
           )}
-          <CommentWrite id={pageId as string} user={userInfo as KaKaoUserInfo} />
+          {userInfo && <CommentWrite id={pageId as string} user={userInfo as KaKaoUserInfo} />}
         </div>
       </div>
     </div>
