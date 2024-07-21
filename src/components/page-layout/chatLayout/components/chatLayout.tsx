@@ -2,7 +2,11 @@ import { createContext, Dispatch, SetStateAction, useContext, useState } from "r
 
 import classNames from "classnames/bind";
 
+import { useRouter } from "next/router";
+
 import styles from "@/components/page-layout/chatLayout/components/chatLayout.module.scss";
+import { ROUTE } from "@/constants/route";
+import useUserInfoStore from "@/stores/kakaoInnfo";
 
 import ChatingRoom from "./ChatingRoom/ChatingRoom";
 import ChatList from "./ChatList/ChatList";
@@ -28,6 +32,12 @@ export const useAccodionContext = () => {
 
 export default function ChatLayout() {
   const [chatingRoomNumber, setChatingRoomNumber] = useState<null | number>(null);
+  const { userInfo } = useUserInfoStore();
+  const router = useRouter();
+
+  if (!userInfo) {
+    router.push(ROUTE.LOGIN);
+  }
 
   return (
     <ChatContext.Provider value={{ chatingRoomNumber, setChatingRoomNumber }}>
