@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 
-import axios from "axios";
 import classNames from "classnames/bind";
 
 import { useRouter } from "next/router";
@@ -13,6 +12,7 @@ import ArrowDown from "@/icons/arrow_down.svg";
 import Chat from "@/icons/chattig.svg";
 import useUserInfoStore from "@/stores/kakaoInnfo";
 
+import AlarmDropDown from "./AlarmDropDown/AlarmDropDown";
 import DropDown from "../DropDown/DropDown";
 
 const cn = classNames.bind(styles);
@@ -21,17 +21,28 @@ interface LoginProps {
   name: string | undefined;
 }
 
+interface alarmType {
+  url: string;
+  content: string;
+}
+
 export default function Login({ name }: LoginProps) {
   const { userInfo } = useUserInfoStore();
-  const dropdownRef = useRef(null);
-  const [isOpen, setIsOpen] = useDetectClose(dropdownRef, false);
-  const [notifications, setNotifications] = useState<string[]>([]);
+  const profileDropdownRef = useRef(null);
+  const alarmDropdownRef = useRef(null);
+  const [isProfileOpen, setIsProfileOpen] = useDetectClose(profileDropdownRef, false);
+  const [isAlarmOpen, setIsAlarmOpen] = useDetectClose(alarmDropdownRef, false);
+  const [notifications, setNotifications] = useState<alarmType[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const router = useRouter();
 
   const handleNameClick = () => {
-    setIsOpen((prev) => !prev);
+    setIsProfileOpen((prev) => !prev);
+  };
+
+  const handleAlarmClick = () => {
+    setIsAlarmOpen((prev) => !prev);
   };
 
   const handleChatClick = () => {
@@ -52,15 +63,15 @@ export default function Login({ name }: LoginProps) {
 
       eventSource.addEventListener("notification", (event) => {
         const newNotification = event.data;
-        console.log("새로운 알림:", newNotification);
+        let parsedData;
+
         try {
-          const parsedData = JSON.parse(newNotification);
-          console.log(parsedData);
+          parsedData = JSON.parse(newNotification);
         } catch (error) {
           return;
         }
 
-        setNotifications((prevNotifications) => [...prevNotifications, newNotification]);
+        setNotifications((prevNotifications) => [...prevNotifications, parsedData]);
         lastEventId = event.lastEventId;
       });
 
@@ -90,13 +101,16 @@ export default function Login({ name }: LoginProps) {
 
   return (
     <div className={cn("container")}>
-      <div ref={dropdownRef} className={cn("nameBox")} onClick={handleNameClick}>
+      <div ref={profileDropdownRef} className={cn("nameBox")} onClick={handleNameClick}>
         <p>{`${name}님`}</p>
         <ArrowDown width={13} height={13} />
-        <DropDown isNameClick={isOpen} />
+        <DropDown isNameClick={isProfileOpen} />
       </div>
       <div className={cn("iconBox")}>
-        <Alarm width={30} height={30} className={cn("alarm")} />
+        <div ref={alarmDropdownRef} className={cn("alarmContainer")} onClick={handleAlarmClick}>
+          <Alarm width={30} height={30} className={cn("alarm")} />
+          {isAlarmOpen && <AlarmDropDown notifications={notifications} />}
+        </div>
         <Chat width={30} height={30} onClick={handleChatClick} className={cn("chat")} />
       </div>
     </div>
