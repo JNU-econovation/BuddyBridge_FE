@@ -15,7 +15,6 @@ import Input from "@/components/common/Input/Input";
 import Label from "@/components/common/Label/Label";
 import RadioInput from "@/components/common/RadioInput/RadioInput";
 import Textarea from "@/components/common/Textarea/Textarea";
-import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/helpYouRegisterLayout/components/helpYouRegisterLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import DropDownImg from "@/icons/dropdown.svg";
