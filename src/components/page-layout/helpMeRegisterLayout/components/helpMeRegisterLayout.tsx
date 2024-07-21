@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
@@ -29,10 +29,11 @@ const cn = classNames.bind(styles);
 
 export default function HelpMeRegisterLayout() {
   const router = useRouter();
+  const isMountedRef = useRef(false);
 
   const { code } = useUserInfoStore();
 
-  const { data: myInfoData } = useQuery({
+  const { data: myInfoData, isFetching } = useQuery({
     queryKey: ["info", code],
     queryFn: getMyInfo,
   });
@@ -70,10 +71,10 @@ export default function HelpMeRegisterLayout() {
   };
 
   useEffect(() => {
-    if (myInfoData?.disabilityType === "없음") {
-      router.push(ROUTE.MY_PAGE_EDIT).then(() => {
-        openToast("error", "장애 유형을 입력해주세요.");
-      });
+    if (myInfoData?.disabilityType === "없음" && !isMountedRef.current) {
+      isMountedRef.current = true;
+      openToast("error", "장애 유형을 입력해주세요.");
+      router.push(ROUTE.MY_PAGE_EDIT);
       return;
     }
     if (myInfoData?.gender) {
@@ -86,6 +87,10 @@ export default function HelpMeRegisterLayout() {
       setValue("disability", myInfoData.disabilityType);
     }
   }, [myInfoData, setValue, router]);
+
+  if (isFetching) {
+    return <></>;
+  }
 
   return (
     <div className={cn("container")}>
