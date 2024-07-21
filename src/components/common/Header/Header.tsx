@@ -32,7 +32,7 @@ export default function Header() {
               도와줄게요!
             </Link>
             <Link href={ROUTE.MY_PAGE} className={cn("navContent", myWrite)}>
-              내가 쓴 글
+              마이 페이지
             </Link>
           </nav>
           <User />
