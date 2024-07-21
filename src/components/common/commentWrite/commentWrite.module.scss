@@ -1,14 +1,15 @@
 .container {
   margin-top: 10rem;
   width: 100%;
-  border-radius: 2rem;
-  border: 0.1rem solid #4d4d4d;
-  position: relative;
 }
 
 .box {
+  margin: 0 10rem;
+  border-radius: 2rem;
+  border: 0.1rem solid #4d4d4d;
   padding: 2rem;
   @include flexSort(column, null, flex-start, 5rem);
+  position: relative;
 }
 
 .userBox {
