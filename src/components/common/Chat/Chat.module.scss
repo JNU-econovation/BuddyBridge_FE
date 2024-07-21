@@ -1,12 +1,13 @@
 .container {
   padding: 2rem;
-  @include flexSort(null, center, center, null);
+  @include flexSort(null, null, center, null);
   max-width: 36rem;
 }
 
 .box {
   @include flexSort(null, null, center, 1rem);
   position: relative;
+  width: 100%;
 }
 
 .img {
@@ -15,6 +16,7 @@
 
 .contentBox {
   @include flexSort(column, null, null, 1rem);
+  flex: 1;
 }
 
 .headerBox {
