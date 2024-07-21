@@ -11,6 +11,7 @@ export default function User() {
   const { data } = useQuery({
     queryKey: ["user"],
     queryFn: () => getKakaoInfo(code as string),
+    enabled: !!code,
   });
 
   return data?.nickname ? <Login name={data.nickname} /> : <NotLogin />;
