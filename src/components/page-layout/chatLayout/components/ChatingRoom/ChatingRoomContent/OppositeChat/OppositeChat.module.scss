@@ -11,18 +11,15 @@
 }
 
 .nameContainer {
-  position: relative;
+  @include flexSort(column, null, null, 1rem);
 }
 
 .chat {
-  position: absolute;
   width: 30rem;
   border-radius: 2rem;
   background: #e6e6ea;
   padding: 2rem;
   @include gmarketFont(1.5rem, 400, normal);
   top: 2rem;
-  height: 100%;
-  word-wrap: break-word;
   overflow-wrap: break-word;
 }
