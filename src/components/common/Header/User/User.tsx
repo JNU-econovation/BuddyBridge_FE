@@ -10,13 +10,13 @@ import Loader from "../../Loader/Loader";
 export default function User() {
   const { code } = useUserInfoStore();
 
-  const { data, isPending } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ["user"],
     queryFn: () => getKakaoInfo(code as string),
     enabled: !!code,
   });
 
-  if (isPending) {
+  if (isFetching) {
     return <Loader />;
   }
 
