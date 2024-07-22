@@ -4,6 +4,7 @@ import { Client } from "@stomp/stompjs";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { useForm } from "react-hook-form";
+import { useInView } from "react-intersection-observer";
 
 import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/ChatingRoomContent.module.scss";
 import ChatArrow from "@/icons/chat_arrow.svg";
@@ -29,10 +30,15 @@ export default function ChatingRoomContent() {
   const { register, handleSubmit, reset } = useForm<ReceivedMessage>();
   const { userInfo } = useUserInfoStore();
   const chatBoxRef = useRef<HTMLDivElement | null>(null);
+  const [lastRef, inView] = useInView();
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+  const {
+    data: chaingData,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery({
     queryKey: ["chatingRoom", chatingRoomNumber],
-    queryFn: ({ pageParam }) => getChatingRoom(6, pageParam, chatingRoomNumber as number),
+    queryFn: ({ pageParam }) => getChatingRoom(5, pageParam, chatingRoomNumber as number),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
       lastPage.nextPage ? lastPage.cursor : undefined,
@@ -55,7 +61,10 @@ export default function ChatingRoomContent() {
     [chatingRoomNumber, reset],
   );
 
+  console.log(chaingData);
+
   useEffect(() => {
+    setReceivedMessages(chaingData?.pages[0].chatMessages as ReceivedMessage[]);
     const client = new Client({
       brokerURL: "wss://buddybridge.13.209.34.25.sslip.io/socket/connect",
       connectHeaders: {},
@@ -70,7 +79,6 @@ export default function ChatingRoomContent() {
         client.subscribe(`/api/queue/chat/${chatingRoomNumber}`, (message) => {
           const newMessage = JSON.parse(message.body);
           setReceivedMessages((prevMessages) => [...prevMessages, newMessage]);
-          console.log(`/api/queue/chat/${chatingRoomNumber}`);
         });
       },
       onStompError: (frame) => {
@@ -96,7 +104,7 @@ export default function ChatingRoomContent() {
         client.deactivate();
       }
     };
-  }, [chatingRoomNumber]);
+  }, [chatingRoomNumber, chaingData?.pages]);
 
   useEffect(() => {
     if (chatBoxRef.current) {
@@ -104,14 +112,21 @@ export default function ChatingRoomContent() {
     }
   }, [receivedMessages]);
 
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
+
   return (
     <div className={cn("container")}>
       <div className={cn("chatingBox")} ref={chatBoxRef}>
-        {receivedMessages.map((msg, index) =>
+        <div ref={lastRef}></div>
+        {receivedMessages?.map((msg, index) =>
           userInfo?.memberId === msg.senderId ? (
             <MyChat chat={msg.content} key={index} />
           ) : (
-            <OppositeChat key={index} oppsiteUser={data?.pages[0].receiver} chat={msg.content} />
+            <OppositeChat key={index} oppsiteUser={chaingData?.pages[0].receiver} chat={msg.content} />
           ),
         )}
       </div>
