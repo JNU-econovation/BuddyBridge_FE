@@ -11,7 +11,7 @@ const cn = classNames.bind(styles);
 
 export default function LoginLayout() {
   const router = useRouter();
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_Rest_api_key}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&response_type=code`;
+  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_Rest_api_key}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_BACKEND_BASE_URL}&response_type=code`;
 
   const handleLogin = () => {
     window.location.href = kakaoURL;
