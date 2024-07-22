@@ -22,4 +22,7 @@
   padding: 2rem;
   @include gmarketFont(1.5rem, 400, normal);
   top: 2rem;
+  height: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
