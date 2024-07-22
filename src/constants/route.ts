@@ -7,7 +7,7 @@ export const ROUTE = {
   HELP_YOU: "/help-you",
   HELP_YOU_REGISTER: "/help-you/register",
   HELP_YOU_EDIT: "/help-you/edit",
-  CHAT: "/chat",
+  CHAT: "/chat/0",
   MY_PAGE: "/my-page",
   MY_PAGE_EDIT: "/my-page/edit",
   MY_PAGE_HELP_ME: "/my-page/help-me",
