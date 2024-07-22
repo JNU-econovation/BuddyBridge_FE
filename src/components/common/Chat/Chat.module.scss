@@ -21,6 +21,7 @@
 
 .headerBox {
   @include flexSort(null, null, center, 2rem);
+  color: black;
 }
 
 .content {
