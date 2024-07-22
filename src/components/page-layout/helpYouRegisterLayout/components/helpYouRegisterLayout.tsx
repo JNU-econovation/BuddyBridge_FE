@@ -85,9 +85,6 @@ export default function HelpYouRegisterLayout() {
       <div className={cn("box")}>
         <p className={cn("title")}>도와줄게요! 리스트 작성</p>
         <form className={cn("form")} onSubmit={handleSubmit(handleHelpYouUpload)}>
-          <Button type="button" className={cn("getMyInfo")}>
-            내 정보 불러오기
-          </Button>
           <div className={cn("titleContainer")}>
             <Label className={cn("label")} htmlFor="title">
               제목
