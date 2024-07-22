@@ -103,6 +103,7 @@
 }
 
 .detailTextarea {
+  resize: none;
   width: 100%;
   height: 22rem;
   @include font(2.5rem, 400, normal);
