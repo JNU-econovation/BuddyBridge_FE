@@ -14,7 +14,6 @@ export interface AlarmDropDownProps {
 }
 
 export default function AlarmDropDown({ notifications }: AlarmDropDownProps) {
-  console.log(notifications);
   return (
     <div className={cn("alarmContainer")}>
       <p className={cn("title")}>알림</p>
