@@ -14,7 +14,7 @@ export default function ChatingRoomHeader() {
 
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: ["chatingRoom", chatingRoomNumber],
-    queryFn: ({ pageParam }) => getChatingRoom(6, pageParam, chatingRoomNumber as number),
+    queryFn: ({ pageParam }) => getChatingRoom(5, pageParam, chatingRoomNumber as number),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
       lastPage.nextPage ? lastPage.cursor : undefined,
