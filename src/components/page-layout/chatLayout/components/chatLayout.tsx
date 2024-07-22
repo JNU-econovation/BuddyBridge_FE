@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
+import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 
 import classNames from "classnames/bind";
 
@@ -14,8 +14,8 @@ import ChatList from "./ChatList/ChatList";
 const cn = classNames.bind(styles);
 
 interface ChatContextType {
-  chatingRoomNumber: number | null;
-  setChatingRoomNumber: (chatingRoomNumber: number | null) => void;
+  chatingRoomNumber: number | undefined;
+  setChatingRoomNumber: (chatingRoomNumber: number | undefined) => void;
 }
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
@@ -31,13 +31,15 @@ export const useAccodionContext = () => {
 };
 
 export default function ChatLayout() {
-  const [chatingRoomNumber, setChatingRoomNumber] = useState<null | number>(null);
-  const { userInfo } = useUserInfoStore();
   const router = useRouter();
+  const [chatingRoomNumber, setChatingRoomNumber] = useState<undefined | number>(Number(router.query["id"]));
+  const { userInfo } = useUserInfoStore();
 
-  if (!userInfo) {
-    router.push(ROUTE.LOGIN);
-  }
+  useEffect(() => {
+    if (!userInfo) {
+      router.push(ROUTE.LOGIN);
+    }
+  }, [userInfo, router]);
 
   return (
     <ChatContext.Provider value={{ chatingRoomNumber, setChatingRoomNumber }}>
