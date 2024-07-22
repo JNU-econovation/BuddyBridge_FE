@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Image from "next/image";
@@ -7,12 +7,14 @@ import { useRouter } from "next/router";
 import Comment from "@/components/common/Comment/Comment";
 import CommentWrite from "@/components/common/commentWrite/commentWrite";
 import Loader from "@/components/common/Loader/Loader";
+import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/helpYouDetailLayout/components/helpYouDetailLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import useUserInfoStore from "@/stores/kakaoInnfo";
 import { KaKaoUserInfo } from "@/types/user";
 import { formatDateString } from "@/utils";
 
+import deletePost from "../../helpMeDetailLayout/apis/deletePost";
 import getAllComment from "../apis/getAllComment";
 import getGiverDetail from "../apis/getGiverDetail";
 
@@ -38,6 +40,7 @@ export default function HelpYouDetailLayout() {
     queryKey: ["giverDetail", pageId],
     queryFn: () => getGiverDetail(pageId as string),
   });
+  const queryClient = useQueryClient();
 
   const {
     data: commentData,
@@ -52,10 +55,20 @@ export default function HelpYouDetailLayout() {
       lastPage.nextPage ? lastPage.cursor : undefined,
   });
 
+  const deletePostMutation = useMutation({
+    mutationFn: (id: number) => deletePost(id),
+    onSuccess: () => {
+      // todo : queryKey를 0이 아니라 page로 바꿔야함.
+      queryClient.invalidateQueries({ queryKey: ["post", 0] });
+      router.push(ROUTE.HELP_YOU);
+      openToast("success", "성공적으로 삭제되었습니다.");
+    },
+  });
+
   const { userInfo } = useUserInfoStore();
 
-  const handleButtonClick = () => {
-    router.push(ROUTE.HELP_YOU_EDIT);
+  const handleDeleteButtonClick = () => {
+    deletePostMutation.mutate(id);
   };
 
   if (isPending) {
@@ -141,8 +154,8 @@ export default function HelpYouDetailLayout() {
             <p className={cn("modifiedAt")}>{formatDateString(modifiedAt)}</p>
             {userInfo?.memberId === memberId && (
               <div className={cn("buttonBox")}>
-                <button onClick={handleButtonClick} className={cn("button")}>
-                  수정하기
+                <button onClick={handleDeleteButtonClick} className={cn("button")}>
+                  삭제하기
                 </button>
               </div>
             )}
