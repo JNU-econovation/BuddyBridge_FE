@@ -18,16 +18,20 @@
   @include flexSort(column, null, center, null);
   border-radius: 2rem;
   border: 0.1rem solid $black-1;
-  padding: 7rem 10rem;
+  padding: 7rem 0;
   width: 100%;
 }
 
 .contentContainer {
   border-bottom: 0.1rem solid $black-1;
-  padding: 7rem 10rem 4rem 10rem;
+  padding: 7rem 20rem 4rem 20rem;
   position: relative;
   width: 100%;
   @include flexSort(column, null, null, 1rem);
+
+  &.isLogin {
+    border: 0;
+  }
 }
 
 .title {
@@ -58,7 +62,7 @@
   margin-top: 5rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 7rem;
+  gap: 5rem;
 }
 
 .genderContainer,
@@ -66,9 +70,12 @@
 .disabilityTypeContainer,
 .assistanceTypeContainer,
 .scheduleTypeContainer,
-.districtContainer,
-.contentDetailContainer {
+.districtContainer {
   @include flexSort(null, space-between, center, null);
+}
+
+.contentDetailContainer {
+  @include flexSort(null, null, center, 7rem);
 }
 
 .gender,
@@ -137,11 +144,11 @@
 }
 
 .periodContainer {
-  @include flexSort(null, null, center, 17rem);
+  @include flexSort(null, null, center, 7rem);
 }
 
 .periodBox {
-  width: calc(100% - 21.6rem);
+  flex: 1;
   @include flexSort(null, space-between, center, null);
 
   p {
@@ -150,7 +157,7 @@
 }
 
 .contentDetailTextArea {
-  width: calc(100% - 21.6rem);
+  width: 78rem;
   height: 22rem;
   border-radius: 2rem;
   padding: 2rem;
@@ -189,8 +196,11 @@
 
 .commentBox {
   width: 100%;
-  max-height: 41.8rem;
+  max-height: 51.8rem;
   overflow-y: scroll;
-  overflow-y: auto;
-  overflow: visible;
+  padding: 10rem 10rem 0 10rem;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }

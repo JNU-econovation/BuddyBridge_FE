@@ -1,0 +1,45 @@
+@keyframes fadeInDropdown {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.alarmContainer {
+  background: #f9fafb;
+  position: absolute;
+  width: 35rem;
+  height: 37rem;
+  overflow-y: scroll;
+  top: 5rem;
+  right: -7rem;
+  border-radius: 2rem;
+  animation: fadeInDropdown 0.5s ease-out forwards;
+  padding: 2rem;
+  @include flexSort(column, null, null, 2rem);
+  z-index: 2;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.title {
+  @include gmarketFont(1.7rem, 400, normal);
+}
+
+.alarmBox {
+  @include flexSort(column, null, null, 1rem);
+}
+
+.alarm {
+  background: white;
+  padding: 1rem;
+  color: black;
+  @include gmarketFont(1.3rem, 400, normal);
+  @include line-clamp(2);
+}

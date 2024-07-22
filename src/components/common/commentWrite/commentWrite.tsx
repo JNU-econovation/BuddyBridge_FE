@@ -1,3 +1,5 @@
+import { KeyboardEvent } from "react";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { useForm } from "react-hook-form";
@@ -5,7 +7,6 @@ import { useForm } from "react-hook-form";
 import Image from "next/image";
 
 import styles from "@/components/common/commentWrite/commentWrite.module.scss";
-import useUserInfoStore from "@/stores/kakaoInnfo";
 
 import postComment from "./apis/postComment";
 
@@ -43,6 +44,13 @@ export default function CommentWrite({ user, id }: CommentWriteProps) {
     uploadCommentMutation.mutate({ id, content: data.content });
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(handleCommentUpload)();
+    }
+  };
+
   return (
     <div className={cn("container")}>
       <form className={cn("box")} onSubmit={handleSubmit(handleCommentUpload)}>
@@ -52,7 +60,12 @@ export default function CommentWrite({ user, id }: CommentWriteProps) {
           </div>
           <p className={cn("nickname")}>{user?.nickname}</p>
         </div>
-        <textarea {...register("content")} placeholder="내용을 작성하세요." className={cn("textarea")}></textarea>
+        <textarea
+          {...register("content")}
+          placeholder="내용을 작성하세요."
+          className={cn("textarea")}
+          onKeyDown={handleKeyDown}
+        ></textarea>
         <button className={cn("register")}>등록</button>
       </form>
     </div>

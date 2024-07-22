@@ -1,16 +1,24 @@
 import classNames from "classnames/bind";
 
+import { useRouter } from "next/router";
+
 import styles from "@/components/page-layout/loginLayout/components/loginLayout.module.scss";
+import { ROUTE } from "@/constants/route";
 import Kakao from "@/icons/kakao.svg";
 import LoginImg from "@/images/loginImg.svg";
 
 const cn = classNames.bind(styles);
 
 export default function LoginLayout() {
+  const router = useRouter();
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_Rest_api_key}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&response_type=code`;
 
   const handleLogin = () => {
     window.location.href = kakaoURL;
+  };
+
+  const handleTestLogin = () => {
+    router.push(`${ROUTE.HOME}?code=1`);
   };
 
   return (
@@ -35,6 +43,9 @@ export default function LoginLayout() {
               <button onClick={handleLogin} className={cn("kakaoButton")}>
                 <Kakao className={cn("kakao")} />
                 <p className={cn("kakaoLogin")}>카카오 로그인</p>
+              </button>
+              <button onClick={handleTestLogin} className={cn("testLoginButton")}>
+                테스트 로그인1
               </button>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import classNames from "classnames/bind";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import styles from "@/components/common/Chat/Chat.module.scss";
 import { useAccodionContext } from "@/components/page-layout/chatLayout/components/chatLayout";
@@ -12,7 +13,7 @@ interface ChatProps {
   name: string;
   content: string;
   date: string;
-  type?: string;
+  type: string;
   img: string;
   id: number;
 }
@@ -25,18 +26,18 @@ export default function Chat({ name, content, date, type, img, id }: ChatProps) 
   };
 
   return (
-    <button className={cn("container")} onClick={handleChatClick}>
+    <Link href={`/chat/${id}`} className={cn("container")} onClick={handleChatClick}>
       <div className={cn("box")}>
         <Image src={img} alt="프로필 이미지" width={50} height={50} className={cn("img")} />
         <div className={cn("contentBox")}>
           <div className={cn("headerBox")}>
-            <p>{name}</p>
-            <p>{type}</p>
+            <p className={cn("name")}>{name}</p>
+            <p className={cn("type")}>{type}</p>
           </div>
           <p className={cn("content")}>{content}</p>
         </div>
         <p className={cn("date")}>{formatDateString(date)}</p>
       </div>
-    </button>
+    </Link>
   );
 }

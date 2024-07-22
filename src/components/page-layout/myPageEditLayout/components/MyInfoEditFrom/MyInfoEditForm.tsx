@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { useForm } from "react-hook-form";
 
@@ -32,6 +32,7 @@ export interface FormType {
 export default function MyInfoEditForm() {
   const router = useRouter();
   const { code } = useUserInfoStore();
+  const queryClient = useQueryClient();
 
   const { data: myInfoData } = useQuery({
     queryKey: ["info", code],
@@ -51,7 +52,10 @@ export default function MyInfoEditForm() {
 
   const uploadMyInfo = useMutation({
     mutationFn: (content: FormType) => patchMyInfo(content),
-    onSuccess: () => router.push(ROUTE.MY_PAGE),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["info", code] });
+      router.push(ROUTE.MY_PAGE);
+    },
   });
 
   const handleUpdateInfo = (data: FormType) => {

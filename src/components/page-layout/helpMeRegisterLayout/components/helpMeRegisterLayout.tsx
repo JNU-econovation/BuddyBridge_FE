@@ -1,4 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
+import { useEffect, useRef } from "react";
+
+import { useMutation, useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { ko } from "date-fns/locale";
 import { Controller, useForm } from "react-hook-form";
@@ -13,10 +15,13 @@ import Input from "@/components/common/Input/Input";
 import Label from "@/components/common/Label/Label";
 import RadioInput from "@/components/common/RadioInput/RadioInput";
 import Textarea from "@/components/common/Textarea/Textarea";
+import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/helpMeRegisterLayout/components/helpMeRegisterLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import DropDownImg from "@/icons/dropdown.svg";
+import useUserInfoStore from "@/stores/kakaoInnfo";
 
+import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
 import postHelpMeReister from "../apis/postHelpMeRegister";
 import { helpMeFormData } from "../types";
 
@@ -24,6 +29,14 @@ const cn = classNames.bind(styles);
 
 export default function HelpMeRegisterLayout() {
   const router = useRouter();
+  const isMountedRef = useRef(false);
+
+  const { code } = useUserInfoStore();
+
+  const { data: myInfoData, isFetching } = useQuery({
+    queryKey: ["info", code],
+    queryFn: getMyInfo,
+  });
 
   const {
     register,
@@ -56,6 +69,28 @@ export default function HelpMeRegisterLayout() {
     };
     uploadHelpMeMutation.mutate(content);
   };
+
+  useEffect(() => {
+    if (myInfoData?.disabilityType === "없음" && !isMountedRef.current) {
+      isMountedRef.current = true;
+      openToast("error", "장애 유형을 입력해주세요.");
+      router.push(ROUTE.MY_PAGE_EDIT);
+      return;
+    }
+    if (myInfoData?.gender) {
+      setValue("gender", myInfoData.gender);
+    }
+    if (myInfoData?.age) {
+      setValue("age", myInfoData.age);
+    }
+    if (myInfoData?.disabilityType) {
+      setValue("disability", myInfoData.disabilityType);
+    }
+  }, [myInfoData, setValue, router]);
+
+  if (isFetching) {
+    return <></>;
+  }
 
   return (
     <div className={cn("container")}>

@@ -5,8 +5,14 @@
 }
 
 .chatingBox {
-  height: 90%;
+  height: 100%;
+  max-height: 47.2rem;
   padding: 5rem;
+  overflow-y: scroll;
+  @include flexSort(column, null, null, 5rem);
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .form {

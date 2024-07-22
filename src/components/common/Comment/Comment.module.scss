@@ -1,6 +1,10 @@
 .container {
   border-bottom: 0.1rem solid $black-1;
   width: 100%;
+
+  &:first-child {
+    border-top: 0.1rem solid $black-1;
+  }
 }
 
 .box {
@@ -57,6 +61,7 @@
   right: -6rem;
   background-color: white;
   @include flexSort(column, null, center, null);
+
   button {
     padding: 0.7rem 1.2rem;
     @include font(1.5rem, 400, normal);

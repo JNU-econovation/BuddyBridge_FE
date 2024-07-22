@@ -1,0 +1,14 @@
+.container {
+  @include flexSort(null, flex-end, null, null);
+}
+
+.chat {
+  width: 30rem;
+  border-radius: 2rem;
+  background-color: $giver;
+  padding: 2rem;
+  @include gmarketFont(1.5rem, 400, normal);
+  height: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}

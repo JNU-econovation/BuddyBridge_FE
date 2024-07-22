@@ -27,6 +27,7 @@
   .navContent {
     padding: 2rem 0;
     height: 100%;
+    color: black;
     @include flexSort(null, null, center, null);
 
     &.helpMe {
@@ -37,8 +38,8 @@
       color: $giver;
     }
 
-    // &.myWrite {
-    //   color: $taker;
-    // }
+    &.myWrite {
+      color: $taker;
+    }
   }
 }

@@ -15,7 +15,8 @@ interface ChatType {
   lastMessage: string;
   matchingId: number;
   lastMessageTime: string;
-  receiverDto: {
+  postType: string;
+  receiver: {
     receiverId: number;
     receiverName: string;
     receiverProfileImg: string;
@@ -43,13 +44,13 @@ export default function ChatListContent() {
     <div className={cn("container")}>
       {data?.pages[0].matchings?.map((chat: ChatType) => (
         <Chat
-          img={chat.receiverDto.receiverProfileImg}
-          content={chat.lastMessage}
-          date={chat.lastMessageTime}
-          name={chat.receiverDto.receiverName}
-          // type={chat.type}
-          key={chat.matchingId}
-          id={chat.matchingId}
+          img={chat?.receiver?.receiverProfileImg}
+          content={chat?.lastMessage}
+          date={chat?.lastMessageTime}
+          name={chat?.receiver?.receiverName}
+          type={chat?.postType}
+          key={chat?.matchingId}
+          id={chat?.matchingId}
         />
       ))}
       <div ref={lastRef}></div>

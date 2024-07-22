@@ -87,11 +87,7 @@
 
 .title {
   @include font(2rem, 500, normal);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  @include line-clamp(1);
 
   @include smallDesktop {
     @include font(1.8rem, 500, normal);
@@ -124,9 +120,9 @@
   width: calc(100% - 4rem);
   position: absolute;
   border-bottom: 0.1rem solid $gray;
-  top: 7.5rem;
+  top: 6rem;
 
   @include smallDesktop {
-    top: 6rem;
+    top: 4rem;
   }
 }
