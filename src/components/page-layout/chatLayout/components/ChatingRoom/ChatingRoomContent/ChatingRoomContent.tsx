@@ -61,10 +61,13 @@ export default function ChatingRoomContent() {
     [chatingRoomNumber, reset],
   );
 
-  console.log(chaingData);
-
   useEffect(() => {
-    setReceivedMessages(chaingData?.pages[0].chatMessages as ReceivedMessage[]);
+    const latestPage = chaingData?.pages[chaingData?.pages.length - 1];
+    if (latestPage && latestPage.chatMessages) {
+      const latestMessages = latestPage.chatMessages.slice().reverse() as ReceivedMessage[];
+      setReceivedMessages((prevMessages: ReceivedMessage[]) => [...latestMessages, ...prevMessages]);
+    }
+
     const client = new Client({
       brokerURL: "wss://buddybridge.13.209.34.25.sslip.io/socket/connect",
       connectHeaders: {},
