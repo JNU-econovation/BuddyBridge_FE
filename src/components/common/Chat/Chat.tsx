@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import styles from "@/components/common/Chat/Chat.module.scss";
-import { useAccodionContext } from "@/components/page-layout/chatLayout/components/chatLayout";
+import { useChatContext } from "@/components/page-layout/chatLayout/components/chatLayout";
 import { formatDateString } from "@/utils";
 
 const cn = classNames.bind(styles);
@@ -19,7 +19,7 @@ interface ChatProps {
 }
 
 export default function Chat({ name, content, date, type, img, id }: ChatProps) {
-  const { setChatingRoomNumber } = useAccodionContext();
+  const { setChatingRoomNumber } = useChatContext();
 
   const handleChatClick = () => {
     setChatingRoomNumber(id);

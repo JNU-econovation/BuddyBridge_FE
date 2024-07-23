@@ -18,9 +18,9 @@ interface OppositeChat {
 export default function OppositeChat({ oppsiteUser, chat }: OppositeChat) {
   return (
     <div className={cn("container")}>
-      <Image className={cn("img")} width={40} height={40} src={oppsiteUser.receiverProfileImg} alt="상대 프로필" />
+      <Image className={cn("img")} width={40} height={40} src={oppsiteUser?.receiverProfileImg} alt="상대 프로필" />
       <div className={cn("nameContainer")}>
-        <p className={cn("name")}>{oppsiteUser.receiverName}</p>
+        <p className={cn("name")}>{oppsiteUser?.receiverName}</p>
         <div className={cn("chat")}>{chat}</div>
       </div>
     </div>

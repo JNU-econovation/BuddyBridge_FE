@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Client } from "@stomp/stompjs";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { useForm } from "react-hook-form";
 import { useInView } from "react-intersection-observer";
+
+import { useRouter } from "next/router";
 
 import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/ChatingRoomContent.module.scss";
 import ChatArrow from "@/icons/chat_arrow.svg";
@@ -13,7 +15,7 @@ import useUserInfoStore from "@/stores/kakaoInnfo";
 import MyChat from "./MyChat/MyChat";
 import OppositeChat from "./OppositeChat/OppositeChat";
 import getChatingRoom from "../../../apis/getChatingRoom";
-import { useAccodionContext } from "../../chatLayout";
+import { useChatContext } from "../../chatLayout";
 
 const cn = classNames.bind(styles);
 
@@ -23,7 +25,7 @@ interface ReceivedMessage {
 }
 
 export default function ChatingRoomContent() {
-  const { chatingRoomNumber } = useAccodionContext();
+  const { chatingRoomNumber } = useChatContext();
   const [receivedMessages, setReceivedMessages] = useState<ReceivedMessage[]>([]);
   const [, setConnectionStatus] = useState("Disconnected");
   const clientRef = useRef<Client | null>(null);
@@ -124,7 +126,7 @@ export default function ChatingRoomContent() {
   return (
     <div className={cn("container")}>
       <div className={cn("chatingBox")} ref={chatBoxRef}>
-        <div ref={lastRef}></div>
+        <div ref={lastRef} className={cn("trigger")}></div>
         {receivedMessages?.map((msg, index) =>
           userInfo?.memberId === msg.senderId ? (
             <MyChat chat={msg.content} key={index} />

@@ -1,12 +1,16 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Image from "next/image";
 import Link from "next/link";
 
 import styles from "@/components/common/Header/User/DropDown/DropDown.module.scss";
+import openToast from "@/components/common/Toast/features/openToast";
 import { ROUTE } from "@/constants/route";
 import NoImg from "@/images/noimg.png";
 import useUserInfoStore from "@/stores/kakaoInnfo";
+
+import getLogOut from "../../apis/getLogOut";
 
 const cn = classNames.bind(styles);
 
@@ -16,6 +20,20 @@ interface DropDownProps {
 
 export default function DropDown({ isNameClick }: DropDownProps) {
   const { userInfo } = useUserInfoStore();
+  const queryClient = useQueryClient();
+
+  const logOutMutation = useMutation({
+    mutationFn: getLogOut,
+    onSuccess: () => {
+      // todo : queryKey를 0이 아니라 page로 바꿔야함.
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+      openToast("success", "로그아웃되었습니다.");
+    },
+  });
+
+  const handleLogoutClick = () => {
+    logOutMutation.mutate();
+  };
 
   return (
     <div className={cn("dropDownContainer", { hidden: isNameClick })}>
@@ -32,7 +50,9 @@ export default function DropDown({ isNameClick }: DropDownProps) {
       <Link href={ROUTE.MY_PAGE} className={cn("myPage")}>
         마이페이지
       </Link>
-      <p className={cn("logout")}>로그아웃</p>
+      <button onClick={handleLogoutClick} className={cn("logout")}>
+        로그아웃
+      </button>
     </div>
   );
 }

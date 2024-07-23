@@ -30,6 +30,7 @@
 }
 
 .textarea {
+  resize: none;
   width: 95%;
   @include font(2rem, 400, normal);
   padding: 2rem;

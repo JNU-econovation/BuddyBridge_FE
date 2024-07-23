@@ -24,9 +24,10 @@ interface ChatAcceptType {
 
 interface ChatButtonProps {
   authorId: number;
+  type: string;
 }
 
-export default function ChatButton({ authorId }: ChatButtonProps) {
+export default function ChatButton({ authorId, type }: ChatButtonProps) {
   const [isChatClick, setIsChatClick] = useState(false);
   const chatRef = useRef<HTMLDivElement>(null);
   const editBoxRef = useRef<HTMLDivElement>(null);
@@ -53,8 +54,8 @@ export default function ChatButton({ authorId }: ChatButtonProps) {
   const handleChatButtonClick = () => {
     const body = {
       postId: data.id,
-      takerId: data.author.memberId,
-      giverId: authorId,
+      takerId: type === "giver" ? authorId : data.author.memberId,
+      giverId: type === "giver" ? data.author.memberId : authorId,
     };
     chatAcceptMutation.mutate({ body });
   };

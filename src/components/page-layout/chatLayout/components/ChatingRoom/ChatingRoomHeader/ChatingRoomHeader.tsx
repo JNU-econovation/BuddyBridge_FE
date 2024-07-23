@@ -5,12 +5,12 @@ import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/C
 import Hamburger from "@/icons/hamburger.svg";
 
 import getChatingRoom from "../../../apis/getChatingRoom";
-import { useAccodionContext } from "../../chatLayout";
+import { useChatContext } from "../../chatLayout";
 
 const cn = classNames.bind(styles);
 
 export default function ChatingRoomHeader() {
-  const { chatingRoomNumber } = useAccodionContext();
+  const { chatingRoomNumber } = useChatContext();
 
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: ["chatingRoom", chatingRoomNumber],

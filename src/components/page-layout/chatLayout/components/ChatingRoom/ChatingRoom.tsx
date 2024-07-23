@@ -1,17 +1,15 @@
-import { useContext } from "react";
-
 import classNames from "classnames/bind";
 
 import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoom.module.scss";
 
 import ChatingRoomContent from "./ChatingRoomContent/ChatingRoomContent";
 import ChatingRoomHeader from "./ChatingRoomHeader/ChatingRoomHeader";
-import { useAccodionContext } from "../chatLayout";
+import { useChatContext } from "../chatLayout";
 
 const cn = classNames.bind(styles);
 
 export default function ChatingRoom() {
-  const { chatingRoomNumber } = useAccodionContext();
+  const { chatingRoomNumber } = useChatContext();
 
   return (
     <>
