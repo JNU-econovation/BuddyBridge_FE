@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import classNames from "classnames/bind";
 
@@ -20,7 +20,7 @@ interface ChatContextType {
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
 
-export const useAccodionContext = () => {
+export const useChatContext = () => {
   const context = useContext(ChatContext);
 
   if (!context) {
