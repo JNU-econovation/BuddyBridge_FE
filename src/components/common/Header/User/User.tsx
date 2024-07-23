@@ -12,7 +12,7 @@ import Loader from "../../Loader/Loader";
 const cn = classNames.bind(styles);
 
 export default function User() {
-  const { code } = useUserInfoStore();
+  const { code, userInfo } = useUserInfoStore();
 
   const { data, isFetching } = useQuery({
     queryKey: ["user"],
@@ -24,5 +24,5 @@ export default function User() {
     return <Loader className={cn("loaderContainer")} />;
   }
 
-  return data?.nickname ? <Login name={data.nickname} /> : <NotLogin />;
+  return userInfo ? <Login name={data.nickname} /> : <NotLogin />;
 }

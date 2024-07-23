@@ -4,7 +4,7 @@ import { KaKaoUserInfo } from "@/types/user";
 
 interface UserInfoState {
   userInfo: KaKaoUserInfo | null;
-  setUserInfo: (userInfo: KaKaoUserInfo) => void;
+  setUserInfo: (userInfo: KaKaoUserInfo | null) => void;
 
   code: string;
   setCode: (code: string) => void;
