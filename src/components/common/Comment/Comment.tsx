@@ -26,9 +26,10 @@ export interface CommentProps {
     commentId: number;
   };
   postId: number;
+  type: string;
 }
 
-export default function Comment({ comment, postId }: CommentProps) {
+export default function Comment({ comment, postId, type }: CommentProps) {
   const [isKebabClick, setIsKebabClick] = useState(false);
   const kebabRef = useRef<HTMLDivElement>(null);
   const editBoxRef = useRef<HTMLDivElement>(null);
@@ -65,7 +66,7 @@ export default function Comment({ comment, postId }: CommentProps) {
             )}
           </div>
         )}
-        {userInfo?.memberId === postId && <ChatButton authorId={comment.author.memberId} />}
+        {userInfo?.memberId === postId && <ChatButton type={type} authorId={comment.author.memberId} />}
       </div>
     </div>
   );

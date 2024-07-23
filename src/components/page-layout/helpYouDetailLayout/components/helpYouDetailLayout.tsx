@@ -165,7 +165,7 @@ export default function HelpYouDetailLayout() {
               <div className={cn("commentBox")}>
                 {commentData?.pages.map((page) =>
                   page.content.map((comment: CommentProps) => (
-                    <Comment postId={data.author.memberId} comment={comment} key={comment.commentId} />
+                    <Comment type="giver" postId={data.author.memberId} comment={comment} key={comment.commentId} />
                   )),
                 )}
               </div>
