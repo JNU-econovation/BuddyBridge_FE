@@ -29,7 +29,12 @@ interface Comment {
 }
 
 export default function CommentWrite({ user, id }: CommentWriteProps) {
-  const { register, handleSubmit, reset } = useForm<Comment>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<Comment>();
   const queryClient = useQueryClient();
 
   const uploadCommentMutation = useMutation({
@@ -61,7 +66,7 @@ export default function CommentWrite({ user, id }: CommentWriteProps) {
           <p className={cn("nickname")}>{user?.nickname}</p>
         </div>
         <textarea
-          {...register("content")}
+          {...register("content", { required: "내용을 입력하세요." })}
           placeholder="내용을 작성하세요."
           className={cn("textarea")}
           onKeyDown={handleKeyDown}
