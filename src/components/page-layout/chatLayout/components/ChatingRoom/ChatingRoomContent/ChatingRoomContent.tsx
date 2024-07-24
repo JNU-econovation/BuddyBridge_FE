@@ -6,8 +6,6 @@ import classNames from "classnames/bind";
 import { useForm } from "react-hook-form";
 import { useInView } from "react-intersection-observer";
 
-import { useRouter } from "next/router";
-
 import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/ChatingRoomContent.module.scss";
 import ChatArrow from "@/icons/chat_arrow.svg";
 import useUserInfoStore from "@/stores/kakaoInnfo";
@@ -22,6 +20,10 @@ const cn = classNames.bind(styles);
 interface ReceivedMessage {
   content: string;
   senderId: number;
+}
+
+interface ChatingList {
+  chatMessages: ReceivedMessage[];
 }
 
 export default function ChatingRoomContent() {
@@ -64,11 +66,12 @@ export default function ChatingRoomContent() {
   );
 
   useEffect(() => {
-    const latestPage = chaingData?.pages[chaingData?.pages.length - 1];
-    if (latestPage && latestPage.chatMessages) {
-      const latestMessages = latestPage.chatMessages.slice().reverse() as ReceivedMessage[];
-      setReceivedMessages((prevMessages: ReceivedMessage[]) => [...latestMessages, ...prevMessages]);
-    }
+    const chatingMessageList: ReceivedMessage[] = [];
+    const chatingLists = chaingData?.pages.map((chatingList: ChatingList) =>
+      chatingList.chatMessages.map((chatMessages: ReceivedMessage) => chatingMessageList.push(chatMessages)),
+    );
+    console.log(chatingMessageList.slice().reverse());
+    setReceivedMessages(chatingMessageList.slice().reverse());
 
     const client = new Client({
       brokerURL: "wss://buddybridge.13.209.34.25.sslip.io/socket/connect",
