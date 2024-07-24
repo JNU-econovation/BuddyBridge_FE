@@ -38,7 +38,7 @@ export default function ChatingRoomContent() {
   const [lastRef, inView] = useInView();
 
   const {
-    data: chaingData,
+    data: chatingData,
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery({
@@ -68,10 +68,9 @@ export default function ChatingRoomContent() {
 
   useEffect(() => {
     const chatingMessageList: ReceivedMessage[] = [];
-    const chatingLists = chaingData?.pages.map((chatingList: ChatingList) =>
+    chatingData?.pages.map((chatingList: ChatingList) =>
       chatingList.chatMessages.map((chatMessages: ReceivedMessage) => chatingMessageList.push(chatMessages)),
     );
-    console.log(chatingMessageList.slice().reverse());
     setReceivedMessages(chatingMessageList.slice().reverse());
 
     const client = new Client({
@@ -113,7 +112,7 @@ export default function ChatingRoomContent() {
         client.deactivate();
       }
     };
-  }, [chatingRoomNumber, chaingData?.pages]);
+  }, [chatingRoomNumber, chatingData?.pages]);
 
   useEffect(() => {
     if (chatBoxRef.current) {
@@ -140,7 +139,7 @@ export default function ChatingRoomContent() {
             <OppositeChat
               date={msg.createdAt}
               key={index}
-              oppsiteUser={chaingData?.pages[0].receiver}
+              oppsiteUser={chatingData?.pages[0].receiver}
               chat={msg.content}
             />
           ),
