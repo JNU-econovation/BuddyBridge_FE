@@ -1,5 +1,6 @@
 .container {
   @include flexSort(null, flex-end, null, null);
+  position: relative;
 }
 
 .chat {
@@ -10,4 +11,11 @@
   @include gmarketFont(1.5rem, 400, normal);
   height: 100%;
   overflow-wrap: break-word;
+}
+
+.date {
+  position: absolute;
+  bottom: -2rem;
+  right: 0;
+  @include font(1.3rem, 400, normal);
 }

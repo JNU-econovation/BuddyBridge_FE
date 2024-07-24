@@ -20,6 +20,7 @@ const cn = classNames.bind(styles);
 interface ReceivedMessage {
   content: string;
   senderId: number;
+  createdAt: string;
 }
 
 interface ChatingList {
@@ -126,15 +127,22 @@ export default function ChatingRoomContent() {
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
+  console.log(receivedMessages);
+
   return (
     <div className={cn("container")}>
       <div className={cn("chatingBox")} ref={chatBoxRef}>
         <div ref={lastRef} className={cn("trigger")}></div>
         {receivedMessages?.map((msg, index) =>
           userInfo?.memberId === msg.senderId ? (
-            <MyChat chat={msg.content} key={index} />
+            <MyChat date={msg.createdAt} chat={msg.content} key={index} />
           ) : (
-            <OppositeChat key={index} oppsiteUser={chaingData?.pages[0].receiver} chat={msg.content} />
+            <OppositeChat
+              date={msg.createdAt}
+              key={index}
+              oppsiteUser={chaingData?.pages[0].receiver}
+              chat={msg.content}
+            />
           ),
         )}
       </div>
