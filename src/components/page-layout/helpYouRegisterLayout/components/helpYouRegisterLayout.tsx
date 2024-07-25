@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
@@ -15,6 +15,7 @@ import Input from "@/components/common/Input/Input";
 import Label from "@/components/common/Label/Label";
 import RadioInput from "@/components/common/RadioInput/RadioInput";
 import Textarea from "@/components/common/Textarea/Textarea";
+import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/helpYouRegisterLayout/components/helpYouRegisterLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import DropDownImg from "@/icons/dropdown.svg";
@@ -29,7 +30,8 @@ const cn = classNames.bind(styles);
 export default function HelpYouRegisterLayout() {
   const router = useRouter();
 
-  const { code } = useUserInfoStore();
+  const { code, userInfo } = useUserInfoStore();
+  const isMountedRef = useRef(false);
 
   const { data: myInfoData } = useQuery({
     queryKey: ["info", code],
@@ -79,6 +81,15 @@ export default function HelpYouRegisterLayout() {
       setValue("disability", myInfoData.disabilityType);
     }
   }, [myInfoData, setValue, router]);
+
+  useEffect(() => {
+    if (!userInfo && !isMountedRef.current) {
+      isMountedRef.current = true;
+      router.replace(ROUTE.LOGIN);
+      openToast("error", "로그인을 해주세요.");
+      return;
+    }
+  }, [router, userInfo]);
 
   return (
     <div className={cn("container")}>

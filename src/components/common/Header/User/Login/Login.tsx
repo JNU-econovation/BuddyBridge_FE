@@ -36,6 +36,7 @@ export default function Login({ name }: LoginProps) {
   const [error, setError] = useState<string | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const router = useRouter();
+  const alarmNumber = notifications.length > 9 ? "9+" : notifications.length;
 
   const handleNameClick = () => {
     setIsProfileOpen((prev) => !prev);
@@ -97,7 +98,7 @@ export default function Login({ name }: LoginProps) {
         eventSource.close();
       }
     };
-  }, [userInfo]); // userInfo가 변경될 때마다 effect 실행
+  }, [userInfo]);
 
   return (
     <div className={cn("container")}>
@@ -110,6 +111,7 @@ export default function Login({ name }: LoginProps) {
         <div ref={alarmDropdownRef} className={cn("alarmContainer")} onClick={handleAlarmClick}>
           <Alarm width={30} height={30} className={cn("alarm")} />
           {isAlarmOpen && <AlarmDropDown notifications={notifications} />}
+          {alarmNumber !== 0 && <div className={cn("alarmNumber")}>{alarmNumber}</div>}
         </div>
         <Chat width={30} height={30} onClick={handleChatClick} className={cn("chat")} />
       </div>

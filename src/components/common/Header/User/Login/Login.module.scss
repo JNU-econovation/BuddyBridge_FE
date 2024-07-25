@@ -23,3 +23,14 @@
 .alarm {
   cursor: pointer;
 }
+
+.alarmNumber {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  background-color: red;
+  color: white;
+  border-radius: 2rem;
+  @include font(1rem, 400, normal);
+  padding: 0.2rem 0.5rem;
+}

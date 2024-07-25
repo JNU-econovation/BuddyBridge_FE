@@ -1,0 +1,25 @@
+.container {
+  padding: 5.4rem 0;
+  @include flexSort(null, center, null, null);
+  background: linear-gradient(180deg, white 0%, #bfbef5 50%);
+
+  &.isMyPage {
+    background: linear-gradient(180deg, #f9fafb 0%, #bfbef5 50%);
+  }
+}
+
+.box {
+  @include flexSort(column, null, null, 2rem);
+  max-width: 120rem;
+  width: 100%;
+}
+
+.logo {
+  @include gmarketFont(4rem, 400, normal);
+  padding-bottom: 4.6rem;
+  border-bottom: 0.1rem solid black;
+}
+
+.contactBox {
+  @include flexSort(null, flex-end, null, null);
+}

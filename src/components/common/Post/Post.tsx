@@ -19,7 +19,7 @@ interface PostProps {
 
 export default function Post({ data }: PostProps) {
   const [isHeartClick, setIsHeartClick] = useState(false);
-  const { postType, title, author, assistanceType, district, startTime, endTime, scheduleType, id } = data;
+  const { postType, title, author, assistanceType, district, startTime, endTime, scheduleType, id, postStatus } = data;
 
   const handleHeartClick = () => {
     setIsHeartClick((prev) => !prev);
@@ -40,7 +40,7 @@ export default function Post({ data }: PostProps) {
             giver: postType === "GIVER",
           })}
         >
-          매칭중
+          {postStatus === "RECRUITING" ? "매칭중" : "매칭완료"}
         </p>
         <Heart width={32} height={32} className={cn("heart")} />
         <p className={cn("order")}>{id}</p>

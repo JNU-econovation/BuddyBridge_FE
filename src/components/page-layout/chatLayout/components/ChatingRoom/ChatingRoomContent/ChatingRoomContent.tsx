@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Client } from "@stomp/stompjs";
-import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { useForm } from "react-hook-form";
 import { useInView } from "react-intersection-observer";
@@ -125,8 +125,6 @@ export default function ChatingRoomContent() {
       fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage]);
-
-  console.log(receivedMessages);
 
   return (
     <div className={cn("container")}>
