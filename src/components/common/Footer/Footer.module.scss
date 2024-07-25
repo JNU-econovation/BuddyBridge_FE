@@ -1,0 +1,21 @@
+.container {
+  padding: 5.4rem 0;
+  @include flexSort(null, center, null, null);
+  background: #d4d0eb;
+}
+
+.box {
+  @include flexSort(column, null, null, 2rem);
+  max-width: 120rem;
+  width: 100%;
+}
+
+.logo {
+  @include gmarketFont(4rem, 400, normal);
+  padding-bottom: 4.6rem;
+  border-bottom: 0.1rem solid black;
+}
+
+.contactBox {
+  @include flexSort(null, flex-end, null, null);
+}

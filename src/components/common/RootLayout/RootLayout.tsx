@@ -5,6 +5,8 @@ import classNames from "classnames/bind";
 import Header from "@/components/common/Header/Header";
 import styles from "@/components/common/RootLayout/RootLayout.module.scss";
 
+import Footer from "../Footer/Footer";
+
 const cn = classNames.bind(styles);
 
 interface RootLayoutProps {
@@ -16,6 +18,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <div className={cn("container")}>
       <Header />
       <main className={cn("children")}>{children}</main>
+      <Footer />
     </div>
   );
 }
