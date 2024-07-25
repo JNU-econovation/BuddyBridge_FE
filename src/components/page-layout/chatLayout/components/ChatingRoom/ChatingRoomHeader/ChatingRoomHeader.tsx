@@ -36,7 +36,7 @@ export default function ChatingRoomHeader({ setIsHamburgerClick }: ChatingRoomHe
       <div className={cn("nameBox")}>
         <p>{data?.pages[0].receiver.receiverName}</p>
       </div>
-      <Hamburger className={cn("hamburger")} onClick={setIsHamburgerClick} />
+      <Hamburger className={cn("hamburger")} onClick={handleHamburgerClick} />
     </header>
   );
 }
