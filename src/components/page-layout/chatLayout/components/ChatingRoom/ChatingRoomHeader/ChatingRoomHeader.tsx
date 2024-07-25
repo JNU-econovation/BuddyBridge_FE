@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 import { useInfiniteQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
@@ -9,7 +11,11 @@ import { useChatContext } from "../../chatLayout";
 
 const cn = classNames.bind(styles);
 
-export default function ChatingRoomHeader() {
+interface ChatingRoomHeaderProps {
+  setIsHamburgerClick: Dispatch<SetStateAction<boolean>>;
+}
+
+export default function ChatingRoomHeader({ setIsHamburgerClick }: ChatingRoomHeaderProps) {
   const { chatingRoomNumber } = useChatContext();
 
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
@@ -21,12 +27,16 @@ export default function ChatingRoomHeader() {
     enabled: !!chatingRoomNumber,
   });
 
+  const handleHamburgerClick = () => {
+    setIsHamburgerClick((prev) => !prev);
+  };
+
   return (
     <header className={cn("container")}>
       <div className={cn("nameBox")}>
         <p>{data?.pages[0].receiver.receiverName}</p>
       </div>
-      <Hamburger className={cn("hamburger")} />
+      <Hamburger className={cn("hamburger")} onClick={setIsHamburgerClick} />
     </header>
   );
 }

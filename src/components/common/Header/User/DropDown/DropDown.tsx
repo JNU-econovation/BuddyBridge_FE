@@ -3,6 +3,7 @@ import classNames from "classnames/bind";
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import styles from "@/components/common/Header/User/DropDown/DropDown.module.scss";
 import openToast from "@/components/common/Toast/features/openToast";
@@ -19,15 +20,21 @@ interface DropDownProps {
 }
 
 export default function DropDown({ isNameClick }: DropDownProps) {
-  const { userInfo } = useUserInfoStore();
+  const { userInfo, setUserInfo } = useUserInfoStore();
   const queryClient = useQueryClient();
+  const router = useRouter();
+  const clearUserInfoStorage = useUserInfoStore.persist.clearStorage;
 
   const logOutMutation = useMutation({
     mutationFn: getLogOut,
-    onSuccess: () => {
+    onSuccess: async () => {
       // todo : queryKey를 0이 아니라 page로 바꿔야함.
-      queryClient.invalidateQueries({ queryKey: ["user"] });
+
+      await router.push(ROUTE.HOME);
       openToast("success", "로그아웃되었습니다.");
+      setUserInfo(null);
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+      clearUserInfoStorage();
     },
   });
 

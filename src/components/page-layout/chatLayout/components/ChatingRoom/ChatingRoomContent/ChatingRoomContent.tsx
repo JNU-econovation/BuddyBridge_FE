@@ -6,8 +6,6 @@ import classNames from "classnames/bind";
 import { useForm } from "react-hook-form";
 import { useInView } from "react-intersection-observer";
 
-import { useRouter } from "next/router";
-
 import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/ChatingRoomContent.module.scss";
 import ChatArrow from "@/icons/chat_arrow.svg";
 import useUserInfoStore from "@/stores/kakaoInnfo";
@@ -22,6 +20,11 @@ const cn = classNames.bind(styles);
 interface ReceivedMessage {
   content: string;
   senderId: number;
+  createdAt: string;
+}
+
+interface ChatingList {
+  chatMessages: ReceivedMessage[];
 }
 
 export default function ChatingRoomContent() {
@@ -35,7 +38,7 @@ export default function ChatingRoomContent() {
   const [lastRef, inView] = useInView();
 
   const {
-    data: chaingData,
+    data: chatingData,
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery({
@@ -64,11 +67,11 @@ export default function ChatingRoomContent() {
   );
 
   useEffect(() => {
-    const latestPage = chaingData?.pages[chaingData?.pages.length - 1];
-    if (latestPage && latestPage.chatMessages) {
-      const latestMessages = latestPage.chatMessages.slice().reverse() as ReceivedMessage[];
-      setReceivedMessages((prevMessages: ReceivedMessage[]) => [...latestMessages, ...prevMessages]);
-    }
+    const chatingMessageList: ReceivedMessage[] = [];
+    chatingData?.pages.map((chatingList: ChatingList) =>
+      chatingList.chatMessages.map((chatMessages: ReceivedMessage) => chatingMessageList.push(chatMessages)),
+    );
+    setReceivedMessages(chatingMessageList.slice().reverse());
 
     const client = new Client({
       brokerURL: "wss://buddybridge.13.209.34.25.sslip.io/socket/connect",
@@ -109,7 +112,7 @@ export default function ChatingRoomContent() {
         client.deactivate();
       }
     };
-  }, [chatingRoomNumber, chaingData?.pages]);
+  }, [chatingRoomNumber, chatingData?.pages]);
 
   useEffect(() => {
     if (chatBoxRef.current) {
@@ -123,15 +126,22 @@ export default function ChatingRoomContent() {
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
+  console.log(receivedMessages);
+
   return (
     <div className={cn("container")}>
       <div className={cn("chatingBox")} ref={chatBoxRef}>
         <div ref={lastRef} className={cn("trigger")}></div>
         {receivedMessages?.map((msg, index) =>
           userInfo?.memberId === msg.senderId ? (
-            <MyChat chat={msg.content} key={index} />
+            <MyChat date={msg.createdAt} chat={msg.content} key={index} />
           ) : (
-            <OppositeChat key={index} oppsiteUser={chaingData?.pages[0].receiver} chat={msg.content} />
+            <OppositeChat
+              date={msg.createdAt}
+              key={index}
+              oppsiteUser={chatingData?.pages[0].receiver}
+              chat={msg.content}
+            />
           ),
         )}
       </div>

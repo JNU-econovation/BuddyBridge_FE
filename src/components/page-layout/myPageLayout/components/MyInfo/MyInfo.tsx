@@ -12,23 +12,18 @@ import useUserInfoStore from "@/stores/kakaoInnfo";
 const cn = classNames.bind(styles);
 
 export default function MyInfo() {
-  const { code } = useUserInfoStore();
-
-  const { data } = useQuery({
-    queryKey: ["user"],
-    queryFn: () => getKakaoInfo(code as string),
-  });
+  const { code, userInfo } = useUserInfoStore();
 
   return (
     <div className={cn("container")}>
       <p className={cn("title")}>내 정보</p>
       <div className={cn("myInfoContainer")}>
         <div className={cn("myInfoBox")}>
-          <Image src={data?.profileImageUrl} className={cn("img")} alt="프로필" width={50} height={50} />
-          <p className={cn("title")}>{data?.nickname}</p>
+          <Image src={userInfo?.profileImageUrl as string} className={cn("img")} alt="프로필" width={50} height={50} />
+          <p className={cn("title")}>{userInfo?.nickname}</p>
           <div className={cn("detailBox")}>
-            <p>나이 : {data?.age}</p>
-            <p>성별 : {data?.gender}</p>
+            <p>나이 : {userInfo?.age}</p>
+            <p>성별 : {userInfo?.gender}</p>
           </div>
         </div>
         <Link href={ROUTE.MY_PAGE_EDIT} className={cn("link")}>

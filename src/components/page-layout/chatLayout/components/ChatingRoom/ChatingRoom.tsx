@@ -1,6 +1,11 @@
+import { useRef, useState } from "react";
+
 import classNames from "classnames/bind";
 
 import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoom.module.scss";
+import useOutsideClick from "@/hooks/useOutsideClick";
+import ArrowDown from "@/icons/arrow_down.svg";
+import Close from "@/icons/close.svg";
 
 import ChatingRoomContent from "./ChatingRoomContent/ChatingRoomContent";
 import ChatingRoomHeader from "./ChatingRoomHeader/ChatingRoomHeader";
@@ -10,13 +15,41 @@ const cn = classNames.bind(styles);
 
 export default function ChatingRoom() {
   const { chatingRoomNumber } = useChatContext();
+  const [isHamburgerClick, setIsHamburgerClick] = useState(false);
+  const [matchingState, setMatchingState] = useState(false);
+  const stateChangeRoomRef = useRef(null);
+
+  const handleMatchingStateChangeClick = () => {
+    setMatchingState((prev) => !prev);
+  };
+
+  useOutsideClick([stateChangeRoomRef], () => setIsHamburgerClick(false));
 
   return (
     <>
       {chatingRoomNumber ? (
         <div className={cn("container")}>
-          <ChatingRoomHeader />
+          <ChatingRoomHeader setIsHamburgerClick={setIsHamburgerClick} />
           <ChatingRoomContent />
+          {isHamburgerClick && (
+            <div className={cn("chatingOutContainer")}>
+              <div className={cn("grayContainer")}></div>
+              <div className={cn("whiteContainer")} ref={stateChangeRoomRef}>
+                <button className={cn("chatingRoomOutButton")}>채팅방 나가기</button>
+                <button className={cn("stateChangeButton")} onClick={handleMatchingStateChangeClick}>
+                  상태 변경
+                  <ArrowDown className={cn({ arrowDown: matchingState })} width={20} height={20} />
+                  {matchingState && (
+                    <div className={cn("matchingStateContainer")}>
+                      <button>매칭중</button>
+                      <button>매칭완료</button>
+                    </div>
+                  )}
+                </button>
+                <Close className={cn("close")} onClick={() => setIsHamburgerClick(!isHamburgerClick)} />
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <div className={cn("noChatingRoom")}>채팅방을 클릭해주세요.</div>
