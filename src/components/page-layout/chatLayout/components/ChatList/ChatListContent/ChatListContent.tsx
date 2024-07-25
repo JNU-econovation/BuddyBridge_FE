@@ -23,12 +23,16 @@ interface ChatType {
   };
 }
 
-export default function ChatListContent() {
+interface ChatListContentProps {
+  matchingState: string;
+}
+
+export default function ChatListContent({ matchingState }: ChatListContentProps) {
   const [lastRef, inView] = useInView();
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ["chatList"],
-    queryFn: ({ pageParam }) => getAllChatList(6, pageParam),
+  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
+    queryKey: ["chatList", matchingState],
+    queryFn: ({ pageParam }) => getAllChatList(6, pageParam, matchingState),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
       lastPage.nextPage ? lastPage.cursor : undefined,
@@ -39,6 +43,10 @@ export default function ChatListContent() {
       fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage]);
+
+  if (isFetching) {
+    <></>;
+  }
 
   return (
     <div className={cn("container")}>

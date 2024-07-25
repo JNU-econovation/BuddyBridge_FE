@@ -10,12 +10,12 @@ import ChatListHeader from "../ChatList/ChatListHeader/ChatListHeader";
 const cn = classNames.bind(styles);
 
 export default function ChatList() {
-  const [matchingState, setMatchingState] = useState("all");
+  const [matchingState, setMatchingState] = useState("ALL");
 
   return (
     <div className={cn("container")}>
       <ChatListHeader matchingState={matchingState} setMatchingState={setMatchingState} />
-      <ChatListContent />
+      <ChatListContent matchingState={matchingState} />
     </div>
   );
 }
