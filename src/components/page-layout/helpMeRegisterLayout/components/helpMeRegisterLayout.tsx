@@ -30,8 +30,9 @@ const cn = classNames.bind(styles);
 export default function HelpMeRegisterLayout() {
   const router = useRouter();
   const isMountedRef = useRef(false);
+  const isUserInfoMountedRef = useRef(false);
 
-  const { code } = useUserInfoStore();
+  const { code, userInfo } = useUserInfoStore();
 
   const { data: myInfoData, isFetching } = useQuery({
     queryKey: ["info", code],
@@ -87,6 +88,15 @@ export default function HelpMeRegisterLayout() {
       setValue("disability", myInfoData.disabilityType);
     }
   }, [myInfoData, setValue, router]);
+
+  useEffect(() => {
+    if (!userInfo && !isUserInfoMountedRef.current) {
+      isUserInfoMountedRef.current = true;
+      router.replace(ROUTE.LOGIN);
+      openToast("error", "로그인을 해주세요.");
+      return;
+    }
+  }, [router, userInfo]);
 
   if (isFetching) {
     return <></>;
