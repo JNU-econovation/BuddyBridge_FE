@@ -28,3 +28,15 @@
   padding: 2rem;
   border: 0;
 }
+
+.firstMessageContainer {
+  @include flexSort(null, center, null, null);
+}
+
+.firstMessage {
+  background-color: gray;
+  text-align: center;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 2rem;
+}

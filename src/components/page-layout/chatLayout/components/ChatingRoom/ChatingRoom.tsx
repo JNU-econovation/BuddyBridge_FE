@@ -46,8 +46,12 @@ export default function ChatingRoom() {
 
   useOutsideClick([stateChangeRoomRef], () => setIsHamburgerClick(false));
 
-  const handlematchingCompleteClick = () => {
+  const handleMatchingCompleteClick = () => {
     chatAcceptMutation.mutate({ chatingRoomId: chatingRoomNumber as number, status: "DONE" });
+  };
+
+  const handleMatchingIngClick = () => {
+    chatAcceptMutation.mutate({ chatingRoomId: chatingRoomNumber as number, status: "PENDING" });
   };
 
   return (
@@ -66,8 +70,8 @@ export default function ChatingRoom() {
                   <ArrowDown className={cn({ arrowDown: matchingState })} width={20} height={20} />
                   {matchingState && (
                     <div className={cn("matchingStateContainer")}>
-                      <button>매칭중</button>
-                      <button onClick={handlematchingCompleteClick}>매칭완료</button>
+                      <button onClick={handleMatchingIngClick}>매칭중</button>
+                      <button onClick={handleMatchingCompleteClick}>매칭완료</button>
                     </div>
                   )}
                 </button>
