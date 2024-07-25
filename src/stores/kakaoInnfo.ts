@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 import { KaKaoUserInfo } from "@/types/user";
 
@@ -10,11 +11,18 @@ interface UserInfoState {
   setCode: (code: string) => void;
 }
 
-const useUserInfoStore = create<UserInfoState>((set) => ({
-  userInfo: null,
-  setUserInfo: (userInfo) => set({ userInfo: userInfo }),
-  code: "",
-  setCode: (code) => set({ code: code }),
-}));
+const useUserInfoStore = create(
+  persist<UserInfoState>(
+    (set) => ({
+      userInfo: null,
+      setUserInfo: (userInfo) => set({ userInfo: userInfo }),
+      code: "",
+      setCode: (code) => set({ code: code }),
+    }),
+    {
+      name: "userInfoStorage",
+    },
+  ),
+);
 
 export default useUserInfoStore;

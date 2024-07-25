@@ -23,6 +23,7 @@ export default function DropDown({ isNameClick }: DropDownProps) {
   const { userInfo, setUserInfo } = useUserInfoStore();
   const queryClient = useQueryClient();
   const router = useRouter();
+  const clearUserInfoStorage = useUserInfoStore.persist.clearStorage;
 
   const logOutMutation = useMutation({
     mutationFn: getLogOut,
@@ -33,6 +34,7 @@ export default function DropDown({ isNameClick }: DropDownProps) {
       openToast("success", "로그아웃되었습니다.");
       setUserInfo(null);
       queryClient.invalidateQueries({ queryKey: ["user"] });
+      clearUserInfoStorage();
     },
   });
 
