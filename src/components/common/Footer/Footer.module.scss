@@ -1,7 +1,11 @@
 .container {
   padding: 5.4rem 0;
   @include flexSort(null, center, null, null);
-  background: #d4d0eb;
+  background: linear-gradient(180deg, white 0%, #bfbef5 50%);
+
+  &.isMyPage {
+    background: linear-gradient(180deg, #f9fafb 0%, #bfbef5 50%);
+  }
 }
 
 .box {

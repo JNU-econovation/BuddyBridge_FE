@@ -6,9 +6,13 @@ import Sns from "@/components/common/Footer/Sns/Sns";
 
 const cn = classNames.bind(styles);
 
-export default function Footer() {
+interface FooterProps {
+  isMyPage?: boolean;
+}
+
+export default function Footer({ isMyPage }: FooterProps) {
   return (
-    <footer className={cn("container")}>
+    <footer className={cn("container", { isMyPage })}>
       <div className={cn("box")}>
         <Participation />
         <div className={cn("logo")}>Buddy Bridge</div>
