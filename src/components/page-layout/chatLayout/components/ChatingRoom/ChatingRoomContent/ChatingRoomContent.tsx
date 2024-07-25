@@ -21,6 +21,7 @@ interface ReceivedMessage {
   content: string;
   senderId: number;
   createdAt: string;
+  messageType: string;
 }
 
 interface ChatingList {
@@ -131,7 +132,11 @@ export default function ChatingRoomContent() {
       <div className={cn("chatingBox")} ref={chatBoxRef}>
         <div ref={lastRef} className={cn("trigger")}></div>
         {receivedMessages?.map((msg, index) =>
-          userInfo?.memberId === msg.senderId ? (
+          msg.messageType === "INFO" ? (
+            <div className={cn("firstMessageContainer")} key={index}>
+              <p className={cn("firstMessage")}>매칭이 생성되었습니다.</p>
+            </div>
+          ) : userInfo?.memberId === msg.senderId ? (
             <MyChat date={msg.createdAt} chat={msg.content} key={index} />
           ) : (
             <OppositeChat
