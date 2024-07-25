@@ -103,7 +103,7 @@ export default function HelpYouRegisterLayout() {
             <Input
               className={cn("titleInput")}
               id="title"
-              placeholder="구체적으로 필요한 도움을 적어주세요. 예) 이동 도움 필요"
+              placeholder="구체적으로 줄 수 있는 도움을 적어주세요."
               {...register("title", { required: true })}
             />
           </div>
@@ -228,8 +228,7 @@ export default function HelpYouRegisterLayout() {
               내용
             </Label>
             <Textarea
-              placeholder="도움이 필요한 정보를 상세하게 적어주세요. (인원/ 시간/ 세부 장소/ 도움 필요 내용)
-ex, 2시에 전대치과병원에서 진료 이동 도움이 필요합니다."
+              placeholder="도움을 줄 수 있는 정보를 상세하게 적어주세요. (시간/ 세부 장소)"
               id="content"
               className={cn("detailTextarea")}
               {...register("content", { required: true })}

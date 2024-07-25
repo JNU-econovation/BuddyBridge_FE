@@ -18,7 +18,7 @@ export default function HelpYouLayout() {
   const router = useRouter();
   const params = new URLSearchParams(router.query as any);
   const currentPage = params.get("page");
-  const page = Number(currentPage) || 1;
+  const page = Number(currentPage) || 0;
 
   const setPage = (newPage: number) => {
     const pathName = router.pathname;
@@ -44,7 +44,7 @@ export default function HelpYouLayout() {
   return (
     <main className={cn("container")}>
       <div className={cn("box")}>
-        <p className={cn("title")}>도와줄래요!리스트</p>
+        <p className={cn("title")}>도와줄게요!리스트</p>
         <div className={cn("typeContainer")}>
           <div className={cn("typeBox")}>
             <p>#</p>
