@@ -1,14 +1,14 @@
 export const MATCHING_STATE = [
   {
     state: "전체",
-    engState: "all",
+    engState: "ALL",
   },
   {
     state: "매칭중",
-    engState: "ing",
+    engState: "PENDING",
   },
   {
     state: "매칭완료",
-    engState: "finish",
+    engState: "DONE",
   },
 ];
