@@ -37,6 +37,7 @@
   background-color: gray;
   text-align: center;
   color: white;
-  padding: 1rem 2rem;
+  padding: 2rem 4rem;
   border-radius: 2rem;
+  @include font(2rem, 400, normal);
 }
