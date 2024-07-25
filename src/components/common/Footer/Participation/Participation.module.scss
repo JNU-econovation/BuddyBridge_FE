@@ -1,0 +1,3 @@
+.nameContainer {
+  @include flexSort(null, flex-end, null, 2rem);
+}

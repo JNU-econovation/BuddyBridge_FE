@@ -1,0 +1,16 @@
+.nameBox {
+  @include flexSort(column, null, null, 1rem);
+
+  p {
+    @include font(2rem, 700, normal);
+  }
+}
+
+.name {
+  @include flexSort(column, null, center, 0.5rem);
+
+  a {
+    @include font(1.6rem, 400, normal);
+    color: black;
+  }
+}
