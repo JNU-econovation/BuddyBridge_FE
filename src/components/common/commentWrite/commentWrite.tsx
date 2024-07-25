@@ -29,12 +29,7 @@ interface Comment {
 }
 
 export default function CommentWrite({ user, id }: CommentWriteProps) {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<Comment>();
+  const { register, handleSubmit, reset } = useForm<Comment>();
   const queryClient = useQueryClient();
 
   const uploadCommentMutation = useMutation({
@@ -46,7 +41,9 @@ export default function CommentWrite({ user, id }: CommentWriteProps) {
   });
 
   const handleCommentUpload = (data: Comment) => {
-    uploadCommentMutation.mutate({ id, content: data.content });
+    if (data.content.trim() !== "") {
+      uploadCommentMutation.mutate({ id, content: data.content });
+    }
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
