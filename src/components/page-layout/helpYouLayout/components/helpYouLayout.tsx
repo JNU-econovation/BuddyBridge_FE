@@ -18,7 +18,7 @@ export default function HelpYouLayout() {
   const router = useRouter();
   const params = new URLSearchParams(router.query as any);
   const currentPage = params.get("page");
-  const page = Number(currentPage) || 0;
+  const page = Number(currentPage) || 1;
 
   const setPage = (newPage: number) => {
     const pathName = router.pathname;
