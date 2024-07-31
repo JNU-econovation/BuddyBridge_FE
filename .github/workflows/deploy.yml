@@ -33,9 +33,9 @@ jobs:
         with:
           source-directory: "output"
 
-          destination-github-username: ["smb0123"]
+          destination-github-username: "smb0123"
 
-          destination-repository-name: ["BuddyBridge"]
+          destination-repository-name: "BuddyBridge"
 
           user-email: ${{ secrets.EMAIL }}
 
