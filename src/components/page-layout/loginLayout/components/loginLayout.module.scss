@@ -67,16 +67,6 @@
   @include font(1.2rem, 300, normal);
 }
 
-.testLoginButton {
-  @include font(1.5rem, 400, normal);
-  width: 100%;
-  padding: 1.2rem 2rem;
-  @include flexSort(null, center, center, null);
-  border-radius: 1rem;
-  background-color: rgb(143, 231, 143);
-  @include font(1.2rem, 300, normal);
-}
-
 .loginInfo {
   @include font(1.2rem, 300, normal);
 }
