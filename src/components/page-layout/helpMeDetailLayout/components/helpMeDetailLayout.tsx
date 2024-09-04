@@ -25,6 +25,8 @@ interface CommentProps {
     memberId: number;
     nickname: string;
     profileImg: string;
+    age: number;
+    gender: string;
   };
   content: string;
   modifiedAt: string;
@@ -39,6 +41,7 @@ export default function HelpMeDetailLayout() {
   const { data, isPending } = useQuery({
     queryKey: ["takerDetail", pageId],
     queryFn: () => getTakerDetail(pageId as string),
+    enabled: !!pageId,
   });
   const queryClient = useQueryClient();
 
@@ -53,6 +56,7 @@ export default function HelpMeDetailLayout() {
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
       lastPage.nextPage ? lastPage.cursor : undefined,
+    enabled: !!pageId,
   });
 
   const deletePostMutation = useMutation({

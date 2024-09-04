@@ -14,11 +14,49 @@
 }
 
 .img {
-  overflow: hidden;
-  width: 3.5rem;
-  height: 3.5rem;
   position: relative;
+
+  &:hover {
+    .commentWriterInfoBox {
+      display: flex;
+    }
+  }
+}
+
+.commentWriterImage {
   border-radius: 50%;
+  cursor: pointer;
+}
+
+.commentWriterInfoBox {
+  position: absolute;
+  top: -16rem;
+  border: 0.1rem solid #787373;
+  border-radius: 1rem;
+  background-color: white;
+  padding: 1rem;
+  @include flexSort(column, null, center, 1rem);
+  width: 22rem;
+  left: -9rem;
+  z-index: 1;
+  display: none;
+
+  &.clicked {
+    display: flex;
+  }
+}
+
+.commentWriterBoxImage {
+  border-radius: 50%;
+}
+
+.commentWriterNickname {
+  @include font(1.8rem, 600, normal);
+}
+
+.commentWriterAge,
+.commentWriterGender {
+  @include font(1.5rem, 300, normal);
 }
 
 .contentBox {

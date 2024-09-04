@@ -43,7 +43,6 @@ export default function Post({ data }: PostProps) {
           {postStatus === "RECRUITING" ? "매칭중" : "매칭완료"}
         </p>
         <Heart width={32} height={32} className={cn("heart")} />
-        <p className={cn("order")}>{id}</p>
         <div className={cn("contentBox")}>
           <div className={cn("Box")}>
             <p className={cn("title")}>{title}</p>
