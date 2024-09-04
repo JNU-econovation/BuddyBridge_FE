@@ -31,7 +31,7 @@ export interface FormType {
 
 export default function MyInfoEditForm() {
   const router = useRouter();
-  const { code } = useUserInfoStore();
+  const { code, setUserInfo } = useUserInfoStore();
   const queryClient = useQueryClient();
 
   const { data: myInfoData } = useQuery({
@@ -69,6 +69,7 @@ export default function MyInfoEditForm() {
       disabilityType: data.disabilityType,
     };
     uploadMyInfo.mutate(content);
+    setUserInfo({ ...content, memberId: myInfoData.memberId });
   };
 
   return (
