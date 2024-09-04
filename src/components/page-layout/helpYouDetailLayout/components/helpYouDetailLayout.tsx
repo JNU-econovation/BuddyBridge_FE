@@ -33,14 +33,13 @@ interface CommentProps {
 
 export default function HelpYouDetailLayout() {
   const router = useRouter();
-
   const { id: pageId } = router.query;
+  const queryClient = useQueryClient();
 
   const { data, isPending } = useQuery({
     queryKey: ["giverDetail", pageId],
     queryFn: () => getGiverDetail(pageId as string),
   });
-  const queryClient = useQueryClient();
 
   const {
     data: commentData,

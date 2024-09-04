@@ -22,6 +22,8 @@ export interface CommentProps {
       memberId: number;
       nickname: string;
       profileImg: string;
+      age: number;
+      gender: string;
     };
     content: string;
     modifiedAt: string;
@@ -36,11 +38,16 @@ export default function Comment({ comment, postId, type }: CommentProps) {
   const kebabRef = useRef<HTMLDivElement>(null);
   const editBoxRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
+  const [isProfileClick, setIsProfileClick] = useState(false);
 
   const { userInfo } = useUserInfoStore();
 
   const handleKebabClick = () => {
     setIsKebabClick((prev) => !prev);
+  };
+
+  const handleProfileClick = () => {
+    setIsProfileClick((prev) => !prev);
   };
 
   const deleteCommentMutation = useMutation({
@@ -60,7 +67,26 @@ export default function Comment({ comment, postId, type }: CommentProps) {
     <div className={cn("container")}>
       <div className={cn("box")}>
         <div className={cn("img")}>
-          <Image fill src={comment.author.profileImg} alt="댓글 작성자 프로필" />
+          <Image
+            className={cn("commentWriterImage")}
+            width={35}
+            height={35}
+            src={comment.author.profileImg}
+            alt="댓글 작성자 프로필"
+            onClick={handleProfileClick}
+          />
+          <div className={cn("commentWriterInfoBox", { clicked: isProfileClick })}>
+            <Image
+              className={cn("commentWriterBoxImage")}
+              width={35}
+              height={35}
+              src={comment.author.profileImg}
+              alt="댓글 작성자 프로필"
+            />
+            <p className={cn("commentWriterNickname")}>{comment.author.nickname}</p>
+            <p className={cn("commentWriterAge")}>나이: 만{comment.author.age}세</p>
+            <p className={cn("commentWriterGender")}>성별: {comment.author.gender}</p>
+          </div>
         </div>
         <div className={cn("contentBox")}>
           <div className={cn("titleBox")}>
