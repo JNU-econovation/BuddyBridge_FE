@@ -25,6 +25,8 @@ interface CommentProps {
     memberId: number;
     nickname: string;
     profileImg: string;
+    age: number;
+    gender: string;
   };
   content: string;
   modifiedAt: string;
