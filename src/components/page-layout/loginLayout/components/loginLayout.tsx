@@ -17,10 +17,6 @@ export default function LoginLayout() {
     window.location.href = kakaoURL;
   };
 
-  const handleTestLogin = () => {
-    router.push(`${ROUTE.HOME}?code=1`);
-  };
-
   return (
     <main className={cn("main")}>
       <div className={cn("container")}>
