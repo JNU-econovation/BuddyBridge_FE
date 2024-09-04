@@ -39,6 +39,7 @@ export default function HelpMeDetailLayout() {
   const { data, isPending } = useQuery({
     queryKey: ["takerDetail", pageId],
     queryFn: () => getTakerDetail(pageId as string),
+    enabled: !!pageId,
   });
   const queryClient = useQueryClient();
 
@@ -53,6 +54,7 @@ export default function HelpMeDetailLayout() {
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
       lastPage.nextPage ? lastPage.cursor : undefined,
+    enabled: !!pageId,
   });
 
   const deletePostMutation = useMutation({
