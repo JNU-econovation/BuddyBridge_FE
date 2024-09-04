@@ -1,10 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Image from "next/image";
 import Link from "next/link";
 
-import getKakaoInfo from "@/components/page-layout/HomeLayout/apis/getKakaoInfo";
 import styles from "@/components/page-layout/myPageLayout/components/MyInfo/MyInfo.module.scss";
 import { ROUTE } from "@/constants/route";
 import useUserInfoStore from "@/stores/kakaoInnfo";
@@ -12,7 +10,7 @@ import useUserInfoStore from "@/stores/kakaoInnfo";
 const cn = classNames.bind(styles);
 
 export default function MyInfo() {
-  const { code, userInfo } = useUserInfoStore();
+  const { userInfo } = useUserInfoStore();
 
   return (
     <div className={cn("container")}>
