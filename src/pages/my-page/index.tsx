@@ -8,5 +8,5 @@ export default function MyPage() {
 }
 
 MyPage.getLayout = function getLayout(page: ReactElement) {
-  return <RootLayout isMyPage={true}>{page}</RootLayout>;
+  return <RootLayout>{page}</RootLayout>;
 };

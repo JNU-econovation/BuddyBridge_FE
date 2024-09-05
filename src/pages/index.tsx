@@ -19,5 +19,5 @@ export default function Home() {
 }
 
 Home.getLayout = function getLayout(page: ReactElement) {
-  return <RootLayout>{page}</RootLayout>;
+  return <RootLayout isMainPage={true}>{page}</RootLayout>;
 };
