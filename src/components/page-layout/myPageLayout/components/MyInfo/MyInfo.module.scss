@@ -25,10 +25,6 @@
   overflow: hidden;
 }
 
-.title {
-  @include gmarketFont(2.3rem, 500, normal);
-}
-
 .detailBox {
   @include flexSort(column, null, center, 1rem);
   p {
