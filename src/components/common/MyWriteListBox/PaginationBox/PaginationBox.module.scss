@@ -1,0 +1,5 @@
+.paginationBox {
+  margin-top: 2rem;
+  @include flexSort(null, center, null, null);
+  margin-bottom: 4rem;
+}
