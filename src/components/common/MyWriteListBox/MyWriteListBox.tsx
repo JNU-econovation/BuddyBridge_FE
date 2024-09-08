@@ -22,16 +22,23 @@ export interface MyWriteListBoxProps {
   };
   filter: string;
   pageId: string;
+  postType: string;
 }
 
-export default function MyWriteListBox({ postData, commentData, filter, pageId }: MyWriteListBoxProps) {
+export default function MyWriteListBox({ postData, commentData, filter, pageId, postType }: MyWriteListBoxProps) {
   return (
     <>
       <div className={cn("myWritePostBox")}>
-        <SelectFilter postType="taker" filter={filter} pageId={pageId} />
-        <MyWriteList commentData={commentData} postData={postData} filter={filter} pageId={pageId} />
+        <SelectFilter postType={postType} filter={filter} pageId={pageId} />
+        <MyWriteList commentData={commentData} postData={postData} filter={filter} />
       </div>
-      <PaginationBox postType="taker" commentData={commentData} filter={filter} pageId={pageId} postData={postData} />
+      <PaginationBox
+        postType={postType}
+        commentData={commentData}
+        filter={filter}
+        pageId={pageId}
+        postData={postData}
+      />
     </>
   );
 }

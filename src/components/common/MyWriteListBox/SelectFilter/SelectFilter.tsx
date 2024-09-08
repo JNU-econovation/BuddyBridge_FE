@@ -20,12 +20,12 @@ export default function SelectFilter({ pageId, filter, postType }: SelectFilterP
   const queryClient = useQueryClient();
 
   const handlePostClick = () => {
-    router.push(`${ROUTE.MY_PAGE_HELP_ME}?state=게시글`);
+    router.push(`${postType === "TAKER" ? ROUTE.MY_PAGE_HELP_ME : ROUTE.MY_PAGE_HELP_YOU}?state=게시글`);
     queryClient.invalidateQueries({ queryKey: ["postData", pageId] });
   };
 
   const handleCommentClick = () => {
-    router.push(`${ROUTE.MY_PAGE_HELP_ME}?state=댓글`);
+    router.push(`${postType === "TAKER" ? ROUTE.MY_PAGE_HELP_ME : ROUTE.MY_PAGE_HELP_YOU}?state=댓글`);
     queryClient.invalidateQueries({ queryKey: ["commentData", pageId] });
   };
 

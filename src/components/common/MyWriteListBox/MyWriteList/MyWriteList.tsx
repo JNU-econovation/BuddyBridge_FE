@@ -7,7 +7,9 @@ import { MyWriteListBoxProps } from "../MyWriteListBox";
 
 const cn = classNames.bind(styles);
 
-export default function MyWriteList({ postData, commentData, filter }: MyWriteListBoxProps) {
+interface MyWriteListProps extends Pick<MyWriteListBoxProps, "postData" | "commentData" | "filter"> {}
+
+export default function MyWriteList({ postData, commentData, filter }: MyWriteListProps) {
   return (
     <div className={cn("WriteBox")}>
       {filter === "게시물" &&

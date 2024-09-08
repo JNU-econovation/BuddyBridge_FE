@@ -11,7 +11,7 @@ export default function MyPageHelpMeLayout() {
   return (
     <div className={cn("container")}>
       <MyPageNav />
-      <MyRegisterPost />
+      <MyRegisterPost postType="TAKER" />
     </div>
   );
 }

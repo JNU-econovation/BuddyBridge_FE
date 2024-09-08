@@ -9,14 +9,14 @@
   color: #8d8989;
   @include gmarketFont(2.2rem, 500, normal);
 
-  &.taker {
+  &.TAKER {
     &.pick {
       color: $taker;
       border-bottom: 0.4rem solid $taker;
     }
   }
 
-  &.giver {
+  &.GIVER {
     &.pick {
       color: $giver;
       border-bottom: 0.4rem solid $giver;

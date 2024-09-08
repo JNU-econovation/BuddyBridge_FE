@@ -12,11 +12,11 @@
   border-radius: 1rem;
 
   &.active {
-    &.giver {
+    &.GIVER {
       background: $giver;
     }
 
-    &.taker {
+    &.TAKER {
       background: $taker;
     }
   }
