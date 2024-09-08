@@ -14,17 +14,13 @@ export default function MyPageNav() {
 
   return (
     <div className={cn("container")}>
-      {MY_PAGE_NAV.map((nav) => (
-        <div key={nav.title} className={cn("box")}>
-          <p className={cn("title")}>{nav.title}</p>
+      {MY_PAGE_NAV.map(({ title, content }) => (
+        <div key={title} className={cn("box")}>
+          <p className={cn("title")}>{title}</p>
           <div className={cn("contentBox")}>
-            {nav.content.map((content) => (
-              <Link
-                href={content.href}
-                className={cn("button", { pick: router.pathname === content.href })}
-                key={content.name}
-              >
-                {content.name}
+            {content.map(({ href, name }) => (
+              <Link href={href} className={cn("button", { pick: router.pathname === href })} key={name}>
+                {name}
               </Link>
             ))}
           </div>
