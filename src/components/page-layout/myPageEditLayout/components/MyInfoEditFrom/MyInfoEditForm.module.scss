@@ -49,11 +49,15 @@
 .gender {
   background: #fbfbfd;
   border-radius: 2rem;
-  border: 0.1rem solid #e6eef5;
+  border: 0.1rem solid #cbc9cf;
   height: 4rem;
   padding: 2rem;
   @include flexSort(null, null, center, null);
   @include gmarketFont(1.5rem, 400, normal);
+}
+
+.nickname {
+  background-color: white;
 }
 
 .buttonContainer {
