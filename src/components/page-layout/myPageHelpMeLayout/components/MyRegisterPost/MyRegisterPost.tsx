@@ -48,7 +48,7 @@ export default function MyRegisterPost() {
 
   const setPage = (newPage: number) => {
     const pathName = router.pathname;
-    params.set("page", newPage.toString());
+    params.set("pageId", newPage.toString());
     router.replace({
       pathname: pathName,
       query: { ...Object.fromEntries(params.entries()) },
