@@ -2,6 +2,7 @@
   padding: 2rem;
   @include flexSort(null, space-between, null, null);
   border-bottom: 0.1rem solid #e6e6ea;
+  color: black;
 }
 
 .leftBox {

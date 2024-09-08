@@ -1,5 +1,8 @@
 import classNames from "classnames/bind";
 
+import Link from "next/link";
+
+import { ROUTE } from "@/constants/route";
 import { formatAllDateExpectSecondsString } from "@/utils";
 
 import styles from "./MyWriteComment.module.scss";
@@ -26,7 +29,7 @@ export default function MyWriteComment({ comment }: MyWriteCommentProps) {
   const postStatusKr = postStatus === "RECRUITING" ? "매칭중" : "매칭완료";
 
   return (
-    <div className={cn("container")}>
+    <Link href={`${postType === "TAKER" ? ROUTE.HELP_ME : ROUTE.HELP_YOU}/${postId}`} className={cn("container")}>
       <div className={cn("leftBox")}>
         <div className={cn("titleBox")}>
           <p className={cn("title")}>{content}</p>
@@ -51,6 +54,6 @@ export default function MyWriteComment({ comment }: MyWriteCommentProps) {
           {disabilityType ? ` #${disabilityType}` : ""}
         </p>
       </div>
-    </div>
+    </Link>
   );
 }

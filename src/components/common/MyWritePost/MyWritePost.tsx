@@ -1,5 +1,8 @@
 import classNames from "classnames/bind";
 
+import Link from "next/link";
+
+import { ROUTE } from "@/constants/route";
 import { formatDateString } from "@/utils";
 
 import styles from "./MyWritePost.module.scss";
@@ -25,7 +28,7 @@ export default function MyWritePost({ post }: MyWritePostProps) {
   const postStatusKr = postStatus === "RECRUITING" ? "매칭중" : "매칭완료";
 
   return (
-    <div className={cn("container")}>
+    <Link href={`${postType === "TAKER" ? ROUTE.HELP_ME : ROUTE.HELP_YOU}/${id}`} className={cn("container")}>
       <div className={cn("leftBox")}>
         <div className={cn("titleBox")}>
           <p className={cn("title")}>{title}</p>
@@ -49,6 +52,6 @@ export default function MyWritePost({ post }: MyWritePostProps) {
           {disabilityType ? ` #${disabilityType}` : ""}
         </p>
       </div>
-    </div>
+    </Link>
   );
 }
