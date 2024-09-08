@@ -9,6 +9,8 @@
   color: $black-1;
   cursor: pointer;
   @include font(1.8rem, 400, normal);
+  border-radius: 1rem;
+
   &.active {
     &.giver {
       background: $giver;
