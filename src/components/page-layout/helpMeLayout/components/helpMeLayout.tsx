@@ -65,7 +65,7 @@ export default function HelpMeLayout() {
         </div>
         <Pagination
           type="taker"
-          currentPage={page + 1}
+          currentPage={page}
           itemsPerPage={8}
           totalItems={data?.data.totalElements}
           setPage={setPage}
