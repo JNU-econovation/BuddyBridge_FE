@@ -1,0 +1,4 @@
+.WriteBox {
+  @include flexSort(column, null, null, null);
+  height: 40rem;
+}

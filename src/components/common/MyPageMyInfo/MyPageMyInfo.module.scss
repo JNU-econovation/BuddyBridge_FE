@@ -1,0 +1,12 @@
+.myInfoBox {
+  padding: 6rem 8rem;
+  @include flexSort(null, null, center, 2rem);
+}
+
+.profileImg {
+  border-radius: 50%;
+}
+
+.userName {
+  @include gmarketFont(2.5rem, 600, normal);
+}

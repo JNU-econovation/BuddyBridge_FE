@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 
 import { DISABILITY } from "@/components/common/DropDown/constants";
 import DropDown from "@/components/common/DropDown/DropDown";
-import getKakaoInfo from "@/components/page-layout/HomeLayout/apis/getKakaoInfo";
 import styles from "@/components/page-layout/myPageEditLayout/components/MyInfoEditFrom/MyInfoEditForm.module.scss";
 import { ROUTE } from "@/constants/route";
 import useUserInfoStore from "@/stores/kakaoInnfo";

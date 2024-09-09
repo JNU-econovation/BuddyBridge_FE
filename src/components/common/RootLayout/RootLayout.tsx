@@ -11,15 +11,15 @@ const cn = classNames.bind(styles);
 
 interface RootLayoutProps {
   children: ReactNode;
-  isMyPage?: boolean;
+  isMainPage?: boolean;
 }
 
-export default function RootLayout({ children, isMyPage }: RootLayoutProps) {
+export default function RootLayout({ children, isMainPage }: RootLayoutProps) {
   return (
     <div className={cn("container")}>
       <Header />
       <main className={cn("children")}>{children}</main>
-      <Footer isMyPage={isMyPage} />
+      <Footer isMainPage={isMainPage} />
     </div>
   );
 }

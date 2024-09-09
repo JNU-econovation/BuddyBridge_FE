@@ -7,19 +7,21 @@ import Sns from "@/components/common/Footer/Sns/Sns";
 const cn = classNames.bind(styles);
 
 interface FooterProps {
-  isMyPage?: boolean;
+  isMainPage?: boolean;
 }
 
-export default function Footer({ isMyPage }: FooterProps) {
+export default function Footer({ isMainPage }: FooterProps) {
   return (
-    <footer className={cn("container", { isMyPage })}>
-      <div className={cn("box")}>
-        <Participation />
-        <div className={cn("logo")}>Buddy Bridge</div>
-        <div className={cn("contactBox")}>
-          <Sns />
+    isMainPage && (
+      <footer className={cn("container")}>
+        <div className={cn("box")}>
+          <Participation />
+          <div className={cn("logo")}>Buddy Bridge</div>
+          <div className={cn("contactBox")}>
+            <Sns />
+          </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    )
   );
 }

@@ -1,0 +1,57 @@
+.container {
+  padding: 2rem;
+  @include flexSort(null, space-between, null, null);
+  border-bottom: 0.1rem solid #e6e6ea;
+  color: black;
+}
+
+.leftBox {
+  @include flexSort(column, null, null, 1rem);
+}
+
+.titleBox {
+  @include flexSort(null, null, center, 2rem);
+}
+
+.title {
+  @include font(2.3rem, 600, normal);
+}
+
+.postStatus {
+  @include font(1.7rem, 600, normal);
+
+  &.matching {
+    color: #ff8d72;
+  }
+
+  &.matched {
+    color: black;
+  }
+}
+
+.dateBox {
+  @include flexSort(null, null, center, 2rem);
+}
+
+.postTitle {
+  color: #bcbaba;
+  @include font(1.5rem, 500, normal);
+}
+
+.date {
+  color: #757272;
+  @include font(1.5rem, 500, normal);
+}
+
+.rightBox {
+  @include flexSort(column, null, null, 1rem);
+}
+
+.postType {
+  @include font(2rem, 600, normal);
+}
+
+.type {
+  @include font(1.6rem, 400, normal);
+  text-align: right;
+}

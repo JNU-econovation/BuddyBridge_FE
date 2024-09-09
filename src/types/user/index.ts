@@ -6,4 +6,5 @@ export interface KaKaoUserInfo {
   profileImageUrl: string;
   disabilityType: string | null;
   gender: string;
+  name: string;
 }
