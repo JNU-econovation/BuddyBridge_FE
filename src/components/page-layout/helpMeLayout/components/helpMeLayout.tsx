@@ -83,7 +83,7 @@ export default function HelpMeLayout() {
           </Link>
         </div>
         <Pagination
-          type="taker"
+          type="TAKER"
           currentPage={page}
           itemsPerPage={8}
           totalItems={data?.data.totalElements}

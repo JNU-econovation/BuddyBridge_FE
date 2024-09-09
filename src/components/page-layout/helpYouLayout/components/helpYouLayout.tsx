@@ -83,7 +83,7 @@ export default function HelpYouLayout() {
           </Link>
         </div>
         <Pagination
-          type="giver"
+          type="GIVER"
           currentPage={page}
           itemsPerPage={8}
           totalItems={data?.data.totalElements}
