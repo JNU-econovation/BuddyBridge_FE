@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@stomp/stompjs": "^7.0.0",
-    "@tanstack/react-query": "^5.34.2",
+    "@tanstack/react-query": "^5.55.2",
     "@tanstack/react-query-devtools": "^5.34.2",
     "@types/sockjs-client": "^1.5.4",
     "axios": "^1.6.8",
@@ -29,7 +29,7 @@
     "@svgr/webpack": "^8.1.0",
     "@tanstack/eslint-plugin-query": "^5.32.1",
     "@types/node": "^20",
-    "@types/react": "^18",
+    "@types/react": "^18.3.5",
     "@types/react-datepicker": "^6.2.0",
     "@types/react-dom": "^18",
     "eslint": "^8",

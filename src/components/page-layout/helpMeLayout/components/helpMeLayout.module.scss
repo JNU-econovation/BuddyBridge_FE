@@ -15,13 +15,13 @@
 .typeContainer {
   width: 100%;
   @include flexSort(null, center, center, null);
-  border-top: 0.1rem solid $black;
-  border-bottom: 0.1rem solid $black;
+  border-top: 0.1rem solid #cccccc;
+  border-bottom: 0.1rem solid #cccccc;
 }
 
 .typeBox {
   margin: 2rem 0;
-  background-color: $gray-1;
+  //background-color: $gray-1;
   @include flexSort(null, center, center, 4rem);
   @include font(2.1rem, 600, normal);
   color: #787373;
@@ -52,4 +52,8 @@
   border: 0.1rem solid #787373;
   padding: 1rem 2rem;
   border-radius: 2rem;
+}
+
+.arrowBtn{
+  width: 2.5rem;
 }
