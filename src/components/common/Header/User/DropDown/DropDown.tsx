@@ -5,13 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+import getLogOut from "@/components/common/Header/apis/getLogOut";
 import styles from "@/components/common/Header/User/DropDown/DropDown.module.scss";
 import openToast from "@/components/common/Toast/features/openToast";
 import { ROUTE } from "@/constants/route";
 import NoImg from "@/images/noimg.png";
 import useUserInfoStore from "@/stores/kakaoInnfo";
-
-import getLogOut from "../../apis/getLogOut";
 
 const cn = classNames.bind(styles);
 
