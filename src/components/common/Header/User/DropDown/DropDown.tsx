@@ -37,8 +37,9 @@ export default function DropDown({ isNameClick }: DropDownProps) {
     },
   });
 
-  const handleLogoutClick = () => {
-    logOutMutation.mutate();
+  const handleLogoutClick = async () => {
+    await logOutMutation.mutate();
+    queryClient.invalidateQueries({ queryKey: ["userInfo"] });
   };
 
   return (
