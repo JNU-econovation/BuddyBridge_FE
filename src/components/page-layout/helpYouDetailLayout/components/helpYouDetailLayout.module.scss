@@ -154,6 +154,11 @@
   p {
     @include font(2rem, 500, normal);
   }
+
+  .wave {
+    font-size: 4rem;
+    font-weight: 200;
+  }
 }
 
 .contentDetailTextArea {

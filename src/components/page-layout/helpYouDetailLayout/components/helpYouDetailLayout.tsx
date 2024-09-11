@@ -144,7 +144,7 @@ export default function HelpYouDetailLayout() {
                 <p className={cn("period")}>기간</p>
                 <div className={cn("periodBox")}>
                   <p className={cn("time")}>{formatDateString(startTime)}</p>
-                  <p>~</p> <p className={cn("time")}>{formatDateString(endTime)}</p>
+                  <p className={cn("wave")}>~</p> <p className={cn("time")}>{formatDateString(endTime)}</p>
                 </div>
               </div>
               <div className={cn("contentDetailContainer")}>
