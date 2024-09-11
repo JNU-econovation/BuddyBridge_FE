@@ -8,6 +8,7 @@ import styles from "@/components/page-layout/loginLayout/components/loginLayout.
 import { ROUTE } from "@/constants/route";
 import Kakao from "@/icons/kakao.svg";
 import LoginImg from "@/images/loginImg.svg";
+import useUserInfoStore from "@/stores/kakaoInnfo";
 
 import getTestLogin from "../apis/getTestLogin";
 
@@ -15,6 +16,7 @@ const cn = classNames.bind(styles);
 
 export default function LoginLayout() {
   const [userId, setUserId] = useState<string>();
+  const { setUserInfo } = useUserInfoStore();
   const router = useRouter();
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_Rest_api_key}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&response_type=code`;
 
@@ -24,7 +26,8 @@ export default function LoginLayout() {
 
   const handleTestLogin = async (e: FormEvent) => {
     e.preventDefault();
-    await getTestLogin(userId as string);
+    const { data } = await getTestLogin(userId as string);
+    setUserInfo(data);
     router.push(`${ROUTE.HOME}`);
   };
 
