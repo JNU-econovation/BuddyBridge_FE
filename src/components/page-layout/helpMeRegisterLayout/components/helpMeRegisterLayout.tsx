@@ -214,7 +214,7 @@ export default function HelpMeRegisterLayout() {
                 />
                 <DropDownImg className={cn("dropDownImg")} />
               </div>
-              ~
+              <p className={cn("wave")}>~</p>
               <div className={cn("date")}>
                 <Controller
                   name="endTime"
