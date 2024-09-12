@@ -41,6 +41,7 @@ export default function HelpYouDetailLayout() {
   const { data, isPending } = useQuery({
     queryKey: ["giverDetail", pageId],
     queryFn: () => getGiverDetail(pageId as string),
+    enabled: !!pageId,
   });
 
   const {
@@ -54,6 +55,7 @@ export default function HelpYouDetailLayout() {
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
       lastPage.nextPage ? lastPage.cursor : undefined,
+    enabled: !!pageId,
   });
 
   const deletePostMutation = useMutation({
@@ -144,7 +146,7 @@ export default function HelpYouDetailLayout() {
                 <p className={cn("period")}>기간</p>
                 <div className={cn("periodBox")}>
                   <p className={cn("time")}>{formatDateString(startTime)}</p>
-                  <p>~</p> <p className={cn("time")}>{formatDateString(endTime)}</p>
+                  <p className={cn("wave")}>~</p> <p className={cn("time")}>{formatDateString(endTime)}</p>
                 </div>
               </div>
               <div className={cn("contentDetailContainer")}>

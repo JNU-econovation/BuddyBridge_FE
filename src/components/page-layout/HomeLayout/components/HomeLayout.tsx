@@ -2,7 +2,6 @@ import { useEffect } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 import Banner from "@/components/page-layout/HomeLayout/components/Banner/Banner";

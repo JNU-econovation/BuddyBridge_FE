@@ -1,9 +1,19 @@
+import { useQuery } from "@tanstack/react-query";
+
 import Login from "@/components/common/Header/User/Login/Login";
 import NotLogin from "@/components/common/Header/User/NotLogin/NotLogin";
-import useUserInfoStore from "@/stores/kakaoInnfo";
+
+import getLogIn from "../apis/getLogIn";
 
 export default function User() {
-  const { userInfo } = useUserInfoStore();
+  const { data, isError } = useQuery({
+    queryKey: ["userLogIn"],
+    queryFn: () => getLogIn(),
+  });
 
-  return userInfo ? <Login name={userInfo?.nickname} /> : <NotLogin />;
+  if (isError) {
+    return <NotLogin />;
+  }
+
+  return data ? <Login name={data?.nickname} /> : <NotLogin />;
 }
