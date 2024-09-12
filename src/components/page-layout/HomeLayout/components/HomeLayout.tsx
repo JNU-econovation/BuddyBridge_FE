@@ -16,7 +16,7 @@ export default function HomeLayout() {
 
   const { setUserInfo, setCode } = useUserInfoStore();
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["user"],
     queryFn: () => getKakaoInfo(code as string),
     enabled: !!code,
@@ -28,6 +28,10 @@ export default function HomeLayout() {
       setCode(code as string);
     }
   }, [data, code, setUserInfo, setCode]);
+
+  if (isLoading) {
+    return <></>;
+  }
 
   return (
     <>
