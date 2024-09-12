@@ -5,13 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+import getLogOut from "@/components/common/Header/apis/getLogOut";
 import styles from "@/components/common/Header/User/DropDown/DropDown.module.scss";
 import openToast from "@/components/common/Toast/features/openToast";
 import { ROUTE } from "@/constants/route";
 import NoImg from "@/images/noimg.png";
 import useUserInfoStore from "@/stores/kakaoInnfo";
-
-import getLogOut from "../../apis/getLogOut";
 
 const cn = classNames.bind(styles);
 
@@ -30,16 +29,18 @@ export default function DropDown({ isNameClick }: DropDownProps) {
     onSuccess: async () => {
       // todo : queryKey를 0이 아니라 page로 바꿔야함.
 
-      await router.push(ROUTE.HOME);
-      openToast("success", "로그아웃되었습니다.");
-      setUserInfo(null);
       queryClient.invalidateQueries({ queryKey: ["user"] });
+      queryClient.invalidateQueries({ queryKey: ["userLogIn"] });
+
       clearUserInfoStorage();
+      setUserInfo(null);
+      openToast("success", "로그아웃되었습니다.");
+      await router.push(ROUTE.HOME);
     },
   });
 
-  const handleLogoutClick = () => {
-    logOutMutation.mutate();
+  const handleLogoutClick = async () => {
+    await logOutMutation.mutate();
   };
 
   return (
