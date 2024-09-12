@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import styles from "@/components/page-layout/loginLayout/components/loginLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import Kakao from "@/icons/kakao.svg";
+import TestLoginBtn from "@/icons/test_login_btn.svg";
 import LoginImg from "@/images/loginImg.svg";
 import useUserInfoStore from "@/stores/kakaoInnfo";
 
@@ -15,7 +16,7 @@ import getTestLogin from "../apis/getTestLogin";
 const cn = classNames.bind(styles);
 
 export default function LoginLayout() {
-  const [userId, setUserId] = useState<string>();
+  const [userId, setUserId] = useState<string>("");
   const { setUserInfo } = useUserInfoStore();
   const router = useRouter();
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_Rest_api_key}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&response_type=code`;
@@ -26,6 +27,10 @@ export default function LoginLayout() {
 
   const handleTestLogin = async (e: FormEvent) => {
     e.preventDefault();
+    if (!userId.trim()) {
+      alert("사용자 아이디를 입력해 주세요.");
+      return;
+    }
     const { data } = await getTestLogin(userId as string);
     setUserInfo(data);
     router.push(`${ROUTE.HOME}`);
@@ -57,12 +62,12 @@ export default function LoginLayout() {
               {/* {process.env.NEXT_PUBLIC_BASE_URL == "https://buddybridge.13.209.34.25.sslip.io/" && ( */}
               <form onSubmit={handleTestLogin} className={cn("testButton")}>
                 <input
-                  placeholder="userId 입력"
+                  placeholder="사용자 아이디 입력"
                   className={cn("testLoginInput")}
                   onChange={(e) => setUserId(e.target.value)}
                 />
                 <button className={cn("testLoginButton")} type="submit">
-                  테스트 로그인
+                  <TestLoginBtn width={30} height={30} />
                 </button>
               </form>
               {/* )} */}
