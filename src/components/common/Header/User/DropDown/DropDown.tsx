@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import getLogOut from "@/components/common/Header/apis/getLogOut";
+import postLogOut from "@/components/common/Header/apis/postLogOut";
 import styles from "@/components/common/Header/User/DropDown/DropDown.module.scss";
 import openToast from "@/components/common/Toast/features/openToast";
 import { ROUTE } from "@/constants/route";
@@ -19,13 +19,13 @@ interface DropDownProps {
 }
 
 export default function DropDown({ isNameClick }: DropDownProps) {
-  const { userInfo, setUserInfo } = useUserInfoStore();
+  const { userInfo, setUserInfo, setCode } = useUserInfoStore();
   const queryClient = useQueryClient();
   const router = useRouter();
   const clearUserInfoStorage = useUserInfoStore.persist.clearStorage;
 
   const logOutMutation = useMutation({
-    mutationFn: getLogOut,
+    mutationFn: postLogOut,
     onSuccess: async () => {
       // todo : queryKey를 0이 아니라 page로 바꿔야함.
 
@@ -34,6 +34,7 @@ export default function DropDown({ isNameClick }: DropDownProps) {
 
       clearUserInfoStorage();
       setUserInfo(null);
+      setCode("");
       openToast("success", "로그아웃되었습니다.");
       await router.push(ROUTE.HOME);
     },
