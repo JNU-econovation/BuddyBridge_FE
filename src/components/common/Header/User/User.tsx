@@ -7,7 +7,7 @@ import getLogIn from "../apis/getLogIn";
 
 export default function User() {
   const { data, isError } = useQuery({
-    queryKey: ["userInfo"],
+    queryKey: ["userLogIn"],
     queryFn: () => getLogIn(),
   });
 
