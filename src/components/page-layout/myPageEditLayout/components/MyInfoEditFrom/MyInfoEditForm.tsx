@@ -34,7 +34,7 @@ export default function MyInfoEditForm() {
   const queryClient = useQueryClient();
 
   const { data: myInfoData } = useQuery({
-    queryKey: ["info", code],
+    queryKey: ["userInfo"],
     queryFn: getMyInfo,
   });
 
@@ -52,7 +52,7 @@ export default function MyInfoEditForm() {
   const uploadMyInfo = useMutation({
     mutationFn: (content: FormType) => patchMyInfo(content),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["info", code] });
+      queryClient.invalidateQueries({ queryKey: ["userInfo"] });
       router.push(ROUTE.MY_PAGE);
     },
   });
