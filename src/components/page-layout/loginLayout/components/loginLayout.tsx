@@ -54,18 +54,18 @@ export default function LoginLayout() {
                 <Kakao className={cn("kakao")} />
                 <p className={cn("kakaoLogin")}>카카오 로그인</p>
               </button>
-              {process.env.NEXT_PUBLIC_BASE_URL == "https://buddybridge.13.209.34.25.sslip.io/" && (
-                <form onSubmit={handleTestLogin} className={cn("testButton")}>
-                  <input
-                    placeholder="userId 입력"
-                    className={cn("testLoginInput")}
-                    onChange={(e) => setUserId(e.target.value)}
-                  />
-                  <button className={cn("testLoginButton")} type="submit">
-                    테스트 로그인
-                  </button>
-                </form>
-              )}
+              {/* {process.env.NEXT_PUBLIC_BASE_URL == "https://buddybridge.13.209.34.25.sslip.io/" && ( */}
+              <form onSubmit={handleTestLogin} className={cn("testButton")}>
+                <input
+                  placeholder="userId 입력"
+                  className={cn("testLoginInput")}
+                  onChange={(e) => setUserId(e.target.value)}
+                />
+                <button className={cn("testLoginButton")} type="submit">
+                  테스트 로그인
+                </button>
+              </form>
+              {/* )} */}
             </div>
           </div>
           <p className={cn("loginInfo")}>※ 사용자의 신원을 보장하기 위해 카카오 로그인만 제공합니다. </p>
