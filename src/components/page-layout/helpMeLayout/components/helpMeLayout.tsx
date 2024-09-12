@@ -12,10 +12,6 @@ import { ROUTE } from "@/constants/route";
 
 import PostData from "../../HomeLayout/types";
 
-import { useState} from "react";
-
-import Arrow from "@/../public/icons/arrow_down.svg";
-
 const cn = classNames.bind(styles);
 
 export default function HelpMeLayout() {
@@ -39,19 +35,6 @@ export default function HelpMeLayout() {
     placeholderData: keepPreviousData,
   });
 
-  //
-  //const [clickedTypeBox, setClickedTypeBox] = useState(false);
-
-  //const handleTypeBoxClick = () => {
-    //setClickedTypeBox(true);
-    //console.log("페이지에서 clicked 업데이트",clickedTypeBox);
-  //};
-
-  //const handleClickedChange = () => {
-    //setClickedTypeBox(false);
-  //};
-//
-
   const handleDisableClick = () => {};
 
   const handleHelpClick = () => {};
@@ -63,7 +46,7 @@ export default function HelpMeLayout() {
       <div className={cn("box")}>
         <p className={cn("title")}>도와줄래요?리스트</p>
         <div className={cn("typeContainer")}>
-          <div className={cn("typeBox")} onClick={handleTypeBoxClick}>
+          <div className={cn("typeBox")}>
             <p>#</p>
             <button onClick={handleDisableClick}>장애 유형</button>
             <button onClick={handleHelpClick}>도움 유형</button>
