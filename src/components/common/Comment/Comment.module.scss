@@ -124,7 +124,7 @@
   @include font(1.5rem, 400, normal);
   padding: 0.3rem 2rem;
   background-color: #E7EFFF;
-  border: solid 1px gray;
+  border: solid 0.0625rem gray;
   border-radius: 0.5rem;
   margin-right: 1rem;
 
@@ -134,6 +134,6 @@
   @include font(1.5rem, 400, normal);
   padding: 0.3rem 2rem;
   background-color: white;
-  border: solid 1px gray;
+  border: solid 0.0625rem gray;
   border-radius: 0.5rem;
 }
