@@ -9,7 +9,6 @@ import Pagination from "@/components/common/Pagenation/Pagenation";
 import Post from "@/components/common/Post/Post";
 import styles from "@/components/page-layout/helpMeLayout/components/helpMeLayout.module.scss";
 import { ROUTE } from "@/constants/route";
-import Filter from "@/components/common/Filter/Filter";
 
 import PostData from "../../HomeLayout/types";
 
@@ -41,16 +40,16 @@ export default function HelpMeLayout() {
   });
 
   //
-  const [clickedTypeBox, setClickedTypeBox] = useState(false);
+  //const [clickedTypeBox, setClickedTypeBox] = useState(false);
 
-  const handleTypeBoxClick = () => {
-    setClickedTypeBox(true);
-    console.log("페이지에서 clicked 업데이트",clickedTypeBox);
-  };
+  //const handleTypeBoxClick = () => {
+    //setClickedTypeBox(true);
+    //console.log("페이지에서 clicked 업데이트",clickedTypeBox);
+  //};
 
-  const handleClickedChange = () => {
-    setClickedTypeBox(false);
-  };
+  //const handleClickedChange = () => {
+    //setClickedTypeBox(false);
+  //};
 //
 
   const handleDisableClick = () => {};
@@ -65,14 +64,13 @@ export default function HelpMeLayout() {
         <p className={cn("title")}>도와줄래요?리스트</p>
         <div className={cn("typeContainer")}>
           <div className={cn("typeBox")} onClick={handleTypeBoxClick}>
+            <p>#</p>
             <button onClick={handleDisableClick}>장애 유형</button>
             <button onClick={handleHelpClick}>도움 유형</button>
             <button onClick={handleMatchingClick}>매칭 유형</button>
-            <Arrow className={cn("arrowBtn")}/>
           </div>
         </div>
       </div>
-      <Filter postType="taker" clicked={clickedTypeBox} clickedChange={handleClickedChange}/>
       <div className={cn("cardListContainer")}>
         <div className={cn("cardListBox")}>
           {data?.data.content.map((post: PostData) => (
