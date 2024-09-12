@@ -29,17 +29,18 @@ export default function DropDown({ isNameClick }: DropDownProps) {
     onSuccess: async () => {
       // todo : queryKey를 0이 아니라 page로 바꿔야함.
 
-      await router.push(ROUTE.HOME);
-      openToast("success", "로그아웃되었습니다.");
-      setUserInfo(null);
       queryClient.invalidateQueries({ queryKey: ["user"] });
+      queryClient.invalidateQueries({ queryKey: ["userLogIn"] });
+
       clearUserInfoStorage();
+      setUserInfo(null);
+      openToast("success", "로그아웃되었습니다.");
+      await router.push(ROUTE.HOME);
     },
   });
 
   const handleLogoutClick = async () => {
     await logOutMutation.mutate();
-    queryClient.invalidateQueries({ queryKey: ["userInfo"] });
   };
 
   return (
