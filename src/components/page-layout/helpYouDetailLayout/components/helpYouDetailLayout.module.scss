@@ -6,7 +6,7 @@
 .box {
   @include flexSort(column, null, center, 1rem);
   width: 100%;
-  max-width: 130rem;
+  max-width: 100rem;
 }
 
 .header {
@@ -24,7 +24,7 @@
 
 .contentContainer {
   border-bottom: 0.1rem solid $black-1;
-  padding: 7rem 20rem 4rem 20rem;
+  padding: 7rem 5em 4rem 5rem;
   position: relative;
   width: 100%;
   @include flexSort(column, null, null, 1rem);
