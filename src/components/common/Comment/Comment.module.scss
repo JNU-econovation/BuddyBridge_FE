@@ -105,3 +105,35 @@
     @include font(1.5rem, 400, normal);
   }
 }
+
+.editTextarea {
+  width: 100rem;
+  min-height: 10rem;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.editBtnBox {
+  z-index: 1;
+  position: absolute;
+  right: 10%;
+  top: 1%;
+}
+
+.saveBtn {
+  @include font(1.5rem, 400, normal);
+  padding: 0.3rem 2rem;
+  background-color: #E7EFFF;
+  border: solid 1px gray;
+  border-radius: 0.5rem;
+  margin-right: 1rem;
+
+}
+
+.cancelBtn {
+  @include font(1.5rem, 400, normal);
+  padding: 0.3rem 2rem;
+  background-color: white;
+  border: solid 1px gray;
+  border-radius: 0.5rem;
+}

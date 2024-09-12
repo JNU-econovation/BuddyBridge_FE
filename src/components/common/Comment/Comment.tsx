@@ -115,14 +115,12 @@ export default function Comment({ comment, postId, type }: CommentProps) {
             <p className={cn("date")}>{formatDateString(comment.modifiedAt)}</p>
           </div>
           {isNowEditing ? (
-            <div className={cn("editBox")}>
+            <div>
               <textarea
                 value={editedContent}
                 onChange={(e) => setEditedContent(e.target.value)}
                 className={cn("editTextarea")}
               />
-              <button onClick={handleSaveClick}>저장</button>
-              <button onClick={() => setIsNowEditing(false)}>취소</button>
             </div>) : (
             <p className={cn("content")}>{comment.content}</p>
           )}
@@ -138,9 +136,17 @@ export default function Comment({ comment, postId, type }: CommentProps) {
             )}
           </div>
         )}
+
+        {isNowEditing && (
+          <div className={cn("editBtnBox")} >
+            <button className={cn("saveBtn")} onClick={handleSaveClick}>저장</button>
+            <button className={cn("cancelBtn")} onClick={() => setIsNowEditing(false)}>취소</button>
+          </div>
+        )}
+         
         {userInfo?.memberId === postId && userInfo?.memberId !== comment.author.memberId && (
           <ChatButton type={type} authorId={comment.author.memberId} />
-        )}
+        )}          
       </div>
     </div>
   );
