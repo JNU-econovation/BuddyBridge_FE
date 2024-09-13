@@ -61,6 +61,7 @@
 
 .contentBox {
   @include flexSort(column, null, flex-start, 1rem);
+  width: 100%;
 }
 
 .titleBox {
@@ -107,7 +108,7 @@
 }
 
 .editTextarea {
-  width: 45vw;
+  width: 100%;
   min-height: 10rem;
   border-radius: 1rem;
   padding: 1rem;
@@ -123,11 +124,10 @@
 .saveBtn {
   @include font(1.5rem, 400, normal);
   padding: 0.3rem 2rem;
-  background-color: #E7EFFF;
+  background-color: #e7efff;
   border: solid 0.0625rem gray;
   border-radius: 0.5rem;
   margin-right: 1rem;
-
 }
 
 .cancelBtn {
