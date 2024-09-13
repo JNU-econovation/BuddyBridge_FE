@@ -33,6 +33,7 @@ export default function Post({ data }: PostProps) {
         giver: postType === "GIVER",
       })}
     >
+      <p className={cn("postId")}>{id}</p>
       <div className={cn("contentContainer")}>
         <p
           className={cn("progress", {
