@@ -69,7 +69,8 @@ export default function Comment({ comment, postId, type }: CommentProps) {
   };
 
   const editCommentMutation = useMutation({
-    mutationFn: ({ commentId, content }: { commentId: number, content: string }) => putComment(commentId.toString(), content),
+    mutationFn: ({ commentId, content }: { commentId: number; content: string }) =>
+      putComment(commentId.toString(), content),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["comment"] });
       setIsNowEditing(false);
@@ -77,8 +78,8 @@ export default function Comment({ comment, postId, type }: CommentProps) {
   });
 
   const handleSaveClick = () => {
-    if (editedContent.trim()!== "") {
-      editCommentMutation.mutate({ commentId: comment.commentId, content: editedContent});
+    if (editedContent.trim() !== "") {
+      editCommentMutation.mutate({ commentId: comment.commentId, content: editedContent });
     }
   };
 
@@ -115,13 +116,12 @@ export default function Comment({ comment, postId, type }: CommentProps) {
             <p className={cn("date")}>{formatDateString(comment.modifiedAt)}</p>
           </div>
           {isNowEditing ? (
-            <div>
-              <textarea
-                value={editedContent}
-                onChange={(e) => setEditedContent(e.target.value)}
-                className={cn("editTextarea")}
-              />
-            </div>) : (
+            <textarea
+              value={editedContent}
+              onChange={(e) => setEditedContent(e.target.value)}
+              className={cn("editTextarea")}
+            />
+          ) : (
             <p className={cn("content")}>{comment.content}</p>
           )}
         </div>
@@ -138,15 +138,19 @@ export default function Comment({ comment, postId, type }: CommentProps) {
         )}
 
         {isNowEditing && (
-          <div className={cn("editBtnBox")} >
-            <button className={cn("saveBtn")} onClick={handleSaveClick}>저장</button>
-            <button className={cn("cancelBtn")} onClick={() => setIsNowEditing(false)}>취소</button>
+          <div className={cn("editBtnBox")}>
+            <button className={cn("saveBtn")} onClick={handleSaveClick}>
+              저장
+            </button>
+            <button className={cn("cancelBtn")} onClick={() => setIsNowEditing(false)}>
+              취소
+            </button>
           </div>
         )}
-         
+
         {userInfo?.memberId === postId && userInfo?.memberId !== comment.author.memberId && (
           <ChatButton type={type} authorId={comment.author.memberId} />
-        )}          
+        )}
       </div>
     </div>
   );
