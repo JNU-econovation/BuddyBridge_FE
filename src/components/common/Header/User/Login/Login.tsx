@@ -72,7 +72,7 @@ export default function Login({ name }: LoginProps) {
           return;
         }
 
-        setNotifications((prevNotifications) => [...prevNotifications, parsedData]);
+        setNotifications((prevNotifications) => [parsedData, ...prevNotifications]);
         lastEventId = event.lastEventId;
       });
 
