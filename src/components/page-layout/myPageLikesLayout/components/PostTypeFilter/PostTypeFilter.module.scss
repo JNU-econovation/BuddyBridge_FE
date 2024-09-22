@@ -1,0 +1,25 @@
+.postTypeFilterBox {
+  @include flexSort(null, center, center, null);
+}
+
+.taker,
+.giver {
+  @include flexSort(null, center, center, null);
+  border-radius: 1rem;
+  padding: 1rem 3rem;
+  @include gmarketFont(2rem, 500, normal);
+  color: black;
+  background-color: #efefef;
+}
+
+.taker {
+  &.picked {
+    background-color: $taker;
+  }
+}
+
+.giver {
+  &.picked {
+    background-color: $giver;
+  }
+}
