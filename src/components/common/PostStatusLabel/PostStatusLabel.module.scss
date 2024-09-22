@@ -1,0 +1,23 @@
+.box {
+  @include flexSort(null, center, center, null);
+  border-radius: 1rem;
+  padding: 0.5rem 1rem;
+  border: 0.1rem solid #ff6767;
+  @include font(1.2rem, 500, normal);
+
+  &.RECRUITING {
+    background-color: white;
+
+    .statusText {
+      color: #ff6767;
+    }
+  }
+
+  &.FINISHED {
+    background-color: #ff6767;
+
+    .statusText {
+      color: white;
+    }
+  }
+}
