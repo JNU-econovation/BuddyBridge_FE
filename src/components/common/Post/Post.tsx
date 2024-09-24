@@ -21,14 +21,26 @@ interface PostProps {
 }
 
 export default function Post({ data }: PostProps) {
-  const { postType, title, author, assistanceType, district, startTime, endTime, scheduleType, id, postStatus } = data;
+  const {
+    postType,
+    title,
+    author,
+    assistanceType,
+    district,
+    startTime,
+    endTime,
+    scheduleType,
+    id,
+    postStatus,
+    isLiked,
+  } = data;
 
   const { mutate } = useMutation({
     mutationFn: () => postLikes(id),
     onError: () => {},
   });
 
-  const [isHeartClick, setIsHeartClick] = useState(false);
+  const [isHeartClick, setIsHeartClick] = useState(isLiked);
 
   const handleHeartClick = (event: MouseEvent<SVGSVGElement>) => {
     event.preventDefault();
