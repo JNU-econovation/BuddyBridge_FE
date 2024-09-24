@@ -8,7 +8,6 @@ import styles from "@/components/common/Post/Post.module.scss";
 import PostData from "@/components/page-layout/HomeLayout/types";
 import { ROUTE } from "@/constants/route";
 import Heart from "@/icons/heart.svg";
-import RedHeart from "@/icons/red_haert.svg";
 import { formatDateString } from "@/utils";
 
 const cn = classNames.bind(styles);
@@ -33,6 +32,7 @@ export default function Post({ data }: PostProps) {
         giver: postType === "GIVER",
       })}
     >
+      <p className={cn("postId")}>{id}</p>
       <div className={cn("contentContainer")}>
         <p
           className={cn("progress", {

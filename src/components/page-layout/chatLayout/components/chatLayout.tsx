@@ -1,15 +1,16 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
+import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import { useRouter } from "next/router";
 
 import styles from "@/components/page-layout/chatLayout/components/chatLayout.module.scss";
 import { ROUTE } from "@/constants/route";
-import useUserInfoStore from "@/stores/kakaoInnfo";
 
 import ChatingRoom from "./ChatingRoom/ChatingRoom";
 import ChatList from "./ChatList/ChatList";
+import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
 
 const cn = classNames.bind(styles);
 
@@ -33,13 +34,16 @@ export const useChatContext = () => {
 export default function ChatLayout() {
   const router = useRouter();
   const [chatingRoomNumber, setChatingRoomNumber] = useState<undefined | number>(Number(router.query["id"]));
-  const { userInfo } = useUserInfoStore();
+  const { data, isFetching } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: () => getMyInfo(),
+  });
 
   useEffect(() => {
-    if (!userInfo) {
+    if (!data && !isFetching) {
       router.push(ROUTE.LOGIN);
     }
-  }, [userInfo, router]);
+  }, [data, router, isFetching]);
 
   return (
     <ChatContext.Provider value={{ chatingRoomNumber, setChatingRoomNumber }}>

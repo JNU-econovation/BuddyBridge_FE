@@ -2,7 +2,6 @@ import { useEffect } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 import Banner from "@/components/page-layout/HomeLayout/components/Banner/Banner";
@@ -17,7 +16,7 @@ export default function HomeLayout() {
 
   const { setUserInfo, setCode } = useUserInfoStore();
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["user"],
     queryFn: () => getKakaoInfo(code as string),
     enabled: !!code,
@@ -29,6 +28,10 @@ export default function HomeLayout() {
       setCode(code as string);
     }
   }, [data, code, setUserInfo, setCode]);
+
+  if (isLoading) {
+    return <></>;
+  }
 
   return (
     <>

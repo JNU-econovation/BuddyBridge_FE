@@ -19,7 +19,6 @@ import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/helpYouRegisterLayout/components/helpYouRegisterLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import DropDownImg from "@/icons/dropdown.svg";
-import useUserInfoStore from "@/stores/kakaoInnfo";
 
 import postHelpMeReister from "../../helpMeRegisterLayout/apis/postHelpMeRegister";
 import { helpMeFormData } from "../../helpMeRegisterLayout/types";
@@ -30,12 +29,9 @@ const cn = classNames.bind(styles);
 export default function HelpYouRegisterLayout() {
   const router = useRouter();
 
-  const { code, userInfo } = useUserInfoStore();
-  const isMountedRef = useRef(false);
-
-  const { data: myInfoData } = useQuery({
-    queryKey: ["info", code],
-    queryFn: getMyInfo,
+  const { data: myInfoData, isFetching } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: () => getMyInfo(),
   });
 
   const {
@@ -83,13 +79,11 @@ export default function HelpYouRegisterLayout() {
   }, [myInfoData, setValue, router]);
 
   useEffect(() => {
-    if (!userInfo && !isMountedRef.current) {
-      isMountedRef.current = true;
-      router.replace(ROUTE.LOGIN);
+    if (!myInfoData && !isFetching) {
+      router.push(ROUTE.LOGIN);
       openToast("error", "로그인을 해주세요.");
-      return;
     }
-  }, [router, userInfo]);
+  }, [myInfoData, router, isFetching]);
 
   return (
     <div className={cn("container")}>
@@ -203,7 +197,7 @@ export default function HelpYouRegisterLayout() {
                 />
                 <DropDownImg className={cn("dropDownImg")} />
               </div>
-              ~
+              <p className={cn("wave")}>~</p>
               <div className={cn("date")}>
                 <Controller
                   name="endTime"

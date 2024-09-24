@@ -7,15 +7,15 @@ import { useRouter } from "next/router";
 
 import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/myPageEditLayout/components/myPageEditLayout.module.scss";
+import MyRegisterPost from "@/components/page-layout/myPageHelpMeLayout/components/MyRegisterPost/MyRegisterPost";
+import MyPageNav from "@/components/page-layout/myPageLayout/components/MyPageNav/MyPageNav";
 import { ROUTE } from "@/constants/route";
 
-import MyRegisterPost from "./MyRegisterPost/MyRegisterPost";
 import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
-import MyPageNav from "../../myPageLayout/components/MyPageNav/MyPageNav";
 
 const cn = classNames.bind(styles);
 
-export default function MyPageHelpMeLayout() {
+export default function MyPageHelpYouLayout() {
   const router = useRouter();
 
   const { data: myInfoData, isFetching } = useQuery({
@@ -33,7 +33,7 @@ export default function MyPageHelpMeLayout() {
   return (
     <div className={cn("container")}>
       <MyPageNav />
-      <MyRegisterPost postType="TAKER" />
+      <MyRegisterPost postType="GIVER" />
     </div>
   );
 }

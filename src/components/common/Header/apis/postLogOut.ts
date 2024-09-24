@@ -1,9 +1,10 @@
 import axiosInstance from "@/apis/axiosInstance";
 
-export default async function getKakaoInfo(code: string) {
+// todo: 리턴 값에 대한 type 지정 필요
+export default async function postLogOut() {
   const { data } = await axiosInstance.post(
-    "oauth/login",
-    { authorizationCode: code },
+    "oauth/logout",
+    {},
     {
       withCredentials: true,
     },
