@@ -10,12 +10,15 @@ import Post from "@/components/common/Post/Post";
 import styles from "@/components/page-layout/helpMeLayout/components/helpMeLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import Filter from "@/components/common/Filter/Filter";
+import FilterTag from "@/components/common/Filter/FilterTag";
 
 import PostData from "../../HomeLayout/types";
 
-import { useState} from "react";
+import { useState, useRef } from "react";
 
-import Arrow from "@/../public/icons/arrow_down.svg";
+import useOutsideClick from "@/hooks/useOutsideClick";
+
+import Arrow from "@/../public/icons/arrow_down.svg"
 
 const cn = classNames.bind(styles);
 
@@ -24,6 +27,7 @@ export default function HelpMeLayout() {
   const params = new URLSearchParams(router.query as any);
   const currentPage = params.get("page");
   const page = Number(currentPage) || 1;
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const setPage = (newPage: number) => {
     const pathName = router.pathname;
@@ -35,23 +39,45 @@ export default function HelpMeLayout() {
   };
 
   const { data } = useQuery({
-    queryKey: ["post", page],
-    queryFn: () => getPagenationItems("TAKER", page, 8),
+    // queryKey: ["post", page],
+    // queryFn: () => getPagenationItems("TAKER", page, 8),
+    queryKey: ["post", page, params.get("disabilityType"), params.get("assistanceType"), params.get("postType")],
+    queryFn: () => getPagenationItems(
+      "TAKER",
+      page, 
+      8, 
+      params.get("disabilityType"),
+      params.get("assistanceType")
+    ),
     placeholderData: keepPreviousData,
   });
+  
+  const handleFilter = (category: string, optionId: string) => {
 
-  //
-  const [clickedTypeBox, setClickedTypeBox] = useState(false);
+    const searchParams = new URLSearchParams(params.toString());
 
-  const handleTypeBoxClick = () => {
-    setClickedTypeBox(true);
-    console.log("페이지에서 clicked 업데이트",clickedTypeBox);
+    const selectedDisabilityType = searchParams.get("disabilityType");
+    const selectedAssistanceType = searchParams.get("assistanceType");
+
+    if (category === "disabilityType") {
+      if (selectedDisabilityType === optionId) {
+        searchParams.delete("disabilityType");
+      } else {
+        searchParams.set("disabilityType", optionId);
+      }
+    } else if (category === "assistanceType") {
+      if (selectedAssistanceType === optionId) {
+        searchParams.delete("assistanceType");
+      } else {
+        searchParams.set("assistanceType", optionId);
+      }
+    }
+
+    router.replace({
+      pathname: router.pathname,
+      query: { ...Object.fromEntries(searchParams.entries()) },
+    });
   };
-
-  const handleClickedChange = () => {
-    setClickedTypeBox(false);
-  };
-//
 
   const handleDisableClick = () => {};
 
@@ -59,20 +85,25 @@ export default function HelpMeLayout() {
 
   const handleMatchingClick = () => {};
 
+  const filterRef = useRef<HTMLDivElement>(null);
+  const filterRef2 = useRef<HTMLDivElement>(null);
+  useOutsideClick([filterRef, filterRef2], () => setIsVisible(false));
+
   return (
     <main className={cn("container")}>
       <div className={cn("box")}>
         <p className={cn("title")}>도와줄래요?리스트</p>
         <div className={cn("typeContainer")}>
-          <div className={cn("typeBox")} onClick={handleTypeBoxClick}>
+          <div className={cn("typeBox")} onClick={()=>setIsVisible(true)}>
             <button onClick={handleDisableClick}>장애 유형</button>
             <button onClick={handleHelpClick}>도움 유형</button>
             <button onClick={handleMatchingClick}>매칭 유형</button>
             <Arrow className={cn("arrowBtn")}/>
           </div>
+          {isVisible? <Filter searchParams={params} handleFilter={handleFilter} ref={filterRef}/> : null}
         </div>
       </div>
-      <Filter postType="taker" clicked={clickedTypeBox} clickedChange={handleClickedChange}/>
+      <FilterTag searchParams={params} handleFilter={handleFilter} ref={filterRef2}/>
       <div className={cn("cardListContainer")}>
         <div className={cn("cardListBox")}>
           {data?.data.content.map((post: PostData) => (
