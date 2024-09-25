@@ -113,8 +113,8 @@ export default function Login({ name }: LoginProps) {
         <DropDown isNameClick={isProfileOpen} />
       </div>
       <div className={cn("iconBox")}>
-        <div ref={alarmDropdownRef} className={cn("alarmContainer")} onClick={handleAlarmClick}>
-          <Alarm width={30} height={30} className={cn("alarm")} />
+        <div ref={alarmDropdownRef} className={cn("alarmContainer")}>
+          <Alarm width={30} height={30} className={cn("alarm")} onClick={handleAlarmClick} />
           {isAlarmOpen && <AlarmDropDown sseNotifications={notifications as alarmType} />}
         </div>
         <Chat width={30} height={30} onClick={handleChatClick} className={cn("chat")} />
