@@ -39,7 +39,7 @@ export default function AlarmDropDown({ sseNotifications }: AlarmDropDownProps) 
       </header>
       <div className={cn("alarmBox")}>
         {data?.map((notification, index) => (
-          <Link href={notification?.url || ""} key={`live-${index}`} className={cn("alarm")}>
+          <Link href={notification?.url || ""} key={index} className={cn("alarm")}>
             {notification?.content}
           </Link>
         ))}
