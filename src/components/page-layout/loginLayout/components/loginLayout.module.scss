@@ -1,12 +1,23 @@
 .main {
+  background: linear-gradient(90deg, #c2e4ef 0%, #bfbef5 100%);
   width: 100%;
   height: 100%;
   @include flexSort(null, center, center, null);
-  background: linear-gradient(90deg, #c2e4ef 0%, #bfbef5 100%);
+  padding: 0 5rem;
+
+  @include desktop {
+    padding: 10rem 10rem;
+  }
 }
 
 .container {
   @include flexSort(null, null, center, 13.8rem);
+
+  @include desktop {
+    max-width: 150rem;
+    width: 100%;
+    @include flexSort(null, space-between, center, null);
+  }
 }
 
 .logoBox {
@@ -15,7 +26,16 @@
 
 .logoContent {
   @include font(3rem, 300, normal);
+
+  @include desktop {
+    @include font(4rem, 300, normal);
+  }
 }
+
+// .loginImg {
+//   width: 500 !important;
+//   height: 500 !important;
+// }
 
 .loginContainer {
   padding: 3rem 4rem;
@@ -23,10 +43,18 @@
   border-radius: 2rem;
   @include flexSort(column, space-between, center, 2rem);
   height: 47.28rem;
+
+  @include desktop {
+    height: 70rem;
+  }
 }
 
 .loginBox {
   @include flexSort(column, null, center, 12rem);
+
+  @include desktop {
+    gap: 17rem;
+  }
 }
 
 .loginTitleBox {
@@ -35,28 +63,48 @@
 
 .loginEnglishTitle {
   @include font(3rem, 600, normal);
+
+  @include desktop {
+    @include font(4rem, 600, normal);
+  }
 }
 
 .loginKoreanTitle {
   @include font(1.5rem, 600, normal);
+
+  @include desktop {
+    @include font(2rem, 600, normal);
+  }
 }
 
 .kakaoLoginBox {
   width: 100%;
   @include flexSort(column, null, center, 1rem);
+
+  @include desktop {
+    gap: 2rem;
+  }
 }
 
 .kakaoLoginHeader {
   @include font(1.5rem, 400, normal);
+
+  @include desktop {
+    @include font(2rem, 400, normal);
+  }
 }
 
 .kakaoButton {
   background-color: $kakao;
   border-radius: 1rem;
   @include flexSort(null, center, center, null);
-  padding: 1.2rem 2rem;
+  padding: 1.2rem 0;
   width: 100%;
   position: relative;
+
+  @include desktop {
+    padding: 2rem 0;
+  }
 }
 
 .testButton {
@@ -70,10 +118,18 @@
 .kakao {
   position: absolute;
   left: 1rem;
+
+  @include desktop {
+    left: 3rem;
+  }
 }
 
 .kakaoLogin {
   @include font(1.4rem, 400, normal);
+
+  @include desktop {
+    @include font(1.8rem, 400, normal);
+  }
 }
 
 .testLoginInput {
@@ -92,4 +148,8 @@
 
 .loginInfo {
   @include font(1.3rem, 400, normal);
+
+  @include desktop {
+    @include font(1.8rem, 400, normal);
+  }
 }

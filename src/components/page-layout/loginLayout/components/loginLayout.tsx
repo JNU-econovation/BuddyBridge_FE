@@ -47,7 +47,7 @@ export default function LoginLayout() {
             <br />
             버디브릿지입니다.
           </p>
-          <LoginImg width={400} height={400} />
+          <LoginImg className={cn("loginImg")} width={400} height={400} />
         </div>
         <article className={cn("loginContainer")}>
           <div className={cn("loginBox")}>
