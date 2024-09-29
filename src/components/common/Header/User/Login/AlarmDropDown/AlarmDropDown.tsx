@@ -5,10 +5,8 @@ import Link from "next/link";
 import styles from "@/components/common/Header/User/Login/AlarmDropDown/AlarmDropDown.module.scss";
 import Loader from "@/components/common/Loader/Loader";
 
-import getNotifications from "../../../apis/getNotifications";
-import postReadAllNotification from "../../../apis/postReadAllNotification";
-import postReadNotification from "../../../apis/postReadNotification";
 import { useNotification } from "../../../hooks/useNotification";
+import { useReadNotification } from "../../../hooks/useReadNotification";
 
 const cn = classNames.bind(styles);
 
@@ -17,17 +15,13 @@ export interface AlarmDropDownProps {
     url: string;
     content: string;
     id: string;
+    isRead: boolean;
   };
-}
-
-interface NotificationsResponse {
-  content: AlarmDropDownProps["sseNotifications"][];
-  cursor: number;
-  nextPage: boolean;
 }
 
 export default function AlarmDropDown({ sseNotifications }: AlarmDropDownProps) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useNotification(sseNotifications);
+  const { readNotification } = useReadNotification();
 
   return (
     <div className={cn("alarmContainer")}>
@@ -36,7 +30,12 @@ export default function AlarmDropDown({ sseNotifications }: AlarmDropDownProps) 
       </header>
       <div className={cn("alarmBox")}>
         {data?.map((notification, index) => (
-          <Link href={notification?.url || ""} key={index} className={cn("alarm")}>
+          <Link
+            href={notification?.url || ""}
+            key={index}
+            className={cn("alarm", { isRead: notification.isRead === true })}
+            onClick={() => readNotification(notification.id)}
+          >
             {notification?.content}
           </Link>
         ))}

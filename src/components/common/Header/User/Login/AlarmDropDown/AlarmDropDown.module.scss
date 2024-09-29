@@ -49,11 +49,15 @@
 }
 
 .alarm {
-  background: white;
+  background: #e0e4ff;
   padding: 1rem;
   color: black;
   @include gmarketFont(1.3rem, 400, normal);
   @include line-clamp(2);
+
+  &.isRead {
+    background-color: white;
+  }
 }
 
 .fetchButton {
