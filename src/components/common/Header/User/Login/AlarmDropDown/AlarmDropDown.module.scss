@@ -36,6 +36,16 @@
   @include gmarketFont(1.7rem, 400, normal);
 }
 
+.readAllBtn {
+  @include gmarketFont(1.3rem, 400, normal);
+
+  &:hover {
+    text-decoration: underline;
+    text-underline-position: under;
+    text-decoration-thickness: 0.2rem;
+  }
+}
+
 .totalReadBtn {
   @include gmarketFont(1.3rem, 400, normal);
 

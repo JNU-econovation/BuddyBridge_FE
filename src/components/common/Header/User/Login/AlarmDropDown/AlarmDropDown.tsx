@@ -6,7 +6,7 @@ import styles from "@/components/common/Header/User/Login/AlarmDropDown/AlarmDro
 import Loader from "@/components/common/Loader/Loader";
 
 import { useNotification } from "../../../hooks/useNotification";
-import { useReadNotification } from "../../../hooks/useReadNotification";
+import { useReadAllNotifications, useReadNotification } from "../../../hooks/useReadNotification";
 
 const cn = classNames.bind(styles);
 
@@ -22,11 +22,15 @@ export interface AlarmDropDownProps {
 export default function AlarmDropDown({ sseNotifications }: AlarmDropDownProps) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useNotification(sseNotifications);
   const { readNotification } = useReadNotification();
+  const { readAllNotifications } = useReadAllNotifications();
 
   return (
     <div className={cn("alarmContainer")}>
       <header className={cn("titleBox")}>
         <div className={cn("title")}>알림</div>
+        <button onClick={() => readAllNotifications()} className={cn("readAllBtn")}>
+          전체 읽기
+        </button>
       </header>
       <div className={cn("alarmBox")}>
         {data?.map((notification, index) => (

@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import postReadAllNotification from "../apis/postReadAllNotification";
 import postReadNotification from "../apis/postReadNotification";
 
 export const useReadNotification = () => {
@@ -13,4 +14,17 @@ export const useReadNotification = () => {
   });
 
   return { readNotification };
+};
+
+export const useReadAllNotifications = () => {
+  const queryClient = useQueryClient();
+
+  const { mutate: readAllNotifications } = useMutation({
+    mutationFn: postReadAllNotification,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+    },
+  });
+
+  return { readAllNotifications };
 };
