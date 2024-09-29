@@ -2,14 +2,11 @@
   width: 100%;
   height: 100%;
   @include flexSort(null, center, center, null);
+  background: linear-gradient(90deg, #c2e4ef 0%, #bfbef5 100%);
 }
 
 .container {
-  border-radius: 2rem;
-  padding: 5rem;
   @include flexSort(null, null, center, 13.8rem);
-  background: linear-gradient(90deg, #c2e4ef 0%, #bfbef5 100%);
-  box-shadow: rgba(0, 0, 0, 0.1) 0rem 0.8rem 4rem 0rem;
 }
 
 .logoBox {
@@ -17,11 +14,11 @@
 }
 
 .logoContent {
-  @include font(2rem, 400, normal);
+  @include font(3rem, 300, normal);
 }
 
 .loginContainer {
-  padding: 6rem 3rem 3rem 3rem;
+  padding: 3rem 4rem;
   background-color: $white;
   border-radius: 2rem;
   @include flexSort(column, space-between, center, 2rem);
@@ -41,12 +38,16 @@
 }
 
 .loginKoreanTitle {
-  @include font(1.5rem, 400, normal);
+  @include font(1.5rem, 600, normal);
 }
 
 .kakaoLoginBox {
   width: 100%;
   @include flexSort(column, null, center, 1rem);
+}
+
+.kakaoLoginHeader {
+  @include font(1.5rem, 400, normal);
 }
 
 .kakaoButton {
@@ -72,7 +73,7 @@
 }
 
 .kakaoLogin {
-  @include font(1.2rem, 300, normal);
+  @include font(1.4rem, 400, normal);
 }
 
 .testLoginInput {
@@ -90,5 +91,5 @@
 }
 
 .loginInfo {
-  @include font(1.2rem, 300, normal);
+  @include font(1.3rem, 400, normal);
 }

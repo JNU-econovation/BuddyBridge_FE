@@ -41,7 +41,9 @@ export default function LoginLayout() {
       <div className={cn("container")}>
         <div className={cn("logoBox")}>
           <p className={cn("logoContent")}>
-            안녕하세요. 누구나 온기를 전하도록 이어주는
+            안녕하세요,
+            <br />
+            누구나 온기를 전하도록 이어주는
             <br />
             버디브릿지입니다.
           </p>
@@ -54,7 +56,7 @@ export default function LoginLayout() {
               <p className={cn("loginKoreanTitle")}>버디브릿지 로그인</p>
             </div>
             <div className={cn("kakaoLoginBox")}>
-              <p>카카오톡으로 로그인</p>
+              <p className={cn("kakaoLoginHeader")}>카카오톡으로 로그인</p>
               <button onClick={handleLogin} className={cn("kakaoButton")}>
                 <Kakao className={cn("kakao")} />
                 <p className={cn("kakaoLogin")}>카카오 로그인</p>
