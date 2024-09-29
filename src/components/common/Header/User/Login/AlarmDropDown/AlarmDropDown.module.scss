@@ -28,8 +28,20 @@
   }
 }
 
+.titleBox {
+  @include flexSort(null, space-between, center, null);
+}
+
 .title {
   @include gmarketFont(1.7rem, 400, normal);
+}
+
+.totalReadBtn {
+  @include gmarketFont(1.3rem, 400, normal);
+
+  &:hover {
+    text-decoration: solid underline black 0.2rem;
+  }
 }
 
 .alarmBox {
@@ -42,4 +54,12 @@
   color: black;
   @include gmarketFont(1.3rem, 400, normal);
   @include line-clamp(2);
+}
+
+.fetchButton {
+  text-align: center;
+  padding: 1rem 2rem;
+  border: 0.1rem solid $gray;
+  border-radius: 3rem;
+  @include font(1.6rem, 500, normal);
 }
