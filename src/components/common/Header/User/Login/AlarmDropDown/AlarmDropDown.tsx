@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-
-import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Link from "next/link";
