@@ -26,6 +26,8 @@ export default function HelpMeLayout() {
   const router = useRouter();
   const params = new URLSearchParams(router.query as any);
   const currentPage = params.get("page");
+  const disabilityType = params.get("disabilityType");
+  const assistanceType = params.get("assistanceType");
   const page = Number(currentPage) || 1;
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
@@ -41,13 +43,13 @@ export default function HelpMeLayout() {
   const { data } = useQuery({
     // queryKey: ["post", page],
     // queryFn: () => getPagenationItems("TAKER", page, 8),
-    queryKey: ["post", page, params.get("disabilityType"), params.get("assistanceType"), params.get("postType")],
+    queryKey: ["post", page, disabilityType, assistanceType, params.get("postType")],
     queryFn: () => getPagenationItems(
       "TAKER",
       page, 
       8, 
-      params.get("disabilityType"),
-      params.get("assistanceType")
+      `${disabilityType}`,
+      `${assistanceType}`
     ),
     placeholderData: keepPreviousData,
   });

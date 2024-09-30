@@ -10,28 +10,25 @@ interface FilterTagProps {
     handleFilter: (category: string, optionId: string) => void;
 }
 
-const Tag: React.FC<{ categoryName: string; option: string; handleFilter: (category: string, option: string) => void }> = ({ categoryName, option, handleFilter }) => {
+function Tag({ categoryName, option, handleFilter }: { categoryName: string; option: string; handleFilter: (category: string, option: string) => void }) {
     return (
         <span className={cn("tag")}>
             {option}
-            <button className={cn("deleteBtn")} onClick={()=>handleFilter(categoryName, option)}>X</button>
+            <button className={cn("deleteBtn")} onClick={() => handleFilter(categoryName, option)}>X</button>
         </span>
     );
-};
+}
   
-function FilterTagging (props: FilterTagProps, ref: React.Ref<HTMLDivElement>) {
-    const {searchParams, handleFilter} = props;
-    const disabilityType = searchParams.get("disabilityType");
-    const assistanceType = searchParams.get("assistanceType");
+export default forwardRef<HTMLDivElement, FilterTagProps>(
+    function FilterTag ({searchParams, handleFilter}:FilterTagProps, ref: React.Ref<HTMLDivElement>) {
+        const disabilityType = searchParams.get("disabilityType");
+        const assistanceType = searchParams.get("assistanceType");
 
-    return (
-      <div className={cn("tagContainer")} ref={ref}>
-        {disabilityType && <Tag categoryName="disabilityType" option={disabilityType} handleFilter={handleFilter}/>}
-        {assistanceType && <Tag categoryName="assistanceType" option={assistanceType} handleFilter={handleFilter}/>}
-      </div>
-    );
-};
-
-const FilterTag = forwardRef<HTMLDivElement, FilterTagProps>(FilterTagging);
-
-export default FilterTag;
+        return (
+        <div className={cn("tagContainer")} ref={ref}>
+            {disabilityType && <Tag categoryName="disabilityType" option={disabilityType} handleFilter={handleFilter}/>}
+            {assistanceType && <Tag categoryName="assistanceType" option={assistanceType} handleFilter={handleFilter}/>}
+        </div>
+        );
+    }
+);
