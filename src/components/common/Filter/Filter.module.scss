@@ -1,7 +1,5 @@
 .container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    @include flexSort(row, space-around, null, null);
     border: solid 0.15rem lightgray;
     border-radius: 0.5rem;
     background-color: white;
