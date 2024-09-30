@@ -37,7 +37,6 @@ export default function Post({ data }: PostProps) {
 
   const { mutate } = useMutation({
     mutationFn: () => postLikes(id),
-    onError: () => {},
   });
 
   const [isHeartClick, setIsHeartClick] = useState(isLiked);
