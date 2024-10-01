@@ -1,0 +1,8 @@
+.myLikesListBox {
+  @include flexSort(column, null, null, null);
+}
+
+.paginationBox {
+  @include flexSort(null, center, center, null);
+  margin-bottom: 3rem;
+}

@@ -9,8 +9,8 @@ export const MY_PAGE_NAV = [
         href: ROUTE.MY_PAGE,
       },
       {
-        name: "내정보 수정",
-        href: ROUTE.MY_PAGE_EDIT,
+        name: "찜한 목록",
+        href: ROUTE.MY_PAGE_Likes,
       },
     ],
   },

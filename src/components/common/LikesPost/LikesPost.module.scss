@@ -1,0 +1,42 @@
+.Box {
+  width: 100%;
+  padding: 2rem;
+  @include flexSort(null, space-between, center, null);
+  border: 1px solid #9d9d9d;
+  border-radius: 2rem;
+  box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
+
+  &:hover {
+    background-color: $gray-3;
+  }
+}
+
+.leftBox {
+  @include flexSort(column, null, null, 1rem);
+}
+
+.titleBox {
+  @include flexSort(null, null, center, 2rem);
+}
+
+.title {
+  @include font(2rem, 600, normal);
+}
+
+.dateBox {
+  @include flexSort(null, null, center, 1rem);
+  @include font(1.3rem, 300, normal);
+}
+
+.rightBox {
+  @include flexSort(column, null, flex-end, 1rem);
+}
+
+.detailBtn {
+  padding: 0.7rem 1rem;
+  border-radius: 1rem;
+  background: #8b8282;
+  color: white;
+  @include font(1.3rem, 600, normal);
+  @include flexSort(null, center, center, null);
+}
