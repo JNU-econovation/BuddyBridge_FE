@@ -15,7 +15,7 @@ export default function Header() {
   const pathname = router.pathname;
   const helpMe = pathname.split("/")[1] === "help-me" && "helpMe";
   const helpYou = pathname.split("/")[1] === "help-you" && "helpYou";
-  const myWrite = pathname.split("/")[1] === "my-page" && "myWrite";
+  const myWrite = pathname.split("/")[1] === "feedback" && "feedback";
 
   return (
     <>
@@ -31,8 +31,8 @@ export default function Header() {
             <Link href={ROUTE.HELP_YOU} className={cn("navContent", helpYou)}>
               도와줄게요!
             </Link>
-            <Link href={ROUTE.MY_PAGE} className={cn("navContent", myWrite)}>
-              마이 페이지
+            <Link href={ROUTE.FEEDBACK} className={cn("navContent", myWrite)}>
+              피드백
             </Link>
           </nav>
           <User />
