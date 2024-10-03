@@ -28,8 +28,30 @@
   }
 }
 
+.titleBox {
+  @include flexSort(null, space-between, center, null);
+}
+
 .title {
   @include gmarketFont(1.7rem, 400, normal);
+}
+
+.readAllBtn {
+  @include gmarketFont(1.3rem, 400, normal);
+
+  &:hover {
+    text-decoration: underline;
+    text-underline-position: under;
+    text-decoration-thickness: 0.2rem;
+  }
+}
+
+.totalReadBtn {
+  @include gmarketFont(1.3rem, 400, normal);
+
+  &:hover {
+    text-decoration: solid underline black 0.2rem;
+  }
 }
 
 .alarmBox {
@@ -37,9 +59,21 @@
 }
 
 .alarm {
-  background: white;
+  background: #e0e4ff;
   padding: 1rem;
   color: black;
   @include gmarketFont(1.3rem, 400, normal);
   @include line-clamp(2);
+
+  &.isRead {
+    background-color: white;
+  }
+}
+
+.fetchButton {
+  text-align: center;
+  padding: 1rem 2rem;
+  border: 0.1rem solid $gray;
+  border-radius: 3rem;
+  @include font(1.6rem, 500, normal);
 }
