@@ -23,12 +23,28 @@ export default forwardRef<HTMLDivElement, FilterTagProps>(
     function FilterTag ({searchParams, handleFilter}:FilterTagProps, ref: React.Ref<HTMLDivElement>) {
         const disabilityType = searchParams.get("disabilityType");
         const assistanceType = searchParams.get("assistanceType");
+        var disabilityOption:string[]=[];
+        var assistanceOption:string[]=[];
+
+
+        if(disabilityType){
+            disabilityOption = disabilityType.split(',');
+        }
+        if(assistanceType){
+            assistanceOption = assistanceType.split(',');
+        }
 
         return (
-        <div className={cn("tagContainer")} ref={ref}>
-            {disabilityType && <Tag categoryName="disabilityType" option={disabilityType} handleFilter={handleFilter}/>}
-            {assistanceType && <Tag categoryName="assistanceType" option={assistanceType} handleFilter={handleFilter}/>}
-        </div>
+            <div className={cn("tagContainer")} ref={ref}>
+                { disabilityOption && disabilityOption.map((type)=>
+                    <Tag categoryName="disabilityType" option={type} handleFilter={handleFilter}/>) 
+                }
+                { assistanceOption && assistanceOption.map((type)=>
+                    <Tag categoryName="disabilityType" option={type} handleFilter={handleFilter}/>) 
+                }
+                {/* {disabilityType && <Tag categoryName="disabilityType" option={disabilityType} handleFilter={handleFilter}/>}
+                {assistanceType && <Tag categoryName="assistanceType" option={assistanceType} handleFilter={handleFilter}/>} */}
+            </div>
         );
     }
 );

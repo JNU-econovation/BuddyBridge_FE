@@ -18,21 +18,24 @@ export default forwardRef<HTMLDivElement, FilterProps>(
     
         return (
             <div className={cn("container")} ref={ref}>
-                {Object.entries(Categories).map(([categoryName, categoryOptions]) => (
-                    <div className={cn("filterColumn", { "borderRight": categoryName === 'disabilityType'})} key={categoryName}>
-                        {categoryOptions.map((option) => (
-                            <div className={cn("optionLabel")} key={option} >
-                                <input
-                                    className={cn("checkbox")}
-                                    type="checkbox"
-                                    checked={searchParams.get(categoryName) === option}
-                                    onChange={() => handleFilter(categoryName, option)}
-                                />
-                                {option}
-                            </div>
-                        ))}
-                    </div>
-                ))}
+                {Object.entries(Categories).map(([categoryName, categoryOptions]) => {
+                    const selectedOption = searchParams.get(categoryName);
+                    return(
+                        <div className={cn("filterColumn", { "borderRight": categoryName === 'disabilityType'})} key={categoryName}>
+                            {categoryOptions.map((option) => (
+                                <div className={cn("optionLabel")} key={option} >
+                                    <input
+                                        className={cn("checkbox")}
+                                        type="checkbox"
+                                        checked={selectedOption ? selectedOption.includes(option) : false}
+                                        onChange={() => handleFilter(categoryName, option)}
+                                    />
+                                    {option}
+                                </div>
+                            ))}
+                        </div>
+                    );
+                })}
             </div>
         );
     }

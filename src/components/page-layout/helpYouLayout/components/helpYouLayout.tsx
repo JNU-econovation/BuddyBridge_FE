@@ -26,8 +26,8 @@ export default function HelpYouLayout() {
   const router = useRouter();
   const params = new URLSearchParams(router.query as any);
   const currentPage = params.get("page");
-  const disabilityType = params.get("disabilityType");
-  const assistanceType = params.get("assistanceType");
+  const disabilityType = params.get("disabilityType") ?? '';
+  const assistanceType = params.get("assistanceType") ?? '';
   const page = Number(currentPage) || 1;
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
@@ -57,21 +57,28 @@ export default function HelpYouLayout() {
   const handleFilter = (category: string, optionId: string) => {
 
     const searchParams = new URLSearchParams(params.toString());
+    const selectedDisabilityType = searchParams.get("disabilityType") ?? '';
+    const selectedAssistanceType = searchParams.get("assistanceType") ?? '';
 
-    const selectedDisabilityType = searchParams.get("disabilityType");
-    const selectedAssistanceType = searchParams.get("assistanceType");
+    var disabililtyTypeList = selectedDisabilityType && selectedDisabilityType !== 'null' ? selectedDisabilityType.split(',') : [];
+    var assistanceTypeList = selectedAssistanceType && selectedAssistanceType !== 'null' ? selectedAssistanceType.split(',') : [];
+
 
     if (category === "disabilityType") {
-      if (selectedDisabilityType === optionId) {
-        searchParams.delete("disabilityType");
+      if (disabililtyTypeList.includes(optionId)) {
+        disabililtyTypeList = disabililtyTypeList.filter((e)=>e !== optionId)
+        searchParams.set("disabilityType", disabililtyTypeList.join(','));
       } else {
-        searchParams.set("disabilityType", optionId);
+        disabililtyTypeList.push(optionId);
+        searchParams.set("disabilityType", disabililtyTypeList.join(','));
       }
     } else if (category === "assistanceType") {
-      if (selectedAssistanceType === optionId) {
-        searchParams.delete("assistanceType");
+      if (assistanceTypeList.includes(optionId)) {
+        assistanceTypeList = assistanceTypeList.filter((e)=>e !== optionId)
+        searchParams.set("assistanceType", assistanceTypeList.join(','));
       } else {
-        searchParams.set("assistanceType", optionId);
+        assistanceTypeList.push(optionId)
+        searchParams.set("assistanceType", assistanceTypeList.join(','));
       }
     }
     
