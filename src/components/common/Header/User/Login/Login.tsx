@@ -25,6 +25,7 @@ interface alarmType {
   url: string;
   content: string;
   id: string;
+  isRead: boolean;
 }
 
 export default function Login({ name }: LoginProps) {
