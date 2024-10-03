@@ -1,6 +1,7 @@
 import "@/styles/reset.scss";
 import { ReactElement, ReactNode } from "react";
 
+import { GoogleTagManager } from "@next/third-parties/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ToastContainer } from "react-toastify";
@@ -8,7 +9,6 @@ import { ToastContainer } from "react-toastify";
 import { NextPage } from "next";
 
 import type { AppProps } from "next/app";
-
 import "react-toastify/dist/ReactToastify.css";
 
 const queryClient = new QueryClient({
@@ -34,6 +34,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       {getLayout(<Component {...pageProps} />)}
       <ReactQueryDevtools initialIsOpen={false} />
       <ToastContainer />
+      <GoogleTagManager gtmId={`${process.env.NEXT_PUBLIC_BASE_URL}`} />
     </QueryClientProvider>
   );
 }
