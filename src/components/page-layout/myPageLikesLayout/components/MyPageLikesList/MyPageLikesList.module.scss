@@ -1,0 +1,15 @@
+.container {
+  @include flexSort(column, null, null, 2rem);
+  flex: 1;
+}
+
+.title {
+  @include gmarketFont(3rem, 500, normal);
+}
+
+.myInfoContainer {
+  width: 100%;
+  background-color: white;
+  height: 100%;
+  @include flexSort(column, null, null, null);
+}

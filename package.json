@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/third-parties": "^14.2.14",
     "@stomp/stompjs": "^7.0.0",
     "@tanstack/react-query": "^5.34.2",
     "@tanstack/react-query-devtools": "^5.34.2",
@@ -16,7 +17,7 @@
     "axios": "^1.6.8",
     "classnames": "^2.5.1",
     "date-fns": "^3.6.0",
-    "next": "^14.2.3",
+    "next": "^14.2.14",
     "react": "^18",
     "react-datepicker": "^6.9.0",
     "react-dom": "^18",

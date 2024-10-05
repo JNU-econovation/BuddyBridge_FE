@@ -17,6 +17,7 @@ export default interface PostData {
   matchingDoneCount: number;
   headcount: number;
   disabilityType: string;
+  isLiked: boolean;
   author: {
     age: number;
     disabilityType: string;

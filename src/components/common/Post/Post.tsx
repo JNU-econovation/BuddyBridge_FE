@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 
+import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Link from "next/link";
@@ -12,8 +13,10 @@ import Clock from "@/icons/clock.svg";
 import Heart from "@/icons/heart.svg";
 import Location from "@/icons/location.svg";
 import Personnel from "@/icons/personnel.svg";
+import RedHeart from "@/icons/red_heart.svg";
 import { formatDateString, formatTimeString } from "@/utils";
 
+import postLikes from "./apis/postLikes";
 import PostLabel from "./PostLabel/PostLabel";
 
 const cn = classNames.bind(styles);
@@ -23,7 +26,6 @@ interface PostProps {
 }
 
 export default function Post({ data }: PostProps) {
-  const [isHeartClick, setIsHeartClick] = useState(false);
   const {
     postType,
     title,
@@ -40,10 +42,19 @@ export default function Post({ data }: PostProps) {
     id,
     postStatus,
     disabilityType,
+    isLiked,
   } = data;
 
-  const handleHeartClick = () => {
+  const { mutate } = useMutation({
+    mutationFn: () => postLikes(id),
+  });
+
+  const [isHeartClick, setIsHeartClick] = useState(isLiked);
+
+  const handleHeartClick = (event: MouseEvent<SVGSVGElement>) => {
+    event.preventDefault();
     setIsHeartClick((prev) => !prev);
+    mutate();
   };
 
   return (
@@ -63,7 +74,11 @@ export default function Post({ data }: PostProps) {
         >
           {postStatus === "RECRUITING" ? "매칭중" : "매칭완료"}
         </p>
-        <Heart width={32} height={32} className={cn("heart")} />
+        {isHeartClick ? (
+          <RedHeart onClick={handleHeartClick} width={32} height={32} className={cn("heart")} />
+        ) : (
+          <Heart onClick={handleHeartClick} width={32} height={32} className={cn("heart")} />
+        )}
         <div className={cn("contentBox")}>
           <div className={cn("box")}>
             <p className={cn("title")}>{title}</p>
