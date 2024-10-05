@@ -46,6 +46,7 @@ export default function HelpYouLayout() {
       "GIVER",
       page, 
       8, 
+      "recruiting",
       `${disabilityType}`,
       `${assistanceType}`
     ),
@@ -94,25 +95,18 @@ export default function HelpYouLayout() {
 
   const handleMatchingClick = () => {};
 
-  const filterRef = useRef<HTMLDivElement>(null);
-  const filterRef2 = useRef<HTMLDivElement>(null);
-  useOutsideClick([filterRef, filterRef2], () => setIsVisible(false));
-
   return (
     <main className={cn("container")}>
       <div className={cn("box")}>
-        <p className={cn("title")}>도와줄게요!리스트</p>
         <div className={cn("typeContainer")}>
-          <div className={cn("typeBox")} onClick={()=>setIsVisible(true)}> 
-            <button onClick={handleDisableClick}>장애 유형</button>
-            <button onClick={handleHelpClick}>도움 유형</button>
-            <button onClick={handleMatchingClick}>매칭 유형</button>
-            <Arrow className={cn("arrowBtn")}/>
-          </div>
-          {isVisible? <Filter searchParams={params} handleFilter={handleFilter} ref={filterRef2}/> : null}
+          <p className={cn("title")}> 
+            버디브릿지는 일상에서 모두가 서로에게 <br/>
+            따뜻한 온정을 전하는 세상을 만듭니다.
+          </p>
+          <Filter searchParams={params} handleFilter={handleFilter}/>
         </div>
       </div>
-      <FilterTag searchParams={params} handleFilter={handleFilter} ref={filterRef}/>
+      <FilterTag searchParams={params} handleFilter={handleFilter}/>
       <div className={cn("cardListContainer")}>
         <div className={cn("cardListBox")}>
           {data?.data.content.map((post: PostData) => (
