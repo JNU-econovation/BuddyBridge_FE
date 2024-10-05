@@ -51,7 +51,7 @@ export default function MyWriteComment({ comment }: MyWriteCommentProps) {
         <p className={cn("postType")}>{`${postTypeKr} ${postId}`}</p>
         <p className={cn("type")}>
           {`#${assistanceType}`}
-          {disabilityType ? ` #${disabilityType}` : ""}
+          {disabilityType !== "없음" ? ` #${disabilityType}` : ""}
         </p>
       </div>
     </Link>

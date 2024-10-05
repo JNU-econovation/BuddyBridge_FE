@@ -19,11 +19,13 @@ export interface MyWritePostProps {
     postType: string;
     assistanceType: string;
     disabilityType: string;
+    startDate: string;
+    endDate: string;
   };
 }
 
 export default function MyWritePost({ post }: MyWritePostProps) {
-  const { assistanceType, disabilityType, endTime, id, postStatus, postType, startTime, title } = post;
+  const { assistanceType, disabilityType, startDate, id, postStatus, postType, endDate, title } = post;
   const postTypeKr = postType === "TAKER" ? "도와줄래요?" : "도와줄게요!";
   const postStatusKr = postStatus === "RECRUITING" ? "매칭중" : "매칭완료";
 
@@ -42,14 +44,14 @@ export default function MyWritePost({ post }: MyWritePostProps) {
           </p>
         </div>
         <p className={cn("date")}>
-          일시 | {formatDateString(startTime)} ~ {formatDateString(endTime)}
+          일시 | {formatDateString(startDate)} ~ {formatDateString(endDate)}
         </p>
       </div>
       <div className={cn("rightBox")}>
         <p className={cn("postType")}>{`${postTypeKr} ${id}`}</p>
         <p className={cn("type")}>
           {`#${assistanceType}`}
-          {disabilityType ? ` #${disabilityType}` : ""}
+          {disabilityType !== "없음" ? ` #${disabilityType}` : ""}
         </p>
       </div>
     </Link>
