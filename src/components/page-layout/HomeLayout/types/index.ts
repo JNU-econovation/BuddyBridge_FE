@@ -3,15 +3,20 @@ export default interface PostData {
   content: string;
   createdAt: Date;
   district: string;
-  endTime: string;
+  assistanceEndTime: string;
   id: number;
   modifiedAt: Date;
   postStatus: string;
   postType: string;
   scheduleDetails: string;
   scheduleType: string;
-  startTime: string;
+  assistanceStartTime: string;
   title: string;
+  startDate: string;
+  endDate: string;
+  matchingDoneCount: number;
+  headcount: number;
+  disabilityType: string;
   author: {
     age: number;
     disabilityType: string;
