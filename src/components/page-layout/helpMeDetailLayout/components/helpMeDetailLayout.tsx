@@ -82,15 +82,15 @@ export default function HelpMeDetailLayout() {
   const {
     assistanceType,
     district,
-    endTime,
     id,
     scheduleType,
-    startTime,
     title,
     scheduleDetails,
     content,
     modifiedAt,
     author,
+    startDate,
+    endDate,
   } = data;
 
   const { age, disabilityType, gender, nickname, profileImageUrl, memberId } = author;
@@ -146,8 +146,8 @@ export default function HelpMeDetailLayout() {
               <div className={cn("periodContainer")}>
                 <p className={cn("period")}>기간</p>
                 <div className={cn("periodBox")}>
-                  <p className={cn("time")}>{formatDateString(startTime)}</p>
-                  <p className={cn("wave")}>~</p> <p className={cn("time")}>{formatDateString(endTime)}</p>
+                  <p className={cn("time")}>{formatDateString(startDate)}</p>
+                  <p className={cn("wave")}>~</p> <p className={cn("time")}>{formatDateString(endDate)}</p>
                 </div>
               </div>
               <div className={cn("contentDetailContainer")}>

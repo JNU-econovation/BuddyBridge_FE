@@ -81,10 +81,10 @@ export default function HelpYouDetailLayout() {
   const {
     assistanceType,
     district,
-    endTime,
+    endDate,
     id,
     scheduleType,
-    startTime,
+    startDate,
     title,
     scheduleDetails,
     content,
@@ -145,8 +145,8 @@ export default function HelpYouDetailLayout() {
               <div className={cn("periodContainer")}>
                 <p className={cn("period")}>기간</p>
                 <div className={cn("periodBox")}>
-                  <p className={cn("time")}>{formatDateString(startTime)}</p>
-                  <p className={cn("wave")}>~</p> <p className={cn("time")}>{formatDateString(endTime)}</p>
+                  <p className={cn("time")}>{formatDateString(startDate)}</p>
+                  <p className={cn("wave")}>~</p> <p className={cn("time")}>{formatDateString(endDate)}</p>
                 </div>
               </div>
               <div className={cn("contentDetailContainer")}>

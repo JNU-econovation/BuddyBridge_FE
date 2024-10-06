@@ -16,11 +16,11 @@ interface LikesPostProps {
   title: string;
   postStatus: "RECRUITING" | "FINISHED";
   modifiedAt: string;
-  endTime: string;
+  endDate: string;
   postType: "TAKER" | "GIVER";
 }
 
-export default function LikesPost({ endTime, id, modifiedAt, postStatus, title, postType }: LikesPostProps) {
+export default function LikesPost({ endDate, id, modifiedAt, postStatus, title, postType }: LikesPostProps) {
   return (
     <Link href={postType === "TAKER" ? `${ROUTE.HELP_ME}/${id}` : `${ROUTE.HELP_YOU}/${id}`} className={cn("Box")}>
       <div className={cn("leftBox")}>
@@ -30,7 +30,7 @@ export default function LikesPost({ endTime, id, modifiedAt, postStatus, title, 
         </div>
         <div className={cn("dateBox")}>
           <p>일시 | </p>
-          <p>{`${formatDateString(modifiedAt)} ~ ${formatDateString(endTime)}`}</p>
+          <p>{`${formatDateString(modifiedAt)} ~ ${formatDateString(endDate)}`}</p>
         </div>
       </div>
       <div className={cn("rightBox")}>

@@ -1,0 +1,7 @@
+.container {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(0deg, #cae9ff 0%, #cae9ff 100%), linear-gradient(0deg, #cae9ff 0%, #cae9ff 100%),
+    linear-gradient(0deg, #cae9ff 0%, #cae9ff 100%), #cae9ff;
+  @include nsnFont(1.3rem, 400, normal);
+  border-radius: 1rem;
+}

@@ -17,14 +17,14 @@ export interface MyLikesRes {
     createdAt: string;
     disabilityType: string | null;
     district: string;
-    endTime: string;
+    endDate: string;
     id: number;
     modifiedAt: string;
     postStatus: "RECRUITING" | "FINISHED";
     postType: "TAKER" | "GIVER";
     scheduleDetails: string;
     scheduleType: string;
-    startTime: string;
+    startDate: string;
     title: string;
   }[];
   last: boolean;
