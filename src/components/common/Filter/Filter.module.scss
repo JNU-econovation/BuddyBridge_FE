@@ -70,22 +70,18 @@
 // }
 
 .container {
+    display: flex;
+    flex-direction: column;
     width: 75%;
-    position: absolute;
-    top: 10rem;
-    background-color: antiquewhite;
-    //left: center;
+    position: relative;
+    top: 3rem;
     z-index: 1;
-
-    // .slick-slide {    
-    //     grid-template-columns: repeat(7, 1fr);    
-    //     display: grid;
-    //     gap: 3rem;
-    // }
-
-
 }
 
+.sliderContainer {
+    display: inline !important;
+    margin: 0rem 2.5rem;
+}
 
 .slideItem {
     width: 85%;
@@ -128,34 +124,21 @@
     border-color: #97B8F9;
 }
 
-.slick-arrow {
-    background-color: #6562E2; /* 화살표 배경 색 */
-    border-radius: 50%; /* 동그랗게 만듦 */
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.prevArrow{
+    position: absolute;
+    top: 1rem;
+    width: 2.3rem;
+    height: 2.3rem;
+    transform: rotate(90deg);
     cursor: pointer;
-    border: none;
 }
 
-/* 왼쪽(prev) 화살표 커스터마이징 */
-.slick-prev::before {
-    content: "←"; /* 기본 화살표 대신 커스텀 텍스트 또는 아이콘 */
-    color: black;  /* 화살표 색상 */
-    font-size: 20px; /* 화살표 크기 */
-}
-
-/* 오른쪽(next) 화살표 커스터마이징 */
-.slick-next::before {
-    content: "→"; /* 기본 화살표 대신 커스텀 텍스트 또는 아이콘 */
-    color: black;  /* 화살표 색상 */
-    font-size: 20px; /* 화살표 크기 */
-}
-
-/* 비활성화된 버튼 스타일링 */
-.slick-disabled {
-    background-color: #ccc; /* 비활성화된 버튼 배경색 */
-    cursor: not-allowed; /* 비활성화 시 마우스 커서 */
+.nextArrow{
+    position: absolute;
+    top: 1rem;
+    right: 0rem;
+    width: 2.3rem;
+    height: 2.3rem;
+    transform: rotate(-90deg);
+    cursor: pointer;
 }
