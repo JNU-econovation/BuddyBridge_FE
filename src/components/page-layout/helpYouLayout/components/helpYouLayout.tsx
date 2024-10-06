@@ -10,15 +10,8 @@ import Post from "@/components/common/Post/Post";
 import styles from "@/components/page-layout/helpYouLayout/components/helpYouLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import Filter from "@/components/common/Filter/Filter";
-import FilterTag from "@/components/common/Filter/FilterTag";
 
 import PostData from "../../HomeLayout/types";
-
-import { useState,useRef } from "react";
-
-import useOutsideClick from "@/hooks/useOutsideClick";
-
-import Arrow from "@/../public/icons/arrow_down.svg";
 
 const cn = classNames.bind(styles);
 
@@ -28,9 +21,9 @@ export default function HelpYouLayout() {
   const currentPage = params.get("page");
   const disabilityType = params.get("disabilityType") ?? '';
   const assistanceType = params.get("assistanceType") ?? '';
+  const postStatus = params.get("postStatus") ?? '';
   const page = Number(currentPage) || 1;
-  const [isVisible, setIsVisible] = useState<boolean>(false);
-
+  
   const setPage = (newPage: number) => {
     const pathName = router.pathname;
     params.set("page", newPage.toString());
@@ -41,29 +34,28 @@ export default function HelpYouLayout() {
   };
 
   const { data } = useQuery({
-    queryKey: ["post", page, disabilityType, assistanceType, params.get("postType")],
+    queryKey: ["post", page, postStatus, disabilityType, assistanceType, params.get("postType")],
     queryFn: () => getPagenationItems(
       "GIVER",
       page, 
       8, 
-      "recruiting",
+      `${postStatus}`,
       `${disabilityType}`,
       `${assistanceType}`
     ),
     placeholderData: keepPreviousData,
   });
 
-  
-
   const handleFilter = (category: string, optionId: string) => {
 
     const searchParams = new URLSearchParams(params.toString());
     const selectedDisabilityType = searchParams.get("disabilityType") ?? '';
     const selectedAssistanceType = searchParams.get("assistanceType") ?? '';
+    const selectedPostStatus = searchParams.get("postStatus") ?? '';
 
-    var disabililtyTypeList = selectedDisabilityType && selectedDisabilityType !== 'null' ? selectedDisabilityType.split(',') : [];
-    var assistanceTypeList = selectedAssistanceType && selectedAssistanceType !== 'null' ? selectedAssistanceType.split(',') : [];
-
+    var disabililtyTypeList = selectedDisabilityType ? selectedDisabilityType.split(',') : [];
+    var assistanceTypeList = selectedAssistanceType ? selectedAssistanceType.split(',') : [];
+    var postStatusList = selectedPostStatus ? selectedPostStatus.split(',') : [];
 
     if (category === "disabilityType") {
       if (disabililtyTypeList.includes(optionId)) {
@@ -81,6 +73,14 @@ export default function HelpYouLayout() {
         assistanceTypeList.push(optionId)
         searchParams.set("assistanceType", assistanceTypeList.join(','));
       }
+    } else if (category === "postStatus") {
+      if (postStatusList.includes(optionId)) {
+        postStatusList = postStatusList.filter((e)=>e !== optionId)
+        searchParams.set("postStatus", postStatusList.join(','));
+      } else {
+        postStatusList.push(optionId)
+        searchParams.set("postStatus", postStatusList.join(','));
+      }
     }
     
     router.replace({
@@ -88,12 +88,6 @@ export default function HelpYouLayout() {
       query: { ...Object.fromEntries(searchParams.entries()) },
     });
   };
-  
-  const handleDisableClick = () => {};
-
-  const handleHelpClick = () => {};
-
-  const handleMatchingClick = () => {};
 
   return (
     <main className={cn("container")}>
@@ -106,7 +100,6 @@ export default function HelpYouLayout() {
           <Filter searchParams={params} handleFilter={handleFilter}/>
         </div>
       </div>
-      <FilterTag searchParams={params} handleFilter={handleFilter}/>
       <div className={cn("cardListContainer")}>
         <div className={cn("cardListBox")}>
           {data?.data.content.map((post: PostData) => (

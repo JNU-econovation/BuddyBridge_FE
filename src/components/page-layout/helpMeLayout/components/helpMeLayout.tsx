@@ -10,15 +10,8 @@ import Post from "@/components/common/Post/Post";
 import styles from "@/components/page-layout/helpMeLayout/components/helpMeLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import Filter from "@/components/common/Filter/Filter";
-import FilterTag from "@/components/common/Filter/FilterTag";
 
 import PostData from "../../HomeLayout/types";
-
-import { useState, useRef } from "react";
-
-import useOutsideClick from "@/hooks/useOutsideClick";
-
-import Arrow from "@/../public/icons/arrow_down.svg"
 
 const cn = classNames.bind(styles);
 
@@ -28,8 +21,8 @@ export default function HelpMeLayout() {
   const currentPage = params.get("page");
   const disabilityType = params.get("disabilityType") ?? '';
   const assistanceType = params.get("assistanceType") ?? '';
+  const postStatus = params.get("postStatus") ?? '';
   const page = Number(currentPage) || 1;
-  const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const setPage = (newPage: number) => {
     const pathName = router.pathname;
@@ -46,6 +39,7 @@ export default function HelpMeLayout() {
       "TAKER",
       page, 
       8, 
+      `${postStatus}`,
       `${disabilityType}`,
       `${assistanceType}`
     ),
@@ -57,9 +51,11 @@ export default function HelpMeLayout() {
     const searchParams = new URLSearchParams(params.toString());
     const selectedDisabilityType = searchParams.get("disabilityType") ?? '';
     const selectedAssistanceType = searchParams.get("assistanceType") ?? '';
+    const selectedPostStatus = searchParams.get("postStatus") ?? '';
 
     var disabililtyTypeList = selectedDisabilityType ? selectedDisabilityType.split(',') : [];
     var assistanceTypeList = selectedAssistanceType ? selectedAssistanceType.split(',') : [];
+    var postStatusList = selectedPostStatus ? selectedPostStatus.split(',') : [];
 
     if (category === "disabilityType") {
       if (disabililtyTypeList.includes(optionId)) {
@@ -77,6 +73,14 @@ export default function HelpMeLayout() {
         assistanceTypeList.push(optionId)
         searchParams.set("assistanceType", assistanceTypeList.join(','));
       }
+    } else if (category === "postStatus") {
+      if (postStatusList.includes(optionId)) {
+        postStatusList = postStatusList.filter((e)=>e !== optionId)
+        searchParams.set("postStatus", postStatusList.join(','));
+      } else {
+        postStatusList.push(optionId)
+        searchParams.set("postStatus", postStatusList.join(','));
+      }
     }
 
     router.replace({
@@ -85,31 +89,17 @@ export default function HelpMeLayout() {
     });
   };
 
-  const handleDisableClick = () => {};
-
-  const handleHelpClick = () => {};
-
-  const handleMatchingClick = () => {};
-
-  const filterRef = useRef<HTMLDivElement>(null);
-  const filterRef2 = useRef<HTMLDivElement>(null);
-  useOutsideClick([filterRef, filterRef2], () => setIsVisible(false));
-
   return (
     <main className={cn("container")}>
       <div className={cn("box")}>
-        <p className={cn("title")}>도와줄래요?리스트</p>
         <div className={cn("typeContainer")}>
-          <div className={cn("typeBox")} onClick={()=>setIsVisible(true)}>
-            <button onClick={handleDisableClick}>장애 유형</button>
-            <button onClick={handleHelpClick}>도움 유형</button>
-            <button onClick={handleMatchingClick}>매칭 유형</button>
-            <Arrow className={cn("arrowBtn")}/>
-          </div>
-          {isVisible? <Filter searchParams={params} handleFilter={handleFilter} ref={filterRef}/> : null}
+          <p className={cn("title")}>
+            버디브릿지는 일상에서 모두가 서로에게 <br/>
+            따뜻한 온정을 전하는 세상을 만듭니다.
+          </p>
+          <Filter searchParams={params} handleFilter={handleFilter}/>
         </div>
       </div>
-      <FilterTag searchParams={params} handleFilter={handleFilter} ref={filterRef2}/>
       <div className={cn("cardListContainer")}>
         <div className={cn("cardListBox")}>
           {data?.data.content.map((post: PostData) => (
