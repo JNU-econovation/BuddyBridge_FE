@@ -10,6 +10,7 @@ import { NextPage } from "next";
 import type { AppProps } from "next/app";
 
 import "react-toastify/dist/ReactToastify.css";
+import GoogleAnalytics from "@/lib/GoogleAnalytics";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,6 +35,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       {getLayout(<Component {...pageProps} />)}
       <ReactQueryDevtools initialIsOpen={false} />
       <ToastContainer />
+      <GoogleAnalytics gaId={`${process.env.NEXT_PUBLIC_GA_ID}`} />
     </QueryClientProvider>
   );
 }

@@ -24,6 +24,8 @@ interface LoginProps {
 interface alarmType {
   url: string;
   content: string;
+  id: string;
+  isRead: boolean;
 }
 
 export default function Login({ name }: LoginProps) {
@@ -32,11 +34,11 @@ export default function Login({ name }: LoginProps) {
   const alarmDropdownRef = useRef(null);
   const [isProfileOpen, setIsProfileOpen] = useDetectClose(profileDropdownRef, false);
   const [isAlarmOpen, setIsAlarmOpen] = useDetectClose(alarmDropdownRef, false);
-  const [notifications, setNotifications] = useState<alarmType[]>([]);
+  const [notifications, setNotifications] = useState<alarmType>();
   const [error, setError] = useState<string | null>(null);
   const [isConnected, setIsConnected] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
   const router = useRouter();
-  const alarmNumber = notifications.length > 9 ? "9+" : notifications.length;
 
   const handleNameClick = () => {
     setIsProfileOpen((prev) => !prev);
@@ -50,14 +52,17 @@ export default function Login({ name }: LoginProps) {
     router.push(ROUTE.CHAT);
   };
 
-  // SSE 연결 및 알림 수신
   useEffect(() => {
-    if (!userInfo) return; // userInfo가 없으면 연결하지 않음
+    if (!userInfo) return;
 
     let eventSource: EventSource;
-    let lastEventId = "";
 
     const connectSSE = () => {
+      if (retryCount >= 3) {
+        setError("연결 시도 횟수를 초과했습니다.");
+        return;
+      }
+
       eventSource = new EventSource(`${process.env.NEXT_PUBLIC_BASE_URL}api/sse/connect`, {
         withCredentials: true,
       });
@@ -72,8 +77,7 @@ export default function Login({ name }: LoginProps) {
           return;
         }
 
-        setNotifications((prevNotifications) => [...prevNotifications, parsedData]);
-        lastEventId = event.lastEventId;
+        setNotifications(parsedData);
       });
 
       eventSource.onerror = (error) => {
@@ -81,24 +85,26 @@ export default function Login({ name }: LoginProps) {
         setError("연결에 실패했습니다. 재연결 중...");
         setIsConnected(false);
         eventSource.close();
-        setTimeout(connectSSE, 5000); // 5초 후 재연결 시도
+        setRetryCount((prevCount) => prevCount + 1);
+        setTimeout(connectSSE, 5000);
       };
 
       eventSource.onopen = () => {
         setError(null);
         setIsConnected(true);
+        setRetryCount(0);
         console.log("SSE 연결 성공");
       };
     };
 
-    connectSSE(); // SSE 연결 시도
+    connectSSE();
 
     return () => {
       if (eventSource) {
         eventSource.close();
       }
     };
-  }, [userInfo]);
+  }, [userInfo, retryCount]);
 
   return (
     <div className={cn("container")}>
@@ -108,10 +114,9 @@ export default function Login({ name }: LoginProps) {
         <DropDown isNameClick={isProfileOpen} />
       </div>
       <div className={cn("iconBox")}>
-        <div ref={alarmDropdownRef} className={cn("alarmContainer")} onClick={handleAlarmClick}>
-          <Alarm width={30} height={30} className={cn("alarm")} />
-          {isAlarmOpen && <AlarmDropDown notifications={notifications} />}
-          {alarmNumber !== 0 && <div className={cn("alarmNumber")}>{alarmNumber}</div>}
+        <div ref={alarmDropdownRef} className={cn("alarmContainer")}>
+          <Alarm width={30} height={30} className={cn("alarm")} onClick={handleAlarmClick} />
+          {isAlarmOpen && <AlarmDropDown sseNotifications={notifications as alarmType} />}
         </div>
         <Chat width={30} height={30} onClick={handleChatClick} className={cn("chat")} />
       </div>

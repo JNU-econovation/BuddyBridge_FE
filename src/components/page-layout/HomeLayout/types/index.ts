@@ -12,6 +12,7 @@ export default interface PostData {
   scheduleType: string;
   startTime: string;
   title: string;
+  isLiked: boolean;
   author: {
     age: number;
     disabilityType: string;
