@@ -47,7 +47,7 @@ export default function Filter(props: FilterProps) {
                                 const selectedOptions = searchParams.get(categoryName)?.split(",") || [];
                                 const isSelected = selectedOptions.includes(option);
                                 const displayOption = categoryName === "postStatus"
-                                ? option === "RECRUITING" ? "매칭중" : option === "FINISHED" ? "매칭완료" : option
+                                ? option === "RECRUITING" ? "모집중" : option === "FINISHED" ? "모집완료" : option
                                 : option;
                                 return (
                                     <div>
