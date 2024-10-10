@@ -34,7 +34,7 @@ export default function HelpYouLayout() {
   };
 
   const { data } = useQuery({
-    queryKey: ["post", page, postStatus, disabilityType, assistanceType, params.get("postType")],
+    queryKey: ["post", page, postStatus, disabilityType, assistanceType, postStatus],
     queryFn: () => getPagenationItems(
       "GIVER",
       page, 
