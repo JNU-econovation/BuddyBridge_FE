@@ -1,6 +1,6 @@
 .container {
   @include flexSort(column, null, null, null);
-  padding: 10rem;
+  padding: 5rem 10rem;
 }
 
 .box {
@@ -13,20 +13,9 @@
 }
 
 .typeContainer {
+  text-align: center;
   width: 100%;
-  @include flexSort(null, center, center, null);
-  border-top: 0.1rem solid $black;
-  border-bottom: 0.1rem solid $black;
-}
-
-.typeBox {
-  margin: 2rem 0;
-  background-color: $gray-1;
-  @include flexSort(null, center, center, 4rem);
-  @include font(2.1rem, 600, normal);
-  color: #787373;
-  padding: 1.6rem 3rem;
-  border-radius: 3rem;
+  @include flexSort(column, center, center, null);
 }
 
 .cardListContainer {
@@ -47,7 +36,7 @@
 .button {
   position: absolute;
   right: 0;
-  top: 2rem;
+  top: 4.5rem;
   @include font(2.2rem, 500, normal);
   border: 0.1rem solid #787373;
   padding: 1rem 2rem;
