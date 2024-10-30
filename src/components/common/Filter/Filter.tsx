@@ -1,15 +1,15 @@
+import { useRef, useCallback } from "react";
+
 import classNames from "classnames/bind";
-
-import styles from "./Filter.module.scss";
-
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+
+import Arrow from "@/../public/icons/arrow_down.svg";
 
 import { Categories } from "./constants";
+import styles from "./Filter.module.scss";
 
-import { useRef, useCallback } from "react";
-import Arrow from "@/../public/icons/arrow_down.svg";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const cn = classNames.bind(styles);
 
@@ -53,7 +53,7 @@ export default function Filter({ searchParams, handleFilter }: FilterProps) {
                     : option
                   : option;
               return (
-                <div>
+                <div key={option}>
                   <button
                     key={option}
                     className={cn("slideItem", {
