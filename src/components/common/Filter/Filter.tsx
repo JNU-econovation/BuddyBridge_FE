@@ -18,14 +18,13 @@ interface FilterProps {
   handleFilter: (category: string, optionId: string) => void;
 }
 
-export default function Filter(props: FilterProps) {
-  const { searchParams, handleFilter } = props;
-  const slickRef = useRef(null);
+export default function Filter({ searchParams, handleFilter }: FilterProps) {
+  const slickRef = useRef<Slider | null>(null);
 
-  const previous = useCallback(() => slickRef.current.slickPrev(), []);
-  const next = useCallback(() => slickRef.current.slickNext(), []);
+  const previous = useCallback(() => slickRef?.current?.slickPrev(), []);
+  const next = useCallback(() => slickRef?.current?.slickNext(), []);
 
-  var settings = {
+  const settings = {
     dots: false,
     infinite: false,
     speed: 500,
@@ -50,8 +49,8 @@ export default function Filter(props: FilterProps) {
                   ? option === "RECRUITING"
                     ? "모집중"
                     : option === "FINISHED"
-                      ? "모집완료"
-                      : option
+                    ? "모집완료"
+                    : option
                   : option;
               return (
                 <div>
