@@ -45,9 +45,9 @@ export default function HelpYouLayout() {
     const selectedAssistanceType = searchParams.get("assistanceType") ?? "";
     const selectedPostStatus = searchParams.get("postStatus") ?? "";
 
-    var disabililtyTypeList = selectedDisabilityType ? selectedDisabilityType.split(",") : [];
-    var assistanceTypeList = selectedAssistanceType ? selectedAssistanceType.split(",") : [];
-    var postStatusList = selectedPostStatus ? selectedPostStatus.split(",") : [];
+    let disabililtyTypeList = selectedDisabilityType ? selectedDisabilityType.split(",") : [];
+    let assistanceTypeList = selectedAssistanceType ? selectedAssistanceType.split(",") : [];
+    let postStatusList = selectedPostStatus ? selectedPostStatus.split(",") : [];
 
     if (category === "disabilityType") {
       if (disabililtyTypeList.includes(optionId)) {
@@ -94,7 +94,9 @@ export default function HelpYouLayout() {
       </div>
       <div className={cn("cardListContainer")}>
         <div className={cn("cardListBox")}>
-          {data?.data.content.map((post: PostData) => <Post data={post} key={post.id} />)}
+          {data?.data.content.map((post: PostData) => (
+            <Post data={post} key={post.id} />
+          ))}
           <Link href={ROUTE.HELP_YOU_REGISTER} className={cn("button")}>
             작성하기
           </Link>

@@ -8,7 +8,7 @@ export default async function getPagenationItems(
   disabilityType: string,
   assistanceType: string,
 ) {
-  let url = `posts?post-type=${postType}&page=${page}&size=${limit}&sorted=modifiedAt,DESC&post-status=${postStatus}&disability-type=${disabilityType}&assistance-type=${assistanceType}`;
+  const url = `posts?post-type=${postType}&page=${page}&size=${limit}&sorted=modifiedAt,DESC&post-status=${postStatus}&disability-type=${disabilityType}&assistance-type=${assistanceType}`;
 
   const { data } = await axiosInstance.get(url, { withCredentials: true });
 

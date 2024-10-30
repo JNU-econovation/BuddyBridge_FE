@@ -45,17 +45,17 @@ export default function HelpMeLayout() {
     const selectedAssistanceType = searchParams.get("assistanceType") ?? "";
     const selectedPostStatus = searchParams.get("postStatus") ?? "";
 
-    var disabililtyTypeList = selectedDisabilityType ? selectedDisabilityType.split(",") : [];
-    var assistanceTypeList = selectedAssistanceType ? selectedAssistanceType.split(",") : [];
-    var postStatusList = selectedPostStatus ? selectedPostStatus.split(",") : [];
+    let disabilityTypeList = selectedDisabilityType ? selectedDisabilityType.split(",") : [];
+    let assistanceTypeList = selectedAssistanceType ? selectedAssistanceType.split(",") : [];
+    let postStatusList = selectedPostStatus ? selectedPostStatus.split(",") : [];
 
     if (category === "disabilityType") {
-      if (disabililtyTypeList.includes(optionId)) {
-        disabililtyTypeList = disabililtyTypeList.filter((e) => e !== optionId);
-        searchParams.set("disabilityType", disabililtyTypeList.join(","));
+      if (disabilityTypeList.includes(optionId)) {
+        disabilityTypeList = disabilityTypeList.filter((e) => e !== optionId);
+        searchParams.set("disabilityType", disabilityTypeList.join(","));
       } else {
-        disabililtyTypeList.push(optionId);
-        searchParams.set("disabilityType", disabililtyTypeList.join(","));
+        disabilityTypeList.push(optionId);
+        searchParams.set("disabilityType", disabilityTypeList.join(","));
       }
     } else if (category === "assistanceType") {
       if (assistanceTypeList.includes(optionId)) {
@@ -94,7 +94,9 @@ export default function HelpMeLayout() {
       </div>
       <div className={cn("cardListContainer")}>
         <div className={cn("cardListBox")}>
-          {data?.data.content.map((post: PostData) => <Post data={post} key={post.id} />)}
+          {data?.data.content.map((post: PostData) => (
+            <Post data={post} key={post.id} />
+          ))}
           <Link href={ROUTE.HELP_ME_REGISTER} className={cn("button")}>
             작성하기
           </Link>
