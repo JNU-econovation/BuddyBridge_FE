@@ -1,7 +1,7 @@
 .cardContainer {
   width: 100%;
   height: auto;
-  aspect-ratio: 1/ 1.3;
+  aspect-ratio: 326 / 350;
   border-radius: 2rem;
   position: relative;
   box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.5);
@@ -18,40 +18,31 @@
 
 .contentContainer {
   width: 100%;
-  height: calc(100% - 1rem);
+  height: calc(100% - 1.5rem);
   background-color: $white;
   position: absolute;
   bottom: 0;
   border-radius: 2rem;
-  padding: 0;
 
   &:hover {
     background-color: $gray-3;
   }
 }
 
-.postId {
-  position: absolute;
-  right: 2rem;
-  bottom: 1rem;
-  z-index: 1;
-  @include font(3rem, 300, normal);
-}
-
 .progress {
   position: absolute;
   left: 3rem;
-  @include gmarketFont(2.3rem, 500, normal);
-  background-color: $giver;
   padding: 0 2rem 1rem 2rem;
   border-radius: 0 0 1rem 1rem;
-
-  &:giver {
-    background-color: $giver;
-  }
+  color: white;
+  @include nsnFont(1.6rem, 700, normal);
 
   &.taker {
     background-color: $taker;
+  }
+
+  &.giver {
+    background-color: $giver;
   }
 }
 
@@ -61,32 +52,15 @@
   right: 2rem;
 }
 
-.order {
-  position: absolute;
-  bottom: 1rem;
-  right: 3rem;
-  text-shadow: 0 0.4rem 0.4rem rgba(0, 0, 0, 0.25);
-  @include gmarketFont(3.2rem, 300, normal);
-
-  @include smallDesktop {
-    @include gmarketFont(2.8rem, 300, normal);
-  }
-}
-
 .contentBox {
-  height: calc(100% - 7.5rem);
-  margin-top: 7.5rem;
-  padding: 0rem 2rem 0 2rem;
-  @include flexSort(column, space-between, null, null);
-  position: relative;
-
-  @include smallDesktop {
-    margin-top: 5rem;
-  }
+  height: calc(100% - 3rem);
+  margin-top: 3rem;
+  padding: 2rem;
 }
 
-.Box {
-  @include flexSort(column, null, null, 5rem);
+.box {
+  @include flexSort(column, null, null, 1rem);
+  height: 100%;
 
   @include smallDesktop {
     gap: 3rem;
@@ -95,7 +69,9 @@
 
 .title {
   @include font(2rem, 500, normal);
-  @include line-clamp(1);
+  @include line-clamp(2);
+  border-bottom: 0.1rem solid #ccc;
+  height: 6.36rem;
 
   @include smallDesktop {
     @include font(1.8rem, 500, normal);
@@ -103,7 +79,6 @@
 }
 
 .detailBox {
-  margin-left: 1rem;
   @include flexSort(column, null, null, 1rem);
   @include font(1.7rem, 300, normal);
 
@@ -111,6 +86,25 @@
     @include font(1.4rem, 300, normal);
     gap: 0.5rem;
   }
+}
+
+.districtBox,
+.calendarBox,
+.clockBox,
+.headcountBox {
+  @include flexSort(null, null, center, 0.5rem);
+}
+
+.clockImgBox {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+.district,
+.calendar,
+.clock,
+.headcount {
+  @include nsnFont(1.3rem, 400, normal);
 }
 
 .hashtagBox {
@@ -124,13 +118,18 @@
   }
 }
 
-.hr {
-  width: calc(100% - 4rem);
+.postLabelBox {
+  @include flexSort(null, null, center, 1rem);
   position: absolute;
-  border-bottom: 0.1rem solid $gray;
-  top: 6rem;
+  right: 6rem;
+  bottom: 1rem;
+  z-index: 1;
+}
 
-  @include smallDesktop {
-    top: 4rem;
-  }
+.postId {
+  position: absolute;
+  right: 2rem;
+  bottom: 1rem;
+  z-index: 1;
+  @include nsnFont(2rem, 900, normal);
 }

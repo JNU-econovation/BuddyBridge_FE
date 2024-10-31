@@ -17,7 +17,7 @@ export default function MyLikesList({ likesList }: MyLikesListProps) {
       {likesList?.map((post) => (
         <LikesPost
           key={post.id}
-          endTime={post.endTime}
+          endDate={post.endDate}
           id={post.id}
           modifiedAt={post.modifiedAt}
           postStatus={post.postStatus}

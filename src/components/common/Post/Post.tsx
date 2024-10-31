@@ -8,11 +8,16 @@ import Link from "next/link";
 import styles from "@/components/common/Post/Post.module.scss";
 import PostData from "@/components/page-layout/HomeLayout/types";
 import { ROUTE } from "@/constants/route";
+import Calendar from "@/icons/calendar.svg";
+import Clock from "@/icons/clock.svg";
 import Heart from "@/icons/heart.svg";
+import Location from "@/icons/location.svg";
+import Personnel from "@/icons/personnel.svg";
 import RedHeart from "@/icons/red_heart.svg";
-import { formatDateString } from "@/utils";
+import { formatDateString, formatTimeString } from "@/utils";
 
 import postLikes from "./apis/postLikes";
+import PostLabel from "./PostLabel/PostLabel";
 
 const cn = classNames.bind(styles);
 
@@ -24,14 +29,19 @@ export default function Post({ data }: PostProps) {
   const {
     postType,
     title,
+    startDate,
+    endDate,
+    matchingDoneCount,
+    headcount,
     author,
     assistanceType,
     district,
-    startTime,
-    endTime,
+    assistanceStartTime,
+    assistanceEndTime,
     scheduleType,
     id,
     postStatus,
+    disabilityType,
     isLiked,
   } = data;
 
@@ -55,7 +65,6 @@ export default function Post({ data }: PostProps) {
         giver: postType === "GIVER",
       })}
     >
-      <p className={cn("postId")}>{id}</p>
       <div className={cn("contentContainer")}>
         <p
           className={cn("progress", {
@@ -71,20 +80,37 @@ export default function Post({ data }: PostProps) {
           <Heart onClick={handleHeartClick} width={32} height={32} className={cn("heart")} />
         )}
         <div className={cn("contentBox")}>
-          <div className={cn("Box")}>
+          <div className={cn("box")}>
             <p className={cn("title")}>{title}</p>
-            <p className={cn("hr")} />
             <div className={cn("detailBox")}>
-              <p>{`일시 | ${formatDateString(startTime)} ~ ${formatDateString(endTime)}`}</p>
-              <p>{`활동 | ${scheduleType}`}</p>
-              <p>{`장소 | ${district}`}</p>
+              <div className={cn("districtBox")}>
+                <Location />
+                <p className={cn("district")}>{district}</p>
+              </div>
+              <div className={cn("calendarBox")}>
+                <Calendar />
+                <p className={cn("calendar")}>{`${formatDateString(startDate)} ~ ${formatDateString(endDate)}`}</p>
+              </div>
+              <div className={cn("clockBox")}>
+                <div className={cn("clockImgBox")}>
+                  <Clock />
+                </div>
+                <p className={cn("clock")}>{`${scheduleType}, ${formatTimeString(
+                  assistanceStartTime,
+                )} ~ ${formatTimeString(assistanceEndTime)}`}</p>
+              </div>
+              <div className={cn("headcountBox")}>
+                <Personnel />
+                <p className={cn("headcount")}>{`${matchingDoneCount}명 / ${headcount}명`}</p>
+              </div>
             </div>
           </div>
-          <div className={cn("hashtagBox")}>
-            <p>{`# ${assistanceType}`}</p>
-            {author?.disabilityType && <p>{`# ${author?.disabilityType}`}</p>}
-          </div>
         </div>
+      </div>
+      <p className={cn("postId")}>{id}</p>
+      <div className={cn("postLabelBox")}>
+        <PostLabel text={assistanceType} />
+        {disabilityType && <PostLabel text={disabilityType} />}
       </div>
     </Link>
   );
