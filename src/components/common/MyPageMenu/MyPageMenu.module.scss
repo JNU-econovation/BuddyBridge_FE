@@ -1,0 +1,31 @@
+.container {
+  padding: 2.6rem;
+  background-color: white;
+  box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
+  width: 33.7rem;
+  height: auto;
+  aspect-ratio: 337 / 72;
+  border-radius: 1rem;
+
+  @include flexSort(null, space-between, center, null);
+}
+
+.title {
+  @include nsnFont(1.4rem, 800, normal);
+}
+
+.navBox {
+  @include flexSort(null, null, null, 3rem);
+}
+
+.labelContainer {
+  padding: 0.7rem 1.8rem;
+  border-radius: 1rem;
+  background-color: #e6e6e6;
+  @include nsnFont(1.2rem, 400, normal);
+
+  &:hover {
+    background-color: #4885fe;
+    color: white;
+  }
+}
