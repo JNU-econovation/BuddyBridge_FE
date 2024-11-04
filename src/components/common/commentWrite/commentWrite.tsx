@@ -16,9 +16,13 @@ interface CommentWriteProps {
   user: {
     profileImageUrl: string;
     nickname: string;
+    memberId: number;
   };
+
   id: string;
+  commentMemIds: Array<number>;
 }
+
 interface CommentData {
   id: string;
   content: string;
@@ -28,10 +32,10 @@ interface Comment {
   content: string;
 }
 
-export default function CommentWrite({ user, id }: CommentWriteProps) {
+export default function CommentWrite({ user, id, commentMemIds}: CommentWriteProps) {
   const { register, handleSubmit, reset } = useForm<Comment>();
   const queryClient = useQueryClient();
-
+  
   const uploadCommentMutation = useMutation({
     mutationFn: ({ id, content }: CommentData) => postComment(id, content),
     onSuccess: () => {
@@ -39,10 +43,14 @@ export default function CommentWrite({ user, id }: CommentWriteProps) {
       reset();
     },
   });
-
+  
   const handleCommentUpload = (data: Comment) => {
-    if (data.content.trim() !== "") {
-      uploadCommentMutation.mutate({ id, content: data.content });
+    if (!commentMemIds.includes(Number(user.memberId))){
+      if (data.content.trim() !== "") {
+        uploadCommentMutation.mutate({ id, content: data.content });
+      }
+    } else {
+      alert("댓글 작성은 1회만 가능합니다.");
     }
   };
 
