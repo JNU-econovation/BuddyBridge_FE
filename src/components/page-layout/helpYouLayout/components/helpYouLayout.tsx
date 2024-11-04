@@ -10,6 +10,7 @@ import Pagination from "@/components/common/Pagenation/Pagenation";
 import Post from "@/components/common/Post/Post";
 import styles from "@/components/page-layout/helpYouLayout/components/helpYouLayout.module.scss";
 import { ROUTE } from "@/constants/route";
+import RegisterArrow from "@/icons/send_arrow.svg";
 
 import PostData from "../../HomeLayout/types";
 
@@ -92,14 +93,15 @@ export default function HelpYouLayout() {
           <Filter searchParams={params} handleFilter={handleFilter} />
         </div>
       </div>
+      <Link href={ROUTE.HELP_YOU_REGISTER} className={cn("button")}>
+        작성하기
+        <RegisterArrow className={cn("arrow")}/>
+      </Link>
       <div className={cn("cardListContainer")}>
         <div className={cn("cardListBox")}>
           {data?.data.content.map((post: PostData) => (
             <Post data={post} key={post.id} />
           ))}
-          <Link href={ROUTE.HELP_YOU_REGISTER} className={cn("button")}>
-            작성하기
-          </Link>
         </div>
         <Pagination
           type="GIVER"
