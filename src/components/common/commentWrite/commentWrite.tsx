@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import Image from "next/image";
 
 import styles from "@/components/common/commentWrite/commentWrite.module.scss";
+import openToast from "@/components/common/Toast/features/openToast";
 
 import postComment from "./apis/postComment";
 
@@ -50,7 +51,7 @@ export default function CommentWrite({ user, id, commentMemIds}: CommentWritePro
         uploadCommentMutation.mutate({ id, content: data.content });
       }
     } else {
-      alert("댓글 작성은 1회만 가능합니다.");
+      openToast("warn", "댓글은 한 개만 작성 가능합니다.");
     }
   };
 
