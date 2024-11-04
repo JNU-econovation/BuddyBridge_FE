@@ -33,10 +33,10 @@ interface Comment {
   content: string;
 }
 
-export default function CommentWrite({ user, id, commentMemIds}: CommentWriteProps) {
+export default function CommentWrite({ user, id, commentMemIds }: CommentWriteProps) {
   const { register, handleSubmit, reset } = useForm<Comment>();
   const queryClient = useQueryClient();
-  
+
   const uploadCommentMutation = useMutation({
     mutationFn: ({ id, content }: CommentData) => postComment(id, content),
     onSuccess: () => {
@@ -44,9 +44,9 @@ export default function CommentWrite({ user, id, commentMemIds}: CommentWritePro
       reset();
     },
   });
-  
+
   const handleCommentUpload = (data: Comment) => {
-    if (!commentMemIds.includes(Number(user.memberId))){
+    if (!commentMemIds.includes(user.memberId)) {
       if (data.content.trim() !== "") {
         uploadCommentMutation.mutate({ id, content: data.content });
       }
