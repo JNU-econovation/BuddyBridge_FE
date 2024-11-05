@@ -85,12 +85,12 @@
 .scheduleType,
 .district,
 .period,
-.contentDetail {
+.contentDetail,
+.assistanceTime {
   @include font(2.3rem, 500, normal);
 }
 
 .genderBox,
-.assistanceTypeBox,
 .scheduleTypeBox {
   border-radius: 2rem;
   border: 0.1rem solid $gray;
@@ -125,6 +125,7 @@
 .ageContent,
 .disabilityTypeContent,
 .districtContent,
+.assistanceTypeContent,
 .time {
   width: 30rem;
   height: 5.9rem;
@@ -143,11 +144,13 @@
   border-radius: 2rem;
 }
 
-.periodContainer {
+.periodContainer,
+.assistanceTimeContainer {
   @include flexSort(null, null, center, 7rem);
 }
 
-.periodBox {
+.periodBox,
+.assistanceTimeBox {
   flex: 1;
   @include flexSort(null, space-between, center, null);
 
