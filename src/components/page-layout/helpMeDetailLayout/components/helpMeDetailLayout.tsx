@@ -74,7 +74,7 @@ export default function HelpMeDetailLayout() {
   const handleDeleteButtonClick = () => {
     deletePostMutation.mutate(id);
   };
-
+ 
   if (isPending) {
     return <div></div>;
   }
@@ -94,6 +94,10 @@ export default function HelpMeDetailLayout() {
   } = data;
 
   const { age, disabilityType, gender, nickname, profileImageUrl, memberId } = author;
+
+  const commentMemIds:Array<number> = commentData?.pages.flatMap((page) =>
+    page.content.map((comment:CommentProps) => comment.author.memberId)
+  ) || [];
 
   return (
     <div className={cn("container")}>
@@ -184,7 +188,7 @@ export default function HelpMeDetailLayout() {
               )}
             </>
           )}
-          {userInfo && <CommentWrite id={pageId as string} user={userInfo as KaKaoUserInfo} />}
+          {userInfo && <CommentWrite id={pageId as string} user={userInfo as KaKaoUserInfo} commentMemIds={commentMemIds}/>}
         </div>
       </div>
     </div>
