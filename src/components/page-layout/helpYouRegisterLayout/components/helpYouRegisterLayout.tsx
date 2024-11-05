@@ -230,7 +230,7 @@ export default function HelpYouRegisterLayout() {
               type="time"
               {...register("assistanceStartTime", { required: true })}
             />
-            ~
+            <p className={cn("wave")}>~</p>
             <Input
               className={cn("assistanceEndTime")}
               type="time"
