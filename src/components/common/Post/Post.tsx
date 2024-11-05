@@ -107,7 +107,7 @@ export default function Post({ data }: PostProps) {
       <p className={cn("postId")}>{id}</p>
       <div className={cn("postLabelBox")}>
         <PostLabel text={assistanceType} />
-        {disabilityType && <PostLabel text={disabilityType} />}
+        {disabilityType !== "없음" && <PostLabel text={disabilityType} />}
       </div>
     </Link>
   );
