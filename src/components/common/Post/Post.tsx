@@ -14,7 +14,7 @@ import Heart from "@/icons/heart.svg";
 import Location from "@/icons/location.svg";
 import Personnel from "@/icons/personnel.svg";
 import RedHeart from "@/icons/red_heart.svg";
-import { formatDateString, formatTimeString } from "@/utils";
+import { formatDateString } from "@/utils";
 
 import postLikes from "./apis/postLikes";
 import PostLabel from "./PostLabel/PostLabel";
@@ -33,7 +33,6 @@ export default function Post({ data }: PostProps) {
     endDate,
     matchingDoneCount,
     headcount,
-    author,
     assistanceType,
     district,
     assistanceStartTime,
@@ -95,9 +94,7 @@ export default function Post({ data }: PostProps) {
                 <div className={cn("clockImgBox")}>
                   <Clock />
                 </div>
-                <p className={cn("clock")}>{`${scheduleType}, ${formatTimeString(
-                  assistanceStartTime,
-                )} ~ ${formatTimeString(assistanceEndTime)}`}</p>
+                <p className={cn("clock")}>{`${scheduleType}, ${assistanceStartTime} ~ ${assistanceEndTime}`}</p>
               </div>
               <div className={cn("headcountBox")}>
                 <Personnel />
@@ -110,7 +107,7 @@ export default function Post({ data }: PostProps) {
       <p className={cn("postId")}>{id}</p>
       <div className={cn("postLabelBox")}>
         <PostLabel text={assistanceType} />
-        {disabilityType && <PostLabel text={disabilityType} />}
+        {disabilityType !== "없음" && <PostLabel text={disabilityType} />}
       </div>
     </Link>
   );

@@ -74,7 +74,7 @@ export default function HelpMeDetailLayout() {
   const handleDeleteButtonClick = () => {
     deletePostMutation.mutate(id);
   };
-
+ 
   if (isPending) {
     return <div></div>;
   }
@@ -91,9 +91,19 @@ export default function HelpMeDetailLayout() {
     author,
     startDate,
     endDate,
+    assistanceStartTime,
+    assistanceEndTime,
+    gender,
+    age,
+    disabilityType,
+    headcount,
   } = data;
 
-  const { age, disabilityType, gender, nickname, profileImageUrl, memberId } = author;
+  const { nickname, profileImageUrl, memberId } = author;
+
+  const commentMemIds:Array<number> = commentData?.pages.flatMap((page) =>
+    page.content.map((comment:CommentProps) => comment.author.memberId)
+  ) || [];
 
   return (
     <div className={cn("container")}>
@@ -125,10 +135,7 @@ export default function HelpMeDetailLayout() {
                 </div>
                 <div className={cn("assistanceTypeContainer")}>
                   <p className={cn("assistanceType")}>도움유형</p>
-                  <div className={cn("assistanceTypeBox")}>
-                    <p className={cn("education", { pick: assistanceType === "교육" })}>교육</p>
-                    <p className={cn("life", { pick: assistanceType === "생활" })}>생활</p>
-                  </div>
+                  <p className={cn("assistanceTypeContent")}>{assistanceType}</p>
                 </div>
                 <div className={cn("scheduleTypeContainer")}>
                   <p className={cn("scheduleType")}>주기 구분</p>
@@ -142,12 +149,23 @@ export default function HelpMeDetailLayout() {
                   <p className={cn("district")}>장소</p>
                   <p className={cn("districtContent")}>{district}</p>
                 </div>
+                <div className={cn("districtContainer")}>
+                  <p className={cn("district")}>모집 인원</p>
+                  <p className={cn("districtContent")}>{headcount}</p>
+                </div>
               </div>
               <div className={cn("periodContainer")}>
                 <p className={cn("period")}>기간</p>
                 <div className={cn("periodBox")}>
                   <p className={cn("time")}>{formatDateString(startDate)}</p>
                   <p className={cn("wave")}>~</p> <p className={cn("time")}>{formatDateString(endDate)}</p>
+                </div>
+              </div>
+              <div className={cn("assistanceTimeContainer")}>
+                <p className={cn("assistanceTime")}>시간</p>
+                <div className={cn("assistanceTimeBox")}>
+                  <p className={cn("time")}>{assistanceStartTime}</p>
+                  <p className={cn("wave")}>~</p> <p className={cn("time")}>{assistanceEndTime}</p>
                 </div>
               </div>
               <div className={cn("contentDetailContainer")}>
@@ -184,7 +202,7 @@ export default function HelpMeDetailLayout() {
               )}
             </>
           )}
-          {userInfo && <CommentWrite id={pageId as string} user={userInfo as KaKaoUserInfo} />}
+          {userInfo && <CommentWrite id={pageId as string} user={userInfo as KaKaoUserInfo} commentMemIds={commentMemIds}/>}
         </div>
       </div>
     </div>

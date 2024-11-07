@@ -62,7 +62,8 @@
   @include flexSort(null, space-between, center, 11.2rem);
 }
 
-.ageInput {
+.ageInput,
+.headcountInput {
   border-radius: 1rem;
   border: 0.1rem solid $gray;
   @include font(2.5rem, 400, normal);
@@ -91,10 +92,20 @@
   width: 100%;
 }
 
+.placeHeadcountContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+
 .placeContainer {
   @include flexSort(null, null, center, 11.2rem);
   height: 5.6rem;
-  width: 48.6rem;
+}
+
+.headcountContainer {
+  @include flexSort(null, null, center, 5rem);
+  height: 5.6rem;
 }
 
 .detailContainer {
@@ -112,9 +123,20 @@
   border-radius: 1rem;
 }
 
-.dateContainer {
+.dateContainer,
+.timeContainer {
   @include flexSort(null, null, center, 11.2rem);
   height: 5.6rem;
+}
+
+.assistanceStartTime,
+.assistanceEndTime {
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  border: 0.1rem solid $gray;
+  @include nsnFont(2.5rem, 400, normal);
+  @include flexSort(null, center, center, null);
 }
 
 .dateBox {

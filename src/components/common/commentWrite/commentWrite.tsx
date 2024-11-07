@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import Image from "next/image";
 
 import styles from "@/components/common/commentWrite/commentWrite.module.scss";
+import openToast from "@/components/common/Toast/features/openToast";
 
 import postComment from "./apis/postComment";
 
@@ -16,9 +17,13 @@ interface CommentWriteProps {
   user: {
     profileImageUrl: string;
     nickname: string;
+    memberId: number;
   };
+
   id: string;
+  commentMemIds: Array<number>;
 }
+
 interface CommentData {
   id: string;
   content: string;
@@ -28,7 +33,7 @@ interface Comment {
   content: string;
 }
 
-export default function CommentWrite({ user, id }: CommentWriteProps) {
+export default function CommentWrite({ user, id, commentMemIds }: CommentWriteProps) {
   const { register, handleSubmit, reset } = useForm<Comment>();
   const queryClient = useQueryClient();
 
@@ -41,8 +46,12 @@ export default function CommentWrite({ user, id }: CommentWriteProps) {
   });
 
   const handleCommentUpload = (data: Comment) => {
-    if (data.content.trim() !== "") {
-      uploadCommentMutation.mutate({ id, content: data.content });
+    if (!commentMemIds.includes(user.memberId)) {
+      if (data.content.trim() !== "") {
+        uploadCommentMutation.mutate({ id, content: data.content });
+      }
+    } else {
+      openToast("warn", "댓글은 한 개만 작성 가능합니다.");
     }
   };
 
