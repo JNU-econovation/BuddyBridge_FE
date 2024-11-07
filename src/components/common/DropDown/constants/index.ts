@@ -10,3 +10,5 @@ export const DISABILITY = [
 ];
 
 export const PLACE = ["광주광역시", "북구", "서구", "남구", "동구", "광산구"];
+
+export const ASSISTANCE = ["학습", "식사", "이동"];

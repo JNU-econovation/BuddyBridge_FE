@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 
 import Button from "@/components/common/Button/Button";
 import CustomDatePicker from "@/components/common/DatePicker/DatePicker";
-import { DISABILITY, PLACE } from "@/components/common/DropDown/constants";
+import { ASSISTANCE, DISABILITY, PLACE } from "@/components/common/DropDown/constants";
 import Dropdown from "@/components/common/DropDown/DropDown";
 import Input from "@/components/common/Input/Input";
 import Label from "@/components/common/Label/Label";
@@ -56,13 +56,19 @@ export default function HelpMeRegisterLayout() {
     const content = {
       title: data.title,
       assistanceType: data.assistanceType,
-      startTime: data.startTime,
-      endTime: data.endTime,
+      startDate: data.startDate,
+      endDate: data.endDate,
       scheduleType: data.scheduleType,
       scheduleDetails: data.scheduleDetails,
       district: data.district,
       content: data.content,
       postType: "TAKER",
+      gender: data.gender,
+      age: Number(data.age),
+      disabilityType: data.disabilityType,
+      headcount: Number(data.headcount),
+      assistanceStartTime: data.assistanceStartTime,
+      assistanceEndTime: data.assistanceEndTime,
     };
     uploadHelpMeMutation.mutate(content);
   };
@@ -73,15 +79,6 @@ export default function HelpMeRegisterLayout() {
       openToast("error", "장애 유형을 입력해주세요.");
       router.push(ROUTE.MY_PAGE_EDIT);
       return;
-    }
-    if (myInfoData?.gender) {
-      setValue("gender", myInfoData.gender);
-    }
-    if (myInfoData?.age) {
-      setValue("age", myInfoData.age);
-    }
-    if (myInfoData?.disabilityType) {
-      setValue("disability", myInfoData.disabilityType);
     }
   }, [myInfoData, setValue, router]);
 
@@ -132,24 +129,23 @@ export default function HelpMeRegisterLayout() {
               />
             </div>
             <div className={cn("disabilityContainer")}>
-              <Label className={cn("label")} htmlFor="disability">
+              <Label className={cn("label")} htmlFor="disabilityType">
                 장애 유형
               </Label>
               <Dropdown
                 options={DISABILITY}
-                onSelection={(option) => setValue("disability", option)}
-                {...register("disability", { required: true })}
+                onSelection={(option) => setValue("disabilityType", option)}
+                {...register("disabilityType", { required: true })}
               />
             </div>
             <div className={cn("helpTypeContainer")}>
               <Label className={cn("label")} htmlFor="assistanceType">
                 도움 유형
               </Label>
-              <Controller
-                name="assistanceType"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => <RadioInput postType="taker" {...field} firstValue="교육" secondValue="생활" />}
+              <Dropdown
+                options={ASSISTANCE}
+                onSelection={(option) => setValue("assistanceType", option)}
+                {...register("assistanceType", { required: true })}
               />
             </div>
             <div className={cn("periodContainer")}>
@@ -172,15 +168,28 @@ export default function HelpMeRegisterLayout() {
               {...register("scheduleDetails", { required: true })}
             />
           </div>
-          <div className={cn("placeContainer")}>
-            <Label className={cn("label")} htmlFor="district">
-              장소
-            </Label>
-            <Dropdown
-              options={PLACE}
-              onSelection={(option) => setValue("district", option)}
-              {...register("district", { required: true })}
-            />
+          <div className={cn("placeHeadcountContainer")}>
+            <div className={cn("placeContainer")}>
+              <Label className={cn("label")} htmlFor="district">
+                장소
+              </Label>
+              <Dropdown
+                options={PLACE}
+                onSelection={(option) => setValue("district", option)}
+                {...register("district", { required: true })}
+              />
+            </div>
+            <div className={cn("headcountContainer")}>
+              <Label className={cn("label")} htmlFor="headcount">
+                모집 인원
+              </Label>
+              <Input
+                className={cn("headcountInput")}
+                id="headcount"
+                placeholder="숫자만 입력"
+                {...register("headcount", { required: true })}
+              />
+            </div>
           </div>
           <div className={cn("dateContainer")}>
             <Label className={cn("label")} htmlFor="date">
@@ -189,7 +198,7 @@ export default function HelpMeRegisterLayout() {
             <div className={cn("dateBox")}>
               <div className={cn("date")}>
                 <Controller
-                  name="startTime"
+                  name="startDate"
                   control={control}
                   rules={{ required: true }}
                   render={({ field }) => (
@@ -207,7 +216,7 @@ export default function HelpMeRegisterLayout() {
               <p className={cn("wave")}>~</p>
               <div className={cn("date")}>
                 <Controller
-                  name="endTime"
+                  name="endDate"
                   rules={{ required: true }}
                   control={control}
                   render={({ field }) => (
@@ -223,6 +232,20 @@ export default function HelpMeRegisterLayout() {
                 <DropDownImg className={cn("dropDownImg")} />
               </div>
             </div>
+          </div>
+          <div className={cn("timeContainer")}>
+            <Label className={cn("label")}>시간</Label>
+            <Input
+              className={cn("assistanceStartTime")}
+              type="time"
+              {...register("assistanceStartTime", { required: true })}
+            />
+            <p className={cn("wave")}>~</p>
+            <Input
+              className={cn("assistanceEndTime")}
+              type="time"
+              {...register("assistanceEndTime", { required: true })}
+            />
           </div>
           <div className={cn("detailContainer")}>
             <Label className={cn("label")} htmlFor="content">
