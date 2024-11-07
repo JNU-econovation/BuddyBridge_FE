@@ -84,14 +84,12 @@ export default function HelpMeLayout() {
 
   return (
     <main className={cn("container")}>
-      <div className={cn("box")}>
-        <div className={cn("typeContainer")}>
-          <p className={cn("title")}>
-            버디브릿지는 일상에서 모두가 서로에게 <br />
-            따뜻한 온정을 전하는 세상을 만듭니다.
-          </p>
-          <Filter searchParams={params} handleFilter={handleFilter} />
-        </div>
+      <div className={cn("typeContainer")}>
+        <p className={cn("title")}>
+          버디브릿지는 일상에서 모두가 서로에게 <br />
+          따뜻한 온정을 전하는 세상을 만듭니다.
+        </p>
+        <Filter searchParams={params} handleFilter={handleFilter} />
       </div>
       <Link href={ROUTE.HELP_YOU_REGISTER} className={cn("button")}>
         작성하기

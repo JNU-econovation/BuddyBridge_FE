@@ -3,10 +3,6 @@
   padding: 5rem 10rem;
 }
 
-.box {
-  @include flexSort(column, center, center, 3rem);
-}
-
 .title {
   color: black;
   @include nsnFont(2.8rem, 400, 4.2rem);
@@ -36,16 +32,15 @@
 .button {
   z-index: 1;
   @include flexSort(null, null, center,1rem);
-  margin-right: 3rem;
+  right: 5%;
   align-self: flex-end;
   border: 0.1rem solid #9D9D9D;
   border-radius: 1rem;
   color: #9D9D9D;
   position: relative;
-  width: 15rem;
-  top: 6rem;
+  top: 7rem;
   @include nsnFont(1.8rem, 400, normal);
-  padding: 0.2rem 1.3rem 0.2rem 2rem;
+  padding: 0.4rem 1.7rem 0.4rem 2.6rem;
 }
 
 .button:hover {
