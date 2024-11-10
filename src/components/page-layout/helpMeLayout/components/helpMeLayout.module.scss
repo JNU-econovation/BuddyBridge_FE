@@ -3,13 +3,9 @@
   padding: 5rem 10rem;
 }
 
-.box {
-  @include flexSort(column, center, center, 3rem);
-}
-
 .title {
-  color: $taker;
-  @include gmarketFont(3.2rem, 700, normal);
+  color: black;
+  @include nsnFont(2.8rem, 400, 4.2rem);
 }
 
 .typeContainer {
@@ -34,11 +30,24 @@
 }
 
 .button {
-  position: absolute;
-  right: 0;
-  top: 2rem;
-  @include font(2.2rem, 500, normal);
-  border: 0.1rem solid #787373;
-  padding: 1rem 2rem;
-  border-radius: 2rem;
+  z-index: 1;
+  @include flexSort(null, null, center,1rem);
+  right: 5%;
+  align-self: flex-end;
+  border: 0.1rem solid #9D9D9D;
+  border-radius: 1rem;
+  color: #9D9D9D;
+  position: relative;
+  top: 7rem;
+  @include nsnFont(1.8rem, 400, normal);
+  padding: 0.4rem 1.7rem 0.4rem 2.6rem;
+}
+
+.button:hover {
+  color: #6562e2;
+  border-color: #6562e2;
+}
+
+.button:hover .arrow {
+  fill: #6562e2;
 }

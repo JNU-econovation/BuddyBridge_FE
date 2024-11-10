@@ -57,7 +57,7 @@ export default function Filter({ searchParams, handleFilter }: FilterProps) {
                   <button
                     key={option}
                     className={cn("slideItem", {
-                      [`category-${categoryName}`]: true,
+                      [`${categoryName}`]: true,
                       selected: isSelected,
                     })}
                     onClick={() => handleFilter(categoryName, option)}

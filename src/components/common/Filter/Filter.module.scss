@@ -1,73 +1,73 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    width: 75%;
-    position: relative;
-    top: 3rem;
-    z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  position: relative;
+  top: 3rem;
+  z-index: 1;
 }
 
 .sliderContainer {
-    display: inline !important;
-    margin: 0rem 2.5rem;
+  display: inline !important;
+  margin: 0rem 2.5rem;
 }
 
 .slideItem {
-    width: 85%;
-    margin: auto;
+  width: 85%;
+  margin: auto;
 }
 
-.category-disabilityType {
-    @include font(1.5rem, 400, normal);
-    background-color: white;
-    padding: 1rem 0rem;
-    border: 0.2rem solid #6562E2;
-    border-radius: 5rem;
+.disabilityType {
+  @include nsnFont(1.5rem, 400, normal);
+  background-color: white;
+  padding: 1rem 0rem;
+  border: 0.2rem solid #6562e2;
+  border-radius: 5rem;
 }
-.category-disabilityType.selected {
-    background-color: #E7EFFF;
-    border-color: #97B8F9;
-}
-      
-.category-assistanceType {
-    @include font(1.5rem, 400, normal);
-    background-color: white;
-    padding: 1rem 0rem;
-    border: 0.2rem solid #81C1EE;
-    border-radius: 5rem;
-}
-.category-assistanceType.selected {
-    background-color: #E7EFFF;
-    border-color: #97B8F9;
+.disabilityType.selected {
+  background-color: #e7efff;
+  border-color: #97b8f9;
 }
 
-.category-postStatus {
-    @include font(1.5rem, 400, normal);
-    background-color: white;
-    padding: 1rem 0rem;
-    border: 0.2rem solid #B7B7B7;
-    border-radius: 5rem;
+.assistanceType {
+  @include nsnFont(1.5rem, 400, normal);
+  background-color: white;
+  padding: 1rem 0rem;
+  border: 0.2rem solid #81c1ee;
+  border-radius: 5rem;
 }
-.category-postStatus.selected{
-    background-color: #E7EFFF;
-    border-color: #97B8F9;
-}
-
-.prevArrow{
-    position: absolute;
-    top: 1rem;
-    width: 2.3rem;
-    height: 2.3rem;
-    transform: rotate(90deg);
-    cursor: pointer;
+.assistanceType.selected {
+  background-color: #e7efff;
+  border-color: #97b8f9;
 }
 
-.nextArrow{
-    position: absolute;
-    top: 1rem;
-    right: 0rem;
-    width: 2.3rem;
-    height: 2.3rem;
-    transform: rotate(-90deg);
-    cursor: pointer;
+.postStatus {
+  @include nsnFont(1.5rem, 400, normal);
+  background-color: white;
+  padding: 1rem 0rem;
+  border: 0.2rem solid #b7b7b7;
+  border-radius: 5rem;
+}
+.postStatus.selected {
+  background-color: #e7efff;
+  border-color: #97b8f9;
+}
+
+.prevArrow {
+  position: absolute;
+  top: 1rem;
+  width: 2.3rem;
+  height: 2.3rem;
+  transform: rotate(90deg);
+  cursor: pointer;
+}
+
+.nextArrow {
+  position: absolute;
+  top: 1rem;
+  right: 0rem;
+  width: 2.3rem;
+  height: 2.3rem;
+  transform: rotate(-90deg);
+  cursor: pointer;
 }
