@@ -91,9 +91,9 @@ export default function HelpMeLayout() {
         </p>
         <Filter searchParams={params} handleFilter={handleFilter} />
       </div>
-      <Link href={ROUTE.HELP_YOU_REGISTER} className={cn("button")}>
+      <Link href={ROUTE.HELP_ME_REGISTER} className={cn("button")}>
         작성하기
-        <RegisterArrow className={cn("arrow")}/>
+        <RegisterArrow className={cn("arrow")} />
       </Link>
       <div className={cn("cardListContainer")}>
         <div className={cn("cardListBox")}>
