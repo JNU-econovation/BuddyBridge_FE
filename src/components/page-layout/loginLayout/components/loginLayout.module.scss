@@ -158,14 +158,6 @@
   }
 }
 
-.testButton {
-  background-color: #e7efff;
-  border-radius: 1rem;
-  @include flexSort(null, center, center, 2rem);
-  padding: 1.2rem 2rem;
-  width: 100%;
-}
-
 .kakao {
   position: absolute;
   left: 1rem;
@@ -180,20 +172,6 @@
 
   @include desktop {
     @include font(1.8rem, 400, normal);
-  }
-}
-
-.testLoginInput {
-  padding: 1rem;
-  border-radius: 1rem;
-  border: 0rem;
-}
-
-.testLoginButton {
-  &:hover {
-    path {
-      stroke: #609066;
-    }
   }
 }
 
