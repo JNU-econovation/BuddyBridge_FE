@@ -7,6 +7,8 @@ import { useRouter } from "next/router";
 import styles from "@/components/page-layout/loginLayout/components/loginLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import Kakao from "@/icons/kakao.svg";
+import Message from "@/icons/message.svg";
+import Password from "@/icons/password.svg";
 import TestLoginBtn from "@/icons/test_login_btn.svg";
 import LoginImg from "@/images/loginImg.svg";
 import useUserInfoStore from "@/stores/kakaoInnfo";
@@ -54,6 +56,24 @@ export default function LoginLayout() {
             <div className={cn("loginTitleBox")}>
               <p className={cn("loginEnglishTitle")}>BUDDY BRIDGE LOGIN</p>
               <p className={cn("loginKoreanTitle")}>버디브릿지 로그인</p>
+            </div>
+            <div className={cn("loginFormBox")}>
+              <form className={cn("formContainer")}>
+                <div className={cn("userInfoBox")}>
+                  <div className={cn("emailBox")}>
+                    <input className={cn("email")} placeholder="이메일을 입력해주세요." />
+                    <Message className={cn("messageIcon")} />
+                  </div>
+                  <div className={cn("passwordBox")}>
+                    <input type="password" className={cn("password")} placeholder="비밀번호를 입력해주세요." />
+                    <Password className={cn("passwordIcon")} />
+                  </div>
+                </div>
+                <div className={cn("buttonBox")}>
+                  <button className={cn("loginBtn")}>로그인</button>
+                  <button className={cn("signUpBtn")}>이메일 회원가입</button>
+                </div>
+              </form>
             </div>
             <div className={cn("kakaoLoginBox")}>
               <p className={cn("kakaoLoginHeader")}>카카오톡으로 로그인</p>

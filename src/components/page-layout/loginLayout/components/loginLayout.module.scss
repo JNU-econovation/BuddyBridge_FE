@@ -36,20 +36,76 @@
   padding: 3rem 4rem;
   background-color: $white;
   border-radius: 2rem;
-  @include flexSort(column, space-between, center, 2rem);
-  height: 47.28rem;
-
-  @include desktop {
-    height: 70rem;
-  }
+  @include flexSort(column, null, center, 2rem);
 }
 
 .loginBox {
-  @include flexSort(column, null, center, 12rem);
+  @include flexSort(column, null, center, 3rem);
 
   @include desktop {
     gap: 17rem;
   }
+}
+
+.loginFormBox {
+  width: 100%;
+  @include flexSort(column, null, center, 4rem);
+}
+
+.formContainer {
+  @include flexSort(column, null, center, 2rem);
+  width: 100%;
+}
+
+.userInfoBox,
+.buttonBox {
+  @include flexSort(column, null, center, 1rem);
+  width: 100%;
+}
+
+.emailBox,
+.passwordBox {
+  width: 100%;
+  position: relative;
+}
+
+.email,
+.password {
+  width: 100%;
+  height: 5.4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #d1d1d1;
+  padding: 1.3rem 5rem;
+  @include font(1.6rem, 500, normal);
+}
+
+.messageIcon,
+.passwordIcon {
+  position: absolute;
+  left: 1.7rem;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.loginBtn,
+.signUpBtn {
+  width: 100%;
+  height: 5.4rem;
+  @include flexSort(null, center, center, null);
+  @include font(1.4rem, 700, normal);
+  border-radius: 0.5rem;
+}
+
+.loginBtn {
+  background: #b7b7b7;
+  border: 0.1rem solid #b7b7b7;
+  color: white;
+}
+
+.signUpBtn {
+  background: #f2f2f2;
+  border: 0.1rem solid #d1d1d1;
+  color: black;
 }
 
 .loginTitleBox {
@@ -65,7 +121,7 @@
 }
 
 .loginKoreanTitle {
-  @include font(1.5rem, 600, normal);
+  @include font(1.5rem, 300, normal);
 
   @include desktop {
     @include font(2rem, 600, normal);
