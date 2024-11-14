@@ -51,68 +51,54 @@ export default function LoginLayout() {
   };
 
   return (
-    <main className={cn("main")}>
-      <div className={cn("container")}>
-        <div className={cn("logoBox")}>
-          <p className={cn("logoContent")}>
-            안녕하세요,
-            <br />
-            누구나 온기를 전하도록 이어주는
-            <br />
-            버디브릿지입니다.
-          </p>
-          <LoginImg width={400} height={400} />
+    <article className={cn("loginContainer")}>
+      <div className={cn("loginBox")}>
+        <div className={cn("loginTitleBox")}>
+          <p className={cn("loginEnglishTitle")}>BUDDY BRIDGE LOGIN</p>
+          <p className={cn("loginKoreanTitle")}>버디브릿지 로그인</p>
         </div>
-        <article className={cn("loginContainer")}>
-          <div className={cn("loginBox")}>
-            <div className={cn("loginTitleBox")}>
-              <p className={cn("loginEnglishTitle")}>BUDDY BRIDGE LOGIN</p>
-              <p className={cn("loginKoreanTitle")}>버디브릿지 로그인</p>
-            </div>
-            <div className={cn("loginFormBox")}>
-              <form className={cn("formContainer")} onSubmit={handleSubmit(handleLoginClick)}>
-                <div className={cn("userInfoBox")}>
-                  <div className={cn("emailContainer")}>
-                    <div className={cn("emailBox")}>
-                      <input className={cn("email")} placeholder="이메일을 입력해주세요." {...register("email")} />
-                      <Message className={cn("messageIcon")} />
-                    </div>
-                    {errors.email && <p className={cn("errorMessage")}>{errors.email.message}</p>}
-                  </div>
-                  <div className={cn("passwordContainer")}>
-                    <div className={cn("passwordBox")}>
-                      <input
-                        type="password"
-                        className={cn("password")}
-                        placeholder="비밀번호를 입력해주세요."
-                        {...register("password")}
-                      />
-                      <Password className={cn("passwordIcon")} />
-                    </div>
-                    {errors.password && <p className={cn("errorMessage")}>{errors.password.message}</p>}
-                  </div>
+        <div className={cn("loginFormBox")}>
+          <form className={cn("formContainer")} onSubmit={handleSubmit(handleLoginClick)}>
+            <div className={cn("userInfoBox")}>
+              <div className={cn("emailContainer")}>
+                <div className={cn("emailBox")}>
+                  <input className={cn("email")} placeholder="이메일을 입력해주세요." {...register("email")} />
+                  <Message className={cn("messageIcon")} />
                 </div>
-                <div className={cn("buttonBox")}>
-                  <button type="submit" className={cn("loginBtn", { active: isValid })}>
-                    로그인
-                  </button>
-                  <Link href={ROUTE.SIGN_UP} type="button" className={cn("signUpBtn")}>
-                    이메일 회원가입
-                  </Link>
+                {errors.email && <p className={cn("errorMessage")}>{errors.email.message}</p>}
+              </div>
+              <div className={cn("passwordContainer")}>
+                <div className={cn("passwordBox")}>
+                  <input
+                    type="password"
+                    className={cn("password")}
+                    placeholder="비밀번호를 입력해주세요."
+                    {...register("password")}
+                  />
+                  <Password className={cn("passwordIcon")} />
                 </div>
-              </form>
+                {errors.password && <p className={cn("errorMessage")}>{errors.password.message}</p>}
+              </div>
             </div>
-            <div className={cn("kakaoLoginBox")}>
-              <p className={cn("kakaoLoginHeader")}>카카오톡으로 로그인</p>
-              <button onClick={handleLogin} className={cn("kakaoButton")}>
-                <Kakao className={cn("kakao")} />
-                <p className={cn("kakaoLogin")}>카카오 로그인</p>
+            <div className={cn("buttonBox")}>
+              <button type="submit" className={cn("loginBtn", { active: isValid })}>
+                로그인
               </button>
+              <Link href={ROUTE.SIGN_UP} type="button" className={cn("signUpBtn")}>
+                이메일 회원가입
+              </Link>
             </div>
-          </div>
-          <p className={cn("loginInfo")}>※ 사용자의 신원을 보장하기 위해 카카오 로그인만 제공합니다. </p>
-        </article>
+          </form>
+        </div>
+        <div className={cn("kakaoLoginBox")}>
+          <p className={cn("kakaoLoginHeader")}>카카오톡으로 로그인</p>
+          <button onClick={handleLogin} className={cn("kakaoButton")}>
+            <Kakao className={cn("kakao")} />
+            <p className={cn("kakaoLogin")}>카카오 로그인</p>
+          </button>
+        </div>
       </div>
-    </main>
+      <p className={cn("loginInfo")}>※ 사용자의 신원을 보장하기 위해 카카오 로그인만 제공합니다. </p>
+    </article>
   );
 }
