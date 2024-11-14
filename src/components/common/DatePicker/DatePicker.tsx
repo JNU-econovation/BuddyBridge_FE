@@ -14,21 +14,31 @@ interface CustomDatePickerProps {
   selected: Date;
   onChange: (date: Date) => void;
   dateFormat: string;
-  customInputRef?: Ref<HTMLButtonElement>;
+  customInputRef?: Ref<HTMLInputElement>;
+  classNames?: string;
+  placeholder?: string;
 }
 
-interface CustomInputProps extends ComponentProps<"button"> {}
+interface CustomInputProps extends ComponentProps<"input"> {
+  classNames?: string;
+  placeholders?: string;
+}
 
-const CustomInput = forwardRef<HTMLButtonElement, CustomInputProps>(function CustomInput(props, ref) {
+const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(function CustomInput(props, ref) {
   return (
-    <button type="button" className={cn("button")} onClick={props.onClick} ref={ref}>
-      {props.value}
-    </button>
+    <input
+      className={cn(props.classNames, "input")}
+      onClick={props.onClick}
+      ref={ref}
+      placeholder={props.placeholders}
+      value={props.value}
+      readOnly
+    />
   );
 });
 
-export default forwardRef<HTMLButtonElement, CustomDatePickerProps>(function CustomDatePicker(
-  { locale, selected, onChange, dateFormat, customInputRef },
+export default forwardRef<HTMLInputElement, CustomDatePickerProps>(function CustomDatePicker(
+  { locale, selected, onChange, dateFormat, customInputRef, classNames, placeholder },
   ref,
 ) {
   return (
@@ -37,7 +47,7 @@ export default forwardRef<HTMLButtonElement, CustomDatePickerProps>(function Cus
       selected={selected}
       onChange={onChange}
       dateFormat={dateFormat}
-      customInput={<CustomInput ref={customInputRef} />}
+      customInput={<CustomInput placeholders={placeholder} classNames={classNames} ref={customInputRef} />}
       showPopperArrow={false}
     />
   );
