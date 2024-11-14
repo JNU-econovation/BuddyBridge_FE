@@ -1,6 +1,7 @@
 export const ROUTE = {
   HOME: "/",
   LOGIN: "/login",
+  SIGN_UP: "/sign-up",
   HELP_ME: "/help-me",
   HELP_ME_REGISTER: "/help-me/register",
   HELP_ME_EDIT: "/help-me/edit",
