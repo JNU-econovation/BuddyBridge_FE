@@ -10,7 +10,6 @@ import { ROUTE } from "@/constants/route";
 import Kakao from "@/icons/kakao.svg";
 import Message from "@/icons/message.svg";
 import Password from "@/icons/password.svg";
-import LoginImg from "@/images/loginImg.svg";
 
 const cn = classNames.bind(styles);
 
