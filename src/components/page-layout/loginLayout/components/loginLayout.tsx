@@ -7,8 +7,8 @@ import Link from "next/link";
 
 import styles from "@/components/page-layout/loginLayout/components/loginLayout.module.scss";
 import { ROUTE } from "@/constants/route";
+import Email from "@/icons/email.svg";
 import Kakao from "@/icons/kakao.svg";
-import Message from "@/icons/message.svg";
 import Password from "@/icons/password.svg";
 
 const cn = classNames.bind(styles);
@@ -62,7 +62,7 @@ export default function LoginLayout() {
               <div className={cn("emailContainer")}>
                 <div className={cn("emailBox")}>
                   <input className={cn("email")} placeholder="이메일을 입력해주세요." {...register("email")} />
-                  <Message className={cn("messageIcon")} />
+                  <Email className={cn("emailIcon")} />
                 </div>
                 {errors.email && <p className={cn("errorMessage")}>{errors.email.message}</p>}
               </div>
