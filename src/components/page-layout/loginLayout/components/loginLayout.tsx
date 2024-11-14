@@ -3,7 +3,10 @@ import classNames from "classnames/bind";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import Link from "next/link";
+
 import styles from "@/components/page-layout/loginLayout/components/loginLayout.module.scss";
+import { ROUTE } from "@/constants/route";
 import Kakao from "@/icons/kakao.svg";
 import Message from "@/icons/message.svg";
 import Password from "@/icons/password.svg";
@@ -93,9 +96,9 @@ export default function LoginLayout() {
                   <button type="submit" className={cn("loginBtn", { active: isValid })}>
                     로그인
                   </button>
-                  <button type="button" className={cn("signUpBtn")}>
+                  <Link href={ROUTE.SIGN_UP} type="button" className={cn("signUpBtn")}>
                     이메일 회원가입
-                  </button>
+                  </Link>
                 </div>
               </form>
             </div>
