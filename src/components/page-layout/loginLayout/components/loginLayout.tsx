@@ -1,4 +1,7 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import classNames from "classnames/bind";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import styles from "@/components/page-layout/loginLayout/components/loginLayout.module.scss";
 import Kakao from "@/icons/kakao.svg";
@@ -8,11 +11,40 @@ import LoginImg from "@/images/loginImg.svg";
 
 const cn = classNames.bind(styles);
 
+const loginSchema = z.object({
+  email: z.string().email("유효한 이메일을 입력해주세요."),
+  password: z
+    .string()
+    .min(8, "비밀번호는 최소 8자 이상이어야 합니다.")
+    .regex(/[a-z]/, "비밀번호에는 최소 1개의 소문자가 포함되어야 합니다.")
+    .regex(/[0-9]/, "비밀번호에는 최소 1개의 숫자가 포함되어야 합니다.")
+    .regex(/[\W_]/, "비밀번호에는 최소 1개의 특수문자가 포함되어야 합니다."),
+});
+
+interface LoginInfo {
+  email: string;
+  password: string;
+}
+
 export default function LoginLayout() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<LoginInfo>({ resolver: zodResolver(loginSchema), mode: "onChange" });
+
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_Rest_api_key}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&response_type=code`;
 
   const handleLogin = () => {
     window.location.href = kakaoURL;
+  };
+
+  const handleLoginClick = (data: LoginInfo) => {
+    const content = {
+      email: data.email,
+      password: data.password,
+    };
+    console.log(content);
   };
 
   return (
@@ -35,20 +67,35 @@ export default function LoginLayout() {
               <p className={cn("loginKoreanTitle")}>버디브릿지 로그인</p>
             </div>
             <div className={cn("loginFormBox")}>
-              <form className={cn("formContainer")}>
+              <form className={cn("formContainer")} onSubmit={handleSubmit(handleLoginClick)}>
                 <div className={cn("userInfoBox")}>
-                  <div className={cn("emailBox")}>
-                    <input className={cn("email")} placeholder="이메일을 입력해주세요." />
-                    <Message className={cn("messageIcon")} />
+                  <div className={cn("emailContainer")}>
+                    <div className={cn("emailBox")}>
+                      <input className={cn("email")} placeholder="이메일을 입력해주세요." {...register("email")} />
+                      <Message className={cn("messageIcon")} />
+                    </div>
+                    {errors.email && <p className={cn("errorMessage")}>{errors.email.message}</p>}
                   </div>
-                  <div className={cn("passwordBox")}>
-                    <input type="password" className={cn("password")} placeholder="비밀번호를 입력해주세요." />
-                    <Password className={cn("passwordIcon")} />
+                  <div className={cn("passwordContainer")}>
+                    <div className={cn("passwordBox")}>
+                      <input
+                        type="password"
+                        className={cn("password")}
+                        placeholder="비밀번호를 입력해주세요."
+                        {...register("password")}
+                      />
+                      <Password className={cn("passwordIcon")} />
+                    </div>
+                    {errors.password && <p className={cn("errorMessage")}>{errors.password.message}</p>}
                   </div>
                 </div>
                 <div className={cn("buttonBox")}>
-                  <button className={cn("loginBtn")}>로그인</button>
-                  <button className={cn("signUpBtn")}>이메일 회원가입</button>
+                  <button type="submit" className={cn("loginBtn", { active: isValid })}>
+                    로그인
+                  </button>
+                  <button type="button" className={cn("signUpBtn")}>
+                    이메일 회원가입
+                  </button>
                 </div>
               </form>
             </div>

@@ -63,8 +63,15 @@
   width: 100%;
 }
 
+.emailContainer,
+.passwordContainer {
+  @include flexSort(column, null, null, 1rem);
+  width: 100%;
+}
+
 .emailBox,
 .passwordBox {
+  @include flexSort(column, null, null, 1rem);
   width: 100%;
   position: relative;
 }
@@ -87,6 +94,11 @@
   transform: translate(0, -50%);
 }
 
+.errorMessage {
+  @include font(1rem, 500, normal);
+  color: red;
+}
+
 .loginBtn,
 .signUpBtn {
   width: 100%;
@@ -100,12 +112,20 @@
   background: #b7b7b7;
   border: 0.1rem solid #b7b7b7;
   color: white;
+
+  &.active:hover {
+    background: #9290ea;
+  }
 }
 
 .signUpBtn {
   background: #f2f2f2;
   border: 0.1rem solid #d1d1d1;
   color: black;
+
+  &:hover {
+    background: #e7efff;
+  }
 }
 
 .loginTitleBox {
