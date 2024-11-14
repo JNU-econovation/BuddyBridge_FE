@@ -13,9 +13,13 @@ const cn = classNames.bind(styles);
 interface DropdownProps extends ComponentProps<"input"> {
   options: string[];
   onSelection: (option: string) => void;
+  classNames?: string;
 }
 
-export default forwardRef<HTMLInputElement, DropdownProps>(function Dropdown({ options, onSelection, ...rest }, ref) {
+export default forwardRef<HTMLInputElement, DropdownProps>(function Dropdown(
+  { options, onSelection, classNames, ...rest },
+  ref,
+) {
   const dropdownRef = useRef(null);
   const [isOpen, setIsOpen] = useDetectClose(dropdownRef, false);
 
@@ -28,7 +32,7 @@ export default forwardRef<HTMLInputElement, DropdownProps>(function Dropdown({ o
 
   return (
     <div ref={dropdownRef} className={cn("container")}>
-      <Input onClick={toggleDropdown} className={cn("input")} readOnly {...rest} ref={ref} />
+      <Input onClick={toggleDropdown} className={cn(classNames, "input")} readOnly {...rest} ref={ref} />
       <DropDownImg className={cn("img")} onClick={toggleDropdown} />
       {isOpen && (
         <div className={cn("dropDownContainer")}>
