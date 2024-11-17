@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import CustomDatePicker from "@/components/common/DatePicker/DatePicker";
 import { GENDER } from "@/components/common/DropDown/constants";
 import Dropdown from "@/components/common/DropDown/DropDown";
+import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/signUpLayout/components/signUpLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import DropDownImg from "@/icons/dropdown.svg";
@@ -84,6 +85,7 @@ export default function SignUpLayout() {
     mutationFn: ({ body }: SignUpInfo) => postSignUp({ body }),
     onSuccess: () => {
       router.push(ROUTE.LOGIN);
+      openToast("success", "회원가입이 완료되었습니다.");
     },
   });
 
