@@ -152,3 +152,22 @@
     color: white;
   }
 }
+
+.modal {
+  padding: 4rem 5.5rem;
+  @include flexSort(column, null, center, 2.4rem);
+}
+
+.modalContent {
+  color: #ec0d0d;
+  @include font(1.8rem, 500, normal);
+}
+
+.modalBtnContent {
+  border-radius: 0.5rem;
+  border: 0.1rem solid #d3d3d3;
+  background: #d3d3d3;
+  @include flexSort(null, center, center, null);
+  @include font(1.2rem, 300, normal);
+  padding: 8px 21px 10px 21px;
+}

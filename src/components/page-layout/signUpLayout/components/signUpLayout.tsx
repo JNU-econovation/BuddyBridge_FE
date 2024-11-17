@@ -1,5 +1,8 @@
+import { Dispatch, SetStateAction, useState } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 import { ko } from "date-fns/locale";
 import { Controller, useForm } from "react-hook-form";
@@ -10,6 +13,7 @@ import { useRouter } from "next/router";
 import CustomDatePicker from "@/components/common/DatePicker/DatePicker";
 import { GENDER } from "@/components/common/DropDown/constants";
 import Dropdown from "@/components/common/DropDown/DropDown";
+import Modal from "@/components/common/Modal/Modal";
 import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/signUpLayout/components/signUpLayout.module.scss";
 import { ROUTE } from "@/constants/route";
@@ -70,8 +74,16 @@ interface SignUpInfo {
   };
 }
 
+interface ErrorResponse {
+  error: {
+    message: string;
+  };
+}
+
 export default function SignUpLayout() {
   const router = useRouter();
+  const [clickNumber, setClickNumber] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -87,124 +99,149 @@ export default function SignUpLayout() {
       router.push(ROUTE.LOGIN);
       openToast("success", "회원가입이 완료되었습니다.");
     },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response) {
+        openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "에러가 발생했습니다.");
+      }
+    },
   });
 
   const handleSignUpClick = (data: SignUpInfoForm) => {
-    const body: SignUpInfo["body"] = {
-      name: data.name,
-      gender: data.gender,
-      birthDate: data.birthDate,
-      email: data.email,
-      password: data.password,
-    };
+    if (clickNumber === 0) {
+      setIsModalOpen((prev) => !prev);
+      setClickNumber(1);
+    } else {
+      const body: SignUpInfo["body"] = {
+        name: data.name,
+        gender: data.gender,
+        birthDate: data.birthDate,
+        email: data.email,
+        password: data.password,
+      };
 
-    const confirmMessage = "한 번 가입시 변경할 수 없으니 꼭 확인해주세요.";
-    const isConfirmed = window.confirm(confirmMessage);
-
-    if (isConfirmed) {
-      signUp.mutate({ body }); // body를 사용
+      signUp.mutate({ body });
     }
   };
 
   return (
-    <article className={cn("signUpContainer")}>
-      <p className={cn("title")}>이메일 회원가입</p>
-      <form className={cn("formContainer")} onSubmit={handleSubmit(handleSignUpClick)}>
-        <div className={cn("inputContainer")}>
-          <div className={cn("nameContainer")}>
-            <label className={cn("nameLabel")}>이름</label>
-            <div className={cn("nameBox")}>
-              <input placeholder="이름을 입력해주세요." className={cn("nameInput")} {...register("name")} />
-              <Name className={cn("nameIcon")} />
+    <>
+      <article className={cn("signUpContainer")}>
+        <p className={cn("title")}>이메일 회원가입</p>
+        <form className={cn("formContainer")} onSubmit={handleSubmit(handleSignUpClick)}>
+          <div className={cn("inputContainer")}>
+            <div className={cn("nameContainer")}>
+              <label className={cn("nameLabel")}>이름</label>
+              <div className={cn("nameBox")}>
+                <input placeholder="이름을 입력해주세요." className={cn("nameInput")} {...register("name")} />
+                <Name className={cn("nameIcon")} />
+              </div>
+              {errors.name && <p className={cn("errorMessage")}>{errors.name.message}</p>}
             </div>
-            {errors.name && <p className={cn("errorMessage")}>{errors.name.message}</p>}
-          </div>
-          <div className={cn("genderContainer")}>
-            <label className={cn("genderLabel")}>성별</label>
-            <Dropdown
-              classNames={cn("genderDropDown")}
-              placeholder="성별을 선택해 주세요"
-              options={GENDER}
-              onSelection={(option) => {
-                setValue("gender", option);
-                clearErrors("gender");
-              }}
-              {...register("gender")}
-            />
-            {errors.gender && <p className={cn("errorMessage")}>{errors.gender.message}</p>}
-          </div>
-          <div className={cn("birthDayContainer")}>
-            <label className={cn("birthDayLabel")}>생년월일</label>
-            <div className={cn("birthDayBox")}>
-              <Controller
-                name="birthDate"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <CustomDatePicker
-                    locale={ko}
-                    selected={field.value}
-                    onChange={field.onChange}
-                    dateFormat="yyyy년 MM월 dd일"
-                    customInputRef={field.ref}
-                    classNames={cn("birthDay")}
-                    placeholder="생년월일을 선택해 주세요."
-                  />
-                )}
+            <div className={cn("genderContainer")}>
+              <label className={cn("genderLabel")}>성별</label>
+              <Dropdown
+                classNames={cn("genderDropDown")}
+                placeholder="성별을 선택해 주세요"
+                options={GENDER}
+                onSelection={(option) => {
+                  setValue("gender", option);
+                  clearErrors("gender");
+                }}
+                {...register("gender")}
               />
-              <DropDownImg className={cn("dropDownImg")} />
+              {errors.gender && <p className={cn("errorMessage")}>{errors.gender.message}</p>}
             </div>
-            {errors.birthDate && <p className={cn("errorMessage")}>{errors.birthDate.message}</p>}
+            <div className={cn("birthDayContainer")}>
+              <label className={cn("birthDayLabel")}>생년월일</label>
+              <div className={cn("birthDayBox")}>
+                <Controller
+                  name="birthDate"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <CustomDatePicker
+                      locale={ko}
+                      selected={field.value}
+                      onChange={field.onChange}
+                      dateFormat="yyyy년 MM월 dd일"
+                      customInputRef={field.ref}
+                      classNames={cn("birthDay")}
+                      placeholder="생년월일을 선택해 주세요."
+                    />
+                  )}
+                />
+                <DropDownImg className={cn("dropDownImg")} />
+              </div>
+              {errors.birthDate && <p className={cn("errorMessage")}>{errors.birthDate.message}</p>}
+            </div>
+            <div className={cn("emailContainer")}>
+              <label className={cn("emailLabel")}>이메일</label>
+              <div className={cn("emailBox")}>
+                <input
+                  placeholder="VMS 가입 이메일을 입력해주세요."
+                  className={cn("emailInput")}
+                  {...register("email")}
+                />
+                <Email className={cn("emailIcon")} />
+              </div>
+              {errors.email && <p className={cn("errorMessage")}>{errors.email.message}</p>}
+            </div>
+            <div className={cn("passwordContainer")}>
+              <label className={cn("passwordLabel")}>비밀번호</label>
+              <div className={cn("passwordBox")}>
+                <input
+                  placeholder="영문자, 숫자, 특수 문자 포함 8 ~ 16자"
+                  className={cn("passwordInput")}
+                  {...register("password")}
+                />
+                <Password className={cn("passwordIcon")} />
+              </div>
+              {errors.password && <p className={cn("errorMessage")}>{errors.password.message}</p>}
+            </div>
           </div>
-          <div className={cn("emailContainer")}>
-            <label className={cn("emailLabel")}>이메일</label>
-            <div className={cn("emailBox")}>
-              <input
-                placeholder="VMS 가입 이메일을 입력해주세요."
-                className={cn("emailInput")}
-                {...register("email")}
-              />
-              <Email className={cn("emailIcon")} />
+          <div className={cn("agreeContainer")}>
+            <p className={cn("agreeTitle")}>동의 항목</p>
+            <div className={cn("agreeBox")}>
+              <div className={cn("checkBox")}>
+                <input type="checkbox" id="agree1" {...register("agree1")} />
+                <label htmlFor="agree1">VMS 가입한 이메일과 동일합니다. </label>
+              </div>
+              <div className={cn("checkBox")}>
+                <input type="checkbox" id="agree2" {...register("agree2")} />
+                <label htmlFor="agree2">이름, 성별, 출생연도는 한 번 가입시 변경할 수 없습니다.</label>
+              </div>
+              <div className={cn("checkBox")}>
+                <input type="checkbox" id="agree3" {...register("agree3")} />
+                <label htmlFor="agree3">부적절한 게시글 및 댓글은 작성이 제한되며, 삭제 될 수 있습니다. </label>
+              </div>
+              {errors.agree1 && <p className={cn("errorMessage")}>{errors.agree1.message}</p>}
+              {errors.agree2 && <p className={cn("errorMessage")}>{errors.agree2.message}</p>}
+              {errors.agree3 && <p className={cn("errorMessage")}>{errors.agree3.message}</p>}
             </div>
-            {errors.email && <p className={cn("errorMessage")}>{errors.email.message}</p>}
           </div>
-          <div className={cn("passwordContainer")}>
-            <label className={cn("passwordLabel")}>비밀번호</label>
-            <div className={cn("passwordBox")}>
-              <input
-                placeholder="영문자, 숫자, 특수 문자 포함 8 ~ 16자"
-                className={cn("passwordInput")}
-                {...register("password")}
-              />
-              <Password className={cn("passwordIcon")} />
-            </div>
-            {errors.password && <p className={cn("errorMessage")}>{errors.password.message}</p>}
-          </div>
-        </div>
-        <div className={cn("agreeContainer")}>
-          <p className={cn("agreeTitle")}>동의 항목</p>
-          <div className={cn("agreeBox")}>
-            <div className={cn("checkBox")}>
-              <input type="checkbox" id="agree1" {...register("agree1")} />
-              <label htmlFor="agree1">VMS 가입한 이메일과 동일합니다. </label>
-            </div>
-            <div className={cn("checkBox")}>
-              <input type="checkbox" id="agree2" {...register("agree2")} />
-              <label htmlFor="agree2">이름, 성별, 출생연도는 한 번 가입시 변경할 수 없습니다.</label>
-            </div>
-            <div className={cn("checkBox")}>
-              <input type="checkbox" id="agree3" {...register("agree3")} />
-              <label htmlFor="agree3">부적절한 게시글 및 댓글은 작성이 제한되며, 삭제 될 수 있습니다. </label>
-            </div>
-            {errors.agree1 && <p className={cn("errorMessage")}>{errors.agree1.message}</p>}
-            {errors.agree2 && <p className={cn("errorMessage")}>{errors.agree2.message}</p>}
-            {errors.agree3 && <p className={cn("errorMessage")}>{errors.agree3.message}</p>}
-          </div>
-        </div>
-        <button type="submit" className={cn("signUpBtn", { active: isValid })}>
-          회원가입
-        </button>
-      </form>
-    </article>
+          <button type="submit" className={cn("signUpBtn", { active: isValid })}>
+            회원가입
+          </button>
+        </form>
+      </article>
+      {isModalOpen && <ConfirmModal setState={setIsModalOpen} />}
+    </>
+  );
+}
+
+interface ConfirmModalProps {
+  setState: Dispatch<SetStateAction<boolean>>;
+}
+
+function ConfirmModal({ setState }: ConfirmModalProps) {
+  return (
+    <Modal className={cn("modal")} setState={setState}>
+      <p className={cn("modalContent")}>한 번 가입시 변경 할 수 없으니 꼭 확인해 주세요.</p>
+      <button onClick={() => setState((prev) => !prev)} className={cn("modalBtnContent")}>
+        네, 확인했습니다.
+      </button>
+    </Modal>
   );
 }
