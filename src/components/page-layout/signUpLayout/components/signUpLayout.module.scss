@@ -15,7 +15,7 @@
 
 .formContainer {
   width: 100%;
-  @include flexSort(column, null, null, 2rem);
+  @include flexSort(column, null, null, 3rem);
 }
 
 .inputContainer {
@@ -119,6 +119,11 @@
   transform: translate(0, -50%);
 }
 
+.errorMessage {
+  @include font(1rem, 500, normal);
+  color: red;
+}
+
 .agreeContainer {
   @include flexSort(column, null, null, 1.3rem);
 }
@@ -133,6 +138,7 @@
 }
 
 .signUpBtn {
+  margin-top: 2rem;
   width: 100%;
   height: 5.4rem;
   @include flexSort(null, center, center, null);
@@ -140,4 +146,9 @@
   border-radius: 0.5rem;
   background: #f2f2f2;
   border: 0.15rem solid #d1d1d1;
+
+  &.active:hover {
+    background: #9290ea;
+    color: white;
+  }
 }
