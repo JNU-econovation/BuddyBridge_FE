@@ -1,6 +1,6 @@
 import axiosInstance from "@/apis/axiosInstance";
 
-interface SignUpInfo {
+interface SignUpRequest {
   body: {
     name: string;
     gender: string;
@@ -10,8 +10,20 @@ interface SignUpInfo {
   };
 }
 
-export default async function postSignUp({ body }: SignUpInfo) {
-  const { data } = await axiosInstance.post(`auth/signup`, {
+interface SignUpResponse {
+  data: {
+    message: string;
+  } | null;
+  error: {
+    message: string;
+    code: string;
+    status: number;
+  };
+  success: boolean;
+}
+
+export default async function postSignUp({ body }: SignUpRequest) {
+  const { data } = await axiosInstance.post<SignUpResponse>(`auth/signup`, {
     name: body.name,
     gender: body.gender,
     birthDate: body.birthDate,
