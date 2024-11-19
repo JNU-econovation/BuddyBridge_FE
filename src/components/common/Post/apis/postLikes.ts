@@ -1,12 +1,6 @@
-import axiosInstance from "@/apis/axiosInstance";
+import { axiosCertificationInstance } from "@/apis/axiosInstance";
 
 export default async function postLikes(postId: number) {
-  const { data } = await axiosInstance.post(
-    `posts/likes/${postId}`,
-    {},
-    {
-      withCredentials: true,
-    },
-  );
+  const { data } = await axiosCertificationInstance.post(`posts/likes/${postId}`, {});
   return data;
 }

@@ -1,16 +1,10 @@
-import axiosInstance from "@/apis/axiosInstance";
+import { axiosCertificationInstance } from "@/apis/axiosInstance";
 
 import { FormType } from "../components/MyInfoEditFrom/MyInfoEditForm";
 
 export default async function putMyInfo(body: FormType) {
-  const { data } = await axiosInstance.put(
-    `users/info`,
-    {
-      ...body,
-    },
-    {
-      withCredentials: true,
-    },
-  );
+  const { data } = await axiosCertificationInstance.put(`users/info`, {
+    ...body,
+  });
   return data.data;
 }
