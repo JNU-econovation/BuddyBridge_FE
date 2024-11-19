@@ -40,10 +40,10 @@ export default function DropDown({ isNameClick }: DropDownProps) {
       await router.push(ROUTE.HOME);
     },
     onError: () => {
-      queryClient.invalidateQueries({ queryKey: ["user"] });
-      queryClient.invalidateQueries({ queryKey: ["userLogIn"] });
       window.localStorage.removeItem("accessToken");
       window.localStorage.removeItem("refreshToken");
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+      queryClient.invalidateQueries({ queryKey: ["userLogIn"] });
     },
   });
 
