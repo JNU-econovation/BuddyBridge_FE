@@ -1,15 +1,21 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import Link from "next/link";
+import { useRouter } from "next/router";
 
+import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/loginLayout/components/loginLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import Email from "@/icons/email.svg";
 import Kakao from "@/icons/kakao.svg";
 import Password from "@/icons/password.svg";
+
+import postLogin from "../apis/postLogin";
 
 const cn = classNames.bind(styles);
 
@@ -23,17 +29,38 @@ const loginSchema = z.object({
     .regex(/[\W_]/, "비밀번호에는 최소 1개의 특수문자가 포함되어야 합니다."),
 });
 
-interface LoginInfo {
+interface LoginInfoForm {
   email: string;
   password: string;
 }
 
+interface LoginInfo {
+  body: {
+    email: string;
+    password: string;
+  };
+}
+
 export default function LoginLayout() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<LoginInfo>({ resolver: zodResolver(loginSchema), mode: "onChange" });
+  } = useForm<LoginInfoForm>({ resolver: zodResolver(loginSchema), mode: "onChange" });
+
+  const login = useMutation({
+    mutationFn: ({ body }: LoginInfo) => postLogin({ body }),
+    onSuccess: (response) => {
+      window.localStorage.setItem("accessToken", response.data.accessToken);
+      window.localStorage.setItem("refreshToken", response.data.refreshToken);
+      router.push(ROUTE.HOME);
+      openToast("success", "로그인이 완료되었습니다.");
+    },
+    onError: (error) => {
+      openToast("error", "에러가 발생했습니다.");
+    },
+  });
 
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_Rest_api_key}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&response_type=code`;
 
@@ -41,12 +68,13 @@ export default function LoginLayout() {
     window.location.href = kakaoURL;
   };
 
-  const handleLoginClick = (data: LoginInfo) => {
-    const content = {
+  const handleLoginClick = (data: LoginInfo["body"]) => {
+    const body = {
       email: data.email,
       password: data.password,
     };
-    console.log(content);
+
+    login.mutate({ body });
   };
 
   return (
