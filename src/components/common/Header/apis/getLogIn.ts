@@ -1,6 +1,12 @@
-import { axiosCertificationInstance } from "@/apis/axiosInstance";
+import { axiosInstance } from "@/apis/axiosInstance";
 
 export default async function getLogIn() {
-  const { data } = await axiosCertificationInstance.get("users/info");
+  const accessToken = localStorage.getItem("accessToken");
+
+  const { data } = await axiosInstance.get("users/info", {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
   return data.data;
 }
