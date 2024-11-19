@@ -28,6 +28,7 @@ const cn = classNames.bind(styles);
 
 const signUpSchema = z.object({
   name: z.string().min(1, "이름은 최소 1자 이상이어야 합니다."),
+  nickname: z.string().min(1, "닉네임은 최소 1자 이상이어야 합니다."),
   gender: z.string().min(1, "성별을 선택해야 합니다."),
   birthDate: z
     .date()
@@ -55,6 +56,7 @@ const signUpSchema = z.object({
 
 interface SignUpInfoForm {
   name: string;
+  nickname: string;
   gender: string;
   birthDate: Date;
   email: string;
@@ -67,6 +69,7 @@ interface SignUpInfoForm {
 interface SignUpInfo {
   body: {
     name: string;
+    nickname: string;
     gender: string;
     birthDate: Date;
     email: string;
@@ -115,6 +118,7 @@ export default function SignUpLayout() {
     } else {
       const body: SignUpInfo["body"] = {
         name: data.name,
+        nickname: data.nickname,
         gender: data.gender,
         birthDate: data.birthDate,
         email: data.email,
@@ -138,6 +142,14 @@ export default function SignUpLayout() {
                 <Name className={cn("nameIcon")} />
               </div>
               {errors.name && <p className={cn("errorMessage")}>{errors.name.message}</p>}
+            </div>
+            <div className={cn("nicknameContainer")}>
+              <label className={cn("nicknameLabel")}>닉네임</label>
+              <div className={cn("nicknameBox")}>
+                <input placeholder="닉네임을 입력해주세요." className={cn("nicknameInput")} {...register("nickname")} />
+                <Name className={cn("nameIcon")} />
+              </div>
+              {errors.nickname && <p className={cn("errorMessage")}>{errors.nickname.message}</p>}
             </div>
             <div className={cn("genderContainer")}>
               <label className={cn("genderLabel")}>성별</label>
@@ -192,6 +204,7 @@ export default function SignUpLayout() {
               <label className={cn("passwordLabel")}>비밀번호</label>
               <div className={cn("passwordBox")}>
                 <input
+                  type="password"
                   placeholder="영문자, 숫자, 특수 문자 포함 8 ~ 16자"
                   className={cn("passwordInput")}
                   {...register("password")}
