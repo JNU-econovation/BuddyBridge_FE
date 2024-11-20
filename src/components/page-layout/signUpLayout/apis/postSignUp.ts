@@ -24,11 +24,14 @@ interface SignUpResponse {
 }
 
 export default async function postSignUp({ body }: SignUpRequest) {
+  const birthDate = new Date(body.birthDate);
+  birthDate.setDate(birthDate.getDate() + 1);
+
   const { data } = await axiosInstance.post<SignUpResponse>(`auth/signup`, {
     name: body.name,
     nickname: body.nickname,
     gender: body.gender,
-    birthDate: body.birthDate,
+    birthDate: birthDate,
     email: body.email,
     password: body.password,
   });
