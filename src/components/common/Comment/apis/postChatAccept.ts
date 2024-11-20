@@ -1,4 +1,4 @@
-import axiosInstance from "@/apis/axiosInstance";
+import { axiosCertificationInstance } from "@/apis/axiosInstance";
 
 interface PostChatAcceptType {
   body: {
@@ -9,13 +9,9 @@ interface PostChatAcceptType {
 }
 
 export default async function postChatAccept({ body }: PostChatAcceptType) {
-  const { data } = await axiosInstance.post(
-    `matching/accept`,
-    {
-      ...body,
-    },
-    { withCredentials: true },
-  );
+  const { data } = await axiosCertificationInstance.post(`matching/accept`, {
+    ...body,
+  });
 
   return data.data;
 }

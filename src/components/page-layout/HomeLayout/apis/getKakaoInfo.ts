@@ -1,12 +1,6 @@
-import axiosInstance from "@/apis/axiosInstance";
+import { axiosCertificationInstance } from "@/apis/axiosInstance";
 
 export default async function getKakaoInfo(code: string) {
-  const { data } = await axiosInstance.post(
-    "oauth/login",
-    { authorizationCode: code },
-    {
-      withCredentials: true,
-    },
-  );
+  const { data } = await axiosCertificationInstance.post("oauth/login", { authorizationCode: code });
   return data.data;
 }

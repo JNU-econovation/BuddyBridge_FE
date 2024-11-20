@@ -1,4 +1,4 @@
-import axiosInstance from "@/apis/axiosInstance";
+import { axiosInstance } from "@/apis/axiosInstance";
 
 export default async function getAllComment(id: string, limit: number, cursor: number) {
   if (cursor !== 0) {

@@ -10,15 +10,25 @@ import getLogIn from "../apis/getLogIn";
 
 export default function User() {
   const { userInfo } = useUserInfoStore();
+  let accessToken;
+
+  if (typeof window !== "undefined") {
+    accessToken = localStorage.getItem("accessToken");
+  }
 
   const { data, isError, refetch } = useQuery({
     queryKey: ["userLogIn"],
     queryFn: () => getLogIn(),
+    enabled: !!accessToken,
   });
 
   useEffect(() => {
     refetch();
   }, [userInfo, refetch]);
+
+  if (!accessToken) {
+    <NotLogin />;
+  }
 
   if (isError) {
     return <NotLogin />;

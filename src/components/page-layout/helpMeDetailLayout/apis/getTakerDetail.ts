@@ -1,6 +1,6 @@
-import axiosInstance from "@/apis/axiosInstance";
+import { axiosCertificationInstance } from "@/apis/axiosInstance";
 
 export default async function getTakerDetail(id: string) {
-  const { data } = await axiosInstance.get(`posts/${id}`, { withCredentials: true });
+  const { data } = await axiosCertificationInstance.get(`posts/${id}`);
   return data.data;
 }

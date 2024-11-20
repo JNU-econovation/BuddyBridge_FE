@@ -3,7 +3,6 @@ import classNames from "classnames/bind";
 
 import Link from "next/link";
 
-import axiosInstance from "@/apis/axiosInstance";
 import Post from "@/components/common/Post/Post";
 import Skeleton from "@/components/common/Skeleton/Skeleton";
 import styles from "@/components/page-layout/HomeLayout/components/PostList/TakerPostList/TakerPostList.module.scss";

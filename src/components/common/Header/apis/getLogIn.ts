@@ -1,8 +1,12 @@
-import axiosInstance from "@/apis/axiosInstance";
+import { axiosInstance } from "@/apis/axiosInstance";
 
 export default async function getLogIn() {
+  const accessToken = localStorage.getItem("accessToken");
+
   const { data } = await axiosInstance.get("users/info", {
-    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   });
   return data.data;
 }

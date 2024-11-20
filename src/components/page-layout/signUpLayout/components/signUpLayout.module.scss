@@ -1,0 +1,177 @@
+.signUpContainer {
+  padding: 3rem 4rem;
+  background-color: $white;
+  border-radius: 2rem;
+  @include flexSort(column, null, center, 2rem);
+  width: 45rem;
+  height: 60rem;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.title {
+  @include font(2rem, 600, normal);
+}
+
+.formContainer {
+  width: 100%;
+  @include flexSort(column, null, null, 3rem);
+}
+
+.inputContainer {
+  width: 100%;
+  @include flexSort(column, null, null, 2rem);
+}
+
+.nameContainer,
+.nicknameContainer,
+.genderContainer,
+.birthDayContainer,
+.emailContainer,
+.passwordContainer {
+  width: 100%;
+  @include flexSort(column, null, null, 1rem);
+}
+
+.nameLabel,
+.nicknameLabel,
+.genderLabel,
+.birthDayLabel,
+.emailLabel,
+.passwordLabel,
+.agreeTitle {
+  @include font(1.6rem, 600, normal);
+}
+
+.genderDropDown {
+  width: 100%;
+  height: 5.4rem;
+  border: 0.15rem solid #d1d1d1;
+  border-radius: 0.5rem;
+  @include font(1.6rem, 500, normal);
+  color: black;
+  padding: 2rem;
+  @include flexSort(null, null, center, null);
+  text-align: left;
+
+  &::placeholder {
+    color: #b7b7b7;
+  }
+}
+
+.birthDayBox {
+  position: relative;
+  height: 5.4rem;
+  width: 100%;
+}
+
+.birthDay {
+  width: 100%;
+  height: 5.4rem;
+  border: 0.15rem solid #d1d1d1;
+  border-radius: 0.5rem;
+  @include font(1.6rem, 500, normal);
+  color: black;
+  padding: 2rem;
+  @include flexSort(null, null, center, null);
+  text-align: left;
+
+  &::placeholder {
+    color: #b7b7b7;
+  }
+}
+
+.dropDownImg {
+  position: absolute;
+  top: 2rem;
+  right: 1rem;
+}
+
+.nameBox,
+.nicknameBox,
+.emailBox,
+.passwordBox {
+  width: 100%;
+  position: relative;
+}
+
+.nameInput,
+.nicknameInput,
+.emailInput,
+.passwordInput {
+  width: 100%;
+  height: 5.4rem;
+  border: 0.15rem solid #d1d1d1;
+  border-radius: 0.5rem;
+  @include font(1.6rem, 500, normal);
+  color: black;
+  padding: 1rem 1rem 1rem 5rem;
+  @include flexSort(null, null, center, null);
+
+  &::placeholder {
+    color: #b7b7b7;
+  }
+}
+
+.nameIcon,
+.emailIcon,
+.passwordIcon,
+.messageIcon {
+  position: absolute;
+  left: 1.7rem;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.errorMessage {
+  @include font(1rem, 500, normal);
+  color: red;
+}
+
+.agreeContainer {
+  @include flexSort(column, null, null, 1.3rem);
+}
+
+.agreeBox {
+  @include font(1.4rem, 600, normal);
+  @include flexSort(column, null, null, 1rem);
+}
+
+.checkBox {
+  @include flexSort(null, null, center, 1rem);
+}
+
+.signUpBtn {
+  margin-top: 2rem;
+  width: 100%;
+  height: 5.4rem;
+  @include flexSort(null, center, center, null);
+  @include font(1.6rem, 600, normal);
+  border-radius: 0.5rem;
+  background: #f2f2f2;
+  border: 0.15rem solid #d1d1d1;
+
+  &.active:hover {
+    background: #9290ea;
+    color: white;
+  }
+}
+
+.modal {
+  padding: 4rem 5.5rem;
+  @include flexSort(column, null, center, 2.4rem);
+}
+
+.modalContent {
+  color: #ec0d0d;
+  @include font(1.8rem, 500, normal);
+}
+
+.modalBtnContent {
+  border-radius: 0.5rem;
+  border: 0.1rem solid #d3d3d3;
+  background: #d3d3d3;
+  @include flexSort(null, center, center, null);
+  @include font(1.2rem, 300, normal);
+  padding: 8px 21px 10px 21px;
+}

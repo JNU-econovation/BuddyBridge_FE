@@ -1,12 +1,8 @@
-import axiosInstance from "@/apis/axiosInstance";
+import { axiosCertificationInstance } from "@/apis/axiosInstance";
 
 export default async function putMatchingStatus(chatingRoomId: number, status: string) {
-  const { data } = await axiosInstance.put(
-    `matching/${chatingRoomId}`,
-    {
-      matchingStatus: status,
-    },
-    { withCredentials: true },
-  );
+  const { data } = await axiosCertificationInstance.put(`matching/${chatingRoomId}`, {
+    matchingStatus: status,
+  });
   return data.data;
 }

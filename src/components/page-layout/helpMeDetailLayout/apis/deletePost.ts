@@ -1,6 +1,6 @@
-import axiosInstance from "@/apis/axiosInstance";
+import { axiosCertificationInstance } from "@/apis/axiosInstance";
 
 export default async function deletePost(id: number) {
-  const { data } = await axiosInstance.delete(`posts/${id}`, { withCredentials: true });
+  const { data } = await axiosCertificationInstance.delete(`posts/${id}`);
   return data.data;
 }

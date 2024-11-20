@@ -2,44 +2,43 @@
   width: 100%;
   height: 100%;
   position: relative;
+}
 
-  .input {
-    width: 100%;
-    height: 100%;
-    @include font(2.5rem, 400, normal);
-    text-align: center;
-    border-radius: 1rem;
-    border: 0.1rem solid $gray;
-    cursor: pointer;
-  }
+.input {
+  width: 100%;
+  height: 100%;
+  @include font(2.5rem, 400, normal);
+  text-align: center;
+  border-radius: 1rem;
+  border: 0.1rem solid $gray;
+  cursor: pointer;
+}
 
-  .img {
-    position: absolute;
-    right: 1rem;
-    top: 50%; /* 중앙 정렬을 위해 50%로 설정 */
-    transform: translateY(-50%); /* 이미지의 높이를 고려하여 중앙으로 이동 */
-  }
+.img {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
 
-  .dropDownContainer {
-    background-color: $white;
-    position: absolute;
-    width: 100%;
-    top: 7rem;
-    z-index: 1080;
-    border: 0.1rem solid $gray;
-    overflow-y: auto;
-    height: 30.4rem;
-  }
+.dropDownContainer {
+  background-color: $white;
+  position: absolute;
+  width: 100%;
+  top: 7rem;
+  z-index: 1080;
+  border: 0.1rem solid $gray;
+  overflow-y: auto;
+}
 
-  .option {
-    width: 100%;
-    border-bottom: 0.1rem solid $gray;
-    @include font(2.5rem, 400, normal);
-    text-align: center;
-    padding: 2rem 0;
+.option {
+  width: 100%;
+  border-bottom: 0.1rem solid $gray;
+  @include font(2.5rem, 400, normal);
+  text-align: center;
+  padding: 2rem 0;
 
-    &:hover {
-      background-color: $gray;
-    }
+  &:hover {
+    background-color: $gray;
   }
 }
