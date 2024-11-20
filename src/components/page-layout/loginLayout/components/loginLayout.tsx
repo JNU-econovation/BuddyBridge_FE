@@ -41,6 +41,12 @@ interface LoginInfo {
   };
 }
 
+interface ErrorResponse {
+  error: {
+    message: string;
+  };
+}
+
 export default function LoginLayout() {
   const router = useRouter();
   const {
@@ -57,8 +63,12 @@ export default function LoginLayout() {
       router.push(ROUTE.HOME);
       openToast("success", "로그인이 완료되었습니다.");
     },
-    onError: (error) => {
-      openToast("error", "에러가 발생했습니다.");
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response) {
+        openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "에러가 발생했습니다.");
+      }
     },
   });
 
