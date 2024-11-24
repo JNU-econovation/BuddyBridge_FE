@@ -11,7 +11,6 @@ export interface helpMeFormData {
   gender: string;
   age: number;
   disabilityType: string;
-  headcount: number;
   assistanceStartTime: string;
   assistanceEndTime: string;
 }

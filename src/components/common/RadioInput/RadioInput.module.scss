@@ -2,71 +2,47 @@
   width: 100%;
   height: 100%;
   @include flexSort(null, null, center, null);
+}
 
-  .leftInput {
-    height: 100%;
-    border: 0.1rem solid $gray;
-    width: 50%;
-    border-radius: 1rem 0 0 1rem;
-    border-right: none;
-    @include font(2.5rem, 400, normal);
-    @include flexSort(null, center, center, null);
+.leftInput,
+.rightInput {
+  height: 100%;
+  border: 0.1rem solid $gray;
+  width: 50%;
+  @include nsnFont(1.8rem, 400, normal);
+  @include flexSort(null, center, center, null);
+  color: #b7b7b7;
 
-    input {
-      display: none;
-    }
-
-    label {
-      height: 100%;
-      width: 100%;
-      @include flexSort(null, center, center, null);
-    }
-
-    input[type="radio"]:checked + label {
-      @include flexSort(null, center, center, null);
-      color: $white;
-      border-radius: 1rem 0 0 1rem;
-
-      &.taker {
-        background: $taker;
-      }
-
-      &.giver {
-        background: $giver;
-      }
-    }
+  input {
+    display: none;
   }
 
-  .rightInput {
+  label {
     height: 100%;
-    border: 0.1rem solid $gray;
-    width: 50%;
+    width: 100%;
     @include flexSort(null, center, center, null);
+  }
+
+  input[type="radio"]:checked + label {
+    @include flexSort(null, center, center, null);
+    color: $white;
+    background: #d2d8fc;
+  }
+}
+
+.leftInput {
+  border-radius: 1rem 0 0 1rem;
+  border-right: none;
+
+  input[type="radio"]:checked + label {
+    border-radius: 1rem 0 0 1rem;
+  }
+}
+
+.rightInput {
+  border-radius: 0 1rem 1rem 0;
+
+  input[type="radio"]:checked + label {
     border-radius: 0 1rem 1rem 0;
-    @include font(2.5rem, 400, normal);
-
-    input {
-      display: none;
-    }
-
-    label {
-      height: 100%;
-      width: 100%;
-      @include flexSort(null, center, center, null);
-    }
-
-    input[type="radio"]:checked + label {
-      color: $white;
-      border-radius: 0 1rem 1rem 0;
-      @include flexSort(null, center, center, null);
-
-      &.taker {
-        background: $taker;
-      }
-
-      &.giver {
-        background: $giver;
-      }
-    }
   }
 }
