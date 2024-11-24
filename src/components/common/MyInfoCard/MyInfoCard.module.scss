@@ -1,0 +1,55 @@
+.container {
+  width: 33.7rem;
+  height: auto;
+  aspect-ratio: 337 / 188;
+  padding: 1.2rem;
+  background-color: #e6e6e6;
+  position: relative;
+  border-radius: 1rem;
+}
+
+.title {
+  @include nsnFont(1.4rem, 800, normal);
+  position: absolute;
+  top: 1.2rem;
+  left: 1.2rem;
+}
+
+.contentBox {
+  @include flexSort(null, null, center, 5rem);
+  padding: 3rem 5rem;
+}
+
+.profileImageBox {
+  position: relative;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.detailInfoBox {
+  @include flexSort(column, null, null, 1rem);
+}
+
+.detailInfoTitle {
+  @include nsnFont(1.6rem, 700, normal);
+}
+
+.detailInfoContentBox {
+  @include flexSort(column, null, null, 0.8rem);
+}
+
+.gender,
+.age,
+.disabilityType {
+  @include nsnFont(1.2rem, 400, normal);
+}
+
+.profileEditLink {
+  position: absolute;
+  bottom: 1.2rem;
+  right: 1.2rem;
+  @include nsnFont(1.2rem, 350, normal);
+  text-decoration-line: underline;
+}
