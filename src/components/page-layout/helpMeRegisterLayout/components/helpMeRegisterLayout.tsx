@@ -21,7 +21,7 @@ import { ROUTE } from "@/constants/route";
 import DropDownImg from "@/icons/dropdown.svg";
 
 import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
-import postHelpMeReister from "../apis/postHelpMeRegister";
+import postHelpMeRegister from "../apis/postHelpMeRegister";
 import { helpMeFormData } from "../types";
 
 const cn = classNames.bind(styles);
@@ -46,7 +46,7 @@ export default function HelpMeRegisterLayout() {
   });
 
   const uploadHelpMeMutation = useMutation({
-    mutationFn: (content: helpMeFormData) => postHelpMeReister(content),
+    mutationFn: (content: helpMeFormData) => postHelpMeRegister(content),
     onSuccess: () => {
       router.push(ROUTE.HELP_ME);
     },
