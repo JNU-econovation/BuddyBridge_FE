@@ -36,7 +36,7 @@ export default function Filter({ searchParams, handleFilter }: FilterProps) {
   return (
     <div className={cn("container")}>
       <div className={cn("prevArrow")} onClick={previous}>
-        <Arrow />
+        <Arrow width={23} height={23} />
       </div>
       <div className={cn("sliderContainer")}>
         <Slider {...settings} ref={slickRef}>
@@ -71,7 +71,7 @@ export default function Filter({ searchParams, handleFilter }: FilterProps) {
         </Slider>
       </div>
       <div className={cn("nextArrow")} onClick={next}>
-        <Arrow />
+        <Arrow width={23} height={23} />
       </div>
     </div>
   );
