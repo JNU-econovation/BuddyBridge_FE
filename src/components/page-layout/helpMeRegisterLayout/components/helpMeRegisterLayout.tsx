@@ -1,9 +1,11 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { ko } from "date-fns/locale";
 import { Controller, useForm } from "react-hook-form";
+import { z } from "zod";
 
 import { useRouter } from "next/router";
 
@@ -29,6 +31,29 @@ import { helpMeFormData } from "../types";
 
 const cn = classNames.bind(styles);
 
+const registerSchema = z.object({
+  title: z.string().min(1, "제목 최소 1자 이상이어야 합니다."),
+  startDate: z
+    .date()
+    .optional()
+    .refine((date) => date !== undefined, {
+      message: "시작 기간을 선택해주세요",
+    }),
+  endDate: z
+    .date()
+    .optional()
+    .refine((date) => date !== undefined, {
+      message: "마무리 기간을 선택해주세요",
+    }),
+  assistanceStartTime: z.string().min(1, "시작 시간을 선택해주세요."),
+  assistanceEndTime: z.string().min(1, "시작 시간을 선택해주세요."),
+  scheduleType: z.string().min(1, "주기를 선택해주세요."),
+  scheduleDetails: z.string().min(1, "상세 주기를 입력해주세요."),
+  district: z.string().min(1, "장소를 선택해주세요."),
+  assistanceType: z.string().min(1, "도움 유형을 선택해주세요."),
+  content: z.string().min(1, "상세 내용을 입력해주세요."),
+});
+
 export default function HelpMeRegisterLayout() {
   const router = useRouter();
   const isMountedRef = useRef(false);
@@ -45,10 +70,8 @@ export default function HelpMeRegisterLayout() {
     handleSubmit,
     setValue,
     control,
-    formState: { isValid },
-  } = useForm<helpMeFormData>({
-    mode: "onChange",
-  });
+    formState: { errors, isValid },
+  } = useForm<helpMeFormData>({ resolver: zodResolver(registerSchema), mode: "onChange" });
 
   const uploadHelpMeMutation = useMutation({
     mutationFn: (content: helpMeFormData) => postHelpMeRegister(content),
@@ -115,6 +138,7 @@ export default function HelpMeRegisterLayout() {
                   placeholder="구체적으로 필요한 도움을 적어주세요. 예) 이동 도움 필요"
                   {...register("title")}
                 />
+                {errors.title && <p className={cn("errorMessage")}>{errors.title.message}</p>}
               </div>
               <div className={cn("dateContainer")}>
                 <Label className={cn("label")} htmlFor="date">
@@ -140,6 +164,7 @@ export default function HelpMeRegisterLayout() {
                       )}
                     />
                     <Calendar className={cn("calendar")} />
+                    {errors.startDate && <p className={cn("errorMessage")}>{errors.startDate.message}</p>}
                   </div>
                   <p className={cn("wave")}>~</p>
                   <div className={cn("date")}>
@@ -160,6 +185,7 @@ export default function HelpMeRegisterLayout() {
                       )}
                     />
                     <Calendar className={cn("calendar")} />
+                    {errors.endDate && <p className={cn("errorMessage")}>{errors.endDate.message}</p>}
                   </div>
                 </div>
               </div>
@@ -167,9 +193,19 @@ export default function HelpMeRegisterLayout() {
                 <Label className={cn("label")}>시간</Label>
                 <hr />
                 <div className={cn("timeBox")}>
-                  <Input className={cn("assistanceStartTime")} type="time" {...register("assistanceStartTime")} />
+                  <div className={cn("assistanceStartTimeBox")}>
+                    <Input className={cn("assistanceStartTime")} type="time" {...register("assistanceStartTime")} />
+                    {errors.assistanceStartTime && (
+                      <p className={cn("errorMessage")}>{errors.assistanceStartTime.message}</p>
+                    )}
+                  </div>
                   <p className={cn("wave")}>~</p>
-                  <Input className={cn("assistanceEndTime")} type="time" {...register("assistanceEndTime")} />
+                  <div className={cn("assistanceEndTimeBox")}>
+                    <Input className={cn("assistanceEndTime")} type="time" {...register("assistanceEndTime")} />
+                    {errors.assistanceEndTime && (
+                      <p className={cn("errorMessage")}>{errors.assistanceEndTime.message}</p>
+                    )}
+                  </div>
                 </div>
               </div>
               <div className={cn("periodContainer")}>
@@ -178,26 +214,32 @@ export default function HelpMeRegisterLayout() {
                 </Label>
                 <hr />
                 <div className={cn("periodBox")}>
-                  <Controller
-                    name="scheduleType"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <RadioInput
-                        postType="taker"
-                        classNames={cn("period")}
-                        {...field}
-                        firstValue="정기"
-                        secondValue="비정기"
-                      />
-                    )}
-                  />
-                  <Input
-                    className={cn("periodDetailInput")}
-                    id="scheduleDetails"
-                    placeholder="예) 1째주, 화목"
-                    {...register("scheduleDetails", { required: true })}
-                  />
+                  <div className={cn("scheduleTypeBox")}>
+                    <Controller
+                      name="scheduleType"
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) => (
+                        <RadioInput
+                          postType="taker"
+                          classNames={cn("period")}
+                          {...field}
+                          firstValue="정기"
+                          secondValue="비정기"
+                        />
+                      )}
+                    />
+                    {errors.scheduleType && <p className={cn("errorMessage")}>{errors.scheduleType.message}</p>}
+                  </div>
+                  <div className={cn("scheduleDetailsBox")}>
+                    <Input
+                      className={cn("periodDetailInput")}
+                      id="scheduleDetails"
+                      placeholder="예) 1째주, 화목"
+                      {...register("scheduleDetails", { required: true })}
+                    />
+                    {errors.scheduleDetails && <p className={cn("errorMessage")}>{errors.scheduleDetails.message}</p>}
+                  </div>
                 </div>
               </div>
               <div className={cn("placeHelpTypeContainer")}>
@@ -207,18 +249,20 @@ export default function HelpMeRegisterLayout() {
                   <div className={cn("placeBox")}>
                     <Dropdown
                       options={PLACE}
-                      onSelection={(option) => setValue("district", option)}
+                      onSelection={(option) => setValue("district", option, { shouldValidate: true })}
                       placeholder="장소"
                       {...register("district", { required: true })}
                     />
+                    {errors.district && <p className={cn("errorMessage")}>{errors.district.message}</p>}
                   </div>
                   <div className={cn("helpTypeBox")}>
                     <Dropdown
                       options={ASSISTANCE}
-                      onSelection={(option) => setValue("assistanceType", option)}
+                      onSelection={(option) => setValue("assistanceType", option, { shouldValidate: true })}
                       placeholder="도움유형"
                       {...register("assistanceType", { required: true })}
                     />
+                    {errors.assistanceType && <p className={cn("errorMessage")}>{errors.assistanceType.message}</p>}
                   </div>
                 </div>
               </div>
@@ -234,8 +278,9 @@ ex, 2시에 전대치과병원에서 진료 이동 도움이 필요합니다."
                   className={cn("detailTextarea")}
                   {...register("content", { required: true })}
                 />
+                {errors.content && <p className={cn("errorMessage")}>{errors.content.message}</p>}
               </div>
-              <Button className={cn("registerBox")} disabled={!isValid}>
+              <Button className={cn("registerBox", { active: isValid })}>
                 등록하기
                 <RegisterArrow className={cn("arrow")} />
               </Button>
@@ -269,10 +314,10 @@ function ConfirmModal({ setState, content, mutate }: ConfirmModalProps) {
   return (
     <Modal className={cn("modal")} setState={setState}>
       <div className={cn("textBox")}>
-        <p className={cn("modalTitle")}>
+        <div className={cn("modalTitle")}>
           <p>부적절한 게시글의 경우</p>
           <p>작성이 제한되며, 신고 및 삭제 될 수 있습니다.</p>
-        </p>
+        </div>
         <p className={cn("modalContent")}>모두의 따뜻한 Buddy Bridge 사용을 위해 노력하겠습니다. </p>
       </div>
       <button onClick={handleConfirm} className={cn("modalBtnContent")}>

@@ -40,7 +40,7 @@
 
 .titleInput {
   border-radius: 1rem;
-  @include font(1.8rem, 400, normal);
+  @include nsnFont(1.8rem, 400, normal);
   padding: 1rem 2rem;
   width: calc(100% - 2rem);
   border: 0.1rem solid #9e9696;
@@ -49,6 +49,12 @@
   &::placeholder {
     color: #b7b7b7;
   }
+}
+
+.errorMessage {
+  @include nsnFont(1.3rem, 500, normal);
+  color: red;
+  margin: 0.5rem 1rem 0 1rem;
 }
 
 .dateBox {
@@ -83,6 +89,13 @@
 .timeBox {
   @include flexSort(null, space-between, center, null);
   padding: 0 1rem;
+}
+
+.assistanceStartTimeBox,
+.assistanceEndTimeBox,
+.scheduleTypeBox,
+.scheduleDetailsBox {
+  @include flexSort(column, null, null, null);
 }
 
 .assistanceStartTime,
@@ -152,7 +165,7 @@
   color: #9d9d9d;
   border: 0.1rem solid #9d9d9d;
 
-  &:enabled {
+  &.active {
     color: #6562e2;
     border: 0.1rem solid #6562e2;
 
@@ -178,18 +191,15 @@
 }
 
 .modalContent {
-  @include nsnFont(1.3rem, 700, normal);
+  @include nsnFont(1.4rem, 700, normal);
   color: #5c5b5b;
 }
 
 .modalBtnContent {
+  @include font(1.5rem, 700, normal);
+  padding: 0.75rem 4.55rem;
   border-radius: 0.5rem;
-  border: 0.1rem solid #a6a4a4;
-  background: #a6a4a4;
-  @include flexSort(null, center, center, null);
-  @include font(1.2rem, 300, normal);
-  width: 12.4rem;
-  height: 3rem;
-  @include nsnFont(1.2rem, 500, normal);
-  color: white;
+  border: 0.1rem solid #e6e6ea;
+  background: #e6e6ea;
+  box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
 }
