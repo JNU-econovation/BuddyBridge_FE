@@ -12,6 +12,7 @@ export default function HomeLayout() {
   if (router.query.accessToken && router.query.refreshToken) {
     localStorage.setItem("accessToken", `${router.query.accessToken}`);
     localStorage.setItem("refreshToken", `${router.query.refreshToken}`);
+    queryClient.invalidateQueries({ queryKey: ["userLogIn"] });
     queryClient.invalidateQueries({ queryKey: ["giverPost"] });
     queryClient.invalidateQueries({ queryKey: ["takerPost"] });
   }
