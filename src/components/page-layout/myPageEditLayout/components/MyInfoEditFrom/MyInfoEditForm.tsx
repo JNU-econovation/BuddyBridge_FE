@@ -11,7 +11,6 @@ import { DISABILITY } from "@/components/common/DropDown/constants";
 import DropDown from "@/components/common/DropDown/DropDown";
 import styles from "@/components/page-layout/myPageEditLayout/components/MyInfoEditFrom/MyInfoEditForm.module.scss";
 import { ROUTE } from "@/constants/route";
-import useUserInfoStore from "@/stores/kakaoInnfo";
 
 import getMyInfo from "../../apis/getMyInfo";
 import patchMyInfo from "../../apis/putMyInfo";
@@ -30,7 +29,6 @@ export interface FormType {
 
 export default function MyInfoEditForm() {
   const router = useRouter();
-  const { code, setUserInfo } = useUserInfoStore();
   const queryClient = useQueryClient();
 
   const { data: myInfoData } = useQuery({
@@ -68,7 +66,6 @@ export default function MyInfoEditForm() {
       disabilityType: data.disabilityType,
     };
     uploadMyInfo.mutate(content);
-    setUserInfo({ ...content, memberId: myInfoData.memberId });
   };
 
   return (

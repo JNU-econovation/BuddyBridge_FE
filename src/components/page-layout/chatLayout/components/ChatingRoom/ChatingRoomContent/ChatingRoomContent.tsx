@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Client } from "@stomp/stompjs";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { useForm } from "react-hook-form";
 import { useInView } from "react-intersection-observer";
 
+import getLogIn from "@/components/common/Header/apis/getLogIn";
 import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/ChatingRoomContent.module.scss";
 import ChatArrow from "@/icons/chat_arrow.svg";
-import useUserInfoStore from "@/stores/kakaoInnfo";
 
 import MyChat from "./MyChat/MyChat";
 import OppositeChat from "./OppositeChat/OppositeChat";
@@ -34,9 +34,13 @@ export default function ChatingRoomContent() {
   const [, setConnectionStatus] = useState("Disconnected");
   const clientRef = useRef<Client | null>(null);
   const { register, handleSubmit, reset } = useForm<ReceivedMessage>();
-  const { userInfo } = useUserInfoStore();
   const chatBoxRef = useRef<HTMLDivElement | null>(null);
   const [lastRef, inView] = useInView();
+
+  const { data } = useQuery({
+    queryKey: ["userLogIn"],
+    queryFn: () => getLogIn(),
+  });
 
   const {
     data: chatingData,
@@ -136,7 +140,7 @@ export default function ChatingRoomContent() {
             <div className={cn("firstMessageContainer")} key={index}>
               <p className={cn("firstMessage")}>매칭이 생성되었습니다.</p>
             </div>
-          ) : userInfo?.memberId === msg.senderId ? (
+          ) : data?.memberId === msg.senderId ? (
             <MyChat date={msg.createdAt} chat={msg.content} key={index} />
           ) : (
             <OppositeChat

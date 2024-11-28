@@ -6,11 +6,11 @@ import { useRouter } from "next/router";
 
 import Comment from "@/components/common/Comment/Comment";
 import CommentWrite from "@/components/common/commentWrite/commentWrite";
+import getLogIn from "@/components/common/Header/apis/getLogIn";
 import Loader from "@/components/common/Loader/Loader";
 import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/helpMeDetailLayout/components/helpMeDetailLayout.module.scss";
 import { ROUTE } from "@/constants/route";
-import useUserInfoStore from "@/stores/kakaoInnfo";
 import { KaKaoUserInfo } from "@/types/user";
 import { formatDateString } from "@/utils";
 
@@ -45,6 +45,11 @@ export default function HelpMeDetailLayout() {
   });
   const queryClient = useQueryClient();
 
+  const { data: userData } = useQuery({
+    queryKey: ["userLogIn"],
+    queryFn: () => getLogIn(),
+  });
+
   const {
     data: commentData,
     fetchNextPage,
@@ -69,12 +74,10 @@ export default function HelpMeDetailLayout() {
     },
   });
 
-  const { userInfo } = useUserInfoStore();
-
   const handleDeleteButtonClick = () => {
     deletePostMutation.mutate(id);
   };
- 
+
   if (isPending) {
     return <div></div>;
   }
@@ -101,16 +104,15 @@ export default function HelpMeDetailLayout() {
 
   const { nickname, profileImageUrl, memberId } = author;
 
-  const commentMemIds:Array<number> = commentData?.pages.flatMap((page) =>
-    page.content.map((comment:CommentProps) => comment.author.memberId)
-  ) || [];
+  const commentMemIds: Array<number> =
+    commentData?.pages.flatMap((page) => page.content.map((comment: CommentProps) => comment.author.memberId)) || [];
 
   return (
     <div className={cn("container")}>
       <div className={cn("box")}>
         <header className={cn("header")}>도와줄래요?리스트</header>
         <div className={cn("totalContainer")}>
-          <div className={cn("contentContainer", { isLogin: !userInfo })}>
+          <div className={cn("contentContainer", { isLogin: !userData })}>
             <p className={cn("title")}>{title}</p>
             <div className={cn("contentBox")}>
               <div className={cn("profileBox")}>
@@ -174,7 +176,7 @@ export default function HelpMeDetailLayout() {
               </div>
             </div>
             <p className={cn("modifiedAt")}>작성일자: {formatDateString(modifiedAt)}</p>
-            {userInfo?.memberId === memberId && (
+            {userData?.memberId === memberId && (
               <div className={cn("buttonBox")}>
                 <button onClick={handleDeleteButtonClick} className={cn("button")}>
                   삭제하기
@@ -182,7 +184,7 @@ export default function HelpMeDetailLayout() {
               </div>
             )}
           </div>
-          {userInfo && (
+          {userData && (
             <>
               <div className={cn("commentBox")}>
                 {commentData?.pages.map((page) =>
@@ -202,7 +204,9 @@ export default function HelpMeDetailLayout() {
               )}
             </>
           )}
-          {userInfo && <CommentWrite id={pageId as string} user={userInfo as KaKaoUserInfo} commentMemIds={commentMemIds}/>}
+          {userData && (
+            <CommentWrite id={pageId as string} user={userData as KaKaoUserInfo} commentMemIds={commentMemIds} />
+          )}
         </div>
       </div>
     </div>
