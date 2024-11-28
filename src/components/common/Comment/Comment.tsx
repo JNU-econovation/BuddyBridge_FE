@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Image from "next/image";
@@ -8,12 +8,12 @@ import Image from "next/image";
 import styles from "@/components/common/Comment/Comment.module.scss";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import Kebab from "@/icons/kebab.svg";
-import useUserInfoStore from "@/stores/kakaoInnfo";
 import { formatDateString } from "@/utils";
 
 import deleteComment from "./apis/deleteComment";
 import putComment from "./apis/putComment";
 import ChatButton from "./ChatButton/ChatButton";
+import getLogIn from "../Header/apis/getLogIn";
 
 const cn = classNames.bind(styles);
 
@@ -43,7 +43,10 @@ export default function Comment({ comment, postId, type }: CommentProps) {
   const [isNowEditing, setIsNowEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
 
-  const { userInfo } = useUserInfoStore();
+  const { data } = useQuery({
+    queryKey: ["userLogIn"],
+    queryFn: () => getLogIn(),
+  });
 
   const handleKebabClick = () => {
     setIsKebabClick((prev) => !prev);
@@ -125,7 +128,7 @@ export default function Comment({ comment, postId, type }: CommentProps) {
             <p className={cn("content")}>{comment.content}</p>
           )}
         </div>
-        {comment.author.memberId === userInfo?.memberId && (
+        {comment.author.memberId === data?.memberId && (
           <div className={cn("kebabBox")} ref={kebabRef}>
             <Kebab onClick={handleKebabClick} className={cn("kebab")} width={20} height={20} />
             {isKebabClick && (
@@ -148,7 +151,7 @@ export default function Comment({ comment, postId, type }: CommentProps) {
           </div>
         )}
 
-        {userInfo?.memberId === postId && userInfo?.memberId !== comment.author.memberId && (
+        {data?.memberId === postId && data?.memberId !== comment.author.memberId && (
           <ChatButton type={type} authorId={comment.author.memberId} />
         )}
       </div>

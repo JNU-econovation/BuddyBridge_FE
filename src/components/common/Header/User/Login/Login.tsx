@@ -11,7 +11,6 @@ import { ROUTE } from "@/constants/route";
 import Alarm from "@/icons/alarm.svg";
 import ArrowDown from "@/icons/arrow_down.svg";
 import Chat from "@/icons/chattig.svg";
-import useUserInfoStore from "@/stores/kakaoInnfo";
 
 import AlarmDropDown from "./AlarmDropDown/AlarmDropDown";
 import { useNotification } from "../../hooks/useNotification";
@@ -33,7 +32,6 @@ interface alarmType {
 
 export default function Login({ name }: LoginProps) {
   const accessToken = localStorage.getItem("accessToken");
-  const { userInfo } = useUserInfoStore();
   const profileDropdownRef = useRef(null);
   const alarmDropdownRef = useRef(null);
   const [isProfileOpen, setIsProfileOpen] = useDetectClose(profileDropdownRef, false);
@@ -57,7 +55,7 @@ export default function Login({ name }: LoginProps) {
   };
 
   useEffect(() => {
-    if (!userInfo || !accessToken) return;
+    if (!accessToken) return;
 
     let eventSource: EventSourcePolyfill;
 
@@ -122,7 +120,7 @@ export default function Login({ name }: LoginProps) {
         eventSource.close();
       }
     };
-  }, [userInfo, retryCount]);
+  }, [retryCount]);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useNotification(notifications as alarmType, "", "");
 
