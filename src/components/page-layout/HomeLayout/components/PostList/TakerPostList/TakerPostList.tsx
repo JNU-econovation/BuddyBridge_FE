@@ -14,7 +14,7 @@ import PostData from "../../../types";
 
 const cn = classNames.bind(styles);
 
-export default function GiverPostList() {
+export default function TakerPostList() {
   const { data, isLoading } = useQuery({
     queryKey: ["takerPost"],
     queryFn: () => getTakerPost(),
