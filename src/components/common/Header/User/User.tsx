@@ -19,7 +19,5 @@ export default function User() {
     return <NotLogin />;
   }
 
-  console.log(data);
-
   return data ? <Login name={data?.nickname} /> : <NotLogin />;
 }
