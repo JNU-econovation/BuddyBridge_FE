@@ -8,9 +8,11 @@ interface NotificationsResponse {
   content: AlarmDropDownProps["sseNotifications"][];
   cursor: number;
   nextPage: boolean;
+  type: string;
+  isRead: boolean;
 }
 
-export const useNotification = (sseNotifications: AlarmDropDownProps["sseNotifications"]) => {
+export const useNotification = (sseNotifications: AlarmDropDownProps["sseNotifications"],type:string, isRead:string) => {
   const {
     data: prevNotifications,
     fetchNextPage,
@@ -19,8 +21,8 @@ export const useNotification = (sseNotifications: AlarmDropDownProps["sseNotific
     status,
     refetch,
   } = useInfiniteQuery<NotificationsResponse>({
-    queryKey: ["notifications"],
-    queryFn: ({ pageParam }) => getNotifications(6, pageParam as number),
+    queryKey: ["notifications",type, isRead],
+    queryFn: ({ pageParam }) => getNotifications(6, pageParam as number, type , isRead),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
       lastPage.nextPage ? lastPage.cursor : undefined,

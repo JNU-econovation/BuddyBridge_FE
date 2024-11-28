@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import classNames from "classnames/bind";
+import { EventSourcePolyfill } from 'event-source-polyfill'
 
 import { useRouter } from "next/router";
 
@@ -13,6 +14,7 @@ import Chat from "@/icons/chattig.svg";
 import useUserInfoStore from "@/stores/kakaoInnfo";
 
 import AlarmDropDown from "./AlarmDropDown/AlarmDropDown";
+import { useNotification } from "../../hooks/useNotification";
 import DropDown from "../DropDown/DropDown";
 
 const cn = classNames.bind(styles);
@@ -26,9 +28,11 @@ interface alarmType {
   content: string;
   id: string;
   isRead: boolean;
+  type: string;
 }
 
 export default function Login({ name }: LoginProps) {
+  const accessToken = localStorage.getItem("accessToken");
   const { userInfo } = useUserInfoStore();
   const profileDropdownRef = useRef(null);
   const alarmDropdownRef = useRef(null);
@@ -53,9 +57,9 @@ export default function Login({ name }: LoginProps) {
   };
 
   useEffect(() => {
-    if (!userInfo) return;
+    if (!userInfo || !accessToken) return;
 
-    let eventSource: EventSource;
+    let eventSource: EventSourcePolyfill;
 
     const connectSSE = () => {
       if (retryCount >= 3) {
@@ -63,12 +67,16 @@ export default function Login({ name }: LoginProps) {
         return;
       }
 
-      eventSource = new EventSource(`${process.env.NEXT_PUBLIC_BASE_URL}api/sse/connect`, {
+      eventSource = new EventSourcePolyfill(`${process.env.NEXT_PUBLIC_BASE_URL}api/sse/connect`, {
+        headers: {
+        Authorization: `Bearer ${accessToken}`
+        },
         withCredentials: true,
       });
 
       eventSource.addEventListener("notification", (event) => {
-        const newNotification = event.data;
+        console.log(event);
+        const newNotification = (event as any).data;
         let parsedData;
 
         try {
@@ -77,6 +85,9 @@ export default function Login({ name }: LoginProps) {
           return;
         }
 
+        //지우기
+        console.log("parsedData");
+        console.log(parsedData);
         setNotifications(parsedData);
       });
 
@@ -85,8 +96,16 @@ export default function Login({ name }: LoginProps) {
         setError("연결에 실패했습니다. 재연결 중...");
         setIsConnected(false);
         eventSource.close();
-        setRetryCount((prevCount) => prevCount + 1);
-        setTimeout(connectSSE, 5000);
+      
+        setRetryCount((prevCount) => {
+          const newCount = prevCount + 1;
+          if (newCount >= 3) {
+            setError("연결 시도 횟수를 초과했습니다.");
+            return newCount;
+          }
+          setTimeout(connectSSE, 5000);
+          return newCount;
+        });
       };
 
       eventSource.onopen = () => {
@@ -104,7 +123,12 @@ export default function Login({ name }: LoginProps) {
         eventSource.close();
       }
     };
+
   }, [userInfo, retryCount]);
+  
+  const {data, fetchNextPage, hasNextPage, isFetchingNextPage }= useNotification(notifications as alarmType, "", "");
+  
+  const unreadCount = data?.filter((notification) => !notification.isRead).length || 0;
 
   return (
     <div className={cn("container")}>
@@ -115,8 +139,11 @@ export default function Login({ name }: LoginProps) {
       </div>
       <div className={cn("iconBox")}>
         <div ref={alarmDropdownRef} className={cn("alarmContainer")}>
-          <Alarm width={30} height={30} className={cn("alarm")} onClick={handleAlarmClick} />
-          {isAlarmOpen && <AlarmDropDown sseNotifications={notifications as alarmType} />}
+          <div className={cn("alarmBox")}>
+            <Alarm width={30} height={30} className={cn("alarm")} onClick={handleAlarmClick} />
+            <span className={cn("unreadCount")}>{unreadCount}</span>
+            {isAlarmOpen && <AlarmDropDown sseNotifications={notifications as alarmType} />}
+          </div>
         </div>
         <Chat width={30} height={30} onClick={handleChatClick} className={cn("chat")} />
       </div>
