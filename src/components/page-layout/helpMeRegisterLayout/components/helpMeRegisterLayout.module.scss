@@ -110,7 +110,7 @@
 }
 
 .periodBox {
-  @include flexSort(null, space-between, center, null);
+  @include flexSort(null, space-between, null, null);
   padding: 0 1rem;
 }
 
