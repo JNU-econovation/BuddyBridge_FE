@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 
 import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames/bind";
@@ -49,6 +49,10 @@ export default function Post({ data }: PostProps) {
   });
 
   const [isHeartClick, setIsHeartClick] = useState(isLiked);
+
+  useEffect(() => {
+    setIsHeartClick(data.isLiked);
+  }, [data]);
 
   const handleHeartClick = (event: MouseEvent<SVGSVGElement>) => {
     event.preventDefault();
