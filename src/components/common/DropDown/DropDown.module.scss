@@ -7,11 +7,15 @@
 .input {
   width: 100%;
   height: 100%;
-  @include font(2.5rem, 400, normal);
+  @include nsnFont(1.8rem, 400, normal);
   text-align: center;
   border-radius: 1rem;
   border: 0.1rem solid $gray;
   cursor: pointer;
+
+  &::placeholder {
+    color: #b7b7b7;
+  }
 }
 
 .img {

@@ -1,200 +1,205 @@
 .container {
-  margin: 11.2rem 0;
+  margin: 9.8rem 0;
   @include flexSort(null, center, null, null);
 }
 
 .box {
-  @include flexSort(column, null, center, 2rem);
+  @include flexSort(column, null, center, 5rem);
+  border: 0.1rem solid black;
+  width: 100rem;
+  border-radius: 1rem;
+  padding: 5rem 0;
 }
 
 .title {
-  @include gmarketFont(3.2rem, 700, normal);
-  color: $giver;
-}
-
-.getMyInfo {
-  position: absolute;
-  padding: 1rem 1.5rem;
-  background-color: $giver;
-  top: 2rem;
-  right: 3rem;
-  border-radius: 1rem;
-  @include font(1.5rem, 600, normal);
-  color: $white;
+  @include nsnFont(2.3rem, 700, normal);
 }
 
 .form {
-  border-top: 0.1rem solid $black;
-  border-bottom: 0.1rem solid $black;
-  padding: 10rem 5rem 5rem 5rem;
-  position: relative;
-  @include flexSort(column, null, null, 4.6rem);
+  @include flexSort(column, null, center, 2rem);
 }
 
-.titleContainer {
-  @include flexSort(null, null, center, 11.2rem);
+.formContentBox {
+  @include flexSort(column, null, center, 4rem);
+  width: 68rem;
+}
+
+.titleContainer,
+.dateContainer,
+.timeContainer,
+.periodContainer,
+.placeHelpTypeContainer,
+.detailContainer {
+  width: 100%;
 }
 
 .label {
-  @include font(2.5rem, 500, normal);
-  white-space: nowrap;
+  @include nsnFont(1.8rem, 800, normal);
+  padding: 0 1rem;
 }
 
 .titleInput {
   border-radius: 1rem;
-  border: 0.1rem solid $gray;
-  @include font(2.5rem, 400, normal);
+  @include nsnFont(1.8rem, 400, normal);
   padding: 1rem 2rem;
+  width: calc(100% - 2rem);
+  border: 0.1rem solid #9e9696;
+  margin: 0 1rem;
+
+  &::placeholder {
+    color: #b7b7b7;
+  }
+}
+
+.errorMessage {
+  @include nsnFont(1.3rem, 500, normal);
+  color: red;
+  margin: 0.5rem 1rem 0 1rem;
+}
+
+.dateBox {
   width: 100%;
+  padding: 0 1rem;
+  @include flexSort(null, space-between, center, null);
 }
 
-.genderAgeContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+.date {
+  position: relative;
+  width: 31rem;
+  height: 4.48rem;
 }
 
-.genderContainer {
-  @include flexSort(null, space-between, center, 11.2rem);
+.dateFont {
+  @include nsnFont(1.8rem, 400, normal);
+  &::placeholder {
+    color: #b7b7b7;
+  }
 }
 
-.ageContainer {
-  @include flexSort(null, space-between, center, 11.2rem);
+.calendar {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }
 
-.ageInput,
-.headcountInput {
+.wave {
+  @include nsnFont(1.8rem, 800, normal);
+}
+
+.timeBox {
+  @include flexSort(null, space-between, center, null);
+  padding: 0 1rem;
+}
+
+.assistanceStartTimeBox,
+.assistanceEndTimeBox,
+.scheduleTypeBox,
+.scheduleDetailsBox {
+  @include flexSort(column, null, null, null);
+}
+
+.assistanceStartTime,
+.assistanceEndTime {
+  width: 31rem;
+  height: 4.48rem;
   border-radius: 1rem;
   border: 0.1rem solid $gray;
-  @include font(2.5rem, 400, normal);
-  padding: 1rem 2rem;
-  width: 100%;
+  @include nsnFont(1.8rem, 400, normal);
+  @include flexSort(null, center, center, null);
+  padding: 0 2rem;
 }
 
-.disabilityContainer {
-  @include flexSort(null, space-between, center, 5.5rem);
+.periodBox {
+  @include flexSort(null, space-between, null, null);
+  padding: 0 1rem;
 }
 
-.helpTypeContainer {
-  @include flexSort(null, space-between, center, 5.5rem);
-  height: 5.6rem;
-}
-
-.periodContainer {
-  @include flexSort(null, null, center, 5.5rem);
-}
-
-.placeHeadcountContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+.period {
+  height: 4.48rem;
+  width: 31rem;
 }
 
 .periodDetailInput {
   border-radius: 1rem;
   border: 0.1rem solid $gray;
-  @include font(2.5rem, 400, normal);
   padding: 1rem 2rem;
-  width: 100%;
+  @include nsnFont(1.8rem, 400, normal);
+  width: 31rem;
+  height: 4.48rem;
+
+  &::placeholder {
+    color: #b7b7b7;
+  }
 }
 
-.placeHeadcountContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+.placeHelpTypeBox {
+  padding: 0 1rem;
+  @include flexSort(null, space-between, center, null);
 }
 
-.placeContainer {
-  @include flexSort(null, null, center, 11.2rem);
-  height: 5.6rem;
-  width: 48.6rem;
-}
-
-.detailContainer {
-  @include flexSort(null, null, center, 11.2rem);
-  height: 22rem;
-}
-
-.headcountContainer {
-  @include flexSort(null, null, center, 5rem);
-  height: 5.6rem;
-}
-
-.dateContainer,
-.timeContainer {
-  @include flexSort(null, null, center, 11.2rem);
-  height: 5.6rem;
-}
-
-.assistanceStartTime,
-.assistanceEndTime {
-  width: 100%;
-  height: 100%;
-  border-radius: 1rem;
-  border: 0.1rem solid $gray;
-  @include nsnFont(2.5rem, 400, normal);
-  @include flexSort(null, center, center, null);
+.placeBox,
+.helpTypeBox {
+  width: 31rem;
+  height: 4.48rem;
 }
 
 .detailTextarea {
   resize: none;
   width: 100%;
   height: 22rem;
-  @include font(2.5rem, 400, normal);
+  @include nsnFont(1.8rem, 400, normal);
   overflow-y: auto;
   padding: 2rem;
   border-radius: 1rem;
-}
 
-.dateContainer {
-  @include flexSort(null, null, center, 11.2rem);
-  height: 5.6rem;
-}
-
-.dateBox {
-  width: 100%;
-  height: 100%;
-  @include flexSort(null, space-between, center, 10rem);
-}
-
-.datePicker {
-  height: 100%;
-  width: 100%;
-  @include font(2rem, 400, normal);
-  text-align: center;
-}
-
-.date {
-  position: relative;
-  height: 100%;
-  width: 100%;
-}
-
-.dropDownImg {
-  position: absolute;
-  top: 2rem;
-  right: 1rem;
-}
-
-.wave {
-  font-size: 4rem;
-  font-weight: 200;
+  &::placeholder {
+    color: #b7b7b7;
+  }
 }
 
 .registerBox {
-  position: absolute;
-  padding: 1rem 1.5rem;
-  right: 0;
-  bottom: -8rem;
+  padding: 0.7rem 1.4rem;
   border-radius: 1rem;
-  @include font(2rem, 500, normal);
-  background-color: $giver;
-  color: $white;
+  @include nsnFont(2rem, 400, normal);
+  @include flexSort(null, null, center, 1rem);
+  color: #9d9d9d;
+  border: 0.1rem solid #9d9d9d;
 
-  &:disabled {
-    cursor: default;
-    border: 0;
-    background-color: $gray;
-    color: $white;
+  &.active {
+    color: #6562e2;
+    border: 0.1rem solid #6562e2;
+
+    .arrow {
+      fill: #6562e2;
+    }
   }
+}
+
+.modal {
+  width: 75rem;
+  height: 21.8rem;
+  @include flexSort(column, center, center, 2.4rem);
+}
+
+.textBox {
+  @include flexSort(column, null, center, 1rem);
+}
+
+.modalTitle {
+  @include nsnFont(2rem, 700, normal);
+  @include flexSort(column, null, center, null);
+}
+
+.modalContent {
+  @include nsnFont(1.4rem, 700, normal);
+  color: #5c5b5b;
+}
+
+.modalBtnContent {
+  @include font(1.5rem, 700, normal);
+  padding: 0.75rem 4.55rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #e6e6ea;
+  background: #e6e6ea;
+  box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
 }

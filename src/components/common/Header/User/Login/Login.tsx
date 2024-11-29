@@ -10,7 +10,6 @@ import { ROUTE } from "@/constants/route";
 import Alarm from "@/icons/alarm.svg";
 import ArrowDown from "@/icons/arrow_down.svg";
 import Chat from "@/icons/chattig.svg";
-import useUserInfoStore from "@/stores/kakaoInnfo";
 
 import AlarmDropDown from "./AlarmDropDown/AlarmDropDown";
 import DropDown from "../DropDown/DropDown";
@@ -29,7 +28,6 @@ interface alarmType {
 }
 
 export default function Login({ name }: LoginProps) {
-  const { userInfo } = useUserInfoStore();
   const profileDropdownRef = useRef(null);
   const alarmDropdownRef = useRef(null);
   const [isProfileOpen, setIsProfileOpen] = useDetectClose(profileDropdownRef, false);

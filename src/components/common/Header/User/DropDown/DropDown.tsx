@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Image from "next/image";
@@ -10,7 +10,8 @@ import styles from "@/components/common/Header/User/DropDown/DropDown.module.scs
 import openToast from "@/components/common/Toast/features/openToast";
 import { ROUTE } from "@/constants/route";
 import NoImg from "@/images/noimg.png";
-import useUserInfoStore from "@/stores/kakaoInnfo";
+
+import getLogIn from "../../apis/getLogIn";
 
 const cn = classNames.bind(styles);
 
@@ -19,31 +20,29 @@ interface DropDownProps {
 }
 
 export default function DropDown({ isNameClick }: DropDownProps) {
-  const { userInfo, setUserInfo, setCode } = useUserInfoStore();
   const queryClient = useQueryClient();
   const router = useRouter();
-  const clearUserInfoStorage = useUserInfoStore.persist.clearStorage;
+
+  const { data } = useQuery({
+    queryKey: ["userLogIn"],
+    queryFn: () => getLogIn(),
+  });
 
   const logOutMutation = useMutation({
     mutationFn: postLogOut,
     onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: ["user"] });
-      queryClient.invalidateQueries({ queryKey: ["userLogIn"] });
-
-      clearUserInfoStorage();
-      setUserInfo(null);
-      setCode("");
       window.localStorage.removeItem("accessToken");
       window.localStorage.removeItem("refreshToken");
 
       openToast("success", "로그아웃되었습니다.");
       await router.push(ROUTE.HOME);
-    },
-    onError: () => {
-      window.localStorage.removeItem("accessToken");
-      window.localStorage.removeItem("refreshToken");
       queryClient.invalidateQueries({ queryKey: ["user"] });
       queryClient.invalidateQueries({ queryKey: ["userLogIn"] });
+      queryClient.invalidateQueries({ queryKey: ["giverPost"] });
+      queryClient.invalidateQueries({ queryKey: ["takerPost"] });
+    },
+    onError: () => {
+      openToast("error", "로그아웃이 실패하였습니다.");
     },
   });
 
@@ -57,7 +56,7 @@ export default function DropDown({ isNameClick }: DropDownProps) {
         <p>내 프로필</p>
         <Image
           className={cn("img")}
-          src={userInfo?.profileImageUrl ? userInfo?.profileImageUrl : NoImg}
+          src={data?.profileImageUrl ? data?.profileImageUrl : NoImg}
           width={80}
           height={80}
           alt="카카오톡 프로필"

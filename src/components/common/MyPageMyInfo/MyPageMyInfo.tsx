@@ -1,15 +1,18 @@
+import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Image from "next/image";
 
-import useUserInfoStore from "@/stores/kakaoInnfo";
-
 import styles from "./MyPageMyInfo.module.scss";
+import getLogIn from "../Header/apis/getLogIn";
 
 const cn = classNames.bind(styles);
 
 export default function MyPageMyInfo() {
-  const { userInfo } = useUserInfoStore();
+  const { data } = useQuery({
+    queryKey: ["userLogIn"],
+    queryFn: () => getLogIn(),
+  });
 
   return (
     <div className={cn("myInfoBox")}>
@@ -17,11 +20,11 @@ export default function MyPageMyInfo() {
         className={cn("profileImg")}
         width={50}
         height={50}
-        src={userInfo?.profileImageUrl as string}
+        src={data?.profileImageUrl as string}
         alt="프로필 이미지"
       />
       <p className={cn("userName")}>
-        {userInfo?.name} / {userInfo?.nickname}
+        {data?.name} / {data?.nickname}
       </p>
     </div>
   );
