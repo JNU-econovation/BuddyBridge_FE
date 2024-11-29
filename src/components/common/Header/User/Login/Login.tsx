@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import classNames from "classnames/bind";
-import { EventSourcePolyfill } from 'event-source-polyfill'
+import { EventSourcePolyfill } from "event-source-polyfill";
 
 import { useRouter } from "next/router";
 
@@ -69,9 +69,8 @@ export default function Login({ name }: LoginProps) {
 
       eventSource = new EventSourcePolyfill(`${process.env.NEXT_PUBLIC_BASE_URL}api/sse/connect`, {
         headers: {
-        Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
         },
-        withCredentials: true,
       });
 
       eventSource.addEventListener("notification", (event) => {
@@ -96,7 +95,7 @@ export default function Login({ name }: LoginProps) {
         setError("연결에 실패했습니다. 재연결 중...");
         setIsConnected(false);
         eventSource.close();
-      
+
         setRetryCount((prevCount) => {
           const newCount = prevCount + 1;
           if (newCount >= 3) {
@@ -123,12 +122,13 @@ export default function Login({ name }: LoginProps) {
         eventSource.close();
       }
     };
-
   }, [userInfo, retryCount]);
-  
-  const {data, fetchNextPage, hasNextPage, isFetchingNextPage }= useNotification(notifications as alarmType, "", "");
-  
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useNotification(notifications as alarmType, "", "");
+
   const unreadCount = data?.filter((notification) => !notification.isRead).length || 0;
+
+  console.log(data);
 
   return (
     <div className={cn("container")}>
