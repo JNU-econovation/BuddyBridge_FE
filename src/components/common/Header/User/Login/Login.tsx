@@ -50,59 +50,57 @@ export default function Login({ name }: LoginProps) {
     router.push(ROUTE.CHAT);
   };
 
-  useEffect(() => {
-    if (!userInfo) return;
+  // useEffect(() => {
+  //   let eventSource: EventSource;
 
-    let eventSource: EventSource;
+  //   const connectSSE = () => {
+  //     if (retryCount >= 3) {
+  //       setError("연결 시도 횟수를 초과했습니다.");
+  //       return;
+  //     }
 
-    const connectSSE = () => {
-      if (retryCount >= 3) {
-        setError("연결 시도 횟수를 초과했습니다.");
-        return;
-      }
+  //     eventSource = new EventSource(`${process.env.NEXT_PUBLIC_BASE_URL}api/sse/connect`, {
+  //       withCredentials: true,
+  //     });
 
-      eventSource = new EventSource(`${process.env.NEXT_PUBLIC_BASE_URL}api/sse/connect`, {
-        withCredentials: true,
-      });
+  //     eventSource.addEventListener("notification", (event) => {
+  //       const newNotification = event.data;
+  //       let parsedData;
 
-      eventSource.addEventListener("notification", (event) => {
-        const newNotification = event.data;
-        let parsedData;
+  //       try {
+  //         parsedData = JSON.parse(newNotification);
+  //       } catch (error) {
+  //         return;
+  //       }
 
-        try {
-          parsedData = JSON.parse(newNotification);
-        } catch (error) {
-          return;
-        }
+  //       setNotifications(parsedData);
+  //     });
 
-        setNotifications(parsedData);
-      });
+  //     eventSource.onerror = (error) => {
+  //       console.error("SSE error:", error);
+  //       setError("연결에 실패했습니다. 재연결 중...");
+  //       setIsConnected(false);
+  //       eventSource.close();
+  //       setRetryCount((prevCount) => prevCount + 1);
+  //       setTimeout(connectSSE, 5000);
+  //     };
 
-      eventSource.onerror = (error) => {
-        console.error("SSE error:", error);
-        setError("연결에 실패했습니다. 재연결 중...");
-        setIsConnected(false);
-        eventSource.close();
-        setRetryCount((prevCount) => prevCount + 1);
-        setTimeout(connectSSE, 5000);
-      };
+  //     eventSource.onopen = () => {
+  //       setError(null);
+  //       setIsConnected(true);
+  //       setRetryCount(0);
+  //       console.log("SSE 연결 성공");
+  //     };
+  //   };
 
-      eventSource.onopen = () => {
-        setError(null);
-        setIsConnected(true);
-        setRetryCount(0);
-        console.log("SSE 연결 성공");
-      };
-    };
+  //   connectSSE();
 
-    connectSSE();
-
-    return () => {
-      if (eventSource) {
-        eventSource.close();
-      }
-    };
-  }, [userInfo, retryCount]);
+  //   return () => {
+  //     if (eventSource) {
+  //       eventSource.close();
+  //     }
+  //   };
+  // }, [userInfo, retryCount]);
 
   return (
     <div className={cn("container")}>
