@@ -1,6 +1,6 @@
-import { axiosCertificationInstance } from "@/apis/axiosInstance";
+import { axiosInstance } from "@/apis/axiosInstance";
 
 export default async function postReadAllNotification() {
-  const { data } = await axiosCertificationInstance.post(`notifications/read-all`, {});
+  const { data } = await axiosInstance.post(`notifications/read-all`, {});
   return data;
 }

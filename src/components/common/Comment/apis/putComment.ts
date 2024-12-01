@@ -1,7 +1,7 @@
-import { axiosCertificationInstance } from "@/apis/axiosInstance";
+import { axiosInstance } from "@/apis/axiosInstance";
 
 export default async function putComment(id: string, comment: string) {
-  const { data } = await axiosCertificationInstance.put(`comments/${id}`, {
+  const { data } = await axiosInstance.put(`comments/${id}`, {
     content: comment,
   });
 

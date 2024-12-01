@@ -9,14 +9,7 @@ export const axiosInstance = axios.create({
   },
 });
 
-export const axiosCertificationInstance = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_BASE_URL}api/`,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
-
-axiosCertificationInstance.interceptors.request.use((config) => {
+axiosInstance.interceptors.request.use((config) => {
   const accessToken = localStorage.getItem("accessToken");
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
@@ -24,7 +17,7 @@ axiosCertificationInstance.interceptors.request.use((config) => {
   return config;
 });
 
-axiosCertificationInstance.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -36,9 +29,7 @@ axiosCertificationInstance.interceptors.response.use(
 
       const newAccessToken = await getNewAccessToken();
       if (newAccessToken) {
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-
-        return axiosCertificationInstance(originalRequest);
+        return axiosInstance(originalRequest);
       }
     }
 
