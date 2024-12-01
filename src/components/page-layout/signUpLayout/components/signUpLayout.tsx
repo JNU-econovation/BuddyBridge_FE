@@ -67,14 +67,12 @@ interface SignUpInfoForm {
 }
 
 interface SignUpInfo {
-  body: {
-    name: string;
-    nickname: string;
-    gender: string;
-    birthDate: Date;
-    email: string;
-    password: string;
-  };
+  name: string;
+  nickname: string;
+  gender: string;
+  birthDate: Date;
+  email: string;
+  password: string;
 }
 
 interface ErrorResponse {
@@ -85,8 +83,9 @@ interface ErrorResponse {
 
 export default function SignUpLayout() {
   const router = useRouter();
-  const [clickNumber, setClickNumber] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [content, setContent] = useState<SignUpInfo | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -97,7 +96,7 @@ export default function SignUpLayout() {
   } = useForm<SignUpInfoForm>({ resolver: zodResolver(signUpSchema), mode: "onChange" });
 
   const signUp = useMutation({
-    mutationFn: ({ body }: SignUpInfo) => postSignUp({ body }),
+    mutationFn: (content: SignUpInfo) => postSignUp(content),
     onSuccess: () => {
       router.push(ROUTE.LOGIN);
       openToast("success", "회원가입이 완료되었습니다.");
@@ -112,21 +111,17 @@ export default function SignUpLayout() {
   });
 
   const handleSignUpClick = (data: SignUpInfoForm) => {
-    if (clickNumber === 0) {
-      setIsModalOpen((prev) => !prev);
-      setClickNumber(1);
-    } else {
-      const body: SignUpInfo["body"] = {
-        name: data.name,
-        nickname: data.nickname,
-        gender: data.gender,
-        birthDate: data.birthDate,
-        email: data.email,
-        password: data.password,
-      };
+    setIsModalOpen((prev) => !prev);
+    const body: SignUpInfo = {
+      name: data.name,
+      nickname: data.nickname,
+      gender: data.gender,
+      birthDate: data.birthDate,
+      email: data.email,
+      password: data.password,
+    };
 
-      signUp.mutate({ body });
-    }
+    setContent(body);
   };
 
   return (
@@ -239,20 +234,27 @@ export default function SignUpLayout() {
           </button>
         </form>
       </article>
-      {isModalOpen && <ConfirmModal setState={setIsModalOpen} />}
+      {isModalOpen && <ConfirmModal setState={setIsModalOpen} content={content as SignUpInfo} mutate={signUp.mutate} />}
     </>
   );
 }
 
 interface ConfirmModalProps {
   setState: Dispatch<SetStateAction<boolean>>;
+  content: SignUpInfo;
+  mutate: (content: SignUpInfo) => void;
 }
 
-function ConfirmModal({ setState }: ConfirmModalProps) {
+function ConfirmModal({ setState, content, mutate }: ConfirmModalProps) {
+  const handleConfirm = () => {
+    setState((prev) => !prev);
+    mutate(content);
+  };
+
   return (
     <Modal className={cn("modal")} setState={setState}>
       <p className={cn("modalContent")}>한 번 가입시 변경 할 수 없으니 꼭 확인해 주세요.</p>
-      <button onClick={() => setState((prev) => !prev)} className={cn("modalBtnContent")}>
+      <button onClick={handleConfirm} className={cn("modalBtnContent")}>
         네, 확인했습니다.
       </button>
     </Modal>
