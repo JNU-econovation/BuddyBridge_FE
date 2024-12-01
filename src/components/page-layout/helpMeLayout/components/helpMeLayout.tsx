@@ -84,7 +84,7 @@ export default function HelpMeLayout() {
 
   return (
     <main className={cn("container")}>
-      <div className={cn("typeContainer")}>
+      <div className={cn("filterContainer")}>
         <p className={cn("title")}>
           버디브릿지는 일상에서 모두가 서로에게 <br />
           따뜻한 온정을 전하는 세상을 만듭니다.
