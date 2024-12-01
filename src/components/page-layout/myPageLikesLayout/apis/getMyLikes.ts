@@ -1,4 +1,4 @@
-import { axiosCertificationInstance } from "@/apis/axiosInstance";
+import { axiosInstance } from "@/apis/axiosInstance";
 
 export interface MyLikesRes {
   content: {
@@ -32,8 +32,6 @@ export interface MyLikesRes {
 }
 
 export default async function getMyLikes(pageId: string, postType: string): Promise<MyLikesRes> {
-  const { data } = await axiosCertificationInstance.get(
-    `posts/likes/my-page?post-type=${postType}&page=${pageId}&size=4`,
-  );
+  const { data } = await axiosInstance.get(`posts/likes/my-page?post-type=${postType}&page=${pageId}&size=4`);
   return data.data;
 }

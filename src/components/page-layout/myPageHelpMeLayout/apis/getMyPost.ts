@@ -1,6 +1,6 @@
-import { axiosCertificationInstance } from "@/apis/axiosInstance";
+import { axiosInstance } from "@/apis/axiosInstance";
 
 export default async function getMyPost(pageId: string, postType: string) {
-  const { data } = await axiosCertificationInstance.get(`/posts/my-page?post-type=${postType}&page=${pageId}&size=4`);
+  const { data } = await axiosInstance.get(`/posts/my-page?post-type=${postType}&page=${pageId}&size=4`);
   return data.data;
 }

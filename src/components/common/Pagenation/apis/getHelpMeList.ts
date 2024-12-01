@@ -8,14 +8,9 @@ export default async function getPagenationItems(
   disabilityType: string,
   assistanceType: string,
 ) {
-  const accessToken = localStorage.getItem("accessToken");
   const url = `posts?post-type=${postType}&page=${page}&size=${limit}&sorted=modifiedAt,DESC&post-status=${postStatus}&disability-type=${disabilityType}&assistance-type=${assistanceType}`;
 
-  const { data } = await axiosInstance.get(url, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+  const { data } = await axiosInstance.get(url);
 
   return data;
 }

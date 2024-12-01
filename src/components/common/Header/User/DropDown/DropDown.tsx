@@ -36,12 +36,12 @@ export default function DropDown({ isNameClick }: DropDownProps) {
 
       openToast("success", "로그아웃되었습니다.");
       await router.push(ROUTE.HOME);
-      queryClient.invalidateQueries({ queryKey: ["user"] });
       queryClient.invalidateQueries({ queryKey: ["userLogIn"] });
       queryClient.invalidateQueries({ queryKey: ["giverPost"] });
       queryClient.invalidateQueries({ queryKey: ["takerPost"] });
     },
     onError: () => {
+      queryClient.invalidateQueries({ queryKey: ["userLogIn"] });
       openToast("error", "로그아웃이 실패하였습니다.");
     },
   });

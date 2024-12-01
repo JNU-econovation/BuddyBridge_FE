@@ -1,9 +1,9 @@
-import { axiosCertificationInstance } from "@/apis/axiosInstance";
+import { axiosInstance } from "@/apis/axiosInstance";
 
 import { helpMeFormData } from "../types";
 
 export default async function postHelpMeRegister(content: helpMeFormData) {
-  const { data } = await axiosCertificationInstance.post(`posts`, {
+  const { data } = await axiosInstance.post(`posts`, {
     ...content,
   });
 

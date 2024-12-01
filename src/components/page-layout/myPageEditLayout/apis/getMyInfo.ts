@@ -1,6 +1,6 @@
-import { axiosCertificationInstance } from "@/apis/axiosInstance";
+import { axiosInstance } from "@/apis/axiosInstance";
 
 export default async function getMyInfo() {
-  const { data } = await axiosCertificationInstance.get(`users/info`);
+  const { data } = await axiosInstance.get(`users/info`);
   return data.data;
 }
