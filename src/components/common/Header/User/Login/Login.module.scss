@@ -41,6 +41,10 @@
 
 .unreadCount{
   z-index: 3;
-  @include nsnFont(1.3rem, 700, normal);
-  color: #6562E2;
+  @include nsnFont(0.8rem, 700, normal);
+  margin-top: 1rem;
+  padding: 0.6rem 0.7rem;
+  color: white;
+  background-color: rgb(226, 2, 2);
+  border-radius: 1.5rem;
 }

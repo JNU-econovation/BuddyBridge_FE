@@ -71,9 +71,6 @@ export default function Login({ name }: LoginProps) {
         const newNotification = (event as any).data;
         let parsedData;
 
-        //지우기
-        console.log("parsedData");
-        console.log(parsedData);
         setNotifications(parsedData);
       });
 
