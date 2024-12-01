@@ -254,9 +254,14 @@ function ConfirmModal({ setState, content, mutate }: ConfirmModalProps) {
   return (
     <Modal className={cn("modal")} setState={setState}>
       <p className={cn("modalContent")}>한 번 가입시 변경 할 수 없으니 꼭 확인해 주세요.</p>
-      <button onClick={handleConfirm} className={cn("modalBtnContent")}>
-        네, 확인했습니다.
-      </button>
+      <div className={cn("btnBox")}>
+        <button onClick={handleConfirm} className={cn("modalConfirmBtn")}>
+          네, 확인했습니다.
+        </button>
+        <button onClick={() => setState((prev) => !prev)} className={cn("modalCloseBtn")}>
+          취소
+        </button>
+      </div>
     </Modal>
   );
 }
