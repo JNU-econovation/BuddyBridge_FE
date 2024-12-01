@@ -38,7 +38,6 @@ export default function HelpMeLayout() {
       query: { ...Object.fromEntries(params.entries()) },
     });
   };
-  console.log(allType);
 
   const { data } = useQuery({
     queryKey: ["post", page, disabilityType, assistanceType, postStatus],
