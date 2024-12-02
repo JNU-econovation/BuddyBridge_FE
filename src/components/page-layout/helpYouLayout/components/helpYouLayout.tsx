@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
@@ -20,6 +22,7 @@ export default function HelpYouLayout() {
   const router = useRouter();
   const params = new URLSearchParams(router.query as any);
   const currentPage = params.get("page");
+  const allType = params.get("allType") ?? "";
   const disabilityType = params.get("disabilityType") ?? "";
   const assistanceType = params.get("assistanceType") ?? "";
   const postStatus = params.get("postStatus") ?? "";
@@ -36,27 +39,43 @@ export default function HelpYouLayout() {
 
   const { data } = useQuery({
     queryKey: ["post", page, postStatus, disabilityType, assistanceType, postStatus],
-    queryFn: () => getPagenationItems("GIVER", page, 8, `${postStatus}`, `${disabilityType}`, `${assistanceType}`),
+    queryFn: () => getPagenationItems("GIVER", page, 8, allType, postStatus, disabilityType, assistanceType),
     placeholderData: keepPreviousData,
+    enabled: !!allType || !!disabilityType || !!assistanceType || !!postStatus,
   });
 
   const handleFilter = (category: string, optionId: string) => {
     const searchParams = new URLSearchParams(params.toString());
+    const selectedAllType = searchParams.get("allType") ?? "";
     const selectedDisabilityType = searchParams.get("disabilityType") ?? "";
     const selectedAssistanceType = searchParams.get("assistanceType") ?? "";
     const selectedPostStatus = searchParams.get("postStatus") ?? "";
 
-    let disabililtyTypeList = selectedDisabilityType ? selectedDisabilityType.split(",") : [];
+    let allTypeList = selectedAllType ? selectedAllType.split(",") : [];
+    let disabilityTypeList = selectedDisabilityType ? selectedDisabilityType.split(",") : [];
     let assistanceTypeList = selectedAssistanceType ? selectedAssistanceType.split(",") : [];
     let postStatusList = selectedPostStatus ? selectedPostStatus.split(",") : [];
 
-    if (category === "disabilityType") {
-      if (disabililtyTypeList.includes(optionId)) {
-        disabililtyTypeList = disabililtyTypeList.filter((e) => e !== optionId);
-        searchParams.set("disabilityType", disabililtyTypeList.join(","));
+    if (category === "allType") {
+      if (allTypeList.includes(optionId)) {
+        allTypeList = allTypeList.filter((e) => e !== optionId);
+        searchParams.set("allType", allTypeList.join(","));
+        searchParams.delete("allType");
       } else {
-        disabililtyTypeList.push(optionId);
-        searchParams.set("disabilityType", disabililtyTypeList.join(","));
+        allTypeList.push(optionId);
+        searchParams.set("allType", allTypeList.join(","));
+        searchParams.delete("disabilityType");
+        searchParams.delete("assistanceType");
+        searchParams.delete("postStatus");
+      }
+    } else if (category === "disabilityType") {
+      if (disabilityTypeList.includes(optionId)) {
+        disabilityTypeList = disabilityTypeList.filter((e) => e !== optionId);
+        searchParams.set("disabilityType", disabilityTypeList.join(","));
+      } else {
+        disabilityTypeList.push(optionId);
+        searchParams.set("disabilityType", disabilityTypeList.join(","));
+        searchParams.delete("allType");
       }
     } else if (category === "assistanceType") {
       if (assistanceTypeList.includes(optionId)) {
@@ -65,6 +84,7 @@ export default function HelpYouLayout() {
       } else {
         assistanceTypeList.push(optionId);
         searchParams.set("assistanceType", assistanceTypeList.join(","));
+        searchParams.delete("allType");
       }
     } else if (category === "postStatus") {
       if (postStatusList.includes(optionId)) {
@@ -73,6 +93,7 @@ export default function HelpYouLayout() {
       } else {
         postStatusList.push(optionId);
         searchParams.set("postStatus", postStatusList.join(","));
+        searchParams.delete("allType");
       }
     }
 
@@ -81,6 +102,13 @@ export default function HelpYouLayout() {
       query: { ...Object.fromEntries(searchParams.entries()) },
     });
   };
+
+  useEffect(() => {
+    if (!params.has("allType")) {
+      params.set("allType", "전체");
+      router.replace(`${router.pathname}?${params.toString()}`);
+    }
+  }, []);
 
   return (
     <main className={cn("container")}>
@@ -93,7 +121,7 @@ export default function HelpYouLayout() {
       </div>
       <Link href={ROUTE.HELP_YOU_REGISTER} className={cn("button")}>
         작성하기
-        <RegisterArrow className={cn("arrow")}/>
+        <RegisterArrow className={cn("arrow")} />
       </Link>
       <div className={cn("cardListContainer")}>
         <div className={cn("cardListBox")}>

@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
@@ -19,7 +21,9 @@ const cn = classNames.bind(styles);
 export default function HelpMeLayout() {
   const router = useRouter();
   const params = new URLSearchParams(router.query as any);
+
   const currentPage = params.get("page");
+  const all = params.get("all") ?? "";
   const disabilityType = params.get("disabilityType") ?? "";
   const assistanceType = params.get("assistanceType") ?? "";
   const postStatus = params.get("postStatus") ?? "";
@@ -36,43 +40,67 @@ export default function HelpMeLayout() {
 
   const { data } = useQuery({
     queryKey: ["post", page, disabilityType, assistanceType, postStatus],
-    queryFn: () => getPagenationItems("TAKER", page, 8, `${postStatus}`, `${disabilityType}`, `${assistanceType}`),
+    queryFn: () => getPagenationItems("TAKER", page, 8, all, postStatus, disabilityType, assistanceType),
     placeholderData: keepPreviousData,
+    enabled: !!all || !!disabilityType || !!assistanceType || !!postStatus,
   });
 
   const handleFilter = (category: string, optionId: string) => {
     const searchParams = new URLSearchParams(params.toString());
+    const selectedAllType = searchParams.get("allType") ?? "";
     const selectedDisabilityType = searchParams.get("disabilityType") ?? "";
     const selectedAssistanceType = searchParams.get("assistanceType") ?? "";
     const selectedPostStatus = searchParams.get("postStatus") ?? "";
 
+    let allTypeList = selectedAllType ? selectedAllType.split(",") : [];
     let disabilityTypeList = selectedDisabilityType ? selectedDisabilityType.split(",") : [];
     let assistanceTypeList = selectedAssistanceType ? selectedAssistanceType.split(",") : [];
     let postStatusList = selectedPostStatus ? selectedPostStatus.split(",") : [];
 
-    if (category === "disabilityType") {
+    if (category === "all") {
+      allTypeList.push(optionId);
+      searchParams.set("all", allTypeList.join(","));
+      searchParams.delete("disabilityType");
+      searchParams.delete("assistanceType");
+      searchParams.delete("postStatus");
+    } else if (category === "disabilityType") {
       if (disabilityTypeList.includes(optionId)) {
         disabilityTypeList = disabilityTypeList.filter((e) => e !== optionId);
-        searchParams.set("disabilityType", disabilityTypeList.join(","));
+        if (disabilityTypeList.length === 0) {
+          searchParams.delete("disabilityType");
+        } else {
+          searchParams.set("disabilityType", disabilityTypeList.join(","));
+        }
       } else {
         disabilityTypeList.push(optionId);
         searchParams.set("disabilityType", disabilityTypeList.join(","));
+        searchParams.delete("all");
       }
     } else if (category === "assistanceType") {
       if (assistanceTypeList.includes(optionId)) {
         assistanceTypeList = assistanceTypeList.filter((e) => e !== optionId);
-        searchParams.set("assistanceType", assistanceTypeList.join(","));
+        if (assistanceTypeList.length === 0) {
+          searchParams.delete("assistanceType");
+        } else {
+          searchParams.set("assistanceType", assistanceTypeList.join(","));
+        }
       } else {
         assistanceTypeList.push(optionId);
         searchParams.set("assistanceType", assistanceTypeList.join(","));
+        searchParams.delete("all");
       }
     } else if (category === "postStatus") {
       if (postStatusList.includes(optionId)) {
         postStatusList = postStatusList.filter((e) => e !== optionId);
-        searchParams.set("postStatus", postStatusList.join(","));
+        if (postStatusList.length === 0) {
+          searchParams.delete("postStatus");
+        } else {
+          searchParams.set("postStatus", postStatusList.join(","));
+        }
       } else {
         postStatusList.push(optionId);
         searchParams.set("postStatus", postStatusList.join(","));
+        searchParams.delete("all");
       }
     }
 
@@ -82,9 +110,16 @@ export default function HelpMeLayout() {
     });
   };
 
+  useEffect(() => {
+    if (!params.has("allType")) {
+      params.set("all", "true");
+      router.replace(`${router.pathname}?${params.toString()}`);
+    }
+  }, []);
+
   return (
     <main className={cn("container")}>
-      <div className={cn("typeContainer")}>
+      <div className={cn("filterContainer")}>
         <p className={cn("title")}>
           버디브릿지는 일상에서 모두가 서로에게 <br />
           따뜻한 온정을 전하는 세상을 만듭니다.
