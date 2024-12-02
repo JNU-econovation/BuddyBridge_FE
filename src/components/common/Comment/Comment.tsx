@@ -13,6 +13,8 @@ import { formatDateString } from "@/utils";
 import deleteComment from "./apis/deleteComment";
 import putComment from "./apis/putComment";
 import ChatButton from "./ChatButton/ChatButton";
+import CommentBackground from "../../../../public/icons/comment.svg";
+import Siren from "../../../../public/icons/siren.svg";
 import getLogIn from "../Header/apis/getLogIn";
 
 const cn = classNames.bind(styles);
@@ -128,17 +130,26 @@ export default function Comment({ comment, postId, type }: CommentProps) {
             <p className={cn("content")}>{comment.content}</p>
           )}
         </div>
-        {comment.author.memberId === data?.memberId && (
-          <div className={cn("kebabBox")} ref={kebabRef}>
-            <Kebab onClick={handleKebabClick} className={cn("kebab")} width={20} height={20} />
-            {isKebabClick && (
-              <div className={cn("editBox")} ref={editBoxRef}>
-                <button onClick={handleCommentEditClick}>수정</button>
-                <button onClick={handleCommentDeleteClick}>삭제</button>
-              </div>
-            )}
-          </div>
-        )}
+        {
+          comment.author.memberId === data?.memberId ? (
+            <div className={cn("kebabBox")} ref={kebabRef}>
+              <Kebab onClick={handleKebabClick} className={cn("kebab")} width={20} height={20} />
+              {isKebabClick && (
+                <div className={cn("editBox")} ref={editBoxRef}>
+                  <button onClick={handleCommentEditClick}>수정</button>
+                  <button onClick={handleCommentDeleteClick}>삭제</button>
+                </div>
+              )}
+          
+            </div>
+          ): 
+          ( 
+            <div className={cn("sirenBtn")}>
+              <Siren/>
+              <span>신고하기</span>
+            </div>
+          )
+      }
 
         {isNowEditing && (
           <div className={cn("editBtnBox")}>
