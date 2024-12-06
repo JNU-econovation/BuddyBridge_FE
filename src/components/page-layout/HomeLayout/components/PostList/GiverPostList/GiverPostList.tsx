@@ -10,15 +10,19 @@ import { ROUTE } from "@/constants/route";
 import Plus from "@/icons/plus.svg";
 
 import getGiverPost from "../../../apis/getGiverPost";
-import PostData from "../../../types";
+import { PostType } from "../../../types";
 
 const cn = classNames.bind(styles);
 
 export default function GiverPostList() {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["giverPost"],
     queryFn: () => getGiverPost(),
   });
+
+  if (isError) {
+    return;
+  }
 
   return (
     <div className={cn("container")}>
@@ -31,7 +35,7 @@ export default function GiverPostList() {
       <div className={cn("postListBox")}>
         {isLoading
           ? Array.from({ length: 4 }).map((_, index) => <Skeleton key={index} className={cn("skeleton")} />)
-          : data?.map((post: PostData) => <Post data={post} key={post.id} />)}
+          : data?.map((post: PostType) => <Post data={post} key={post.id} />)}
       </div>
     </div>
   );
