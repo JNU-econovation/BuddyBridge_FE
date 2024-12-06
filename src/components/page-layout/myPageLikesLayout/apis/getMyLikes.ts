@@ -17,9 +17,9 @@ export interface MyLikesRes {
     createdAt: string;
     disabilityType: string | null;
     district: string;
-    endDate: string;
+    endDate: Date;
     id: number;
-    modifiedAt: string;
+    modifiedAt: Date;
     postStatus: "RECRUITING" | "FINISHED";
     postType: "TAKER" | "GIVER";
     scheduleDetails: string;

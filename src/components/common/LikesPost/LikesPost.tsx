@@ -15,8 +15,8 @@ interface LikesPostProps {
   id: number;
   title: string;
   postStatus: "RECRUITING" | "FINISHED";
-  modifiedAt: string;
-  endDate: string;
+  modifiedAt: Date;
+  endDate: Date;
   postType: "TAKER" | "GIVER";
 }
 

@@ -11,8 +11,7 @@ import Post from "@/components/common/Post/Post";
 import styles from "@/components/page-layout/helpMeLayout/components/helpMeLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import RegisterArrow from "@/icons/send_arrow.svg";
-
-import PostData from "../../HomeLayout/types";
+import { PostType } from "@/types/post";
 
 const cn = classNames.bind(styles);
 
@@ -97,7 +96,7 @@ export default function HelpMeLayout() {
       </Link>
       <div className={cn("cardListContainer")}>
         <div className={cn("cardListBox")}>
-          {data?.data.content.map((post: PostData) => (
+          {data?.data.content.map((post: PostType) => (
             <Post data={post} key={post.id} />
           ))}
         </div>

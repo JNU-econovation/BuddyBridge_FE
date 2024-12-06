@@ -14,7 +14,7 @@ const cn = classNames.bind(styles);
 interface ChatType {
   lastMessage: string;
   matchingId: number;
-  lastMessageTime: string;
+  lastMessageTime: Date;
   postType: string;
   receiver: {
     receiverId: number;

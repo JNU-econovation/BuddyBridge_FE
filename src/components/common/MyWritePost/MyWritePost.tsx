@@ -19,8 +19,8 @@ export interface MyWritePostProps {
     postType: string;
     assistanceType: string;
     disabilityType: string;
-    startDate: string;
-    endDate: string;
+    startDate: Date;
+    endDate: Date;
   };
 }
 
