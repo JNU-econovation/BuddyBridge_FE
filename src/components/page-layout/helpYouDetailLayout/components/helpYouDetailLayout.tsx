@@ -35,18 +35,19 @@ interface CommentProps {
 
 export default function HelpYouDetailLayout() {
   const router = useRouter();
-  const { id: pageId } = router.query;
   const queryClient = useQueryClient();
+
+  const { id: pageId } = router.query;
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["giverDetail", pageId],
+    queryFn: () => getGiverDetail(pageId as string),
+    enabled: !!pageId,
+  });
 
   const { data: userData } = useQuery({
     queryKey: ["userLogIn"],
     queryFn: () => getLogIn(),
-  });
-
-  const { data, isPending } = useQuery({
-    queryKey: ["giverDetail", pageId],
-    queryFn: () => getGiverDetail(pageId as string),
-    enabled: !!pageId,
   });
 
   const {
@@ -77,31 +78,26 @@ export default function HelpYouDetailLayout() {
     deletePostMutation.mutate(id);
   };
 
-  if (isPending) {
-    return <div></div>;
+  if (!data || isLoading) {
+    return <>로딩중...</>;
+  }
+
+  if (isError) {
+    return <>에러...</>;
   }
 
   const {
-    assistanceType,
-    district,
-    id,
-    scheduleType,
-    title,
-    scheduleDetails,
-    content,
-    modifiedAt,
-    author,
-    startDate,
-    endDate,
-    assistanceStartTime,
-    assistanceEndTime,
-    gender,
-    age,
-    disabilityType,
-    headcount,
+    author: { age, disabilityType, gender, memberId, nickname, profileImageUrl },
+    post: {
+      assistance: { assistanceEndTime, assistanceStartTime, assistanceType },
+      content,
+      createdAt,
+      district,
+      id,
+      schedule: { endDate, scheduleDetails, scheduleType, startDate },
+      title,
+    },
   } = data;
-
-  const { nickname, profileImageUrl, memberId } = author;
 
   const commentMemIds: Array<number> =
     commentData?.pages.flatMap((page) => page.content.map((comment: CommentProps) => comment.author.memberId)) || [];
@@ -150,10 +146,6 @@ export default function HelpYouDetailLayout() {
                   <p className={cn("district")}>장소</p>
                   <p className={cn("districtContent")}>{district}</p>
                 </div>
-                <div className={cn("districtContainer")}>
-                  <p className={cn("district")}>모집 인원</p>
-                  <p className={cn("districtContent")}>{headcount}</p>
-                </div>
               </div>
               <div className={cn("periodContainer")}>
                 <p className={cn("period")}>기간</p>
@@ -174,7 +166,7 @@ export default function HelpYouDetailLayout() {
                 <p className={cn("contentDetailTextArea")}>{content}</p>
               </div>
             </div>
-            <p className={cn("modifiedAt")}>{formatDateString(modifiedAt)}</p>
+            <p className={cn("modifiedAt")}>{formatDateString(createdAt)}</p>
             {userData?.memberId === memberId && (
               <div className={cn("buttonBox")}>
                 <button onClick={handleDeleteButtonClick} className={cn("button")}>
