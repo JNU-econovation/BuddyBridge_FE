@@ -8,9 +8,9 @@ import Skeleton from "@/components/common/Skeleton/Skeleton";
 import styles from "@/components/page-layout/HomeLayout/components/PostList/GiverPostList/GiverPostList.module.scss";
 import { ROUTE } from "@/constants/route";
 import Plus from "@/icons/plus.svg";
+import { PostType } from "@/types/post";
 
 import getGiverPost from "../../../apis/getGiverPost";
-import { PostType } from "../../../types";
 
 const cn = classNames.bind(styles);
 

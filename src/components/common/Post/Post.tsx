@@ -6,13 +6,13 @@ import classNames from "classnames/bind";
 import Link from "next/link";
 
 import styles from "@/components/common/Post/Post.module.scss";
-import { PostType } from "@/components/page-layout/HomeLayout/types";
 import { ROUTE } from "@/constants/route";
 import Calendar from "@/icons/calendar.svg";
 import Clock from "@/icons/clock.svg";
 import Heart from "@/icons/heart.svg";
 import Location from "@/icons/location.svg";
 import RedHeart from "@/icons/red_heart.svg";
+import { PostType } from "@/types/post";
 import { formatDateString } from "@/utils";
 
 import postLikes from "./apis/postLikes";

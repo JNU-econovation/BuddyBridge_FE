@@ -1,6 +1,5 @@
 import { axiosInstance } from "@/apis/axiosInstance";
-
-import { PostListResponse } from "../types";
+import { PostListResponse } from "@/types/post";
 
 export default async function getGiverPost() {
   const { data } = await axiosInstance.get<PostListResponse>(
