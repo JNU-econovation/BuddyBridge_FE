@@ -60,6 +60,11 @@ export default function Login({ name }: LoginProps) {
     let eventSource: EventSourcePolyfill;
 
     const connectSSE = () => {
+      if (retryCount >= 3) {
+        setError("연결 시도 횟수를 초과했습니다.");
+        return;
+      }
+      
       eventSource = new EventSourcePolyfill(`${process.env.NEXT_PUBLIC_BASE_URL}api/sse/connect`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -70,6 +75,12 @@ export default function Login({ name }: LoginProps) {
         console.log(event);
         const newNotification = (event as any).data;
         let parsedData;
+
+        try {
+          parsedData = JSON.parse(newNotification);
+        } catch (error) {
+          return;
+        }
 
         setNotifications(parsedData);
       });
