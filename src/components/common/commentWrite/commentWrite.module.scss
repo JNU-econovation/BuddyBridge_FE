@@ -1,14 +1,28 @@
 .container {
-  margin-top: 10rem;
+  //margin-top: 10rem;
   width: 100%;
+  margin: 10rem 10rem 0 10rem;
+  @include flexSort(column, null, null, 3rem);
+}
+
+.commentLabelBox {
+  @include flexSort(null, null, center, 2rem);
+  @include nsnFont(2.3rem, 500, normal);
+  margin: 0 2rem;
+  padding: 1rem 1rem;
+  border-bottom: 0.1rem solid black;
+}
+
+.labelDetail {
+  @include flexSort(null, null, center, 1rem);
+  @include nsnFont(1.5rem, 500, normal);
 }
 
 .box {
-  margin: 0 10rem;
   border-radius: 2rem;
   border: 0.1rem solid #4d4d4d;
-  padding: 2rem;
-  @include flexSort(column, null, flex-start, 5rem);
+  padding: 2rem 2rem;
+  @include flexSort(column, null, flex-start, 2rem);
   position: relative;
 }
 
@@ -29,18 +43,26 @@
   @include font(2rem, 400, normal);
 }
 
+.contentBox {
+  position: relative;
+}
+
 .textarea {
   resize: none;
   width: 95%;
   @include font(2rem, 400, normal);
-  padding: 2rem;
+  padding: 0 2rem;
   height: 10rem;
-  border-radius: 1rem;
+  border: none;
+  outline: none;
 }
 
 .register {
-  @include font(2rem, 500, normal);
   position: absolute;
-  bottom: 1rem;
-  right: 1rem;
+  bottom: 4rem;
+  right: 2rem;
+  vertical-align: middle;
+  &:hover {
+    color: #97B8F9;
+  }
 }

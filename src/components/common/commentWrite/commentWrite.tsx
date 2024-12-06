@@ -10,6 +10,8 @@ import styles from "@/components/common/commentWrite/commentWrite.module.scss";
 import openToast from "@/components/common/Toast/features/openToast";
 
 import postComment from "./apis/postComment";
+import BanIcon from "../../../../public/icons/ban.svg";
+import Register from "../../../../public/icons/register_arrow.svg";
 
 const cn = classNames.bind(styles);
 
@@ -64,6 +66,13 @@ export default function CommentWrite({ user, id, commentMemIds }: CommentWritePr
 
   return (
     <div className={cn("container")}>
+      <div className={cn("commentLabelBox")}>
+          <span>댓글 작성</span>
+          <div className={cn("labelDetail")}>
+            <BanIcon width={25} height={25}/>
+            <span>비방, 욕설 등 부적절한 댓글은 작성이 제한되며, 삭제 될 수 있습니다.</span>
+          </div>
+      </div>
       <form className={cn("box")} onSubmit={handleSubmit(handleCommentUpload)}>
         <div className={cn("userBox")}>
           <div className={cn("img")}>
@@ -77,7 +86,9 @@ export default function CommentWrite({ user, id, commentMemIds }: CommentWritePr
           className={cn("textarea")}
           onKeyDown={handleKeyDown}
         ></textarea>
-        <button className={cn("register")}>등록</button>
+        <button>
+          <Register className={cn("register")} />
+        </button>
       </form>
     </div>
   );
