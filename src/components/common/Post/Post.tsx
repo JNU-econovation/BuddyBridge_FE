@@ -6,13 +6,12 @@ import classNames from "classnames/bind";
 import Link from "next/link";
 
 import styles from "@/components/common/Post/Post.module.scss";
-import PostData from "@/components/page-layout/HomeLayout/types";
+import { PostType } from "@/components/page-layout/HomeLayout/types";
 import { ROUTE } from "@/constants/route";
 import Calendar from "@/icons/calendar.svg";
 import Clock from "@/icons/clock.svg";
 import Heart from "@/icons/heart.svg";
 import Location from "@/icons/location.svg";
-import Personnel from "@/icons/personnel.svg";
 import RedHeart from "@/icons/red_heart.svg";
 import { formatDateString } from "@/utils";
 
@@ -22,26 +21,20 @@ import PostLabel from "./PostLabel/PostLabel";
 const cn = classNames.bind(styles);
 
 interface PostProps {
-  data: PostData;
+  data: PostType;
 }
 
 export default function Post({ data }: PostProps) {
   const {
-    postType,
-    title,
-    startDate,
-    endDate,
-    matchingDoneCount,
-    headcount,
-    assistanceType,
-    district,
-    assistanceStartTime,
-    assistanceEndTime,
-    scheduleType,
-    id,
-    postStatus,
+    assistance: { assistanceEndTime, assistanceStartTime, assistanceType },
     disabilityType,
+    district,
+    id,
     isLiked,
+    postStatus,
+    postType,
+    schedule: { endDate, scheduleType, startDate },
+    title,
   } = data;
 
   const { mutate } = useMutation({
@@ -99,10 +92,6 @@ export default function Post({ data }: PostProps) {
                   <Clock />
                 </div>
                 <p className={cn("clock")}>{`${scheduleType}, ${assistanceStartTime} ~ ${assistanceEndTime}`}</p>
-              </div>
-              <div className={cn("headcountBox")}>
-                <Personnel />
-                <p className={cn("headcount")}>{`${matchingDoneCount}명 / ${headcount}명`}</p>
               </div>
             </div>
           </div>
