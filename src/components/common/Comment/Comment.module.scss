@@ -1,17 +1,9 @@
 .container {
-  background-image: url("%3Csvg width='848' height='107' viewBox='0 0 848 107' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='11' width='837' height='107' rx='15' fill='%23F5F5F5'/%3E%3Cpath d='M26.7001 13.6356C26.7001 21.805 26.1289 31 17.9713 31C9.81373 31 11.2563 26.3068 11.2563 18.1375C11.2563 9.96818 -2.84191 -1.18445 0.517393 0.102031C8.67499 0.102031 26.7001 5.4663 26.7001 13.6356Z' fill='%23F5F5F5'/%3E%3C/svg%3E");
-  border-bottom: 0.1rem solid $black-1;
-  width: 100%;
-
-  &:first-child {
-    border-top: 0.1rem solid $black-1;
-  }
-}
-
-.box {
   position: relative;
-  margin: 2rem;
-  @include flexSort(null, null, center, 2rem);
+  padding: 0.7rem 0rem;
+  width: 100%;
+  height: auto;
+  @include flexSort(null, null, center, 1rem);
 }
 
 .img {
@@ -59,87 +51,136 @@
 .commentWriterGender {
   @include font(1.5rem, 300, normal);
 }
+ 
+.commentBackground {
+  background-color: #F5F5F5;
+  border-radius: 1.5rem;
+  &.editingBackground {
+    box-shadow : 0.2rem 0.2rem 0.6rem 0.1rem #d1cece;
+  }
+}
+
+.titleBox:before {
+  left: -1rem;
+  border-top: 2rem solid #F5F5F5;
+  border-left: 2.5rem solid transparent;
+  content:"";
+  position:absolute;
+ }
+
+.box {
+  position: relative;
+  padding: 1.7rem 2.5rem;
+  @include flexSort(column, null, center, 1rem);
+  width: auto;
+  min-width: 30rem;
+}
+
+.upperContentBox {
+  @include flexSort(null, space-between, center, null);
+  width: 100%;
+}
+
+.titleBox {
+  @include flexSort(null, null, flex-end, 1rem);
+}
+
+.nickname {
+  @include nsnFont(2rem, 300, normal);
+}
+
+.date {
+  @include nsnFont(1.2rem, 300, normal);
+  color: $gray-2;
+}
+
+.content {
+  @include nsnFont(2rem, 400, normal);
+}
+
+.kebabBox {
+  position: relative;
+}
+
+.kebab {
+  cursor: pointer;
+  stroke: #33363F;
+}
+
+// .contentContainer {
+//   @include flexSort(null, null, flex-start, 1rem);
+// }
 
 .contentBox {
   @include flexSort(column, null, flex-start, 1rem);
   width: 100%;
 }
 
-.titleBox {
-  @include flexSort(null, null, center, 1rem);
-}
-
-.nickname {
-  @include font(2rem, 600, normal);
-}
-
-.date {
-  @include font(1.5rem, 400, normal);
-  color: $gray-2;
-}
-
-.content {
-  @include font(2rem, 400, normal);
-}
-
-.kebabBox {
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
-.kebab {
-  cursor: pointer;
-}
-
 .editBox {
   z-index: 1;
   border-radius: 1rem;
-  border: 0.1rem solid #4d4d4d;
+  border: 0.1rem solid #E2E8F0;
   position: absolute;
   bottom: -4rem;
-  right: -6rem;
+  right: -8rem;
   background-color: white;
   @include flexSort(column, null, center, null);
+  box-shadow : 0.1rem 0.1rem 0.4rem 0.01rem #d1cece;
 
   button {
-    padding: 0.7rem 1.2rem;
+    padding: 0.7rem 2rem;
     @include font(1.5rem, 400, normal);
+    &:first-child{
+      border-bottom: 0.1rem solid #E2E8F0;
+    }
   }
 }
 
 .editTextarea {
-  width: 100%;
+  all:unset;
+  @include nsnFont(2rem, 400, normal);
+  width: auto;
+  height: auto;
+  min-width: 60rem;
   min-height: 10rem;
-  border-radius: 1rem;
-  padding: 1rem;
+  // border-radius: 1rem;
+  // padding: 1rem;
 }
 
 .editBtnBox {
-  z-index: 1;
-  position: absolute;
-  right: 10%;
-  top: 1%;
+  @include flexSort(column, null, null, 0.5rem);
+  align-self: flex-end;
 }
 
 .saveBtn {
-  @include font(1.5rem, 400, normal);
-  padding: 0.3rem 2rem;
-  background-color: #e7efff;
-  border: solid 0.0625rem gray;
+  @include nsnFont(1.3rem, 400, normal);
+  padding: 0.5rem 1rem;
+  color:white;
+  background-color: #5F5F5F;
   border-radius: 0.5rem;
-  margin-right: 1rem;
+  text-align: center;
+
+  &:hover {
+    box-shadow : 0rem 0rem 0.2rem 0.1rem #d1cece;
+  }
+  
 }
 
 .cancelBtn {
-  @include font(1.5rem, 400, normal);
-  padding: 0.3rem 2rem;
+  @include nsnFont(1.3rem, 400, normal);
+  padding: 0.45rem 1rem;
+  color:#5F5F5F;
   background-color: white;
-  border: solid 0.0625rem gray;
+  border: solid 0.0625rem #5F5F5F;
   border-radius: 0.5rem;
+  text-align: center;
+
+  &:hover {
+    box-shadow : 0rem 0rem 0.2rem 0.1rem #d1cece;
+  }
 }
 
 .sirenBtn {
-  @include flexSort(null, null, null, 0.5rem);
+  @include flexSort(null, null, center, 0.5rem);
   @include nsnFont(1rem, 300, normal);
 }
