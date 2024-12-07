@@ -45,7 +45,7 @@ export default function HelpMeDetailLayout() {
     enabled: !!pageId,
   });
 
-  const { data: userData } = useQuery({
+  const { data: userData, isError: userIsError } = useQuery({
     queryKey: ["userLogIn"],
     queryFn: () => getLogIn(),
   });
@@ -175,7 +175,7 @@ export default function HelpMeDetailLayout() {
               </div>
             )}
           </div>
-          {userData && (
+          {userData && !userIsError && (
             <>
               <div className={cn("commentBox")}>
                 {commentData?.pages.map((page) =>
@@ -195,7 +195,7 @@ export default function HelpMeDetailLayout() {
               )}
             </>
           )}
-          {userData && (
+          {userData && !userIsError && (
             <CommentWrite id={pageId as string} user={userData as KaKaoUserInfo} commentMemIds={commentMemIds} />
           )}
         </div>
