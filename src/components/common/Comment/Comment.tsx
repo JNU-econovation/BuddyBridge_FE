@@ -140,9 +140,6 @@ export default function Comment({ comment, postId, type }: CommentProps) {
               )
             }
           </div>
-          <div>
-            
-          </div>
           <div className={cn("contentBox")}>
             {isNowEditing ? (
               <textarea
@@ -160,15 +157,15 @@ export default function Comment({ comment, postId, type }: CommentProps) {
         <ChatButton type={type} authorId={comment.author.memberId} />
       )}
       {isNowEditing && (
-            <div className={cn("editBtnBox")}>
-              <button className={cn("saveBtn")} onClick={handleSaveClick}>
-                수정완료
-              </button>
-              <button className={cn("cancelBtn")} onClick={() => setIsNowEditing(false)}>
-                취소
-              </button>
-            </div>
-          )}
+        <div className={cn("editBtnBox")}>
+          <button className={cn("saveBtn")} onClick={handleSaveClick}>
+            수정완료
+          </button>
+          <button className={cn("cancelBtn")} onClick={() => setIsNowEditing(false)}>
+            취소
+          </button>
+        </div>
+      )}
     </div>
   );
 }

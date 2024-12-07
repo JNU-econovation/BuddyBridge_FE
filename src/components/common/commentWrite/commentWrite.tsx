@@ -24,6 +24,7 @@ interface CommentWriteProps {
 
   id: string;
   commentMemIds: Array<number>;
+  type: string;
 }
 
 interface CommentData {
@@ -35,7 +36,7 @@ interface Comment {
   content: string;
 }
 
-export default function CommentWrite({ user, id, commentMemIds }: CommentWriteProps) {
+export default function CommentWrite({ user, id, commentMemIds, type }: CommentWriteProps) {
   const { register, handleSubmit, reset } = useForm<Comment>();
   const queryClient = useQueryClient();
 
@@ -87,7 +88,7 @@ export default function CommentWrite({ user, id, commentMemIds }: CommentWritePr
           onKeyDown={handleKeyDown}
         ></textarea>
         <button>
-          <Register className={cn("register")} />
+          <Register className={cn("register",{ helpMeRegister:type==="taker" })} />
         </button>
       </form>
     </div>

@@ -64,5 +64,8 @@
   vertical-align: middle;
   &:hover {
     color: #97B8F9;
+    &.helpMeRegister{
+      color: #9b99fc;
+    }
   }
 }

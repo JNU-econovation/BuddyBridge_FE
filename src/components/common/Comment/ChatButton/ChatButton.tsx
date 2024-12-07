@@ -64,7 +64,7 @@ export default function ChatButton({ authorId, type }: ChatButtonProps) {
 
   return (
     <div className={cn("chatBox")} ref={chatRef}>
-      <button onClick={handlebuttonClick} className={cn("chat")}>
+      <button onClick={handlebuttonClick} className={cn("chat", { helpMeChat: type === "taker"})}>
         채팅하기
       </button>
       {isChatClick && (
@@ -74,7 +74,7 @@ export default function ChatButton({ authorId, type }: ChatButtonProps) {
             채팅하기를 진행한다면 상대방에게
             <br /> 실명이 공개됩니다.
           </p>
-          <button onClick={handleChatButtonClick} className={cn("chatButton")}>
+          <button onClick={handleChatButtonClick} className={cn("chatButton", { helpMeChat: type === "taker"})} >
             채팅하기
           </button>
         </div>

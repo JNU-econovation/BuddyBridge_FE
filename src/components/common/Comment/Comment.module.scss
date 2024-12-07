@@ -58,6 +58,7 @@
   &.editingBackground {
     box-shadow : 0.2rem 0.2rem 0.6rem 0.1rem #d1cece;
   }
+  max-width: 80%;
 }
 
 .titleBox:before {
@@ -94,8 +95,15 @@
   color: $gray-2;
 }
 
+.contentBox {
+  @include flexSort(column, null, null, 1rem);
+  width: 100%;
+}
+
 .content {
   @include nsnFont(2rem, 400, normal);
+  //overflow: break-word;
+  word-break: break-all;
 }
 
 .kebabBox {
@@ -105,15 +113,6 @@
 .kebab {
   cursor: pointer;
   stroke: #33363F;
-}
-
-// .contentContainer {
-//   @include flexSort(null, null, flex-start, 1rem);
-// }
-
-.contentBox {
-  @include flexSort(column, null, flex-start, 1rem);
-  width: 100%;
 }
 
 .editBox {
@@ -143,6 +142,7 @@
   height: auto;
   min-width: 60rem;
   min-height: 10rem;
+  word-break: break-all;
   // border-radius: 1rem;
   // padding: 1rem;
 }
@@ -181,6 +181,7 @@
 }
 
 .sirenBtn {
-  @include flexSort(null, null, center, 0.5rem);
-  @include nsnFont(1rem, 300, normal);
+  @include flexSort(null, null, flex-end, 0.2rem);
+  @include nsnFont(1.2rem, 300, normal);
+  cursor: pointer;
 }

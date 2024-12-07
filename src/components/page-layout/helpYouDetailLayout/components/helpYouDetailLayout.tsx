@@ -83,6 +83,9 @@ export default function HelpYouDetailLayout() {
 
   const {
     assistanceType,
+
+  } = data.post.assistance
+  const {
     district,
     id,
     scheduleType,

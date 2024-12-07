@@ -19,13 +19,15 @@ import Clock from "../../../../../public/icons/clock.svg";
 import Heart from "../../../../../public/icons/heart.svg";
 import Kebab from "../../../../../public/icons/kebab.svg";
 import Location from "../../../../../public/icons/location.svg";
-import Red_heart from "../../../../../public/icons/red_heart.svg";
+import RedHeart from "../../../../../public/icons/red_heart.svg";
 import Siren from "../../../../../public/icons/siren.svg"
 import getAllComment from "../../helpYouDetailLayout/apis/getAllComment";
+import postLikes from "@/components/common/Post/apis/postLikes";
 import deletePost from "../apis/deletePost";
 import getTakerDetail from "../apis/getTakerDetail";
 import Person from "../../../../../public/icons/personnel.svg"
-import MyInfoCard from "@/components/common/MyInfoCard/MyInfoCard";
+
+import { useState, useEffect } from "react";
 
 const cn = classNames.bind(styles);
 
@@ -43,6 +45,23 @@ interface CommentProps {
 }
 
 export default function HelpMeDetailLayout() {
+  const router = useRouter();
+
+  const { id: pageId } = router.query;
+
+  const { data, isPending } = useQuery({
+    queryKey: ["takerDetail", pageId],
+    queryFn: () => getTakerDetail(pageId as string),
+    enabled: !!pageId,
+  });
+
+  if (isPending) {
+    return;
+  } else return <Main/>;
+
+}
+
+export function Main() {
   const router = useRouter();
 
   const { id: pageId } = router.query;
@@ -87,9 +106,18 @@ export default function HelpMeDetailLayout() {
     deletePostMutation.mutate(id);
   };
 
-  if (isPending) {
-    return <div></div>;
-  }
+  const { mutate } = useMutation({
+    mutationFn: () => postLikes(id),
+  });
+
+  const handleHeartClick = () => {
+    setIsHeartClick((prev:boolean) => !prev);
+    mutate();
+  };
+  
+  useEffect(()=>{
+    
+  },[])
 
   const {
     nickname,
@@ -106,8 +134,9 @@ export default function HelpMeDetailLayout() {
     title,
     content,
     createdAt,
+    isLiked,
     assistance,
-    schedule
+    schedule,
   } = data.post;
 
   const {
@@ -122,6 +151,17 @@ export default function HelpMeDetailLayout() {
     endDate,
     scheduleDetails,
   } = schedule;
+  
+  const handleKebabClick = () => {
+    setIsKebabClick((prev) => !prev);
+  };
+
+  const [isHeartClick, setIsHeartClick] = useState(false);
+  const [isKebabClick, setIsKebabClick] = useState(false);
+
+  useEffect(() => {
+    setIsHeartClick(isLiked);
+  }, [data]);
 
   const commentMemIds: Array<number> =
     commentData?.pages.flatMap((page) => page.content.map((comment: CommentProps) => comment.author.memberId)) || [];
@@ -135,15 +175,32 @@ export default function HelpMeDetailLayout() {
         </header>
         <div className={cn("totalContainer")}>
           <div className={cn("btnMenu")}>
-            <Heart width={35} height={35} className={cn("likeBtn")}/>
-            {
-              userData?.memberId === data.author.memberId ? 
-                <Kebab width={30} height={30} className={cn("kebabBtn")}/> : 
-                <div className={cn("sirenBtn")}>
-                  <Siren width={25} height={25} />
-                  <span className={cn("sirenText")}>신고하기</span>
-                </div>
-            }
+            {isHeartClick ? (
+              <RedHeart onClick={handleHeartClick} width={32} height={32} className={cn("likeBtn")} />
+            ) : (
+              <Heart onClick={handleHeartClick} width={32} height={32} className={cn("likeBtn")} />
+            )}
+            {userData?.memberId === data.author.memberId ? (
+              <Kebab onClick={handleKebabClick} width={30} height={30} className={cn("kebabBtn")}/> 
+            ) : (
+              <div className={cn("sirenBtn")}>
+                <Siren width={25} height={25} />
+                <span className={cn("sirenText")}>신고하기</span>
+              </div>
+            )}
+            {isKebabClick && (
+              <div className={cn("editBtnBox")}>
+                <button className={cn("saveBtn")}>
+                  상태변경
+                </button>
+                <button className={cn("cancelBtn")}>
+                  수정하기
+                </button>
+                <button>
+                  삭제하기
+                </button>
+              </div>
+            )}
           </div>
           <div className={cn("titleBox")}>
             <p className={cn("title")}>{title}</p>
@@ -225,7 +282,7 @@ export default function HelpMeDetailLayout() {
             </>
           )}
           {userData && (
-            <CommentWrite id={pageId as string} user={userData as KaKaoUserInfo} commentMemIds={commentMemIds} />
+            <CommentWrite id={pageId as string} user={userData as KaKaoUserInfo} commentMemIds={commentMemIds}  type="taker"/>
           )}
       </div>
     </div>
