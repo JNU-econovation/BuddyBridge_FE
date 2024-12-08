@@ -20,9 +20,13 @@ export default function MyRegisterPost({ postType }: MyRegisterPostProps) {
   const filter = router.query.state === "댓글" ? "댓글" : "게시물";
   const pageId = router.query.pageId || "1";
 
-  const { data: postData } = useGetMyPost(pageId as string, postType, filter);
+  const { data: postData, isLoading, isError } = useGetMyPost(pageId as string, postType, filter);
 
   const { data: commentData } = useGetMyComment(pageId as string, postType, filter);
+
+  if (isLoading || !postData) return <div>로딩...</div>;
+
+  if (isError) return <div>에러...</div>;
 
   return (
     <div className={cn("container")}>

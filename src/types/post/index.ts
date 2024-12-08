@@ -82,7 +82,21 @@ export interface PostDetailType {
   };
 }
 
-export interface MyLikesResponse {
+export interface MyLikesPostResponse {
+  success: boolean;
+  data: {
+    content: PostType[];
+    totalElements: number;
+    last: boolean;
+  };
+  error: {
+    message: string;
+    code: string;
+    status: number;
+  };
+}
+
+export interface MyWritePostResponse {
   success: boolean;
   data: {
     content: PostType[];
