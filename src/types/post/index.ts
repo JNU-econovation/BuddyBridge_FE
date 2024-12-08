@@ -1,17 +1,3 @@
-export interface PostListResponse {
-  success: boolean;
-  data: {
-    content: PostType[];
-    totalElements: number;
-    last: boolean;
-  };
-  error: {
-    message: string;
-    code: string;
-    status: number;
-  };
-}
-
 export interface PostType {
   id: number;
   title: string;
@@ -30,6 +16,20 @@ export interface PostType {
     scheduleType: "정기" | "비정기";
   };
   isLiked: boolean;
+}
+
+export interface PostListResponse {
+  success: boolean;
+  data: {
+    content: PostType[];
+    totalElements: number;
+    last: boolean;
+  };
+  error: {
+    message: string;
+    code: string;
+    status: number;
+  };
 }
 
 export interface PostDetailResponse {
@@ -79,5 +79,19 @@ export interface PostDetailType {
     };
     postStatus: "RECRUITING" | "FINISHED";
     isLiked: boolean;
+  };
+}
+
+export interface MyLikesResponse {
+  success: boolean;
+  data: {
+    content: PostType[];
+    totalElements: number;
+    last: boolean;
+  };
+  error: {
+    message: string;
+    code: string;
+    status: number;
   };
 }
