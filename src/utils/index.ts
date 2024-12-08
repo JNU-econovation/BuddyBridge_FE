@@ -8,7 +8,7 @@ export function formatDateString(dateString: Date) {
   return `${year}.${month}.${day}`;
 }
 
-export function formatAllDateExpectSecondsString(dateString: string) {
+export function formatAllDateExpectSecondsString(dateString: Date) {
   const date = new Date(dateString);
 
   const year = date.getFullYear();
