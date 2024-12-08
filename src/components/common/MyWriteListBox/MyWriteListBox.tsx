@@ -1,12 +1,12 @@
 import classNames from "classnames/bind";
 
+import { CommentType } from "@/types/comment";
 import { MyWritePostResponse } from "@/types/post";
 
 import MyWriteList from "./MyWriteList/MyWriteList";
 import styles from "./MyWriteListBox.module.scss";
 import PaginationBox from "./PaginationBox/PaginationBox";
 import SelectFilter from "./SelectFilter/SelectFilter";
-import { MyWriteCommentProps } from "../MyWriteComment/MyWriteComment";
 
 const cn = classNames.bind(styles);
 
@@ -14,8 +14,8 @@ export interface MyWriteListBoxProps {
   postData: MyWritePostResponse["data"];
   commentData: {
     totalElements: number;
-    last: false;
-    content: MyWriteCommentProps["comment"][];
+    last: boolean;
+    content: CommentType[];
   };
   filter: string;
   pageId: string;
