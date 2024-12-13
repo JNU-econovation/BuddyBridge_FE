@@ -1,14 +1,12 @@
 import { axiosInstance } from "@/apis/axiosInstance";
 
 interface SignUpRequest {
-  body: {
-    name: string;
-    nickname: string;
-    gender: string;
-    birthDate: Date;
-    email: string;
-    password: string;
-  };
+  name: string;
+  nickname: string;
+  gender: string;
+  birthDate: Date;
+  email: string;
+  password: string;
 }
 
 interface SignUpResponse {
@@ -23,7 +21,7 @@ interface SignUpResponse {
   success: boolean;
 }
 
-export default async function postSignUp({ body }: SignUpRequest) {
+export default async function postSignUp(body: SignUpRequest) {
   const birthDate = new Date(body.birthDate);
   birthDate.setDate(birthDate.getDate() + 1);
 

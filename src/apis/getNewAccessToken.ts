@@ -1,7 +1,5 @@
 import axios from "axios";
 
-import { ROUTE } from "@/constants/route";
-
 export const getNewAccessToken = async () => {
   try {
     const refreshToken = localStorage.getItem("refreshToken");
@@ -12,7 +10,7 @@ export const getNewAccessToken = async () => {
       },
     });
 
-    const { accessToken, refreshToken: newRefreshToken } = response.data;
+    const { accessToken, refreshToken: newRefreshToken } = response.data.data;
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", newRefreshToken);
 
@@ -20,7 +18,6 @@ export const getNewAccessToken = async () => {
   } catch (error) {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
-    window.location.href = ROUTE.LOGIN;
     return null;
   }
 };
