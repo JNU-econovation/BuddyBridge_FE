@@ -1,21 +1,24 @@
 export default interface PostData {
-  assistanceType: string;
+  assistance: {
+    assistanceType: string;
+    assistanceStartTime: string;
+    assistanceEndTime: string;
+  }
+
+  schedule: {
+    scheduleType: string;
+    startDate: string;
+    endDate: string;
+  }
   content: string;
   createdAt: Date;
   district: string;
-  assistanceEndTime: string;
   id: number;
   modifiedAt: Date;
   postStatus: string;
   postType: string;
   scheduleDetails: string;
-  scheduleType: string;
-  assistanceStartTime: string;
   title: string;
-  startDate: string;
-  endDate: string;
-  matchingDoneCount: number;
-  headcount: number;
   disabilityType: string;
   isLiked: boolean;
   author: {

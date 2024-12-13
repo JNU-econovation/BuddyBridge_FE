@@ -71,8 +71,8 @@
   @include font(2rem, 500, normal);
   @include line-clamp(2);
   border-bottom: 0.1rem solid #ccc;
-  height: 6.36rem;
-
+  //height: 6.36rem;
+  padding-bottom: 2rem;
   @include smallDesktop {
     @include font(1.8rem, 500, normal);
   }

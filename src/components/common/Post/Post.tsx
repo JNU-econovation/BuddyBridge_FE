@@ -29,20 +29,26 @@ export default function Post({ data }: PostProps) {
   const {
     postType,
     title,
-    startDate,
-    endDate,
-    matchingDoneCount,
-    headcount,
-    assistanceType,
     district,
-    assistanceStartTime,
-    assistanceEndTime,
-    scheduleType,
     id,
     postStatus,
     disabilityType,
     isLiked,
+    schedule,
+    assistance,
   } = data;
+
+  const {
+    startDate,
+    endDate,
+    scheduleType,
+  } = schedule;
+
+  const {
+    assistanceStartTime,
+    assistanceEndTime,
+    assistanceType,
+  } = assistance;
 
   const { mutate } = useMutation({
     mutationFn: () => postLikes(id),
@@ -99,10 +105,6 @@ export default function Post({ data }: PostProps) {
                   <Clock />
                 </div>
                 <p className={cn("clock")}>{`${scheduleType}, ${assistanceStartTime} ~ ${assistanceEndTime}`}</p>
-              </div>
-              <div className={cn("headcountBox")}>
-                <Personnel />
-                <p className={cn("headcount")}>{`${matchingDoneCount}명 / ${headcount}명`}</p>
               </div>
             </div>
           </div>
