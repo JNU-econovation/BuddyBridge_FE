@@ -35,7 +35,7 @@ export default function ChatButton({ authorId, type }: ChatButtonProps) {
 
   const { id: pageId } = router.query;
 
-  const { data } = useQuery({
+  const { data, isError, isLoading } = useQuery({
     queryKey: ["takerDetail", pageId],
     queryFn: () => getTakerDetail(pageId as string),
   });
@@ -47,24 +47,27 @@ export default function ChatButton({ authorId, type }: ChatButtonProps) {
     },
   });
 
-  const handlebuttonClick = () => {
+  const handleButtonClick = () => {
     setIsChatClick((prev) => !prev);
   };
 
+  useOutsideClick([chatRef, editBoxRef], () => setIsChatClick(false));
+
+  if (isLoading || !data) return <div>로딩중...</div>;
+  if (isError) return <div>에러...</div>;
+
   const handleChatButtonClick = () => {
     const body = {
-      postId: data.id,
+      postId: data.post.id,
       takerId: type === "giver" ? authorId : data.author.memberId,
       giverId: type === "giver" ? data.author.memberId : authorId,
     };
     chatAcceptMutation.mutate({ body });
   };
 
-  useOutsideClick([chatRef, editBoxRef], () => setIsChatClick(false));
-
   return (
     <div className={cn("chatBox")} ref={chatRef}>
-      <button onClick={handlebuttonClick} className={cn("chat")}>
+      <button onClick={handleButtonClick} className={cn("chat")}>
         채팅하기
       </button>
       {isChatClick && (

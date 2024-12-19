@@ -1,14 +1,14 @@
 import classNames from "classnames/bind";
 
 import LikesPost from "@/components/common/LikesPost/LikesPost";
+import { PostType } from "@/types/post";
 
 import styles from "./MyLikesList.module.scss";
-import { MyLikesRes } from "../../apis/getMyLikes";
 
 const cn = classNames.bind(styles);
 
 interface MyLikesListProps {
-  likesList: MyLikesRes["content"] | undefined;
+  likesList: PostType[];
 }
 
 export default function MyLikesList({ likesList }: MyLikesListProps) {
@@ -17,9 +17,9 @@ export default function MyLikesList({ likesList }: MyLikesListProps) {
       {likesList?.map((post) => (
         <LikesPost
           key={post.id}
-          endDate={post.endDate}
+          endDate={post.schedule.endDate}
           id={post.id}
-          modifiedAt={post.modifiedAt}
+          startDate={post.schedule.startDate}
           postStatus={post.postStatus}
           title={post.title}
           postType={post.postType}

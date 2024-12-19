@@ -1,5 +1,8 @@
 import classNames from "classnames/bind";
 
+import { CommentType } from "@/types/comment";
+import { PostType } from "@/types/post";
+
 import styles from "./MyWriteList.module.scss";
 import MyWriteComment, { MyWriteCommentProps } from "../../MyWriteComment/MyWriteComment";
 import MyWritePost, { MyWritePostProps } from "../../MyWritePost/MyWritePost";
@@ -12,10 +15,9 @@ interface MyWriteListProps extends Pick<MyWriteListBoxProps, "postData" | "comme
 export default function MyWriteList({ postData, commentData, filter }: MyWriteListProps) {
   return (
     <div className={cn("WriteBox")}>
-      {filter === "게시물" &&
-        postData?.content?.map((post: MyWritePostProps["post"]) => <MyWritePost key={post.id} post={post} />)}
+      {filter === "게시물" && postData.content.map((post: PostType) => <MyWritePost key={post.id} post={post} />)}
       {filter === "댓글" &&
-        commentData?.content?.map((comment: MyWriteCommentProps["comment"]) => (
+        commentData.content?.map((comment: CommentType) => (
           <MyWriteComment key={comment.commentId} comment={comment} />
         ))}
     </div>
