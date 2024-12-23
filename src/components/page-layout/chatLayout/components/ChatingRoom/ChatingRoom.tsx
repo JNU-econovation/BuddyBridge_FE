@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import { useRouter } from "next/router";
@@ -13,6 +13,7 @@ import Close from "@/icons/close.svg";
 
 import ChatingRoomContent from "./ChatingRoomContent/ChatingRoomContent";
 import ChatingRoomHeader from "./ChatingRoomHeader/ChatingRoomHeader";
+import getAllChatList from "../../apis/getAllChatList";
 import putMatchingStatus from "../../apis/putMatchingStatus";
 import { useChatContext } from "../chatLayout";
 
@@ -30,6 +31,11 @@ export default function ChatingRoom() {
   const stateChangeRoomRef = useRef(null);
   const router = useRouter();
   const queryClient = useQueryClient();
+
+  const { data, isError, isPending } = useQuery({
+    queryKey: ["chatList"],
+    queryFn: () => getAllChatList(6, 0, "ALL"),
+  });
 
   const chatAcceptMutation = useMutation({
     mutationFn: ({ chatingRoomId, status }: putMatchingtype) => putMatchingStatus(chatingRoomId, status),
@@ -53,6 +59,14 @@ export default function ChatingRoom() {
   const handleMatchingIngClick = () => {
     chatAcceptMutation.mutate({ chatingRoomId: chatingRoomNumber as number, status: "PENDING" });
   };
+
+  if (isPending) {
+    return <>...로딩중</>;
+  }
+
+  if (isError) {
+    return <>...에러</>;
+  }
 
   return (
     <>
@@ -81,7 +95,16 @@ export default function ChatingRoom() {
           )}
         </div>
       ) : (
-        <div className={cn("noChatingRoom")}>채팅방 목록에서 채팅방을 클릭해 보세요 :)</div>
+        <div className={cn("noChatingRoom")}>
+          {data.matchings.length === 0 ? (
+            <>
+              <p>현재 채팅방이 하나도 없습니다 :( </p>
+              <p>게시글 작성 또는 댓글 작성을 하러 가볼까요?</p>
+            </>
+          ) : (
+            "채팅방 목록에서 채팅방을 클릭해 보세요 :)"
+          )}
+        </div>
       )}
     </>
   );
