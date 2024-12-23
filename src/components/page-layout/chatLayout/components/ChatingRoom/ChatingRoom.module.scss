@@ -15,7 +15,7 @@
   height: 60rem;
   background-color: white;
   @include flexSort(null, center, center, null);
-  @include gmarketFont(2rem, 500, normal);
+  @include nsnFont(2.3rem, 700, normal);
 }
 
 .chatingOutContainer {

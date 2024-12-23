@@ -81,7 +81,7 @@ export default function ChatingRoom() {
           )}
         </div>
       ) : (
-        <div className={cn("noChatingRoom")}>채팅방을 클릭해주세요.</div>
+        <div className={cn("noChatingRoom")}>채팅방 목록에서 채팅방을 클릭해 보세요 :)</div>
       )}
     </>
   );
