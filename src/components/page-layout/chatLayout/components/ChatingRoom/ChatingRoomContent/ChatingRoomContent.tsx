@@ -36,6 +36,7 @@ export default function ChatingRoomContent() {
   const { register, handleSubmit, reset } = useForm<ReceivedMessage>();
   const chatBoxRef = useRef<HTMLDivElement | null>(null);
   const [lastRef, inView] = useInView();
+  const accessToken = localStorage.getItem("accessToken");
 
   const { data } = useQuery({
     queryKey: ["userLogIn"],
@@ -64,11 +65,14 @@ export default function ChatingRoomContent() {
             content: data.content,
             messageType: "CHAT",
           }),
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         });
         reset();
       }
     },
-    [chatingRoomNumber, reset],
+    [chatingRoomNumber, reset, accessToken],
   );
 
   useEffect(() => {
@@ -80,7 +84,9 @@ export default function ChatingRoomContent() {
 
     const client = new Client({
       brokerURL: "wss://buddybridge.13.209.34.25.sslip.io/socket/connect",
-      connectHeaders: {},
+      connectHeaders: {
+        Authorization: `Bearer ${accessToken}`,
+      },
       debug: (str) => {
         console.log(str);
       },
@@ -117,7 +123,7 @@ export default function ChatingRoomContent() {
         client.deactivate();
       }
     };
-  }, [chatingRoomNumber, chatingData?.pages]);
+  }, [chatingRoomNumber, chatingData?.pages, accessToken]);
 
   useEffect(() => {
     if (chatBoxRef.current) {
