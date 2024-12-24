@@ -23,24 +23,13 @@
   border: 0.1rem solid $black-1;
   padding: 7rem 5rem 4rem 5rem;
   width: 100%;
-  position: relative;
 }
-
-// .contentContainer {
-//   padding: 7rem 5em 4rem 5rem;
-//   position: relative;
-//   width: 100%;
-//   @include flexSort(column, null, null, 1rem);
-
-//   &.isLogin {
-//     border: 0;
-//   }
-// }
 
 .btnMenu {
   margin-left: auto;
   @include flexSort(null, null, null, 2rem);
   vertical-align: middle;
+  position: relative;
 }
 
 .likeBtn,
@@ -52,6 +41,38 @@
 
 .sirenText {
   @include nsnFont(0.8rem, 300, normal);
+}
+
+.btnBox {
+  @include flexSort(column, null, center, null);
+  @include nsnFont(1.5rem, 300, normal);
+  position: absolute;
+  left: 10rem;
+  min-width: 12rem;
+  background-color: white;
+  border: 0.1rem solid #E2E8F0;
+  border-radius: 1rem;
+  box-shadow : 0.1rem 0.1rem 0.4rem 0.01rem #d1cece;
+  &--state {
+    min-width: 8rem;
+    left: 23rem;
+    @include nsnFont(1.3rem, 200, normal);
+  }
+
+  button {
+    width: 100%;
+    padding: 1rem 0;
+    border-bottom: 0.1rem solid #E2E8F0;
+    text-align: center;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.stateBtn {
+  @include flexSort(null, center, center, 0.5rem);
 }
 
 .titleBox {

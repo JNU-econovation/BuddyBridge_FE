@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
@@ -8,26 +10,25 @@ import Comment from "@/components/common/Comment/Comment";
 import CommentWrite from "@/components/common/commentWrite/commentWrite";
 import getLogIn from "@/components/common/Header/apis/getLogIn";
 import Loader from "@/components/common/Loader/Loader";
+import postLikes from "@/components/common/Post/apis/postLikes";
 import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/helpMeDetailLayout/components/helpMeDetailLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import { KaKaoUserInfo } from "@/types/user";
 import { formatDateString } from "@/utils";
 
+import Arrow from "../../../../../public/icons/arrow_down.svg";
 import Calendar from "../../../../../public/icons/calendar.svg";
 import Clock from "../../../../../public/icons/clock.svg";
 import Heart from "../../../../../public/icons/heart.svg";
 import Kebab from "../../../../../public/icons/kebab.svg";
 import Location from "../../../../../public/icons/location.svg";
+import Person from "../../../../../public/icons/personnel.svg"
 import RedHeart from "../../../../../public/icons/red_heart.svg";
 import Siren from "../../../../../public/icons/siren.svg"
 import getAllComment from "../../helpYouDetailLayout/apis/getAllComment";
-import postLikes from "@/components/common/Post/apis/postLikes";
 import deletePost from "../apis/deletePost";
 import getTakerDetail from "../apis/getTakerDetail";
-import Person from "../../../../../public/icons/personnel.svg"
-
-import { useState, useEffect } from "react";
 
 const cn = classNames.bind(styles);
 
@@ -114,10 +115,6 @@ export function Main() {
     setIsHeartClick((prev:boolean) => !prev);
     mutate();
   };
-  
-  useEffect(()=>{
-    
-  },[])
 
   const {
     nickname,
@@ -151,17 +148,26 @@ export function Main() {
     endDate,
     scheduleDetails,
   } = schedule;
-  
-  const handleKebabClick = () => {
-    setIsKebabClick((prev) => !prev);
-  };
 
   const [isHeartClick, setIsHeartClick] = useState(false);
   const [isKebabClick, setIsKebabClick] = useState(false);
+  const [isStateClick, setIsStateClick] = useState(false);
+  const [isEditClick, setIsEditClick] = useState(false);
+  const [isDeleteClick, setIsDeleteClick] = useState(false);
+
+  const handleKebabClick = () => {
+    setIsKebabClick((prev) => !prev);
+  };
+  const handleStateBtnClick = () => {
+    setIsStateClick((prev) => !prev);
+  };
+  const handleEditClick = () => {
+    setIsKebabClick((prev) => !prev);
+  };
 
   useEffect(() => {
     setIsHeartClick(isLiked);
-  }, [data]);
+  }, [data, isLiked]);
 
   const commentMemIds: Array<number> =
     commentData?.pages.flatMap((page) => page.content.map((comment: CommentProps) => comment.author.memberId)) || [];
@@ -189,15 +195,26 @@ export function Main() {
               </div>
             )}
             {isKebabClick && (
-              <div className={cn("editBtnBox")}>
-                <button className={cn("saveBtn")}>
+              <div className={cn("btnBox")}>
+                <button onClick={handleStateBtnClick} className={cn("stateBtn")}>
                   상태변경
+                  <Arrow width={18} height={18}/>
                 </button>
-                <button className={cn("cancelBtn")}>
+                <button className={cn("editBtn")}>
                   수정하기
                 </button>
-                <button>
+                <button className={cn("deleteBtn")}>
                   삭제하기
+                </button>
+              </div>
+            )}
+            {isKebabClick && isStateClick && (
+              <div className={cn("btnBox","btnBox--state")}>
+                <button>
+                  모집중
+                </button>
+                <button>
+                  모집완료
                 </button>
               </div>
             )}
