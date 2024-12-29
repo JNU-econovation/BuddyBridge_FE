@@ -61,19 +61,20 @@ export default function HelpMeDetailLayout() {
 
   if (isPending) {
     return;
-  } else return <Main />;
+  } else return <Main data={data}/>;
 }
 
-export function Main() {
+function Main( data:any) {
   const router = useRouter();
 
   const { id: pageId } = router.query;
 
-  const { data, isPending } = useQuery({
-    queryKey: ["takerDetail", pageId],
-    queryFn: () => getTakerDetail(pageId as string),
-    enabled: !!pageId,
-  });
+  //console.log(data);
+  // const { data, isPending } = useQuery({
+  //   queryKey: ["takerDetail", pageId],
+  //   queryFn: () => getTakerDetail(pageId as string),
+  //   enabled: !!pageId,
+  // });
   const queryClient = useQueryClient();
 
   const { data: userData } = useQuery({
@@ -99,15 +100,19 @@ export function Main() {
     mutationFn: (id: number) => deletePost(id),
     onSuccess: () => {
       // todo : queryKey를 0이 아니라 page로 바꿔야함.
-      queryClient.invalidateQueries({ queryKey: ["post", 0] });
+      queryClient.invalidateQueries({ queryKey: ["takerDetail", pageId] });
       router.push(ROUTE.HELP_ME);
       openToast("success", "성공적으로 삭제되었습니다.");
     },
   });
 
   const handleDeleteButtonClick = () => {
-    deletePostMutation.mutate(id);
+    setIsDeleteOpen((prev)=>!prev);
   };
+
+  const confirmDelete = () => {
+    deletePostMutation.mutate(id);
+  }
 
   const { mutate } = useMutation({
     mutationFn: () => postLikes(id),
@@ -118,20 +123,20 @@ export function Main() {
     mutate();
   };
 
-  const { nickname, memberId, disabilityType, gender, profileImageUrl, age } = data.author;
+  const { nickname, memberId, disabilityType, gender, profileImageUrl, age } = data.data.author;
 
-  const { district, id, title, content, createdAt, isLiked, assistance, schedule } = data.post;
+  const { district, id, title, content, createdAt, isLiked, assistance, schedule } = data.data.post;
 
   const { assistanceType, assistanceStartTime, assistanceEndTime } = assistance;
 
   const { scheduleType, startDate, endDate, scheduleDetails } = schedule;
 
   const [isReportOpen, setIsReportOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isHeartClick, setIsHeartClick] = useState(false);
   const [isKebabClick, setIsKebabClick] = useState(false);
   const [isStateClick, setIsStateClick] = useState(false);
   const [isEditClick, setIsEditClick] = useState(false);
-  const [isDeleteClick, setIsDeleteClick] = useState(false);
 
   const handleKebabClick = () => {
     setIsKebabClick((prev) => !prev);
@@ -167,7 +172,7 @@ export function Main() {
             ) : (
               <Heart onClick={handleHeartClick} width={32} height={32} className={cn("likeBtn")} />
             )}
-            {userData?.memberId === data.author.memberId ? (
+            {userData?.memberId === data.data.author.memberId ? (
               <Kebab onClick={handleKebabClick} width={30} height={30} className={cn("kebabBtn")} />
             ) : (
               <div onClick={handleSirenClick} className={cn("sirenBtn")}>
@@ -184,7 +189,7 @@ export function Main() {
                 <Link href={{ pathname: ROUTE.HELP_ME_EDIT, query: { id: id } }} className={cn("editBtn")}>
                   수정하기
                 </Link>
-                <button className={cn("deleteBtn")}>삭제하기</button>
+                <button onClick={handleDeleteButtonClick} className={cn("deleteBtn")}>삭제하기</button>
               </div>
             )}
             {isKebabClick && isStateClick && (
@@ -256,7 +261,7 @@ export function Main() {
             <div className={cn("commentBox")}>
               {commentData?.pages.map((page) =>
                 page.content.map((comment: CommentProps) => (
-                  <Comment type="taker" postId={data.author.memberId} comment={comment} key={comment.commentId} />
+                  <Comment type="taker" postId={data.data.author.memberId} comment={comment} key={comment.commentId} />
                 )),
               )}
             </div>
@@ -283,7 +288,19 @@ export function Main() {
       {
         isReportOpen && 
           <Modal className="ReportFormBox" setState={setIsReportOpen}>
-            <ReportForm nickname={nickname} postId={id} postType="taker" setIsReportOpen={setIsReportOpen}/>
+            <ReportForm nickname={nickname} postId={id} postType="taker" contentType="posts" setIsReportOpen={setIsReportOpen}/>
+          </Modal>
+      }
+      {
+        isDeleteOpen &&
+          <Modal className="deleteModalBox" setState={setIsDeleteOpen}>
+            <div className={cn("deleteModal")}>
+              <button onClick={handleDeleteButtonClick} className={cn("closeBtn")}>X</button>
+              <div className={cn("deleteContent")}>
+                <div className={cn("deleteText")}>정말로 삭제 하시겠습니까?</div>
+                <button onClick={confirmDelete} className={cn("confirmDeleteBtn")}>삭제하기</button>
+              </div>
+            </div>
           </Modal>
       }
     </div>

@@ -212,3 +212,34 @@
     display: none;
   }
 }
+
+.deleteModal{
+  @include flexSort(column, null, center, 2rem);
+  padding: 2.3rem 4.7rem;
+}
+
+.deleteContent{
+  @include flexSort(column, null, center, 1rem);
+}
+
+.closeBtn{
+  margin-left: auto;
+  font-size: 2rem;
+  font-weight: 100;
+}
+
+.deleteText{
+  @include nsnFont(2rem, 500, normal);
+  padding: 0rem 6rem;
+}
+
+.confirmDeleteBtn{
+  @include font(1.5rem, 500, normal);
+  padding: 0.75rem 4.55rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #e6e6ea;
+  background: #e6e6ea;
+  color: #454545;
+  box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
+  margin-bottom: 2rem;
+}
