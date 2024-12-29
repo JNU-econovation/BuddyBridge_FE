@@ -15,22 +15,30 @@ const cn = classNames.bind(styles);
 export default function MyInfo() {
   const router = useRouter();
 
-  const { data, isFetching } = useQuery({
+  const { data, isPending, isError } = useQuery({
     queryKey: ["userInfo"],
     queryFn: () => getMyInfo(),
   });
 
   useEffect(() => {
-    if (!data && !isFetching) {
+    if (!data && !isPending) {
       router.push(ROUTE.LOGIN);
     }
-  }, [data, router, isFetching]);
+  }, [data, router, isPending]);
+
+  if (isPending) {
+    return <>...로딩중</>;
+  }
+
+  if (isError) {
+    return <>...</>;
+  }
 
   return (
     <div className={cn("container")}>
       <div className={cn("profileContainer")}>
-        <Image src={data?.profileImageUrl} alt="profile" className={cn("profileImg")} width={50} height={50} />
-        <p className={cn("name")}>{data?.name}</p>
+        <Image src={data.profileImageUrl} alt="profile" className={cn("profileImg")} width={50} height={50} />
+        <p className={cn("name")}>{data.name}</p>
       </div>
     </div>
   );
