@@ -59,7 +59,7 @@
     @include nsnFont(1.3rem, 200, normal);
   }
 
-  button {
+  button, .editBtn {
     width: 100%;
     padding: 1rem 0;
     border-bottom: 0.1rem solid #E2E8F0;

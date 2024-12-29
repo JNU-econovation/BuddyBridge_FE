@@ -4,13 +4,16 @@ import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tansta
 import classNames from "classnames/bind";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 import Comment from "@/components/common/Comment/Comment";
 import CommentWrite from "@/components/common/commentWrite/commentWrite";
 import getLogIn from "@/components/common/Header/apis/getLogIn";
 import Loader from "@/components/common/Loader/Loader";
+import Modal from "@/components/common/Modal/Modal";
 import postLikes from "@/components/common/Post/apis/postLikes";
+import ReportForm from "@/components/common/ReportForm/ReportForm";
 import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/helpMeDetailLayout/components/helpMeDetailLayout.module.scss";
 import { ROUTE } from "@/constants/route";
@@ -23,9 +26,9 @@ import Clock from "../../../../../public/icons/clock.svg";
 import Heart from "../../../../../public/icons/heart.svg";
 import Kebab from "../../../../../public/icons/kebab.svg";
 import Location from "../../../../../public/icons/location.svg";
-import Person from "../../../../../public/icons/personnel.svg"
+import Person from "../../../../../public/icons/personnel.svg";
 import RedHeart from "../../../../../public/icons/red_heart.svg";
-import Siren from "../../../../../public/icons/siren.svg"
+import Siren from "../../../../../public/icons/siren.svg";
 import getAllComment from "../../helpYouDetailLayout/apis/getAllComment";
 import deletePost from "../apis/deletePost";
 import getTakerDetail from "../apis/getTakerDetail";
@@ -58,8 +61,7 @@ export default function HelpMeDetailLayout() {
 
   if (isPending) {
     return;
-  } else return <Main/>;
-
+  } else return <Main />;
 }
 
 export function Main() {
@@ -112,43 +114,19 @@ export function Main() {
   });
 
   const handleHeartClick = () => {
-    setIsHeartClick((prev:boolean) => !prev);
+    setIsHeartClick((prev: boolean) => !prev);
     mutate();
   };
 
-  const {
-    nickname,
-    memberId,
-    disabilityType,
-    gender,
-    profileImageUrl,
-    age
-  } = data.author;
+  const { nickname, memberId, disabilityType, gender, profileImageUrl, age } = data.author;
 
-  const {
-    district,
-    id,
-    title,
-    content,
-    createdAt,
-    isLiked,
-    assistance,
-    schedule,
-  } = data.post;
+  const { district, id, title, content, createdAt, isLiked, assistance, schedule } = data.post;
 
-  const {
-    assistanceType,
-    assistanceStartTime,
-    assistanceEndTime,
-  } = assistance;
+  const { assistanceType, assistanceStartTime, assistanceEndTime } = assistance;
 
-  const {
-    scheduleType,
-    startDate,
-    endDate,
-    scheduleDetails,
-  } = schedule;
+  const { scheduleType, startDate, endDate, scheduleDetails } = schedule;
 
+  const [isReportOpen, setIsReportOpen] = useState(false);
   const [isHeartClick, setIsHeartClick] = useState(false);
   const [isKebabClick, setIsKebabClick] = useState(false);
   const [isStateClick, setIsStateClick] = useState(false);
@@ -162,8 +140,11 @@ export function Main() {
     setIsStateClick((prev) => !prev);
   };
   const handleEditClick = () => {
-    setIsKebabClick((prev) => !prev);
+    //setIsKebabClick((prev) => !prev);
   };
+  const handleSirenClick = () => {
+    setIsReportOpen(true);
+  }; 
 
   useEffect(() => {
     setIsHeartClick(isLiked);
@@ -176,7 +157,7 @@ export function Main() {
     <div className={cn("container")}>
       <div className={cn("box")}>
         <header className={cn("header")}>
-          버디브릿지는 일상에서 모두가 서로에게 <br/>
+          버디브릿지는 일상에서 모두가 서로에게 <br />
           따듯한 온정을 전하는 세상을 만듭니다.
         </header>
         <div className={cn("totalContainer")}>
@@ -187,9 +168,9 @@ export function Main() {
               <Heart onClick={handleHeartClick} width={32} height={32} className={cn("likeBtn")} />
             )}
             {userData?.memberId === data.author.memberId ? (
-              <Kebab onClick={handleKebabClick} width={30} height={30} className={cn("kebabBtn")}/> 
+              <Kebab onClick={handleKebabClick} width={30} height={30} className={cn("kebabBtn")} />
             ) : (
-              <div className={cn("sirenBtn")}>
+              <div onClick={handleSirenClick} className={cn("sirenBtn")}>
                 <Siren width={25} height={25} />
                 <span className={cn("sirenText")}>신고하기</span>
               </div>
@@ -198,24 +179,18 @@ export function Main() {
               <div className={cn("btnBox")}>
                 <button onClick={handleStateBtnClick} className={cn("stateBtn")}>
                   상태변경
-                  <Arrow width={18} height={18}/>
+                  <Arrow width={18} height={18} />
                 </button>
-                <button className={cn("editBtn")}>
+                <Link href={{ pathname: ROUTE.HELP_ME_EDIT, query: { id: id } }} className={cn("editBtn")}>
                   수정하기
-                </button>
-                <button className={cn("deleteBtn")}>
-                  삭제하기
-                </button>
+                </Link>
+                <button className={cn("deleteBtn")}>삭제하기</button>
               </div>
             )}
             {isKebabClick && isStateClick && (
-              <div className={cn("btnBox","btnBox--state")}>
-                <button>
-                  모집중
-                </button>
-                <button>
-                  모집완료
-                </button>
+              <div className={cn("btnBox", "btnBox--state")}>
+                <button>모집중</button>
+                <button>모집완료</button>
               </div>
             )}
           </div>
@@ -226,7 +201,7 @@ export function Main() {
           <div className={cn("contentBox")}>
             <div className={cn("infoCard")}>
               <div className={cn("profileImageBox")}>
-                <Image src={profileImageUrl} alt="프로필 사진" className={cn("profileImg")} fill/>
+                <Image src={profileImageUrl} alt="프로필 사진" className={cn("profileImg")} fill />
               </div>
               <div className={cn("textInfoBox")}>
                 <p className={cn("authorNickname")}>{nickname}</p>
@@ -240,68 +215,77 @@ export function Main() {
             <div className={cn("postInfoBox")}>
               <div className={cn("postDetailInfo")}>
                 <p className={cn("district")}>
-                  <Location className={cn("districtIcon")}/>
+                  <Location className={cn("districtIcon")} />
                   <span className={cn("label")}>장소</span>
                   <span>{district}</span>
                 </p>
                 <p className={cn("period")}>
-                  <Calendar className={cn("calendarIcon")}/>
+                  <Calendar className={cn("calendarIcon")} />
                   <span className={cn("label")}>기간 &#38; 주기</span>
                   <span className={cn("periodContent")}>
                     <span>{formatDateString(startDate)}</span>
-                    <span>~</span> 
+                    <span>~</span>
                     <span>{formatDateString(endDate)},</span>
                     <span>{scheduleType}</span>
                     <span>({scheduleDetails})</span>
                   </span>
                 </p>
                 <p className={cn("time")}>
-                  <Clock className={cn("clockIcon")}/>
+                  <Clock className={cn("clockIcon")} />
                   <span className={cn("label")}>시간</span>
                   <span>{assistanceStartTime}</span>
-                  <span>~</span> 
+                  <span>~</span>
                   <span>{assistanceEndTime}</span>
                 </p>
-                <p className={cn("assistanceType")}> 
-                  <Person className={cn("personIcon")}/>
-                  <span className={cn("label")}>도움유형</span> 
-                  <span>{assistanceType}</span> 
+                <p className={cn("assistanceType")}>
+                  <Person className={cn("personIcon")} />
+                  <span className={cn("label")}>도움유형</span>
+                  <span>{assistanceType}</span>
                 </p>
               </div>
             </div>
             <div className={cn("contentDetail")}>
               <p className={cn("contentDetailLabel")}>상세 내용</p>
-              <div className={cn("contentDetailBox")}>
-                {content}
-              </div>
+              <div className={cn("contentDetailBox")}>{content}</div>
             </div>
             <p className={cn("createdAt")}>작성일자: {formatDateString(createdAt)}</p>
           </div>
         </div>
         {userData && (
-            <>
-              <div className={cn("commentBox")}>
-                {commentData?.pages.map((page) =>
-                  page.content.map((comment: CommentProps) => (
-                    <Comment type="taker" postId={data.author.memberId} comment={comment} key={comment.commentId} />
-                  )),
-                )}
-              </div>
-              {isFetchingNextPage ? (
-                <Loader />
-              ) : (
-                hasNextPage && (
-                  <button onClick={() => fetchNextPage()} className={cn("fetchButton")}>
-                    더 불러오기
-                  </button>
-                )
+          <>
+            <div className={cn("commentBox")}>
+              {commentData?.pages.map((page) =>
+                page.content.map((comment: CommentProps) => (
+                  <Comment type="taker" postId={data.author.memberId} comment={comment} key={comment.commentId} />
+                )),
               )}
-            </>
-          )}
-          {userData && (
-            <CommentWrite id={pageId as string} user={userData as KaKaoUserInfo} commentMemIds={commentMemIds}  type="taker"/>
-          )}
+            </div>
+            {isFetchingNextPage ? (
+              <Loader />
+            ) : (
+              hasNextPage && (
+                <button onClick={() => fetchNextPage()} className={cn("fetchButton")}>
+                  더 불러오기
+                </button>
+              )
+            )}
+          </>
+        )}
+        {userData && (
+          <CommentWrite
+            id={pageId as string}
+            user={userData as KaKaoUserInfo}
+            commentMemIds={commentMemIds}
+            type="taker"
+          />
+        )}
       </div>
+      {
+        isReportOpen && 
+          <Modal className="ReportFormBox" setState={setIsReportOpen}>
+            <ReportForm nickname={nickname} postId={id} postType="taker" setIsReportOpen={setIsReportOpen}/>
+          </Modal>
+      }
     </div>
   );
 }
