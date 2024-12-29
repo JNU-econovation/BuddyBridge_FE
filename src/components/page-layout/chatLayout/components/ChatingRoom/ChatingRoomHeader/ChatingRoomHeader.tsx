@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomHeader/ChatingRoomHeader.module.scss";
@@ -18,12 +18,9 @@ interface ChatingRoomHeaderProps {
 export default function ChatingRoomHeader({ setIsHamburgerClick }: ChatingRoomHeaderProps) {
   const { chatingRoomNumber } = useChatContext();
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+  const { data } = useQuery({
     queryKey: ["chatingRoom", chatingRoomNumber],
-    queryFn: ({ pageParam }) => getChatingRoom(5, pageParam, chatingRoomNumber as number),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
-      lastPage.nextPage ? lastPage.cursor : undefined,
+    queryFn: () => getChatingRoom(1, 0, chatingRoomNumber as number),
     enabled: !!chatingRoomNumber,
   });
 
@@ -34,7 +31,12 @@ export default function ChatingRoomHeader({ setIsHamburgerClick }: ChatingRoomHe
   return (
     <header className={cn("container")}>
       <div className={cn("nameBox")}>
-        <p>{data?.pages[0].receiver.receiverName}</p>
+        <p className={cn("name")}>{data?.receiver.receiverName}</p>
+        <p className={cn("dot")}>·</p>
+        <p className={cn("type")}>
+          {data?.postType === "TAKER" ? "도와줄래요? " : "도와줄게요! "}
+          {data?.postId}번
+        </p>
       </div>
       <Hamburger className={cn("hamburger")} onClick={handleHamburgerClick} />
     </header>
