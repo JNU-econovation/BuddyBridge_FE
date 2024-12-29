@@ -2,6 +2,11 @@ import { FormEvent, useState } from "react";
 
 import classNames from "classnames/bind";
 
+import { useMutation } from "@tanstack/react-query";
+import sendReport from "./apis/sendReport";
+
+import openToast from "@/components/common/Toast/features/openToast";
+
 import { ReportTypes } from "./constants/index";
 import styles from "./ReportForm.module.scss";
 import InfoIcon from "../../../../public/icons/info.svg";
@@ -9,19 +14,60 @@ import InfoIcon from "../../../../public/icons/info.svg";
 
 const cn = classNames.bind(styles);
 
+interface reportProps {
+    reportType: string;
+    reportReason: string;
+}
+
 interface formProps {
     nickname: string;
     postId: number;
     postType: string;
+    contentType: string;
     setIsReportOpen: (value:boolean) => void;
 }
 
-export default function ReportForm ({nickname, postId, postType, setIsReportOpen}:formProps) {
+export default function ReportForm ({nickname, postId, postType, contentType, setIsReportOpen}:formProps) {
     const [reportType, setReportType] = useState("");
     const [reportContent, setReportContent] = useState("");
 
+    const reportMutation = useMutation({
+        mutationFn: (reportData: { contentType: string; id: number; content: reportProps }) =>
+            sendReport(reportData.contentType, reportData.id, reportData.content),
+        onSuccess: () => {
+            setIsReportOpen(false);
+            openToast("success", "신고가 성공적으로 접수되었습니다.");
+        },
+        onError: () => {
+            openToast("error", "신고를 접수하는 중 문제가 발생했습니다. 다시 시도해 주세요.");
+        },
+      });
+
     const handleSubmit = (e:FormEvent) => {
         e.preventDefault();
+
+        if (!reportType) {
+            openToast("warn", "신고 유형을 선택해 주세요.");
+            return;
+        }
+
+        if (reportType==="기타" && !reportContent) {
+            openToast("warn", "신고 유형을 선택해 주세요.");
+            return;
+        }
+
+        const reportData = {
+            contentType,
+            id: postId,
+            content: {
+              reportType,
+              reportReason: reportContent,
+            }
+        };
+
+        console.log(reportData);
+        
+        reportMutation.mutate(reportData);
     };
 
     return(

@@ -261,7 +261,7 @@ function Main( data:any) {
             <div className={cn("commentBox")}>
               {commentData?.pages.map((page) =>
                 page.content.map((comment: CommentProps) => (
-                  <Comment type="taker" postId={data.data.author.memberId} comment={comment} key={comment.commentId} />
+                  <Comment type="taker" postId={data.data.author.memberId} comment={comment} commentId={comment.commentId} key={comment.commentId} />
                 )),
               )}
             </div>

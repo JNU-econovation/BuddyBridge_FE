@@ -10,6 +10,8 @@ import useOutsideClick from "@/hooks/useOutsideClick";
 import Kebab from "@/icons/kebab.svg";
 import { formatDateString } from "@/utils";
 
+import ReportForm from "@/components/common/ReportForm/ReportForm";
+import Modal from "../Modal/Modal";
 import deleteComment from "./apis/deleteComment";
 import putComment from "./apis/putComment";
 import ChatButton from "./ChatButton/ChatButton";
@@ -33,9 +35,10 @@ export interface CommentProps {
   };
   postId: number;
   type: string;
+  commentId: number;
 }
 
-export default function Comment({ comment, postId, type }: CommentProps) {
+export default function Comment({ comment, postId, type, commentId }: CommentProps) {
   const [isKebabClick, setIsKebabClick] = useState(false);
   const kebabRef = useRef<HTMLDivElement>(null);
   const editBoxRef = useRef<HTMLDivElement>(null);
@@ -89,6 +92,12 @@ export default function Comment({ comment, postId, type }: CommentProps) {
 
   useOutsideClick([kebabRef, editBoxRef], () => setIsKebabClick(false));
 
+  const [isReportOpen, setIsReportOpen] = useState(false);
+
+  const handleSirenClick = () => {
+    setIsReportOpen(true);
+  };
+
   return (
     <div className={cn("container")}>
       <div className={cn("img")}>
@@ -133,7 +142,7 @@ export default function Comment({ comment, postId, type }: CommentProps) {
                 </div>
               ): 
               ( 
-                <div className={cn("sirenBtn")}>
+                <div onClick={handleSirenClick} className={cn("sirenBtn")}>
                   <Siren/>
                   <span>신고하기</span>
                 </div>
@@ -166,6 +175,12 @@ export default function Comment({ comment, postId, type }: CommentProps) {
           </button>
         </div>
       )}
+      {
+        isReportOpen && 
+          <Modal className="ReportFormBox" setState={setIsReportOpen}>
+            <ReportForm nickname={comment.author.nickname} postId={commentId} postType={type} contentType="comments" setIsReportOpen={setIsReportOpen}/>
+          </Modal>
+      }
     </div>
   );
 }
