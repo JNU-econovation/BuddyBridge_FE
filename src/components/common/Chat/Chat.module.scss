@@ -1,7 +1,7 @@
 .container {
-  padding: 2rem;
-  @include flexSort(null, null, center, null);
-  max-width: 36rem;
+  padding: 1.5rem;
+  @include flexSort(null, null, null, null);
+  border-bottom: 0.1rem solid #e6e6e6;
 }
 
 .box {
@@ -20,12 +20,22 @@
 }
 
 .headerBox {
-  @include flexSort(null, null, center, 2rem);
+  @include flexSort(null, null, center, 0.3rem);
   color: black;
 }
 
+.name,
+.dot,
+.type {
+  @include nsnFont(1.3rem, 700, normal);
+}
+
+.dot {
+  color: #ccc;
+}
+
 .content {
-  @include gmarketFont(1.5rem, 500, normal);
+  @include nsnFont(1.3rem, 500, normal);
   color: #8d8989;
   white-space: nowrap;
   overflow: hidden;
@@ -36,15 +46,7 @@
 .date {
   position: absolute;
   color: #8d8989;
-  @include gmarketFont(1.1rem, 500, normal);
+  @include nsnFont(1.1rem, 500, normal);
   right: 0;
   top: 0;
-}
-
-.name {
-  @include gmarketFont(1.3rem, 400, normal);
-}
-
-.type {
-  @include gmarketFont(1.2rem, 500, normal);
 }

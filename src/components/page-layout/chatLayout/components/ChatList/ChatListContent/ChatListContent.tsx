@@ -21,6 +21,7 @@ interface ChatType {
     receiverName: string;
     receiverProfileImg: string;
   };
+  postId: number;
 }
 
 interface ChatListContentProps {
@@ -32,7 +33,7 @@ export default function ChatListContent({ matchingState }: ChatListContentProps)
 
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
     queryKey: ["chatList", matchingState],
-    queryFn: ({ pageParam }) => getAllChatList(6, pageParam, matchingState),
+    queryFn: ({ pageParam }) => getAllChatList(1, pageParam, matchingState),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
       lastPage.nextPage ? lastPage.cursor : undefined,
@@ -48,19 +49,24 @@ export default function ChatListContent({ matchingState }: ChatListContentProps)
     <></>;
   }
 
+  const chatLists = data?.pages.map((chat) => chat.matchings);
+
   return (
     <div className={cn("container")}>
-      {data?.pages[0].matchings?.map((chat: ChatType) => (
-        <Chat
-          img={chat?.receiver?.receiverProfileImg}
-          content={chat?.lastMessage}
-          date={chat?.lastMessageTime}
-          name={chat?.receiver?.receiverName}
-          type={chat?.postType}
-          key={chat?.matchingId}
-          id={chat?.matchingId}
-        />
-      ))}
+      {chatLists?.map((chatList) =>
+        chatList.map((chat: ChatType) => (
+          <Chat
+            img={chat?.receiver?.receiverProfileImg}
+            content={chat?.lastMessage}
+            date={chat?.lastMessageTime}
+            name={chat?.receiver?.receiverName}
+            type={chat?.postType}
+            key={chat?.matchingId}
+            postId={chat?.postId}
+            id={chat?.matchingId}
+          />
+        )),
+      )}
       <div ref={lastRef}></div>
     </div>
   );
