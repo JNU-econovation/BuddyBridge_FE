@@ -19,7 +19,7 @@ export default function ChatingRoomHeader({ setIsHamburgerClick }: ChatingRoomHe
   const { chatingRoomNumber } = useChatContext();
 
   const { data } = useQuery({
-    queryKey: ["chatingRoom", chatingRoomNumber],
+    queryKey: ["chatingRoomHeader", chatingRoomNumber],
     queryFn: () => getChatingRoom(1, 0, chatingRoomNumber as number),
     enabled: !!chatingRoomNumber,
   });
