@@ -20,7 +20,7 @@ const cn = classNames.bind(styles);
 interface ReceivedMessage {
   content: string;
   senderId: number;
-  createdAt: string;
+  createdAt: Date;
   messageType: string;
 }
 

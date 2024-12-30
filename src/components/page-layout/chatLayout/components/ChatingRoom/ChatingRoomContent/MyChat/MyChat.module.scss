@@ -1,21 +1,19 @@
 .container {
   @include flexSort(null, flex-end, null, null);
-  position: relative;
 }
 
 .chat {
-  width: 30rem;
-  border-radius: 2rem;
-  background-color: $giver;
   padding: 2rem;
-  @include gmarketFont(1.5rem, 400, normal);
-  height: 100%;
-  overflow-wrap: break-word;
+  @include nsnFont(1.5rem, 400, normal);
+  border-radius: 1.5rem;
+  background: #e7efff;
+  max-width: 40%;
+  position: relative;
 }
 
 .date {
   position: absolute;
-  bottom: -2rem;
-  right: 0;
+  bottom: 0;
+  left: -4rem;
   @include font(1.3rem, 400, normal);
 }

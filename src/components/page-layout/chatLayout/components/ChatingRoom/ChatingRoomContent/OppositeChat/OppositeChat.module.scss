@@ -3,7 +3,7 @@
 }
 
 .name {
-  @include gmarketFont(1.5rem, 400, normal);
+  @include nsnFont(1.5rem, 400, normal);
 }
 
 .img {
@@ -12,22 +12,21 @@
 
 .nameContainer {
   @include flexSort(column, null, null, 1rem);
-  position: relative;
 }
 
 .chat {
-  width: 30rem;
-  border-radius: 2rem;
-  background: #e6e6ea;
+  position: relative;
+  max-width: 40%;
   padding: 2rem;
-  @include gmarketFont(1.5rem, 400, normal);
-  top: 2rem;
-  overflow-wrap: break-word;
+  @include nsnFont(1.5rem, 400, normal);
+  border-radius: 1.5rem;
+  background: #e6e6ea;
+  min-width: fit-content;
 }
 
 .date {
   position: absolute;
-  bottom: -2rem;
-  left: 0;
+  bottom: 0;
+  right: -4rem;
   @include font(1.3rem, 400, normal);
 }
