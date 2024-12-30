@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
 
 import { Client } from "@stomp/stompjs";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
@@ -24,7 +24,7 @@ interface ReceivedMessage {
   messageType: string;
 }
 
-interface ChatingList {
+interface ChattingList {
   chatMessages: ReceivedMessage[];
 }
 
@@ -44,7 +44,7 @@ export default function ChatingRoomContent() {
   });
 
   const {
-    data: chatingData,
+    data: chattingData,
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery({
@@ -77,7 +77,7 @@ export default function ChatingRoomContent() {
 
   useEffect(() => {
     const chatingMessageList: ReceivedMessage[] = [];
-    chatingData?.pages.map((chatingList: ChatingList) =>
+    chattingData?.pages.map((chatingList: ChattingList) =>
       chatingList.chatMessages.map((chatMessages: ReceivedMessage) => chatingMessageList.push(chatMessages)),
     );
     setReceivedMessages(chatingMessageList.slice().reverse());
@@ -123,7 +123,7 @@ export default function ChatingRoomContent() {
         client.deactivate();
       }
     };
-  }, [chatingRoomNumber, chatingData?.pages, accessToken]);
+  }, [chatingRoomNumber, chattingData?.pages, accessToken]);
 
   useEffect(() => {
     if (chatBoxRef.current) {
@@ -137,10 +137,17 @@ export default function ChatingRoomContent() {
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(sendMessage)();
+    }
+  };
+
   return (
     <div className={cn("container")}>
-      <div className={cn("chatingBox")} ref={chatBoxRef}>
-        <div ref={lastRef} className={cn("trigger")}></div>
+      <div className={cn("chattingBox")} ref={chatBoxRef}>
+        <div ref={lastRef}></div>
         {receivedMessages?.map((msg, index) =>
           msg.messageType === "INFO" ? (
             <div className={cn("firstMessageContainer")} key={index}>
@@ -152,19 +159,20 @@ export default function ChatingRoomContent() {
             <OppositeChat
               date={msg.createdAt}
               key={index}
-              oppsiteUser={chatingData?.pages[0].receiver}
+              oppsiteUser={chattingData?.pages[0].receiver}
               chat={msg.content}
             />
           ),
         )}
       </div>
       <form className={cn("form")} onSubmit={handleSubmit(sendMessage)}>
-        <input
-          className={cn("input")}
+        <textarea
+          className={cn("textarea")}
           placeholder="메시지를 입력하세요."
+          onKeyDown={handleKeyDown}
           {...register("content", { required: true })}
         />
-        <button type="submit">
+        <button type="submit" className={cn("sendBtn")}>
           <ChatArrow />
         </button>
       </form>
