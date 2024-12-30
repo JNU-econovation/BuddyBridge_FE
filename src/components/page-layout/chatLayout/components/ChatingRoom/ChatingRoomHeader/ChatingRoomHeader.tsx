@@ -3,6 +3,8 @@ import { Dispatch, SetStateAction } from "react";
 import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
+import Link from "next/link";
+
 import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomHeader/ChatingRoomHeader.module.scss";
 import Hamburger from "@/icons/hamburger.svg";
 
@@ -30,14 +32,14 @@ export default function ChatingRoomHeader({ setIsHamburgerClick }: ChatingRoomHe
 
   return (
     <header className={cn("container")}>
-      <div className={cn("nameBox")}>
+      <Link href={`/${data?.postType === "TAKER" ? "help-me" : "help-you"}/${data?.postId}`} className={cn("nameBox")}>
         <p className={cn("name")}>{data?.receiver.receiverName}</p>
         <p className={cn("dot")}>·</p>
         <p className={cn("type")}>
           {data?.postType === "TAKER" ? "도와줄래요? " : "도와줄게요! "}
           {data?.postId}번
         </p>
-      </div>
+      </Link>
       <Hamburger className={cn("hamburger")} onClick={handleHamburgerClick} />
     </header>
   );
