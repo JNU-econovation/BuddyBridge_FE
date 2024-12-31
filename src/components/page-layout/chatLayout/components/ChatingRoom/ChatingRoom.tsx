@@ -34,7 +34,7 @@ export default function ChatingRoom() {
 
   const { data, isError, isPending } = useQuery({
     queryKey: ["chatList"],
-    queryFn: () => getAllChatList(6, 0, "ALL"),
+    queryFn: () => getAllChatList(1, 0, "ALL"),
   });
 
   const chatAcceptMutation = useMutation({
@@ -78,7 +78,9 @@ export default function ChatingRoom() {
             <div className={cn("chatingOutContainer")}>
               <div className={cn("grayContainer")}></div>
               <div className={cn("whiteContainer")} ref={stateChangeRoomRef}>
-                <button className={cn("chatingRoomOutButton")}>채팅방 나가기</button>
+                <a href={ROUTE.CHAT} className={cn("chatingRoomOutButton")}>
+                  채팅방 나가기
+                </a>
                 <button className={cn("stateChangeButton")} onClick={handleMatchingStateChangeClick}>
                   상태 변경
                   <ArrowDown className={cn({ arrowDown: matchingState })} width={20} height={20} />
@@ -97,10 +99,10 @@ export default function ChatingRoom() {
       ) : (
         <div className={cn("noChatingRoom")}>
           {data.matchings.length === 0 ? (
-            <>
+            <div>
               <p>현재 채팅방이 하나도 없습니다 :( </p>
               <p>게시글 작성 또는 댓글 작성을 하러 가볼까요?</p>
-            </>
+            </div>
           ) : (
             "채팅방 목록에서 채팅방을 클릭해 보세요 :)"
           )}
