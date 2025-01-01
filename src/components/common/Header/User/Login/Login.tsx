@@ -37,8 +37,6 @@ export default function Login({ name }: LoginProps) {
   const [isProfileOpen, setIsProfileOpen] = useDetectClose(profileDropdownRef, false);
   const [isAlarmOpen, setIsAlarmOpen] = useDetectClose(alarmDropdownRef, false);
   const [notifications, setNotifications] = useState<alarmType>();
-  const [error, setError] = useState<string | null>(null);
-  const [isConnected, setIsConnected] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
   const router = useRouter();
 
@@ -55,13 +53,12 @@ export default function Login({ name }: LoginProps) {
   };
 
   useEffect(() => {
-    if (isConnected||!accessToken) return;
+    if (!accessToken) return;
 
     let eventSource: EventSourcePolyfill;
 
     const connectSSE = () => {
       if (retryCount >= 3) {
-        setError("연결 시도 횟수를 초과했습니다.");
         return;
       }
       
@@ -86,16 +83,12 @@ export default function Login({ name }: LoginProps) {
       });
 
       eventSource.onopen = () => {
-        setError(null);
-        setIsConnected(true);
         setRetryCount(0);
         console.log("SSE 연결 성공");
       };
 
       eventSource.onerror = (error) => {
         console.error("SSE error:", error);
-        setError("연결에 실패했습니다. 재연결 중...");
-        setIsConnected(false);
         eventSource.close();
 
         setRetryCount((prevCount) => {
@@ -104,7 +97,6 @@ export default function Login({ name }: LoginProps) {
             setTimeout(connectSSE, 5000);
           } else {
             console.log("newCount :", newCount)
-            setError("연결 시도 횟수를 초과했습니다.");
           }
           return newCount;
         });
@@ -116,7 +108,7 @@ export default function Login({ name }: LoginProps) {
 
     return;
 
-  }, [isConnected, accessToken, retryCount]);
+  }, [accessToken, retryCount]);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useNotification(notifications as alarmType, "", "");
 
