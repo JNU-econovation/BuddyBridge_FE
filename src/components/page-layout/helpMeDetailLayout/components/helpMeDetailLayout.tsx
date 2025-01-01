@@ -68,13 +68,6 @@ function Main( data:any) {
   const router = useRouter();
 
   const { id: pageId } = router.query;
-
-  //console.log(data);
-  // const { data, isPending } = useQuery({
-  //   queryKey: ["takerDetail", pageId],
-  //   queryFn: () => getTakerDetail(pageId as string),
-  //   enabled: !!pageId,
-  // });
   const queryClient = useQueryClient();
 
   const { data: userData } = useQuery({
@@ -261,7 +254,13 @@ function Main( data:any) {
             <div className={cn("commentBox")}>
               {commentData?.pages.map((page) =>
                 page.content.map((comment: CommentProps) => (
-                  <Comment type="taker" authorId={data.data.author.memberId} postId={id} comment={comment} commentId={comment.commentId} key={comment.commentId} />
+                  <Comment 
+                    type="taker" 
+                    authorId={data.data.author.memberId} 
+                    postId={id} comment={comment} 
+                    commentId={comment.commentId} 
+                    key={comment.commentId} 
+                  />
                 )),
               )}
             </div>
@@ -281,6 +280,7 @@ function Main( data:any) {
             id={pageId as string}
             user={userData as KaKaoUserInfo}
             commentMemIds={commentMemIds}
+            gender={gender}
             type="taker"
           />
         )}

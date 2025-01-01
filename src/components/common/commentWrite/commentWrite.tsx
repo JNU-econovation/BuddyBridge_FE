@@ -20,10 +20,12 @@ interface CommentWriteProps {
     profileImageUrl: string;
     nickname: string;
     memberId: number;
+    gender: string;
   };
 
   id: string;
   commentMemIds: Array<number>;
+  gender: string;
   type: string;
 }
 
@@ -36,7 +38,7 @@ interface Comment {
   content: string;
 }
 
-export default function CommentWrite({ user, id, commentMemIds, type }: CommentWriteProps) {
+export default function CommentWrite({ user, id, commentMemIds, gender, type }: CommentWriteProps) {
   const { register, handleSubmit, reset } = useForm<Comment>();
   const queryClient = useQueryClient();
 
@@ -51,7 +53,11 @@ export default function CommentWrite({ user, id, commentMemIds, type }: CommentW
   const handleCommentUpload = (data: Comment) => {
     if (!commentMemIds.includes(user.memberId)) {
       if (data.content.trim() !== "") {
-        uploadCommentMutation.mutate({ id, content: data.content });
+        if(user.gender === gender) {
+          uploadCommentMutation.mutate({ id, content: data.content });
+        } else {
+          openToast("warn", "같은 성별끼리만 댓글 작성 및 매칭이 가능합니다.");
+        }  
       }
     } else {
       openToast("warn", "댓글은 한 개만 작성 가능합니다.");
