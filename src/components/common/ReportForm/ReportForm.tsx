@@ -2,14 +2,15 @@ import { FormEvent, useState } from "react";
 
 import classNames from "classnames/bind";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import sendReport from "./apis/sendReport";
 
 import openToast from "@/components/common/Toast/features/openToast";
 
-import { ReportTypes } from "./constants/index";
+//import { ReportTypes } from "./constants/index";
 import styles from "./ReportForm.module.scss";
 import InfoIcon from "../../../../public/icons/info.svg";
+import getReportTypes from "./apis/getReportTypes";
 
 
 const cn = classNames.bind(styles);
@@ -24,12 +25,20 @@ interface formProps {
     postId: number;
     postType: string;
     contentType: string;
+    content: string;
     setIsReportOpen: (value:boolean) => void;
 }
 
-export default function ReportForm ({nickname, postId, postType, contentType, setIsReportOpen}:formProps) {
+export default function ReportForm ({nickname, postId, postType, contentType, content, setIsReportOpen}:formProps) {
     const [reportType, setReportType] = useState("");
     const [reportContent, setReportContent] = useState("");
+
+    const {data: reportTypes} = useQuery({
+        queryKey: ["reportTypes"],
+        queryFn: () => getReportTypes(),
+    });
+
+    //console.log(reportTypes);
 
     const reportMutation = useMutation({
         mutationFn: (reportData: { contentType: string; id: number; content: reportProps }) =>
@@ -51,8 +60,8 @@ export default function ReportForm ({nickname, postId, postType, contentType, se
             return;
         }
 
-        if (reportType==="기타" && !reportContent) {
-            openToast("warn", "신고 유형을 선택해 주세요.");
+        if (reportType==="기타 (신고 내용을 필수로 작성해 주세요!)" && !reportContent) {
+            openToast("warn", "신고 내용을 작성해 주세요.");
             return;
         }
 
@@ -88,6 +97,14 @@ export default function ReportForm ({nickname, postId, postType, contentType, se
                         <span className={cn("bar")}>|</span>
                         {postId}
                     </p>
+                    <p className={cn("postInfoContent")}>
+                        {contentType==="posts" ? 
+                            <span className={cn("postInfoLabel")}>신고 대상 내용</span> :
+                            <span className={cn("postInfoLabel")}>신고 대상 내용</span>
+                        }
+                        <span className={cn("bar")}>|</span>
+                        {content}
+                    </p>
                 </div>
                 <div className={cn("reportInfo")}>
                     <div className={cn("reportTypeBox")}>
@@ -98,8 +115,8 @@ export default function ReportForm ({nickname, postId, postType, contentType, se
                             onChange={(e) => setReportType(e.target.value)} 
                             className={cn("selectTypeBox",{defaultMsg:reportType===""})}>
                             <option value="">신고할 유형을 선택해 주세요.</option>
-                            {ReportTypes.map(({label, value}, index) => (
-                                <option key = {index} value={value}>{label}</option>
+                            {reportTypes?.map((value: string, index: number) => (
+                                value==="기타" ? <option key={index}>{value} (신고 내용을 필수로 작성해 주세요!)</option> : <option key = {index}>{value}</option>
                             ))}
                         </select>
                     </div>

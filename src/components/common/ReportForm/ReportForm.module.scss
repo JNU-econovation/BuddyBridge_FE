@@ -45,6 +45,8 @@
 
 .postInfoLabel, .reportInfoLabel {
     @include nsnFont(1.5rem, 400, normal);
+    display: inline-block;
+    min-width: 9.2rem;
 }
 
 .bar {

@@ -261,7 +261,7 @@ function Main( data:any) {
             <div className={cn("commentBox")}>
               {commentData?.pages.map((page) =>
                 page.content.map((comment: CommentProps) => (
-                  <Comment type="taker" postId={data.data.author.memberId} comment={comment} commentId={comment.commentId} key={comment.commentId} />
+                  <Comment type="taker" authorId={data.data.author.memberId} postId={id} comment={comment} commentId={comment.commentId} key={comment.commentId} />
                 )),
               )}
             </div>
@@ -288,7 +288,7 @@ function Main( data:any) {
       {
         isReportOpen && 
           <Modal className="ReportFormBox" setState={setIsReportOpen}>
-            <ReportForm nickname={nickname} postId={id} postType="taker" contentType="posts" setIsReportOpen={setIsReportOpen}/>
+            <ReportForm nickname={nickname} postId={id} postType="taker" contentType="posts" content={title} setIsReportOpen={setIsReportOpen}/>
           </Modal>
       }
       {

@@ -33,12 +33,13 @@ export interface CommentProps {
     modifiedAt: string;
     commentId: number;
   };
+  authorId: number;
   postId: number;
   type: string;
   commentId: number;
 }
 
-export default function Comment({ comment, postId, type, commentId }: CommentProps) {
+export default function Comment({ comment, authorId, postId, type, commentId }: CommentProps) {
   const [isKebabClick, setIsKebabClick] = useState(false);
   const kebabRef = useRef<HTMLDivElement>(null);
   const editBoxRef = useRef<HTMLDivElement>(null);
@@ -162,7 +163,7 @@ export default function Comment({ comment, postId, type, commentId }: CommentPro
           </div>
         </div>
       </div>
-      {data?.memberId === postId && data?.memberId !== comment.author.memberId && (
+      {data?.memberId === authorId && data?.memberId !== comment.author.memberId && (
         <ChatButton type={type} authorId={comment.author.memberId} />
       )}
       {isNowEditing && (
@@ -178,7 +179,13 @@ export default function Comment({ comment, postId, type, commentId }: CommentPro
       {
         isReportOpen && 
           <Modal className="ReportFormBox" setState={setIsReportOpen}>
-            <ReportForm nickname={comment.author.nickname} postId={commentId} postType={type} contentType="comments" setIsReportOpen={setIsReportOpen}/>
+            <ReportForm 
+              nickname={comment.author.nickname} 
+              postId={postId} 
+              postType={type} 
+              contentType="comments" 
+              content={comment.content} 
+              setIsReportOpen={setIsReportOpen}/>
           </Modal>
       }
     </div>
