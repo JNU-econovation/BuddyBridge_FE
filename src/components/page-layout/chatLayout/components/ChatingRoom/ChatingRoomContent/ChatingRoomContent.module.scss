@@ -52,3 +52,86 @@
   right: 1rem;
   bottom: 1rem;
 }
+
+.chatingOutContainer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  @include flexSort(null, null, null, null);
+}
+
+.grayContainer {
+  background: rgba(184, 184, 184, 0.64);
+  width: 60%;
+}
+
+.whiteContainer {
+  position: relative;
+  background-color: white;
+  z-index: 2;
+  flex: 1;
+  padding-left: 3rem;
+  @include flexSort(column, null, null, 3rem);
+}
+
+.chatingRoomOutButton {
+  margin-top: 10rem;
+  @include nsnFont(2rem, 400, normal);
+}
+
+.stateChangeContainer {
+  @include flexSort(column, null, null, 1rem);
+}
+
+.stateChange {
+  @include nsnFont(2rem, 400, normal);
+}
+
+.state {
+  @include nsnFont(1.5rem, 400, normal);
+  @include flexSort(null, null, center, 1rem);
+  position: relative;
+  margin-left: 2rem;
+}
+
+.arrow {
+  cursor: pointer;
+}
+
+.arrowDown {
+  rotate: 180deg;
+}
+
+.matchingStateContainer {
+  position: absolute;
+  border-radius: 1rem;
+  @include flexSort(column, null, null, null);
+  left: -17rem;
+  top: -1rem;
+  background-color: white;
+  box-shadow: 0 1rem 1.5rem -0.3rem rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 0.1rem solid #e2e8f0;
+  width: 15rem;
+  @include nsnFont(1.5rem, 400, normal);
+}
+
+.matchingBtn {
+  padding: 1rem;
+  border-bottom: 0.1rem solid #e2e8f0;
+}
+
+.matchingDoneBtn {
+  padding: 1rem;
+}
+
+.helpBtn {
+  @include nsnFont(1.8rem, 400, normal);
+}
+
+.close {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  cursor: pointer;
+}

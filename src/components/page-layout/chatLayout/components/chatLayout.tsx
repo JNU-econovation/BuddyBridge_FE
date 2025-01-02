@@ -1,22 +1,21 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
-import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import { useRouter } from "next/router";
 
 import styles from "@/components/page-layout/chatLayout/components/chatLayout.module.scss";
-import { ROUTE } from "@/constants/route";
 
 import ChatingRoom from "./ChatingRoom/ChatingRoom";
 import ChatList from "./ChatList/ChatList";
-import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
+import MyInfo from "./ChatList/MyInfo/MyInfo";
 
 const cn = classNames.bind(styles);
 
 interface ChatContextType {
   chatingRoomNumber: number | undefined;
-  setChatingRoomNumber: (chatingRoomNumber: number | undefined) => void;
+  chattingRoomType: "DONE" | "PENDING";
+  setChattingRoomType: (chatingRoomNumber: "DONE" | "PENDING") => void;
 }
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
@@ -33,25 +32,16 @@ export const useChatContext = () => {
 
 export default function ChatLayout() {
   const router = useRouter();
-  const [chatingRoomNumber, setChatingRoomNumber] = useState<undefined | number>(Number(router.query["id"]));
-  const { data, isFetching } = useQuery({
-    queryKey: ["userInfo"],
-    queryFn: () => getMyInfo(),
-  });
-
-  useEffect(() => {
-    if (!data && !isFetching) {
-      router.push(ROUTE.LOGIN);
-    }
-  }, [data, router, isFetching]);
+  const chatingRoomNumber = Number(router.query["id"]);
+  const [chattingRoomType, setChattingRoomType] = useState<"DONE" | "PENDING">("PENDING");
+  const [matchingState, setMatchingState] = useState("ALL");
 
   return (
-    <ChatContext.Provider value={{ chatingRoomNumber, setChatingRoomNumber }}>
+    <ChatContext.Provider value={{ chatingRoomNumber, chattingRoomType, setChattingRoomType }}>
       <div className={cn("container")}>
-        <div className={cn("box")}>
-          <ChatList />
-          <ChatingRoom />
-        </div>
+        <MyInfo />
+        <ChatList matchingState={matchingState} setMatchingState={setMatchingState} />
+        <ChatingRoom matchingState={matchingState} />
       </div>
     </ChatContext.Provider>
   );

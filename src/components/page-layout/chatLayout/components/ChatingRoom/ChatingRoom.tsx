@@ -1,64 +1,29 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
-import { useRouter } from "next/router";
-
 import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoom.module.scss";
-import { ROUTE } from "@/constants/route";
-import useOutsideClick from "@/hooks/useOutsideClick";
-import ArrowDown from "@/icons/arrow_down.svg";
-import Close from "@/icons/close.svg";
 
-import ChatingRoomContent from "./ChatingRoomContent/ChatingRoomContent";
+import ChattingRoomContent from "./ChatingRoomContent/ChatingRoomContent";
 import ChatingRoomHeader from "./ChatingRoomHeader/ChatingRoomHeader";
 import getAllChatList from "../../apis/getAllChatList";
-import putMatchingStatus from "../../apis/putMatchingStatus";
 import { useChatContext } from "../chatLayout";
 
 const cn = classNames.bind(styles);
 
-interface putMatchingtype {
-  chatingRoomId: number;
-  status: string;
+interface ChattingRoomProps {
+  matchingState: string;
 }
 
-export default function ChatingRoom() {
+export default function ChatingRoom({ matchingState }: ChattingRoomProps) {
   const { chatingRoomNumber } = useChatContext();
   const [isHamburgerClick, setIsHamburgerClick] = useState(false);
-  const [matchingState, setMatchingState] = useState(false);
-  const stateChangeRoomRef = useRef(null);
-  const router = useRouter();
-  const queryClient = useQueryClient();
 
   const { data, isError, isPending } = useQuery({
     queryKey: ["chatList"],
     queryFn: () => getAllChatList(1, 0, "ALL"),
   });
-
-  const chatAcceptMutation = useMutation({
-    mutationFn: ({ chatingRoomId, status }: putMatchingtype) => putMatchingStatus(chatingRoomId, status),
-    onSuccess: () => {
-      router.push(ROUTE.HOME);
-      queryClient.invalidateQueries({ queryKey: ["giverPost"] });
-      queryClient.invalidateQueries({ queryKey: ["takerPost"] });
-    },
-  });
-
-  const handleMatchingStateChangeClick = () => {
-    setMatchingState((prev) => !prev);
-  };
-
-  useOutsideClick([stateChangeRoomRef], () => setIsHamburgerClick(false));
-
-  const handleMatchingCompleteClick = () => {
-    chatAcceptMutation.mutate({ chatingRoomId: chatingRoomNumber as number, status: "DONE" });
-  };
-
-  const handleMatchingIngClick = () => {
-    chatAcceptMutation.mutate({ chatingRoomId: chatingRoomNumber as number, status: "PENDING" });
-  };
 
   if (isPending) {
     return <>...로딩중</>;
@@ -73,28 +38,11 @@ export default function ChatingRoom() {
       {chatingRoomNumber ? (
         <div className={cn("container")}>
           <ChatingRoomHeader setIsHamburgerClick={setIsHamburgerClick} />
-          <ChatingRoomContent />
-          {isHamburgerClick && (
-            <div className={cn("chatingOutContainer")}>
-              <div className={cn("grayContainer")}></div>
-              <div className={cn("whiteContainer")} ref={stateChangeRoomRef}>
-                <a href={ROUTE.CHAT} className={cn("chatingRoomOutButton")}>
-                  채팅방 나가기
-                </a>
-                <button className={cn("stateChangeButton")} onClick={handleMatchingStateChangeClick}>
-                  상태 변경
-                  <ArrowDown className={cn({ arrowDown: matchingState })} width={20} height={20} />
-                  {matchingState && (
-                    <div className={cn("matchingStateContainer")}>
-                      <button onClick={handleMatchingIngClick}>매칭중</button>
-                      <button onClick={handleMatchingCompleteClick}>매칭완료</button>
-                    </div>
-                  )}
-                </button>
-                <Close className={cn("close")} onClick={() => setIsHamburgerClick(!isHamburgerClick)} />
-              </div>
-            </div>
-          )}
+          <ChattingRoomContent
+            matchingState={matchingState}
+            isHamburgerClick={isHamburgerClick}
+            setIsHamburgerClick={setIsHamburgerClick}
+          />
         </div>
       ) : (
         <div className={cn("noChatingRoom")}>
