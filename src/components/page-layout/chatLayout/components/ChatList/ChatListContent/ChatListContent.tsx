@@ -22,6 +22,8 @@ interface ChatType {
     receiverProfileImg: string;
   };
   postId: number;
+  matchingStatus: "DONE" | "PENDING";
+  unreadMessagesCount: number;
 }
 
 interface ChatListContentProps {
@@ -33,7 +35,7 @@ export default function ChatListContent({ matchingState }: ChatListContentProps)
 
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
     queryKey: ["chatList", matchingState],
-    queryFn: ({ pageParam }) => getAllChatList(1, pageParam, matchingState),
+    queryFn: ({ pageParam }) => getAllChatList(6, pageParam, matchingState),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
       lastPage.nextPage ? lastPage.cursor : undefined,
@@ -64,6 +66,8 @@ export default function ChatListContent({ matchingState }: ChatListContentProps)
             key={chat?.matchingId}
             postId={chat?.postId}
             id={chat?.matchingId}
+            chattingRoomType={chat?.matchingStatus}
+            unreadMessagesCount={chat?.unreadMessagesCount}
           />
         )),
       )}

@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Image from "next/image";
@@ -17,13 +18,25 @@ interface ChatProps {
   img: string;
   id: number;
   postId: number;
+  chattingRoomType: "DONE" | "PENDING";
+  unreadMessagesCount: number;
 }
 
-export default function Chat({ name, content, date, type, img, id, postId }: ChatProps) {
-  const { setChatingRoomNumber } = useChatContext();
+export default function Chat({
+  name,
+  content,
+  date,
+  type,
+  img,
+  id,
+  postId,
+  chattingRoomType,
+  unreadMessagesCount,
+}: ChatProps) {
+  const { setChattingRoomType } = useChatContext();
 
   const handleChatClick = () => {
-    setChatingRoomNumber(id);
+    setChattingRoomType(chattingRoomType);
   };
 
   return (
@@ -42,6 +55,9 @@ export default function Chat({ name, content, date, type, img, id, postId }: Cha
           <p className={cn("content")}>{content}</p>
         </div>
         <p className={cn("date")}>{formatDateString(date)}</p>
+        {unreadMessagesCount > 0 && (
+          <div className={cn("unreadMessagesCount")}>{unreadMessagesCount <= 9 ? unreadMessagesCount : "9+"}</div>
+        )}
       </div>
     </Link>
   );
