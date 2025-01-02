@@ -14,10 +14,11 @@ interface DropdownProps extends ComponentProps<"input"> {
   options: string[];
   onSelection: (option: string) => void;
   classNames?: string;
+  containerClassNames?: string;
 }
 
 export default forwardRef<HTMLInputElement, DropdownProps>(function Dropdown(
-  { options, onSelection, classNames, ...rest },
+  { options, onSelection, classNames, containerClassNames, ...rest },
   ref,
 ) {
   const dropdownRef = useRef(null);
@@ -31,7 +32,7 @@ export default forwardRef<HTMLInputElement, DropdownProps>(function Dropdown(
   };
 
   return (
-    <div ref={dropdownRef} className={cn("container")}>
+    <div ref={dropdownRef} className={cn(containerClassNames, "container")}>
       <Input onClick={toggleDropdown} className={cn(classNames, "input")} readOnly {...rest} ref={ref} />
       <DropDownImg className={cn("img")} onClick={toggleDropdown} />
       {isOpen && (
