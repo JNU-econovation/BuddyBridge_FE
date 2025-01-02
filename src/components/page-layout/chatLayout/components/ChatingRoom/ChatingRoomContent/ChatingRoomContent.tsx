@@ -278,7 +278,13 @@ export default function ChattingRoomContent({
               </div>
             )}
             {/* 도와줄래요?에서 봉사자에게 나오게 할 문장  */}
-            <button className={cn("helpBtn")} onClick={() => setIsHelpDone((prev) => !prev)}>
+            <button
+              className={cn("helpBtn")}
+              onClick={() => {
+                setIsHelpDone((prev) => !prev);
+                setIsHamburgerClick(false);
+              }}
+            >
               도움을 주었나요?
             </button>
             <Close
