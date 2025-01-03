@@ -1,10 +1,10 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { ko } from "date-fns/locale";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, set, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { useRouter } from "next/router";
@@ -25,8 +25,10 @@ import { ROUTE } from "@/constants/route";
 import Calendar from "@/icons/calendar.svg";
 import RegisterArrow from "@/icons/send_arrow.svg";
 
+import getTakerDetail from "../../helpMeDetailLayout/apis/getTakerDetail";
 import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
 import postHelpMeRegister from "../apis/postHelpMeRegister";
+import patchHelpMeRegister from "../apis/patchHelpMeRegister";
 import { helpMeFormData } from "../types";
 
 const cn = classNames.bind(styles);
@@ -56,6 +58,10 @@ const registerSchema = z.object({
 
 export default function HelpMeRegisterLayout() {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  //
+  const { query } = router;
+  const isEditMode = Boolean(query.id);
   const isMountedRef = useRef(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [content, setContent] = useState<helpMeFormData | null>(null);
@@ -73,6 +79,12 @@ export default function HelpMeRegisterLayout() {
     formState: { errors, isValid },
   } = useForm<helpMeFormData>({ resolver: zodResolver(registerSchema), mode: "onChange" });
 
+  const { data: prevData, isPending } = useQuery({
+    queryKey: ["takerDetail", query.id],
+    queryFn: () => getTakerDetail(query.id as string),
+    enabled: isEditMode,
+  });
+
   const uploadHelpMeMutation = useMutation({
     mutationFn: (content: helpMeFormData) => postHelpMeRegister(content),
     onSuccess: () => {
@@ -80,28 +92,77 @@ export default function HelpMeRegisterLayout() {
     },
   });
 
-  const handleHelpMetUpload = (data: helpMeFormData) => {
+  // const handleHelpMetUpload = (data: helpMeFormData) => {
+  //   setIsModalOpen((prev) => !prev);
+
+  //   const content = {
+  //     title: data.title,
+  //     assistanceType: data.assistanceType,
+  //     startDate: data.startDate,
+  //     endDate: data.endDate,
+  //     scheduleType: data.scheduleType,
+  //     scheduleDetails: data.scheduleDetails,
+  //     district: data.district,
+  //     content: data.content,
+  //     postType: "TAKER",
+  //     gender: myInfoData.gender,
+  //     age: Number(myInfoData.age),
+  //     disabilityType: myInfoData.disabilityType,
+  //     assistanceStartTime: data.assistanceStartTime,
+  //     assistanceEndTime: data.assistanceEndTime,
+  //   };
+
+  //   setContent(content);
+  // };
+
+  //
+  const updateHelpMeMutation = useMutation({
+    mutationFn: (content: helpMeFormData) => patchHelpMeRegister(content, query.id as String),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["takerDetail", query.id] });
+      router.push(ROUTE.HELP_ME);
+    },
+  });
+
+  const handleHelpMeSubmit = (data: helpMeFormData) => {
     setIsModalOpen((prev) => !prev);
 
     const content = {
-      title: data.title,
-      assistanceType: data.assistanceType,
-      startDate: data.startDate,
-      endDate: data.endDate,
-      scheduleType: data.scheduleType,
-      scheduleDetails: data.scheduleDetails,
-      district: data.district,
-      content: data.content,
+      ...data,
       postType: "TAKER",
       gender: myInfoData.gender,
       age: Number(myInfoData.age),
       disabilityType: myInfoData.disabilityType,
-      assistanceStartTime: data.assistanceStartTime,
-      assistanceEndTime: data.assistanceEndTime,
     };
 
     setContent(content);
   };
+
+  useEffect(() => {
+    if (prevData && !isPending) {
+      console.log(prevData);
+      const prevHelpMeData: helpMeFormData = {
+        title: prevData.post.title,
+        assistanceType: prevData.post.assistance.assistanceType,
+        startDate: new Date(prevData.post.schedule.startDate),
+        endDate: new Date(prevData.post.schedule.endDate),
+        scheduleType: prevData.post.schedule.scheduleType,
+        scheduleDetails: prevData.post.schedule.scheduleDetails,
+        district: prevData.post.district,
+        content: prevData.post.content,
+        postType: prevData.postType,
+        gender: prevData.author.gender,
+        age: prevData.author.age,
+        disabilityType: prevData.author.disabilityType,
+        assistanceStartTime: prevData.post.assistance.assistanceStartTime,
+        assistanceEndTime: prevData.post.assistance.assistanceEndTime,
+      };
+
+      Object.entries(prevHelpMeData).forEach(([key, value]) => {
+        setValue(key as keyof helpMeFormData, value as never);
+      });
+    }
+  }, [prevData, isPending, setValue]);
 
   useEffect(() => {
     if (myInfoData?.disabilityType === "없음" && !isMountedRef.current) {
@@ -125,7 +186,7 @@ export default function HelpMeRegisterLayout() {
         <div className={cn("box")}>
           <p className={cn("title")}>도와줄래요? 게시글 작성</p>
           <MyInfoCard />
-          <form className={cn("form")} onSubmit={handleSubmit(handleHelpMetUpload)}>
+          <form className={cn("form")} onSubmit={handleSubmit(handleHelpMeSubmit)}>
             <div className={cn("formContentBox")}>
               <div className={cn("titleContainer")}>
                 <Label className={cn("label")} htmlFor="title">
@@ -281,7 +342,7 @@ ex, 2시에 전대치과병원에서 진료 이동 도움이 필요합니다."
                 {errors.content && <p className={cn("errorMessage")}>{errors.content.message}</p>}
               </div>
               <Button className={cn("registerBox", { active: isValid })}>
-                등록하기
+                {isEditMode ? "수정하기" : "등록하기"}
                 <RegisterArrow className={cn("arrow")} />
               </Button>
             </div>
@@ -292,7 +353,7 @@ ex, 2시에 전대치과병원에서 진료 이동 도움이 필요합니다."
         <ConfirmModal
           setState={setIsModalOpen}
           content={content as helpMeFormData}
-          mutate={uploadHelpMeMutation.mutate}
+          mutate={isEditMode ? updateHelpMeMutation.mutate : uploadHelpMeMutation.mutate}
         />
       )}
     </>
