@@ -64,7 +64,7 @@ export default function HelpMeRegisterLayout() {
   const isEditMode = Boolean(query.id);
   const isMountedRef = useRef(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [content, setContent] = useState<helpMeFormData | null>(null);
+  const [content, setContent] = useState<helpMeFormData | null | Partial<helpMeFormData>>(null);
 
   const { data: myInfoData, isFetching } = useQuery({
     queryKey: ["userInfo"],
@@ -88,7 +88,7 @@ export default function HelpMeRegisterLayout() {
   const uploadHelpMeMutation = useMutation({
     mutationFn: (content: helpMeFormData) => postHelpMeRegister(content),
     onSuccess: () => {
-      router.push(ROUTE.HELP_ME);
+      router.push(ROUTE.HELP_ME, undefined, { shallow:true });
     },
   });
 
@@ -118,29 +118,18 @@ export default function HelpMeRegisterLayout() {
   //
   const updateHelpMeMutation = useMutation({
     mutationFn: (content: helpMeFormData) => patchHelpMeRegister(content, query.id as String),
+    onError: () =>{
+      console.log(errors);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["takerDetail", query.id] });
       router.push(ROUTE.HELP_ME);
     },
   });
 
-  const handleHelpMeSubmit = (data: helpMeFormData) => {
-    setIsModalOpen((prev) => !prev);
-
-    const content = {
-      ...data,
-      postType: "TAKER",
-      gender: myInfoData.gender,
-      age: Number(myInfoData.age),
-      disabilityType: myInfoData.disabilityType,
-    };
-
-    setContent(content);
-  };
-
   useEffect(() => {
     if (prevData && !isPending) {
-      console.log(prevData);
+      //console.log(prevData);
       const prevHelpMeData: helpMeFormData = {
         title: prevData.post.title,
         assistanceType: prevData.post.assistance.assistanceType,
@@ -163,6 +152,50 @@ export default function HelpMeRegisterLayout() {
       });
     }
   }, [prevData, isPending, setValue]);
+
+  const handleHelpMeSubmit = (data: helpMeFormData) => {
+    setIsModalOpen((prev) => !prev);
+
+    const content = {
+      ...data,
+      postType: "TAKER",
+      gender: myInfoData.gender,
+      age: Number(myInfoData.age),
+      disabilityType: myInfoData.disabilityType,
+    };
+
+    if (isEditMode) {
+      //console.log("그전 내용", prevData);
+      const modifiedContent = Object.entries(data).reduce((acc, [key, value]) => {
+        //console.log("key", key, ":", value);
+        const typedKey = key as keyof helpMeFormData;
+        if (value instanceof Date) {
+          //console.log("date타입", value);
+          const prevDate = new Date(prevData.post.schedule[typedKey]);
+          //console.log("이전date타입", prevDate);
+          if (value.getTime() !== prevDate.getTime()) {
+            acc[typedKey] = value;
+          }
+        } else {
+          if (value !== prevData.post[typedKey]) {
+            if (value !== prevData.post.assistance[typedKey]) {
+              if (JSON.stringify(value) !== JSON.stringify(prevData.post.schedule[typedKey])) {
+                acc[typedKey] = value;
+              }
+            }
+          }
+        }
+        console.log("acc", acc);
+        return acc;
+      }, {} as Partial <helpMeFormData>);
+      console.log("수정모드");
+      console.log(modifiedContent);
+      setContent(modifiedContent);
+    } else {
+      console.log("작성모드");
+      setContent(content); 
+    }
+  }
 
   useEffect(() => {
     if (myInfoData?.disabilityType === "없음" && !isMountedRef.current) {
@@ -368,6 +401,8 @@ interface ConfirmModalProps {
 
 function ConfirmModal({ setState, content, mutate }: ConfirmModalProps) {
   const handleConfirm = () => {
+    //
+    console.log("보내는 내용", content)
     setState((prev) => !prev);
     mutate(content);
   };
