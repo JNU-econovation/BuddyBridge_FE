@@ -26,16 +26,20 @@ export default function PostTypeFilter({ postType, pageId }: PostTypeFilterProps
       <Link
         onClick={handleFilterClick}
         href={`${ROUTE.MY_PAGE_Likes}?postType=TAKER`}
-        className={cn("taker", { picked: postType === "TAKER" })}
+        className={cn("takerBox", { picked: postType === "TAKER" })}
       >
         도와줄래요?
+        <div className={cn("taker", { picked: postType === "TAKER" })}>
+        </div>
       </Link>
       <Link
         onClick={handleFilterClick}
         href={`${ROUTE.MY_PAGE_Likes}?postType=GIVER`}
-        className={cn("giver", { picked: postType === "GIVER" })}
+        className={cn("giverBox", { picked: postType === "GIVER" })}
       >
         도와줄게요!
+        <div className={cn("giver", { picked: postType === "GIVER" })}>
+        </div>
       </Link>
     </div>
   );

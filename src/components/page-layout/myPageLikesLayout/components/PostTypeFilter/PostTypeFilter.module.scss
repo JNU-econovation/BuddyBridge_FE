@@ -1,25 +1,42 @@
 .postTypeFilterBox {
   @include flexSort(null, center, center, null);
+  @include nsnFont(2rem, 500, normal);
+}
+
+.takerBox,
+.giverBox {
+  @include flexSort(column, center, center, null);
+  color: #efefef;
+}
+
+.takerBox{
+  &.picked {
+    color: #6562E2;
+  }
+}
+
+.giverBox{
+  &.picked {
+    color: #4885FE;
+  }
 }
 
 .taker,
 .giver {
-  @include flexSort(null, center, center, null);
-  border-radius: 1rem;
-  padding: 1rem 3rem;
-  @include gmarketFont(2rem, 500, normal);
-  color: black;
+  width: 16rem;
+  height: 0.4rem;
   background-color: #efefef;
+  border-radius: 0.2rem;
 }
 
 .taker {
   &.picked {
-    background-color: $taker;
+    background-color: #6562E2;
   }
 }
 
 .giver {
   &.picked {
-    background-color: $giver;
+    background-color: #4885FE;
   }
 }

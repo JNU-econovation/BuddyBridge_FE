@@ -9,7 +9,7 @@ interface PostStatusLabelProps {
 }
 
 export default function PostStatusLabel({ postStatus }: PostStatusLabelProps) {
-  const statusText = postStatus === "RECRUITING" ? "매칭중" : "매칭완료";
+  const statusText = postStatus === "RECRUITING" ? "모집중" : "모집완료";
 
   return (
     <div className={cn("box", postStatus)}>

@@ -23,6 +23,10 @@ export default function MyLikesList({ likesList }: MyLikesListProps) {
           postStatus={post.postStatus}
           title={post.title}
           postType={post.postType}
+          district={post.district}
+          startTime={post.assistance.assistanceStartTime}
+          endTime={post.assistance.assistanceEndTime}
+          isLiked={post.isLiked}
         />
       ))}
     </div>

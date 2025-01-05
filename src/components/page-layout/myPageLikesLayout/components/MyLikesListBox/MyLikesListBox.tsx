@@ -43,19 +43,20 @@ export default function MyLikesListBox() {
 
   return (
     <>
+      <PostTypeFilter pageId={`${pageId}`} postType={`${postType}`} />
       <div className={cn("myLikesListBox")}>
-        <PostTypeFilter pageId={`${pageId}`} postType={`${postType}`} />
         <MyLikesList likesList={likesList.content} />
+        <div className={cn("paginationBox")}>
+          <Pagination
+            type={postType}
+            currentPage={Number(pageId)}
+            itemsPerPage={4}
+            totalItems={Number(likesList?.totalElements)}
+            setPage={setPage}
+          />
+        </div>
       </div>
-      <div className={cn("paginationBox")}>
-        <Pagination
-          type={postType}
-          currentPage={Number(pageId)}
-          itemsPerPage={4}
-          totalItems={Number(likesList?.totalElements)}
-          setPage={setPage}
-        />
-      </div>
+      
     </>
   );
 }
