@@ -59,7 +59,6 @@ const registerSchema = z.object({
 export default function HelpMeRegisterLayout() {
   const router = useRouter();
   const queryClient = useQueryClient();
-  //
   const { query } = router;
   const isEditMode = Boolean(query.id);
   const isMountedRef = useRef(false);
@@ -92,44 +91,19 @@ export default function HelpMeRegisterLayout() {
     },
   });
 
-  // const handleHelpMetUpload = (data: helpMeFormData) => {
-  //   setIsModalOpen((prev) => !prev);
-
-  //   const content = {
-  //     title: data.title,
-  //     assistanceType: data.assistanceType,
-  //     startDate: data.startDate,
-  //     endDate: data.endDate,
-  //     scheduleType: data.scheduleType,
-  //     scheduleDetails: data.scheduleDetails,
-  //     district: data.district,
-  //     content: data.content,
-  //     postType: "TAKER",
-  //     gender: myInfoData.gender,
-  //     age: Number(myInfoData.age),
-  //     disabilityType: myInfoData.disabilityType,
-  //     assistanceStartTime: data.assistanceStartTime,
-  //     assistanceEndTime: data.assistanceEndTime,
-  //   };
-
-  //   setContent(content);
-  // };
-
-  //
   const updateHelpMeMutation = useMutation({
-    mutationFn: (content: helpMeFormData) => patchHelpMeRegister(content, query.id as String),
+    mutationFn: (content: helpMeFormData) => patchHelpMeRegister(content, query.id as string),
     onError: () =>{
       console.log(errors);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["takerDetail", query.id] });
-      router.push(ROUTE.HELP_ME);
+      router.push(ROUTE.HELP_ME + "/" + query.id as string);
     },
   });
 
   useEffect(() => {
     if (prevData && !isPending) {
-      //console.log(prevData);
       const prevHelpMeData: helpMeFormData = {
         title: prevData.post.title,
         assistanceType: prevData.post.assistance.assistanceType,
@@ -165,37 +139,32 @@ export default function HelpMeRegisterLayout() {
     };
 
     if (isEditMode) {
-      //console.log("그전 내용", prevData);
-      const modifiedContent = Object.entries(data).reduce((acc, [key, value]) => {
-        //console.log("key", key, ":", value);
+      const modifiedContent: Partial<helpMeFormData> = {};
+  
+      Object.entries(data).forEach(([key, value]) => {
         const typedKey = key as keyof helpMeFormData;
+
         if (value instanceof Date) {
-          //console.log("date타입", value);
           const prevDate = new Date(prevData.post.schedule[typedKey]);
-          //console.log("이전date타입", prevDate);
           if (value.getTime() !== prevDate.getTime()) {
-            acc[typedKey] = value;
+            modifiedContent[typedKey] = value;
           }
         } else {
-          if (value !== prevData.post[typedKey]) {
-            if (value !== prevData.post.assistance[typedKey]) {
-              if (JSON.stringify(value) !== JSON.stringify(prevData.post.schedule[typedKey])) {
-                acc[typedKey] = value;
-              }
-            }
+          if (
+            value !== prevData.post[typedKey] &&
+            value !== prevData.post.assistance[typedKey] &&
+            value !== prevData.post.schedule[typedKey]
+          ) {
+            modifiedContent[typedKey] = value;
           }
         }
-        console.log("acc", acc);
-        return acc;
-      }, {} as Partial <helpMeFormData>);
-      console.log("수정모드");
       console.log(modifiedContent);
+      });
       setContent(modifiedContent);
     } else {
-      console.log("작성모드");
-      setContent(content); 
+      setContent(content);
     }
-  }
+  };
 
   useEffect(() => {
     if (myInfoData?.disabilityType === "없음" && !isMountedRef.current) {
@@ -401,8 +370,6 @@ interface ConfirmModalProps {
 
 function ConfirmModal({ setState, content, mutate }: ConfirmModalProps) {
   const handleConfirm = () => {
-    //
-    console.log("보내는 내용", content)
     setState((prev) => !prev);
     mutate(content);
   };
