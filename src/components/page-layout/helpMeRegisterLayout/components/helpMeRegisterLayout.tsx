@@ -1,10 +1,10 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { ko } from "date-fns/locale";
-import { Controller, set, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { useRouter } from "next/router";
@@ -158,7 +158,6 @@ export default function HelpMeRegisterLayout() {
             modifiedContent[typedKey] = value;
           }
         }
-      console.log(modifiedContent);
       });
       setContent(modifiedContent);
     } else {

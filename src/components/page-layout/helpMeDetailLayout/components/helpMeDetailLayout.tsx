@@ -50,7 +50,6 @@ interface CommentProps {
 
 export default function HelpMeDetailLayout() {
   const router = useRouter();
-
   const { id: pageId } = router.query;
 
   const { data, isPending } = useQuery({
@@ -129,16 +128,12 @@ function Main( data:any) {
   const [isHeartClick, setIsHeartClick] = useState(false);
   const [isKebabClick, setIsKebabClick] = useState(false);
   const [isStateClick, setIsStateClick] = useState(false);
-  const [isEditClick, setIsEditClick] = useState(false);
 
   const handleKebabClick = () => {
     setIsKebabClick((prev) => !prev);
   };
   const handleStateBtnClick = () => {
     setIsStateClick((prev) => !prev);
-  };
-  const handleEditClick = () => {
-    //setIsKebabClick((prev) => !prev);
   };
   const handleSirenClick = () => {
     setIsReportOpen(true);
