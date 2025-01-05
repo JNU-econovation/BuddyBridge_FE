@@ -14,5 +14,6 @@ export const ROUTE = {
   MY_PAGE_HELP_ME: "/my-page/help-me",
   MY_PAGE_HELP_YOU: "/my-page/help-you",
   MY_PAGE_Likes: "/my-page/likes",
+  MY_PAGE_Finished: "/my-page/finished",
   FEEDBACK: "/feedback",
 } as const;

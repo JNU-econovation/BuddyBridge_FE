@@ -1,12 +1,17 @@
 .container {
-  background-color: white;
-  padding: 5rem 4rem;
-  @include flexSort(column, null, null, 2rem);
+  position: relative;
+  width: 70vw;
+  margin: auto;
+  padding: 2rem 3.2rem;
+  @include flexSort(null, center, null, 2rem);
+  box-shadow: 0.2rem 0.3rem 0.5rem 0.1rem rgba(0, 0, 0, 0.25);
+  border-radius: 1rem;
 }
 
 .box {
-  @include flexSort(column, null, null, 1rem);
-  @include gmarketFont(2rem, 500, normal);
+  width: 100%;
+  @include flexSort(null, space-between, center, null);
+  @include nsnFont(2rem, 500, normal);
   color: #787373;
 }
 
@@ -15,17 +20,19 @@
 }
 
 .contentBox {
-  @include flexSort(column, null, null, 1rem);
-  @include gmarketFont(1.5rem, 300, normal);
+  @include flexSort(null, null, null, 4rem);
+  @include nsnFont(1.8rem, 300, normal);
   color: black;
 }
 
 .button {
-  padding: 1rem;
+  padding: 1rem 2.5rem;
   color: black;
-  border-radius: 1rem;
+  background-color: #E6E6E6;
+  border-radius: 2rem;
 }
 
 .pick {
-  background-color: #e7efff;
+  background-color: #4885FE;
+  color: white;
 }

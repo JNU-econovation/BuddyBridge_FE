@@ -3,10 +3,13 @@ import { useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { useForm } from "react-hook-form";
+import { AxiosError } from "axios";
 
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { z } from "zod";
 
+import Button from "@/components/common/Button/Button";
 import { DISABILITY } from "@/components/common/DropDown/constants";
 import DropDown from "@/components/common/DropDown/DropDown";
 import styles from "@/components/page-layout/myPageEditLayout/components/MyInfoEditFrom/MyInfoEditForm.module.scss";
@@ -14,6 +17,7 @@ import { ROUTE } from "@/constants/route";
 
 import getMyInfo from "../../apis/getMyInfo";
 import patchMyInfo from "../../apis/putMyInfo";
+import EditBtn from "@/icons/edit.svg";
 
 const cn = classNames.bind(styles);
 
@@ -27,6 +31,12 @@ export interface FormType {
   gender: string;
 }
 
+interface ErrorResponse {
+  error: {
+    message: string;
+  };
+}
+
 export default function MyInfoEditForm() {
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -36,7 +46,7 @@ export default function MyInfoEditForm() {
     queryFn: getMyInfo,
   });
 
-  const { register, handleSubmit, setValue } = useForm<FormType>();
+  const { register, handleSubmit, setValue, setError, formState: { errors, isValid }} = useForm<FormType>();
 
   useEffect(() => {
     if (myInfoData?.disabilityType) {
@@ -53,6 +63,12 @@ export default function MyInfoEditForm() {
       queryClient.invalidateQueries({ queryKey: ["userInfo"] });
       router.push(ROUTE.MY_PAGE);
     },
+  
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if(error.response?.data) {
+        setError("nickname", { message: error.response.data.error.message});
+      }
+    }
   });
 
   const handleUpdateInfo = (data: FormType) => {
@@ -73,7 +89,8 @@ export default function MyInfoEditForm() {
       <p className={cn("title")}>내 정보</p>
       <form className={cn("form")} onSubmit={handleSubmit(handleUpdateInfo)}>
         <div className={cn("imgContainer")}>
-          <Image alt="프로필" src={myInfoData?.profileImageUrl} width={60} height={60} className={cn("img")} />
+          <Image alt="프로필" src={myInfoData?.profileImageUrl} width={100} height={100} className={cn("img")} />
+          <EditBtn width={27} height={27} className={cn("imgEditBtn")} />
         </div>
         <div className={cn("contentContainer")}>
           <div className={cn("nameContainer")}>
@@ -84,9 +101,18 @@ export default function MyInfoEditForm() {
             <p className={cn("nicknameTitle")}>닉네임</p>
             <input
               className={cn("nickname")}
-              {...register("nickname", { required: true })}
+              {...register("nickname", { 
+                required: "닉네임을 입력해주세요.",
+                minLength: { value: 2, message: "닉네임은 2~20글자만 가능합니다." },
+                maxLength: { value: 20, message: "닉네임은 2~20글자만 가능합니다." },
+                pattern: {
+                  value: /^[a-zA-Z가-힣0-9]*$/,
+                  message: "공백 및 특수 문자는 불가능합니다.",
+                }
+              })}
               defaultValue={myInfoData?.nickname}
             />
+            {errors.nickname && <p className={cn("errorMessage")}>{errors.nickname.message}</p>}
           </div>
           <div className={cn("ageContainer")}>
             <p className={cn("ageTitle")}>나이</p>
@@ -105,8 +131,12 @@ export default function MyInfoEditForm() {
             {...register("disabilityType", { required: true })}
           />
         </div>
+        <div className={cn("emailContainer")}>
+          <p className={cn("emailTitle")}>이메일</p>
+          <p className={cn("email")}>{myInfoData?.email}</p>
+        </div>
         <div className={cn("buttonContainer")}>
-          <button className={cn("button")}>저장하기</button>
+          <Button className={cn("button",{active:isValid})}>저장하기</Button>
         </div>
       </form>
     </div>
