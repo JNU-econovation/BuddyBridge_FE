@@ -6,17 +6,17 @@ import classNames from "classnames/bind";
 import Image from "next/image";
 
 import styles from "@/components/common/Comment/Comment.module.scss";
+import ReportForm from "@/components/common/ReportForm/ReportForm";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import Kebab from "@/icons/kebab.svg";
 import { formatDateString } from "@/utils";
 
-import ReportForm from "@/components/common/ReportForm/ReportForm";
-import Modal from "../Modal/Modal";
 import deleteComment from "./apis/deleteComment";
 import putComment from "./apis/putComment";
 import ChatButton from "./ChatButton/ChatButton";
 import Siren from "../../../../public/icons/siren.svg";
 import getLogIn from "../Header/apis/getLogIn";
+import Modal from "../Modal/Modal";
 
 const cn = classNames.bind(styles);
 
