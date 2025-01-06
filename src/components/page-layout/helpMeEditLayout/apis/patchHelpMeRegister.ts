@@ -1,6 +1,6 @@
 import { axiosInstance } from "@/apis/axiosInstance";
 
-import { helpMeFormData } from "../types";
+import { helpMeFormData } from "../../helpMeRegisterLayout/types";
 
 export default async function patchHelpMeRegister(content: helpMeFormData, contentId: string) {
   const { data } = await axiosInstance.patch(`posts/${contentId}`, {

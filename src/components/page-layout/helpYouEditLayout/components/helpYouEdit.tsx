@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { ko } from "date-fns/locale";
 import { Controller, useForm } from "react-hook-form";
@@ -25,8 +25,9 @@ import { ROUTE } from "@/constants/route";
 import Calendar from "@/icons/calendar.svg";
 import RegisterArrow from "@/icons/send_arrow.svg";
 
-import postHelpMeRegister from "../../helpMeRegisterLayout/apis/postHelpMeRegister";
+import patchHelpMeRegister from "../../helpMeEditLayout/apis/patchHelpMeRegister";
 import { helpMeFormData } from "../../helpMeRegisterLayout/types";
+import getGiverDetail from "../../helpYouDetailLayout/apis/getGiverDetail";
 import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
 
 const cn = classNames.bind(styles);
@@ -56,8 +57,10 @@ const registerSchema = z.object({
 
 export default function HelpYouRegisterLayout() {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const { query } = router;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [content, setContent] = useState<helpMeFormData | null>(null);
+  const [content, setContent] = useState<null | Partial<helpMeFormData>>(null);
 
   const { data: myInfoData, isFetching } = useQuery({
     queryKey: ["userInfo"],
@@ -72,34 +75,72 @@ export default function HelpYouRegisterLayout() {
     formState: { errors, isValid },
   } = useForm<helpMeFormData>({ resolver: zodResolver(registerSchema), mode: "onChange" });
 
-  const uploadHelpMeMutation = useMutation({
-    mutationFn: (content: helpMeFormData) => postHelpMeRegister(content),
+  const { data: prevData, isPending } = useQuery({
+    queryKey: ["giverDetail", query.id],
+    queryFn: () => getGiverDetail(query.id as string),
+  });
+
+  const updateHelpMeMutation = useMutation({
+    mutationFn: (content: helpMeFormData) => patchHelpMeRegister(content, query.id as string),
+    onError: () => {
+      console.log(errors);
+    },
     onSuccess: () => {
-      router.push(ROUTE.HELP_YOU);
+      queryClient.invalidateQueries({ queryKey: ["takerDetail", query.id] });
+      router.push((ROUTE.HELP_YOU + "/" + query.id) as string);
     },
   });
 
-  const handleHelpMetUpload = (data: helpMeFormData) => {
+  useEffect(() => {
+    if (prevData && !isPending) {
+      const prevHelpMeData: helpMeFormData = {
+        title: prevData.post.title,
+        assistanceType: prevData.post.assistance.assistanceType,
+        startDate: new Date(prevData.post.schedule.startDate),
+        endDate: new Date(prevData.post.schedule.endDate),
+        scheduleType: prevData.post.schedule.scheduleType,
+        scheduleDetails: prevData.post.schedule.scheduleDetails,
+        district: prevData.post.district,
+        content: prevData.post.content,
+        postType: prevData.postType,
+        gender: prevData.author.gender,
+        age: prevData.author.age,
+        disabilityType: prevData.author.disabilityType,
+        assistanceStartTime: prevData.post.assistance.assistanceStartTime,
+        assistanceEndTime: prevData.post.assistance.assistanceEndTime,
+      };
+
+      Object.entries(prevHelpMeData).forEach(([key, value]) => {
+        setValue(key as keyof helpMeFormData, value as never);
+      });
+    }
+  }, [prevData, isPending, setValue]);
+
+  const handleHelpMeSubmit = (data: helpMeFormData) => {
     setIsModalOpen((prev) => !prev);
 
-    const content = {
-      title: data.title,
-      assistanceType: data.assistanceType,
-      startDate: data.startDate,
-      endDate: data.endDate,
-      scheduleType: data.scheduleType,
-      scheduleDetails: data.scheduleDetails,
-      district: data.district,
-      content: data.content,
-      postType: "TAKER",
-      gender: myInfoData.gender,
-      age: Number(myInfoData.age),
-      disabilityType: myInfoData.disabilityType,
-      assistanceStartTime: data.assistanceStartTime,
-      assistanceEndTime: data.assistanceEndTime,
-    };
+    const modifiedContent: Partial<helpMeFormData> = {};
 
-    setContent(content);
+    Object.entries(data).forEach(([key, value]) => {
+      const typedKey = key as keyof helpMeFormData;
+
+      if (value instanceof Date) {
+        const prevDate = new Date(prevData.post.schedule[typedKey]);
+        if (value.getTime() !== prevDate.getTime()) {
+          (modifiedContent[typedKey] as Date) = value;
+        }
+      } else {
+        if (
+          value !== prevData.post[typedKey] &&
+          value !== prevData.post.assistance[typedKey] &&
+          value !== prevData.post.schedule[typedKey]
+        ) {
+          modifiedContent[typedKey] = value;
+        }
+      }
+    });
+
+    setContent(modifiedContent);
   };
 
   useEffect(() => {
@@ -115,7 +156,7 @@ export default function HelpYouRegisterLayout() {
         <div className={cn("box")}>
           <p className={cn("title")}>도와줄게요! 게시글 작성</p>
           <MyInfoCard />
-          <form className={cn("form")} onSubmit={handleSubmit(handleHelpMetUpload)}>
+          <form className={cn("form")} onSubmit={handleSubmit(handleHelpMeSubmit)}>
             <div className={cn("formContentBox")}>
               <div className={cn("titleContainer")}>
                 <Label className={cn("label")} htmlFor="title">
@@ -211,7 +252,7 @@ export default function HelpYouRegisterLayout() {
                       rules={{ required: true }}
                       render={({ field }) => (
                         <RadioInput
-                          postType="giver"
+                          postType="taker"
                           classNames={cn("period")}
                           {...field}
                           firstValue="정기"
@@ -270,7 +311,7 @@ export default function HelpYouRegisterLayout() {
                 {errors.content && <p className={cn("errorMessage")}>{errors.content.message}</p>}
               </div>
               <Button className={cn("registerBox", { active: isValid })}>
-                등록하기
+                수정하기
                 <RegisterArrow className={cn("arrow")} />
               </Button>
             </div>
@@ -281,7 +322,7 @@ export default function HelpYouRegisterLayout() {
         <ConfirmModal
           setState={setIsModalOpen}
           content={content as helpMeFormData}
-          mutate={uploadHelpMeMutation.mutate}
+          mutate={updateHelpMeMutation.mutate}
         />
       )}
     </>
