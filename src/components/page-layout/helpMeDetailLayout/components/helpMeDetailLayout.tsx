@@ -91,7 +91,6 @@ function Main( data:any) {
   const deletePostMutation = useMutation({
     mutationFn: (id: number) => deletePost(id),
     onSuccess: () => {
-      // todo : queryKey를 0이 아니라 page로 바꿔야함.
       queryClient.invalidateQueries({ queryKey: ["takerDetail", pageId] });
       router.push(ROUTE.HELP_ME);
       openToast("success", "성공적으로 삭제되었습니다.");

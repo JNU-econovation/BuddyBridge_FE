@@ -29,8 +29,8 @@ import Location from "../../../../../public/icons/location.svg";
 import Person from "../../../../../public/icons/personnel.svg";
 import RedHeart from "../../../../../public/icons/red_heart.svg";
 import Siren from "../../../../../public/icons/siren.svg";
-import getAllComment from "../apis/getAllComment";
 import deletePost from "../../helpMeDetailLayout/apis/deletePost";
+import getAllComment from "../apis/getAllComment";
 import getGiverDetail from "../apis/getGiverDetail";
 
 const cn = classNames.bind(styles);
@@ -91,7 +91,6 @@ function Main( data:any) {
   const deletePostMutation = useMutation({
     mutationFn: (id: number) => deletePost(id),
     onSuccess: () => {
-      // todo : queryKey를 0이 아니라 page로 바꿔야함.
       queryClient.invalidateQueries({ queryKey: ["giverDetail", pageId] });
       router.push(ROUTE.HELP_YOU);
       openToast("success", "성공적으로 삭제되었습니다.");

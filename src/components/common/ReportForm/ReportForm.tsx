@@ -1,17 +1,14 @@
 import { FormEvent, useState } from "react";
 
-import classNames from "classnames/bind";
-
 import { useMutation, useQuery } from "@tanstack/react-query";
-import sendReport from "./apis/sendReport";
+import classNames from "classnames/bind";
 
 import openToast from "@/components/common/Toast/features/openToast";
 
-//import { ReportTypes } from "./constants/index";
+import getReportTypes from "./apis/getReportTypes";
+import sendReport from "./apis/sendReport";
 import styles from "./ReportForm.module.scss";
 import InfoIcon from "../../../../public/icons/info.svg";
-import getReportTypes from "./apis/getReportTypes";
-
 
 const cn = classNames.bind(styles);
 
@@ -37,8 +34,6 @@ export default function ReportForm ({nickname, postId, postType, contentType, co
         queryKey: ["reportTypes"],
         queryFn: () => getReportTypes(),
     });
-
-    //console.log(reportTypes);
 
     const reportMutation = useMutation({
         mutationFn: (reportData: { contentType: string; id: number; content: reportProps }) =>
