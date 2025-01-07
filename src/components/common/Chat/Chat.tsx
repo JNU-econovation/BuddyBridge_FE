@@ -12,7 +12,7 @@ const cn = classNames.bind(styles);
 interface ChatProps {
   name: string;
   content: string;
-  date: string;
+  date: Date;
   type: string;
   img: string;
   id: number;

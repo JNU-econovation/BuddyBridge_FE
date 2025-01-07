@@ -30,7 +30,7 @@ export interface CommentProps {
       gender: string;
     };
     content: string;
-    modifiedAt: string;
+    modifiedAt: Date;
     commentId: number;
   };
   authorId: number;

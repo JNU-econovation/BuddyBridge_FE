@@ -18,7 +18,11 @@ export default function MyLikesListBox() {
   const pageId = router.query.pageId || "1";
   const params = new URLSearchParams(router.query as any);
 
-  const { data: likesList } = useQuery({
+  const {
+    data: likesList,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["LikesList", pageId, postType],
     queryFn: () => getMyLikes(`${pageId}`, postType),
     enabled: !!postType,
@@ -33,11 +37,15 @@ export default function MyLikesListBox() {
     });
   };
 
+  if (isLoading || !likesList) return <div>로딩...</div>;
+
+  if (isError) return <div>에러...</div>;
+
   return (
     <>
       <div className={cn("myLikesListBox")}>
         <PostTypeFilter pageId={`${pageId}`} postType={`${postType}`} />
-        <MyLikesList likesList={likesList?.content} />
+        <MyLikesList likesList={likesList.content} />
       </div>
       <div className={cn("paginationBox")}>
         <Pagination

@@ -44,7 +44,7 @@ interface CommentProps {
     gender: string;
   };
   content: string;
-  modifiedAt: string;
+  modifiedAt: Date;
   commentId: number;
 }
 
@@ -52,7 +52,7 @@ export default function HelpYouDetailLayout() {
   const router = useRouter();
   const { id: pageId } = router.query;
 
-  const { data, isPending } = useQuery({
+  const { data, isPending} = useQuery({
     queryKey: ["giverDetail", pageId],
     queryFn: () => getGiverDetail(pageId as string),
     enabled: !!pageId,

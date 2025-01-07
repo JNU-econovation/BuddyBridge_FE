@@ -3,6 +3,7 @@ import classNames from "classnames/bind";
 import Link from "next/link";
 
 import { ROUTE } from "@/constants/route";
+import { CommentType } from "@/types/comment";
 import { formatAllDateExpectSecondsString } from "@/utils";
 
 import styles from "./MyWriteComment.module.scss";
@@ -10,17 +11,7 @@ import styles from "./MyWriteComment.module.scss";
 const cn = classNames.bind(styles);
 
 export interface MyWriteCommentProps {
-  comment: {
-    content: string;
-    commentId: number;
-    postId: number;
-    postTitle: string;
-    postStatus: string;
-    postType: string;
-    disabilityType: string | null;
-    assistanceType: string;
-    postCreatedAt: string;
-  };
+  comment: CommentType;
 }
 
 export default function MyWriteComment({ comment }: MyWriteCommentProps) {

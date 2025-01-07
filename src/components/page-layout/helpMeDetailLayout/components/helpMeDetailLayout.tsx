@@ -44,7 +44,7 @@ interface CommentProps {
     gender: string;
   };
   content: string;
-  modifiedAt: string;
+  modifiedAt: Date;
   commentId: number;
 }
 
@@ -69,7 +69,7 @@ function Main( data:any) {
   const { id: pageId } = router.query;
   const queryClient = useQueryClient();
 
-  const { data: userData } = useQuery({
+  const { data: userData, isError: userIsError } = useQuery({
     queryKey: ["userLogIn"],
     queryFn: () => getLogIn(),
   });
