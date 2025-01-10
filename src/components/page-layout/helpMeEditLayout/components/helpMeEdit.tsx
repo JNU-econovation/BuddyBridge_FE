@@ -103,7 +103,7 @@ export default function HelpMeRegisterLayout() {
         scheduleDetails: prevData.post.schedule.scheduleDetails,
         district: prevData.post.district,
         content: prevData.post.content,
-        postType: prevData.postType,
+        postType: prevData.post.postType,
         gender: prevData.author.gender,
         age: prevData.author.age,
         disabilityType: prevData.author.disabilityType,
