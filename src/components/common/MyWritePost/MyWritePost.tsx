@@ -3,6 +3,7 @@ import classNames from "classnames/bind";
 import Link from "next/link";
 
 import { ROUTE } from "@/constants/route";
+import { PostType } from "@/types/post";
 import { formatDateString } from "@/utils";
 
 import styles from "./MyWritePost.module.scss";
@@ -10,22 +11,20 @@ import styles from "./MyWritePost.module.scss";
 const cn = classNames.bind(styles);
 
 export interface MyWritePostProps {
-  post: {
-    id: number;
-    title: string;
-    postStatus: string;
-    startTime: string;
-    endTime: string;
-    postType: string;
-    assistanceType: string;
-    disabilityType: string;
-    startDate: string;
-    endDate: string;
-  };
+  post: PostType;
 }
 
 export default function MyWritePost({ post }: MyWritePostProps) {
-  const { assistanceType, disabilityType, startDate, id, postStatus, postType, endDate, title } = post;
+  const {
+    assistance: { assistanceType },
+    disabilityType,
+    id,
+    postStatus,
+    postType,
+    schedule: { endDate, startDate },
+    title,
+  } = post;
+
   const postTypeKr = postType === "TAKER" ? "도와줄래요?" : "도와줄게요!";
   const postStatusKr = postStatus === "RECRUITING" ? "매칭중" : "매칭완료";
 

@@ -72,7 +72,7 @@ export default function HelpYouRegisterLayout() {
     formState: { errors, isValid },
   } = useForm<helpMeFormData>({ resolver: zodResolver(registerSchema), mode: "onChange" });
 
-  const uploadHelpMeMutation = useMutation({
+  const uploadHelpYouMutation = useMutation({
     mutationFn: (content: helpMeFormData) => postHelpMeRegister(content),
     onSuccess: () => {
       router.push(ROUTE.HELP_YOU);
@@ -91,7 +91,7 @@ export default function HelpYouRegisterLayout() {
       scheduleDetails: data.scheduleDetails,
       district: data.district,
       content: data.content,
-      postType: "TAKER",
+      postType: "GIVER",
       gender: myInfoData.gender,
       age: Number(myInfoData.age),
       disabilityType: myInfoData.disabilityType,
@@ -281,7 +281,7 @@ export default function HelpYouRegisterLayout() {
         <ConfirmModal
           setState={setIsModalOpen}
           content={content as helpMeFormData}
-          mutate={uploadHelpMeMutation.mutate}
+          mutate={uploadHelpYouMutation.mutate}
         />
       )}
     </>
