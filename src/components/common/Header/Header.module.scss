@@ -1,6 +1,6 @@
 .container {
   @include flexSort(null, center, center, null);
-  border-bottom: 0.1rem solid $gray;
+  border-bottom: 0.1rem solid #ece9f0;
 }
 
 .header {
