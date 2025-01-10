@@ -52,69 +52,67 @@ export default function Login({ name }: LoginProps) {
     router.push(ROUTE.CHAT);
   };
 
-  useEffect(() => {
-    if (!accessToken) return;
+  // useEffect(() => {
+  //   if (!accessToken) return;
 
-    let eventSource: EventSourcePolyfill;
+  //   let eventSource: EventSourcePolyfill;
 
-    const connectSSE = () => {
-      if (retryCount >= 3) {
-        return;
-      }
-      
-      eventSource = new EventSourcePolyfill(`${process.env.NEXT_PUBLIC_BASE_URL}api/sse/connect`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+  //   const connectSSE = () => {
+  //     if (retryCount >= 3) {
+  //       return;
+  //     }
 
-      eventSource.addEventListener("notification", (event) => {
-        const newNotification = (event as any).data;
+  //     eventSource = new EventSourcePolyfill(`${process.env.NEXT_PUBLIC_BASE_URL}api/sse/connect`, {
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     });
 
-        let parsedData;
+  //     eventSource.addEventListener("notification", (event) => {
+  //       const newNotification = (event as any).data;
 
-        try {
-          parsedData = JSON.parse(newNotification);
-        } catch (error) {
-          return;
-        }
+  //       let parsedData;
 
-        setNotifications(parsedData);
-      });
+  //       try {
+  //         parsedData = JSON.parse(newNotification);
+  //       } catch (error) {
+  //         return;
+  //       }
 
-      eventSource.onopen = () => {
-        setRetryCount(0);
-        console.log("SSE 연결 성공");
-      };
+  //       setNotifications(parsedData);
+  //     });
 
-      eventSource.onerror = (error) => {
-        console.error("SSE error:", error);
-        eventSource.close();
+  //     eventSource.onopen = () => {
+  //       setRetryCount(0);
+  //       console.log("SSE 연결 성공");
+  //     };
 
-        setRetryCount((prevCount) => {
-          const newCount = prevCount + 1;
-          if (newCount < 3) {
-            setTimeout(connectSSE, 5000);
-          } else {
-            console.log("newCount :", newCount)
-          }
-          return newCount;
-        });
-      };
+  //     eventSource.onerror = (error) => {
+  //       console.error("SSE error:", error);
+  //       eventSource.close();
 
-    };
+  //       setRetryCount((prevCount) => {
+  //         const newCount = prevCount + 1;
+  //         if (newCount < 3) {
+  //           setTimeout(connectSSE, 5000);
+  //         } else {
+  //           console.log("newCount :", newCount)
+  //         }
+  //         return newCount;
+  //       });
+  //     };
 
-    connectSSE();
+  //   };
 
-    return;
+  //   connectSSE();
 
-  }, [accessToken, retryCount]);
+  //   return;
+
+  // }, [accessToken, retryCount]);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useNotification(notifications as alarmType, "", "");
 
   const unreadCount = data?.filter((notification) => !notification.isRead).length || 0;
-
-  console.log(data);
 
   return (
     <div className={cn("container")}>
