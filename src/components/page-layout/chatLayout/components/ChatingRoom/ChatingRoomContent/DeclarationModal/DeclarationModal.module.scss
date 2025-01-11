@@ -1,0 +1,127 @@
+.modal {
+  width: 65rem;
+  height: 70rem;
+  @include flexSort(column, null, center, null);
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.headerBox {
+  width: 100%;
+  position: relative;
+  @include flexSort(null, center, center, null);
+  @include nsnFont(2.5rem, 700, normal);
+  padding: 2rem 0;
+  border-bottom: 0.1rem solid #c6c6c6;
+}
+
+.close {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  cursor: pointer;
+}
+
+.informationBox {
+  padding: 3rem;
+  width: 100%;
+  border-bottom: 0.1rem solid #c6c6c6;
+  @include flexSort(column, null, null, 1rem);
+}
+
+.userInformationBox,
+.postInformationBox {
+  @include flexSort(null, null, center, 1rem);
+}
+
+.userInformationTitle,
+.postInformationTitle,
+.declarationTypeTitle,
+.declarationTitle {
+  @include nsnFont(1.5rem, 700, normal);
+}
+
+.boundary {
+  color: #c6c6c6;
+  @include nsnFont(1.5rem, 700, 2.1rem);
+}
+
+.userInformationContent,
+.postInformationContent {
+  @include nsnFont(1.2rem, 400, normal);
+}
+
+.form {
+  padding: 3rem;
+  @include flexSort(column, null, null, 2rem);
+  width: 100%;
+}
+
+.declarationTypeBox,
+.declarationContentBox {
+  @include flexSort(column, null, null, 1rem);
+  position: relative;
+}
+
+.declarationType {
+  @include nsnFont(1.6rem, 700, normal);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 0.2rem solid #cdcdcd;
+  text-align: left;
+}
+
+.declarationTypeOption {
+  @include nsnFont(1.4rem, 400, normal);
+  text-align: left;
+  padding: 1rem;
+}
+
+.declarationContent {
+  border-radius: 0.5rem;
+  border: 0.2rem solid #cdcdcd;
+  height: 25rem;
+  @include nsnFont(1.4rem, 700, normal);
+  padding: 1rem;
+  resize: none;
+
+  &::placeholder {
+    color: #b7b7b7;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.warningContainer {
+  @include flexSort(column, null, null, 1rem);
+}
+
+.warningBox {
+  @include flexSort(null, null, null, 0.7rem);
+  color: #8d8989;
+  @include nsnFont(1.2rem, 700, normal);
+}
+
+.declarationBtn {
+  width: 100%;
+  border-radius: 0.5rem;
+  background: #9290ea;
+  box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
+  color: white;
+  @include font(2rem, 700, normal);
+  @include flexSort(null, center, center, null);
+  padding: 1.55rem 3rem;
+  margin-bottom: 3rem;
+}
+
+.errorMessage {
+  @include nsnFont(1.2rem, 500, normal);
+  color: red;
+  position: absolute;
+  bottom: -1.7rem;
+}
