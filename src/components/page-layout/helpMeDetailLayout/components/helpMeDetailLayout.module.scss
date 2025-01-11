@@ -18,17 +18,16 @@
 }
 
 .totalContainer {
-  @include flexSort(column, null, center, 5rem);
+  @include flexSort(column, null, center, 1rem);
   border-radius: 2rem;
   border: 0.1rem solid $black-1;
-  padding: 7rem 5rem 4rem 5rem;
+  padding: 4rem 5rem;
   width: 100%;
 }
 
 .btnMenu {
   margin-left: auto;
-  @include flexSort(null, null, null, 2rem);
-  vertical-align: middle;
+  @include flexSort(null, null, center, 2rem);
   position: relative;
 }
 
@@ -37,6 +36,12 @@
 .sirenBtn {
   @include flexSort(column, null, center, 0.2rem);
   cursor: pointer;
+}
+
+.kebabBtn {
+  transform-origin: top left;
+  transform: rotate(90deg);
+  margin-left: 3rem;
 }
 
 .sirenText {
@@ -77,10 +82,11 @@
 
 .titleBox {
   @include flexSort(null, null, center, 0.3rem);
+  margin-bottom: 3rem;
 }
 
 .title {
-  @include font(2.7rem, 500, normal);
+  @include font(2.8rem, 600, normal);
   @include flexSort(null, center, null, null);
   padding: 0 3rem;
 }

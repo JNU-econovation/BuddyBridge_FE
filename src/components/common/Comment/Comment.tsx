@@ -136,8 +136,8 @@ export default function Comment({ comment, authorId, postId, type, commentId }: 
                   <Kebab onClick={handleKebabClick} className={cn("kebab")} width={20} height={20} />
                   {isKebabClick && (
                     <div className={cn("editBox")} ref={editBoxRef}>
-                      <button onClick={handleCommentEditClick}>수정</button>
-                      <button onClick={handleCommentDeleteClick}>삭제</button>
+                      <button onClick={handleCommentEditClick}>수정하기</button>
+                      <button onClick={handleCommentDeleteClick}>삭제하기</button>
                     </div>
                   )}
                 </div>
@@ -164,7 +164,7 @@ export default function Comment({ comment, authorId, postId, type, commentId }: 
         </div>
       </div>
       {data?.memberId === authorId && data?.memberId !== comment.author.memberId && (
-        <ChatButton type={type} authorId={comment.author.memberId} />
+        <ChatButton type={type} commentId={commentId} />
       )}
       {isNowEditing && (
         <div className={cn("editBtnBox")}>
@@ -172,7 +172,7 @@ export default function Comment({ comment, authorId, postId, type, commentId }: 
             수정완료
           </button>
           <button className={cn("cancelBtn")} onClick={() => setIsNowEditing(false)}>
-            취소
+            수정취소
           </button>
         </div>
       )}

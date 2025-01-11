@@ -26,6 +26,17 @@ interface formProps {
     setIsReportOpen: (value:boolean) => void;
 }
 
+interface errorProps {
+    response: {
+        data: {
+            error: {
+                code: string;
+                message: string;
+            }
+        }
+    }
+}
+
 export default function ReportForm ({nickname, postId, postType, contentType, content, setIsReportOpen}:formProps) {
     const [reportType, setReportType] = useState("");
     const [reportContent, setReportContent] = useState("");
@@ -42,10 +53,14 @@ export default function ReportForm ({nickname, postId, postType, contentType, co
             setIsReportOpen(false);
             openToast("success", "신고가 성공적으로 접수되었습니다.");
         },
-        onError: () => {
-            openToast("error", "신고를 접수하는 중 문제가 발생했습니다. 다시 시도해 주세요.");
+        onError: (error:errorProps) => {
+            if(error.response.data.error.code === "R002") {
+                openToast("error", error.response.data.error.message);
+            } else {
+                openToast("error", "신고를 접수하는 중 문제가 발생했습니다. 다시 시도해 주세요.");
+            }
         },
-      });
+    });
 
     const handleSubmit = (e:FormEvent) => {
         e.preventDefault();
@@ -68,8 +83,6 @@ export default function ReportForm ({nickname, postId, postType, contentType, co
               reportReason: reportContent,
             }
         };
-
-        console.log(reportData);
         
         reportMutation.mutate(reportData);
     };

@@ -17,17 +17,16 @@ const cn = classNames.bind(styles);
 interface ChatAcceptType {
   body: {
     postId: number;
-    takerId: number;
-    giverId: number;
+    commentId: number;
   };
 }
 
 interface ChatButtonProps {
-  authorId: number;
+  commentId: number;
   type: string;
 }
 
-export default function ChatButton({ authorId, type }: ChatButtonProps) {
+export default function ChatButton({ commentId, type }: ChatButtonProps) {
   const [isChatClick, setIsChatClick] = useState(false);
   const chatRef = useRef<HTMLDivElement>(null);
   const editBoxRef = useRef<HTMLDivElement>(null);
@@ -59,8 +58,7 @@ export default function ChatButton({ authorId, type }: ChatButtonProps) {
   const handleChatButtonClick = () => {
     const body = {
       postId: data.post.id,
-      takerId: type === "giver" ? authorId : data.author.memberId,
-      giverId: type === "giver" ? data.author.memberId : authorId,
+      commentId: commentId
     };
     chatAcceptMutation.mutate({ body });
   };

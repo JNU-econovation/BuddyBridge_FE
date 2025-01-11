@@ -153,14 +153,14 @@ function Main( data:any) {
           따듯한 온정을 전하는 세상을 만듭니다.
         </header>
         <div className={cn("totalContainer")}>
-        <div className={cn("btnMenu")}>
+          <div className={cn("btnMenu")}>
             {isHeartClick ? (
-              <RedHeart onClick={handleHeartClick} width={32} height={32} className={cn("likeBtn")} />
+              <RedHeart onClick={handleHeartClick} width={35} height={35} className={cn("likeBtn")} />
             ) : (
-              <Heart onClick={handleHeartClick} width={32} height={32} className={cn("likeBtn")} />
+              <Heart onClick={handleHeartClick} width={37} height={37} className={cn("likeBtn")} />
             )}
             {userData?.memberId === data.data.author.memberId ? (
-              <Kebab onClick={handleKebabClick} width={30} height={30} className={cn("kebabBtn")} />
+              <Kebab onClick={handleKebabClick} width={35} height={35} className={cn("kebabBtn")} />
             ) : (
               <div onClick={handleSirenClick} className={cn("sirenBtn")}>
                 <Siren width={25} height={25} />
@@ -232,7 +232,7 @@ function Main( data:any) {
                 <p className={cn("assistanceType")}>
                   <Person className={cn("personIcon")} />
                   <span className={cn("label")}>도움유형</span>
-                  <span>{assistanceType}</span>
+                  <span>{assistanceType}도움</span>
                 </p>
               </div>
             </div>
