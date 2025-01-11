@@ -85,7 +85,7 @@ export default function HelpMeEditLayout() {
   const updateHelpMeMutation = useMutation({
     mutationFn: (content: helpMeFormData) => patchHelpMeRegister(content, query.id as string),
     onError: () => {
-      console.log(errors);
+      openToast("error", "게시글을 수정하는 중 문제가 발생했습니다. 다시 시도해 주세요.");
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["takerDetail", query.id] });
