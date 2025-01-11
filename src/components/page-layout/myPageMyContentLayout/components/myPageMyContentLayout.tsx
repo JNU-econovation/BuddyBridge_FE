@@ -6,7 +6,7 @@ import classNames from "classnames/bind";
 import { useRouter } from "next/router";
 
 import openToast from "@/components/common/Toast/features/openToast";
-import styles from "@/components/page-layout/myPageEditLayout/components/myPageEditLayout.module.scss";
+import styles from "@/components/page-layout/myPageMyContentLayout/components/myPageMyContentLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 
 import MyRegisterPost from "./myRegisterPost";
