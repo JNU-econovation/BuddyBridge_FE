@@ -129,6 +129,14 @@
   @include nsnFont(1.8rem, 400, normal);
 }
 
+.declarationBtn {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  @include flexSort(null, null, center, 1rem);
+  @include nsnFont(2rem, 400, normal);
+}
+
 .close {
   position: absolute;
   top: 2rem;

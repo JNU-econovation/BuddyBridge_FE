@@ -16,10 +16,12 @@ import useOutsideClick from "@/hooks/useOutsideClick";
 import ArrowDown from "@/icons/arrow_down.svg";
 import ChatArrow from "@/icons/chat_arrow.svg";
 import Close from "@/icons/close.svg";
+import Declaration from "@/icons/declaration.svg";
 
 import CertifyVolunteeringModal from "./CertifyVolunteeringModal/CertifyVolunteeringModal";
 import CompleteVolunteeringModal from "./CompleteVolunteeringModal/CompleteVolunteeringModal";
 import ConfirmVolunteeringModal from "./ConfirmVolunteeringModal/ConfirmVolunteeringModal";
+import DeclarationModal from "./DeclarationModal/DeclarationModal";
 import GetNoVolunteeringModal from "./GetNoVolunteeringModal/GetNoVolunteeringModal";
 import MyChat from "./MyChat/MyChat";
 import OppositeChat from "./OppositeChat/OppositeChat";
@@ -46,8 +48,8 @@ interface ChattingRoomContentProps {
   matchingState: string;
 }
 
-interface putMatchingtype {
-  chatingRoomId: number;
+interface putMatchingType {
+  chattingRoomId: number;
   status: string;
 }
 
@@ -63,13 +65,14 @@ export default function ChattingRoomContent({
   const { register, handleSubmit, reset } = useForm<ReceivedMessage>();
   const chatBoxRef = useRef<HTMLDivElement | null>(null);
   const [isMatchingBtnClick, setIsMatchingBtnClick] = useState(false);
-  const router = useRouter();
   const stateChangeRoomRef = useRef(null);
+  const matchingStatusChangeRef = useRef(null);
   const [isConfirmVolunteeringModalOpen, setIsConfirmVolunteeringModalOpen] = useState(false);
   const [isCompleteVolunteeringModalOpen, setIsCompleteVolunteeringModalOpen] = useState(false);
   const [isGetNoVolunteeringModalOpen, setIsGetNoVolunteeringModalOpen] = useState(false);
   const [isHelpDone, setIsHelpDone] = useState(false);
-
+  const [isDeclarationModalOpen, setIsDeclarationModalOpen] = useState(false);
+  DeclarationModal;
   const queryClient = useQueryClient();
 
   const [lastRef, inView] = useInView();
@@ -98,11 +101,11 @@ export default function ChattingRoomContent({
   });
 
   const chatAcceptMutation = useMutation({
-    mutationFn: ({ chatingRoomId, status }: putMatchingtype) => putMatchingStatus(chatingRoomId, status),
-    onSuccess: () => {
-      router.reload();
-    },
+    mutationFn: ({ chattingRoomId, status }: putMatchingType) => putMatchingStatus(chattingRoomId, status),
   });
+
+  useOutsideClick([stateChangeRoomRef], () => setIsHamburgerClick(false));
+  useOutsideClick([matchingStatusChangeRef], () => setIsMatchingBtnClick(false));
 
   const sendMessage = useCallback(
     (data: ReceivedMessage) => {
@@ -123,15 +126,17 @@ export default function ChattingRoomContent({
     [chatingRoomNumber, reset, accessToken],
   );
 
-  const handleMatchingCompleteClick = () => {
-    chatAcceptMutation.mutate({ chatingRoomId: chatingRoomNumber as number, status: "DONE" });
+  const handleMatchingStatusChangeClick = () => {
+    chatAcceptMutation.mutate(
+      { chattingRoomId: chatingRoomNumber as number, status: "TOGGLE_DONE" },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["chatList", matchingState] });
+        },
+      },
+    );
+    setIsMatchingBtnClick(false);
   };
-
-  const handleMatchingIngClick = () => {
-    chatAcceptMutation.mutate({ chatingRoomId: chatingRoomNumber as number, status: "PENDING" });
-  };
-
-  useOutsideClick([stateChangeRoomRef], () => setIsHamburgerClick(false));
 
   useEffect(() => {
     const chatingMessageList: ReceivedMessage[] = [];
@@ -252,7 +257,11 @@ export default function ChattingRoomContent({
               <div className={cn("stateChangeContainer")}>
                 <p className={cn("stateChange")}>상태변경</p>
                 <div className={cn("state")}>
-                  {chattingRoomType === "DONE" ? "매칭완료" : "매칭중"}
+                  {chattingRoomType === "DONE" ||
+                  chattingRoomType === "VOLUNTEERING_COMPLETED" ||
+                  chattingRoomType === "VOLUNTEERING_VERIFIED"
+                    ? "매칭완료"
+                    : "매칭중"}
                   <ArrowDown
                     className={cn("arrow", { arrowDown: isMatchingBtnClick })}
                     width={15}
@@ -260,38 +269,55 @@ export default function ChattingRoomContent({
                     onClick={() => setIsMatchingBtnClick((prev) => !prev)}
                   />
                   {isMatchingBtnClick && (
-                    <div className={cn("matchingStateContainer")}>
-                      <button onClick={handleMatchingIngClick} className={cn("matchingBtn")}>
+                    <div className={cn("matchingStateContainer")} ref={matchingStatusChangeRef}>
+                      <button onClick={handleMatchingStatusChangeClick} className={cn("matchingBtn")}>
                         매칭중
                       </button>
-                      <button onClick={handleMatchingCompleteClick} className={cn("matchingDoneBtn")}>
+                      <button onClick={handleMatchingStatusChangeClick} className={cn("matchingDoneBtn")}>
                         매칭완료
                       </button>
                     </div>
                   )}
                 </div>
-                {chattingRoomType === "DONE" && (
-                  <button className={cn("helpBtn")} onClick={handleHelpBtnClick}>
-                    도움을 받았나요?
-                  </button>
-                )}
               </div>
             )}
-            {/* 도와줄래요?에서 봉사자에게 나오게 할 문장  */}
+            {chattingRoomType === "DONE" &&
+              ((chattingData?.pages[0].postType === "TAKER" && data.memberId === chattingData?.pages[0].postAuthorId) ||
+                (chattingData?.pages[0].postType === "GIVER" &&
+                  data.memberId !== chattingData?.pages[0].postAuthorId)) && (
+                <button className={cn("helpBtn")} onClick={handleHelpBtnClick}>
+                  도움을 받았나요?
+                </button>
+              )}
+            {chattingRoomType === "VOLUNTEERING_COMPLETED" &&
+              ((chattingData?.pages[0].postType === "TAKER" && data.memberId !== chattingData?.pages[0].postAuthorId) ||
+                (chattingData?.pages[0].postType === "GIVER" &&
+                  data.memberId === chattingData?.pages[0].postAuthorId)) && (
+                <button
+                  className={cn("helpBtn")}
+                  onClick={() => {
+                    setIsHelpDone((prev) => !prev);
+                    setIsHamburgerClick(false);
+                  }}
+                >
+                  도움을 주었나요?
+                </button>
+              )}
             <button
-              className={cn("helpBtn")}
+              className={cn("declarationBtn")}
               onClick={() => {
-                setIsHelpDone((prev) => !prev);
+                setIsDeclarationModalOpen(true);
                 setIsHamburgerClick(false);
               }}
             >
-              도움을 주었나요?
+              <Declaration />
+              신고하기
             </button>
             <Close
               className={cn("close")}
               onClick={() => {
                 setIsMatchingBtnClick(false);
-                setIsHamburgerClick(!isHamburgerClick);
+                setIsHamburgerClick(false);
               }}
             />
           </div>
@@ -304,6 +330,8 @@ export default function ChattingRoomContent({
           setState={setIsConfirmVolunteeringModalOpen}
           setIsCompleteVolunteeringModalOpen={setIsCompleteVolunteeringModalOpen}
           setIsGetNoVolunteeringModalOpen={setIsGetNoVolunteeringModalOpen}
+          volunteeringMutation={(data: putMatchingType, options?: any) => chatAcceptMutation.mutate(data, options)}
+          chattingRoomId={chatingRoomNumber as number}
         />
       )}
       {isCompleteVolunteeringModalOpen && (
@@ -327,6 +355,16 @@ export default function ChattingRoomContent({
           postId={chattingData?.pages[0].postId}
           setState={setIsHelpDone}
           email={data.email}
+          name={data.name}
+        />
+      )}
+      {isDeclarationModalOpen && (
+        <DeclarationModal
+          postType={chattingData?.pages[0].postType}
+          postId={chattingData?.pages[0].postId}
+          setState={setIsDeclarationModalOpen}
+          name={chattingData?.pages[0].receiver.receiverName}
+          chattingRoomId={chatingRoomNumber as number}
         />
       )}
     </>
