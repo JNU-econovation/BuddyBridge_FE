@@ -14,8 +14,10 @@ const cn = classNames.bind(styles);
 
 interface ChatContextType {
   chatingRoomNumber: number | undefined;
-  chattingRoomType: "DONE" | "PENDING";
-  setChattingRoomType: (chatingRoomNumber: "DONE" | "PENDING") => void;
+  chattingRoomType: "DONE" | "PENDING" | "FAILED" | "VOLUNTEERING_COMPLETED" | "VOLUNTEERING_VERIFIED";
+  setChattingRoomType: (
+    chatingRoomNumber: "DONE" | "PENDING" | "FAILED" | "VOLUNTEERING_COMPLETED" | "VOLUNTEERING_VERIFIED",
+  ) => void;
 }
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
@@ -33,7 +35,9 @@ export const useChatContext = () => {
 export default function ChatLayout() {
   const router = useRouter();
   const chatingRoomNumber = Number(router.query["id"]);
-  const [chattingRoomType, setChattingRoomType] = useState<"DONE" | "PENDING">("PENDING");
+  const [chattingRoomType, setChattingRoomType] = useState<
+    "DONE" | "PENDING" | "FAILED" | "VOLUNTEERING_COMPLETED" | "VOLUNTEERING_VERIFIED"
+  >("PENDING");
   const [matchingState, setMatchingState] = useState("ALL");
 
   return (
