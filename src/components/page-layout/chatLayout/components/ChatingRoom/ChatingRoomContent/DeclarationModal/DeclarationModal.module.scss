@@ -1,6 +1,6 @@
 .modal {
   width: 65rem;
-  height: 70rem;
+  max-height: 90%;
   @include flexSort(column, null, center, null);
   overflow-y: scroll;
 
@@ -116,7 +116,7 @@
   @include font(2rem, 700, normal);
   @include flexSort(null, center, center, null);
   padding: 1.55rem 3rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .errorMessage {
