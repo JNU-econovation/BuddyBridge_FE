@@ -1,7 +1,5 @@
 import classNames from "classnames/bind";
 
-import MyPageMyInfo from "@/components/common/MyPageMyInfo/MyPageMyInfo";
-
 import styles from "./MyPageLikesList.module.scss";
 import MyLikesListBox from "../MyLikesListBox/MyLikesListBox";
 

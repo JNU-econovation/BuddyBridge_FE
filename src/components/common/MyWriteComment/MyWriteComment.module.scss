@@ -1,8 +1,15 @@
 .container {
-  padding: 2rem;
-  @include flexSort(null, space-between, null, null);
-  border-bottom: 0.1rem solid #e6e6ea;
-  color: black;
+  width: 100%;
+  padding: 2rem 5rem;
+  @include flexSort(null, space-between, center, null);
+  border: 1px solid #9d9d9d;
+  border-radius: 2rem;
+  box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
+  min-height: 10rem;
+
+  &:hover {
+    background-color: $gray-3;
+  }
 }
 
 .leftBox {
@@ -10,48 +17,44 @@
 }
 
 .titleBox {
-  @include flexSort(null, null, center, 2rem);
+  @include flexSort(null, null, center, 3rem);
 }
 
-.title {
-  @include font(2.3rem, 600, normal);
+.titleText {
+  @include nsnFont(2rem, 600, normal);
 }
 
-.postStatus {
-  @include font(1.7rem, 600, normal);
+.detailBox {
+  @include flexSort(null, null, center, 1.2rem);
+}
 
-  &.matching {
-    color: #ff8d72;
+.postTypeLabel {
+  @include nsnFont(1.3rem, 400, normal);
+  color: $taker;
+  &.giverType {
+    color: $giver;
   }
-
-  &.matched {
-    color: black;
-  }
-}
-
-.dateBox {
-  @include flexSort(null, null, center, 2rem);
 }
 
 .postTitle {
-  color: #bcbaba;
-  @include font(1.5rem, 500, normal);
+  @include nsnFont(1.3rem, 400, normal);
+  color: #B5B3B3;
 }
 
 .date {
+  @include nsnFont(1.5rem, 400, normal);
   color: #757272;
-  @include font(1.5rem, 500, normal);
 }
 
-.rightBox {
-  @include flexSort(column, null, null, 1rem);
+.postTagBox {
+  @include flexSort(null, null, center, 0.8rem);
+  margin-bottom: auto;
 }
 
-.postType {
-  @include font(2rem, 600, normal);
-}
-
-.type {
-  @include font(1.6rem, 400, normal);
-  text-align: right;
+.postTag {
+  @include nsnFont(1.2rem, 800, normal);
+  background-color: #CAE9FF;
+  color: #2678FF;
+  padding: 0.4rem 1rem;
+  border-radius: 0.4rem;
 }

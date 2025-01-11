@@ -4,6 +4,7 @@ import classNames from "classnames/bind";
 import { useRouter } from "next/router";
 
 import Pagination from "@/components/common/Pagenation/Pagenation";
+import { ROUTE } from "@/constants/route";
 
 import styles from "./MyLikesListBox.module.scss";
 import getMyLikes from "../../apis/getMyLikes";
@@ -42,8 +43,8 @@ export default function MyLikesListBox() {
   if (isError) return <div>에러...</div>;
 
   return (
-    <>
-      <PostTypeFilter pageId={`${pageId}`} postType={`${postType}`} />
+    <div className={cn("myPageLikesList")}>
+      <PostTypeFilter queryKey="Likes" route={ROUTE.MY_PAGE_Likes} pageId={`${pageId}`} postType={`${postType}`} />
       <div className={cn("myLikesListBox")}>
         <MyLikesList likesList={likesList.content} />
         <div className={cn("paginationBox")}>
@@ -57,6 +58,6 @@ export default function MyLikesListBox() {
         </div>
       </div>
       
-    </>
+    </div>
   );
 }

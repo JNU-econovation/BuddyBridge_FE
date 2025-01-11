@@ -1,4 +1,26 @@
 .WriteBox {
-  @include flexSort(column, null, null, null);
-  height: 40rem;
+  @include flexSort(column, null, null, 1rem);
+}
+
+.contentBox {
+  @include flexSort(null, null, center, 1rem);
+}
+
+.hiddenCheckbox {
+  display: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.displayCheckbox {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 0.1rem solid #5F5F5F;
+}
+
+.hiddenCheckbox:checked + .displayCheckbox {
+  background-color: #D9D9D9; 
 }

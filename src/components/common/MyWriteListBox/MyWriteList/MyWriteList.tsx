@@ -10,14 +10,37 @@ import { MyWriteListBoxProps } from "../MyWriteListBox";
 
 const cn = classNames.bind(styles);
 
-interface MyWriteListProps extends Pick<MyWriteListBoxProps, "postData" | "commentData" | "filter"> {}
+interface MyWriteListProps extends Pick<MyWriteListBoxProps, 
+  "deleteMode" | "selectedContents" | "setSelectedContents" | "postData" | "commentData" | "filter"
+> {}
 
-export default function MyWriteList({ postData, commentData, filter }: MyWriteListProps) {
+export default function MyWriteList({ deleteMode, selectedContents, setSelectedContents, postData, commentData, filter }: MyWriteListProps) {
+  const handleSelectContent = (id: number) => {
+    setSelectedContents((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
   return (
     <div className={cn("WriteBox")}>
-      {filter === "게시물" && postData.content.map((post: PostType) => <MyWritePost key={post.id} post={post} />)}
-      {filter === "댓글" &&
-        commentData.content?.map((comment: CommentType) => (
+      {filter === "post" && postData?.content?.map((post: PostType) => (
+        <div key={post.id} className={cn("contentBox")}>
+          {deleteMode && 
+            <label className={cn("checkbox")}>
+              <input
+                type="checkbox"
+                checked={selectedContents.includes(post.id)}
+                onChange={() => handleSelectContent(post.id)}
+                className={cn("hiddenCheckbox")}
+              />
+              <span className={cn("displayCheckbox")}></span>
+            </label>
+          }
+            <MyWritePost key={post.id} post={post} />
+        </div>
+      ))}
+      {filter === "comment" &&
+        commentData?.content?.map((comment: CommentType) => (
           <MyWriteComment key={comment.commentId} comment={comment} />
         ))}
     </div>

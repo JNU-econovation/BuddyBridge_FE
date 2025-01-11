@@ -1,9 +1,9 @@
 .box {
   @include flexSort(null, center, center, null);
-  border-radius: 1rem;
-  padding: 0.5rem 1rem;
+  border-radius: 0.7rem;
+  padding: 0.3rem 1rem;
   border: 0.1rem solid #ff6767;
-  @include font(1.2rem, 500, normal);
+  @include font(1.1rem, 500, normal);
 
   &.RECRUITING {
     background-color: white;

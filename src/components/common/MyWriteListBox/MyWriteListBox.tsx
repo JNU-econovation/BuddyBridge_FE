@@ -6,11 +6,13 @@ import { MyWritePostResponse } from "@/types/post";
 import MyWriteList from "./MyWriteList/MyWriteList";
 import styles from "./MyWriteListBox.module.scss";
 import PaginationBox from "./PaginationBox/PaginationBox";
-import SelectFilter from "./SelectFilter/SelectFilter";
 
 const cn = classNames.bind(styles);
 
 export interface MyWriteListBoxProps {
+  deleteMode: boolean;
+  selectedContents: number[];
+  setSelectedContents: React.Dispatch<React.SetStateAction<number[]>>
   postData: MyWritePostResponse["data"];
   commentData: {
     totalElements: number;
@@ -22,20 +24,29 @@ export interface MyWriteListBoxProps {
   postType: string;
 }
 
-export default function MyWriteListBox({ postData, commentData, filter, pageId, postType }: MyWriteListBoxProps) {
+export default function MyWriteListBox({ deleteMode, selectedContents, setSelectedContents, postData, commentData, filter, pageId, postType }: MyWriteListBoxProps) {
+  
   return (
     <>
       <div className={cn("myWritePostBox")}>
-        <SelectFilter postType={postType} filter={filter} pageId={pageId} />
-        <MyWriteList commentData={commentData} postData={postData} filter={filter} />
+        <MyWriteList 
+          deleteMode={deleteMode} 
+          selectedContents={selectedContents} 
+          setSelectedContents={setSelectedContents}
+          commentData={commentData} 
+          postData={postData} 
+          filter={filter} 
+        />
       </div>
-      <PaginationBox
-        postType={postType}
-        commentData={commentData}
-        filter={filter}
-        pageId={pageId}
-        postData={postData}
-      />
+      <div className={cn("paginationBox")}>
+        <PaginationBox
+          postType={postType}
+          commentData={commentData}
+          filter={filter}
+          pageId={pageId}
+          postData={postData}
+        />
+      </div>
     </>
   );
 }

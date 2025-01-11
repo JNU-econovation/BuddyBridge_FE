@@ -1,3 +1,9 @@
+.myPageLikesList {
+  @include flexSort(column, null, null, null);
+  flex:1;
+  width: 100%;
+}
+
 .myLikesListBox {
   @include flexSort(column, null, null, null);
   width: 100%;

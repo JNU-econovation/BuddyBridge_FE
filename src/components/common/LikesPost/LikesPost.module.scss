@@ -1,6 +1,6 @@
 .Box {
   width: 100%;
-  padding: 2rem 5rem;
+  padding: 2.3rem 5rem;
   @include flexSort(null, space-between, center, null);
   border: 1px solid #9d9d9d;
   border-radius: 2rem;
@@ -21,9 +21,9 @@
 
 .postTypeLabel {
   @include nsnFont(1.7rem, 500, normal);
-  color: #6866F4;
+  color: $taker;
   &.giverType {
-    color: #4885FE;
+    color: $giver;
   }
 }
 

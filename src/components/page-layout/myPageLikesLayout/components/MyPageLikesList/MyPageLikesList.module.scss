@@ -2,7 +2,3 @@
   @include flexSort(column, null, null, null);
   flex: 1;
 }
-
-.title {
-  @include gmarketFont(3rem, 500, normal);
-}

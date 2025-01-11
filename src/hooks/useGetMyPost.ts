@@ -4,9 +4,9 @@ import getMyPost from "@/components/page-layout/myPageHelpMeLayout/apis/getMyPos
 
 const useGetMyPost = (pageId: string, postType: string, filter: string) => {
   return useQuery({
-    queryKey: ["postData", pageId],
+    queryKey: ["postData", pageId, postType],
     queryFn: () => getMyPost(pageId as string, postType),
-    enabled: !!pageId && filter === "게시물",
+    enabled: !!pageId && !!postType && filter === "post",
   });
 };
 

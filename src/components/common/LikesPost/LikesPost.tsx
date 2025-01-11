@@ -1,24 +1,21 @@
 import { useState, useEffect } from "react";
-import { useMutation } from "@tanstack/react-query";
 
+import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { ROUTE } from "@/constants/route";
 import Calendar from "@/icons/calendar.svg";
 import Clock from "@/icons/clock.svg";
 import Location from "@/icons/location.svg";
-import Heart from "@/icons/heart.svg";
 import RedHeart from "@/icons/red_heart.svg";
-
 import { formatDateString } from "@/utils";
 
-import { useRouter } from "next/router";
-
 import styles from "./LikesPost.module.scss";
-import PostStatusLabel from "../PostStatusLabel/PostStatusLabel";
 import postLikes from "../Post/apis/postLikes";
+import PostStatusLabel from "../PostStatusLabel/PostStatusLabel";
 
 const cn = classNames.bind(styles);
 

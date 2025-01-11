@@ -15,7 +15,7 @@ export const MY_PAGE_NAV = [
       },
       {
         name: "내가 쓴 글",
-        href: ROUTE.MY_PAGE_HELP_ME,
+        href: ROUTE.MY_PAGE_My_Writings,
       },
       {
         name: "매칭된 봉사",

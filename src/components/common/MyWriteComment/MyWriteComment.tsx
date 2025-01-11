@@ -15,35 +15,24 @@ export interface MyWriteCommentProps {
 }
 
 export default function MyWriteComment({ comment }: MyWriteCommentProps) {
-  const { assistanceType, disabilityType, content, postCreatedAt, postId, postStatus, postTitle, postType } = comment;
-  const postTypeKr = postType === "TAKER" ? "도와줄래요?" : "도와줄게요!";
-  const postStatusKr = postStatus === "RECRUITING" ? "매칭중" : "매칭완료";
-
+  const { assistanceType, content, postCreatedAt, postId, postStatus, postTitle, postType } = comment;
+  
   return (
     <Link href={`${postType === "TAKER" ? ROUTE.HELP_ME : ROUTE.HELP_YOU}/${postId}`} className={cn("container")}>
       <div className={cn("leftBox")}>
         <div className={cn("titleBox")}>
-          <p className={cn("title")}>{content}</p>
-          <p
-            className={cn("postStatus", {
-              matching: postStatus === "RECRUITING",
-              matched: postStatus === "FINISHED",
-            })}
-          >
-            [{postStatusKr}]
-          </p>
+          <p className={cn("titleText")}>{content}</p>
         </div>
-        <div className={cn("dateBox")}>
+        <div className={cn("detailBox")}>
+          <span className={cn("postTypeLabel",{giverType:postType==="GIVER"})}>
+            {`${postType === "TAKER" ? "도와줄래요?": "도와줄게요"} ${postId}`}
+          </span>
           <p className={cn("postTitle")}>{postTitle}</p>
           <p className={cn("date")}>{formatAllDateExpectSecondsString(postCreatedAt)}</p>
         </div>
       </div>
-      <div className={cn("rightBox")}>
-        <p className={cn("postType")}>{`${postTypeKr} ${postId}`}</p>
-        <p className={cn("type")}>
-          {`#${assistanceType}`}
-          {disabilityType !== "없음" ? ` #${disabilityType}` : ""}
-        </p>
+      <div className={cn("postTagBox")}>
+        <div className={cn("postTag")}>{assistanceType}도움</div>
       </div>
     </Link>
   );
