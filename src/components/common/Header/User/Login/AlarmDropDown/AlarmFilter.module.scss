@@ -1,0 +1,33 @@
+.filterBox {
+    position: relative;
+    @include flexSort(column, null, center, null);
+}
+
+.openOptionBtn {
+    @include nsnFont(1.3rem, 400, normal);
+    padding: 0.5rem 0.9rem;
+    border: solid 0.03rem #cccccc;
+    border-radius: 0.7rem;
+
+}
+
+.optionBox {
+    position: absolute;
+    @include flexSort(column, null, center, 0.5rem);
+    width: 100%;
+    top: 3rem;
+    background-color: #ffffff;
+    border: solid 0.03rem #cccccc;
+    border-radius: 0.7em;
+}
+
+.option {
+    @include nsnFont(1.3rem, 400, normal);
+    padding: 0.5rem 0.9rem;
+    
+    &:hover {
+        text-decoration: underline;
+        text-underline-position: under;
+        text-decoration-thickness: 0.1rem;
+    }
+}
