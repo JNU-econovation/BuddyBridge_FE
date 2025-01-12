@@ -9,7 +9,7 @@ import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/myPageMyContentLayout/components/myPageMyContentLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 
-import MyRegisterPost from "./myRegisterPost";
+import MyRegisterPost from "./MyRegisterPost/myRegisterPost";
 import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
 import MyPageNav from "../../myPageLayout/components/MyPageNav/MyPageNav";
 

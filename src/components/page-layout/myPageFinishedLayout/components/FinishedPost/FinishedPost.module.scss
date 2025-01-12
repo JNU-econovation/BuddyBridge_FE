@@ -46,6 +46,9 @@
   @include nsnFont(1.3rem, 300, normal);
 }
 
-.heartBtn {
-  margin-bottom: auto;
+.takerDoneBtn,
+.takerVCBtn,
+.giverVCBtn,
+.giverVVBtn {
+    @include nsnFont(1.3rem, 800, normal);
 }

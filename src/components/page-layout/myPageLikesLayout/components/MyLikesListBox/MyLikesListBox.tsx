@@ -57,7 +57,6 @@ export default function MyLikesListBox() {
           />
         </div>
       </div>
-      
     </div>
   );
 }

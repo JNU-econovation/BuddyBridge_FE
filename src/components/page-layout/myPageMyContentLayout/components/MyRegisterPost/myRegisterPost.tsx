@@ -13,8 +13,10 @@ import useGetMyComment from "@/hooks/useGetMyComment";
 import useGetMyPost from "@/hooks/useGetMyPost";
 
 import styles from "./myRegisterPost.module.scss";
-import PostTypeFilter, { PostTypeFilterProps } from "../../myPageLikesLayout/components/PostTypeFilter/PostTypeFilter";
-import deletePosts from "../apis/deletePosts";
+import PostTypeFilter, {
+  PostTypeFilterProps,
+} from "../../../myPageLikesLayout/components/PostTypeFilter/PostTypeFilter";
+import deletePosts from "../../apis/deletePosts";
 
 const cn = classNames.bind(styles);
 

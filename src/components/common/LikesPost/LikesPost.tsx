@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames/bind";
@@ -32,8 +32,18 @@ interface LikesPostProps {
   isLiked: boolean;
 }
 
-export default function LikesPost({ endDate, id, startDate, postStatus, title, postType, district, startTime, endTime, isLiked }: LikesPostProps) {
-
+export default function LikesPost({
+  endDate,
+  id,
+  startDate,
+  postStatus,
+  title,
+  postType,
+  district,
+  startTime,
+  endTime,
+  isLiked,
+}: LikesPostProps) {
   const router = useRouter();
   const [isHeartClick, setIsHeartClick] = useState(isLiked);
 
@@ -41,11 +51,11 @@ export default function LikesPost({ endDate, id, startDate, postStatus, title, p
     mutationFn: () => postLikes(id),
     onSuccess: () => {
       window.location.reload();
-    }
+    },
   });
 
   const handleHeartClick = () => {
-    setIsHeartClick((prev) => !prev)
+    setIsHeartClick((prev) => !prev);
     mutate();
   };
 
@@ -53,7 +63,9 @@ export default function LikesPost({ endDate, id, startDate, postStatus, title, p
     <Link href={postType === "TAKER" ? `${ROUTE.HELP_ME}/${id}` : `${ROUTE.HELP_YOU}/${id}`} className={cn("Box")}>
       <div className={cn("leftBox")}>
         <div className={cn("titleBox")}>
-          <span className={cn("postTypeLabel",{giverType:postType==="GIVER"})}>{`${postType === "TAKER" ? "도와줄래요?": "도와줄게요"} ${id}`}</span>
+          <span className={cn("postTypeLabel", { giverType: postType === "GIVER" })}>{`${
+            postType === "TAKER" ? "도와줄래요?" : "도와줄게요"
+          } ${id}`}</span>
           <div className={cn("title")}>
             <p className={cn("titleText")}>{title}</p>
             <PostStatusLabel postStatus={postStatus} />
@@ -61,24 +73,24 @@ export default function LikesPost({ endDate, id, startDate, postStatus, title, p
         </div>
         <div className={cn("detailBox")}>
           <div className={cn("districtBox")}>
-            <Location/>
+            <Location />
             <p>{district}</p>
           </div>
           <div className={cn("dateBox")}>
-            <Calendar/>
+            <Calendar />
             <p>{`${formatDateString(startDate)} ~ ${formatDateString(endDate)}`}</p>
           </div>
           <div className={cn("timeBox")}>
-            <Clock/>
+            <Clock />
             <p>{`${startTime} ~ ${endTime}`}</p>
           </div>
         </div>
       </div>
-      <button 
-        onClick= {(e) =>{
+      <button
+        onClick={(e) => {
           e.preventDefault();
           handleHeartClick();
-        }} 
+        }}
         className={cn("heartBtn")}
       >
         <RedHeart width={32} height={32} />

@@ -109,3 +109,21 @@ export interface MyWritePostResponse {
     status: number;
   };
 }
+
+export interface MyFinishedPostType extends Omit<PostType, "isLiked">{
+  matchingStatus : "DONE" | "VOLUNTEERING_COMPLETED" | "VOLUNTEERING_VERIFIED"
+}
+
+export interface MyFinishedPostResponse {
+  success: boolean;
+  data: {
+    content: MyFinishedPostType[];
+    totalElements: number;
+    last: boolean;
+  };
+  error: {
+    message: string;
+    code: string;
+    status: number;
+  };
+}
