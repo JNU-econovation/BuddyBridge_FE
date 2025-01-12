@@ -11,6 +11,7 @@ import { ROUTE } from "@/constants/route";
 import useOutsideClick from "@/hooks/useOutsideClick";
 
 import postChatAccept from "../apis/postChatAccept";
+import openToast from "../../Toast/features/openToast";
 
 const cn = classNames.bind(styles);
 
@@ -24,6 +25,16 @@ interface ChatAcceptType {
 interface ChatButtonProps {
   commentId: number;
   type: string;
+}
+
+interface ChatAcceptErrorProps {
+  response: {
+    data: {
+      error: {
+        message: string;
+      };
+    };
+  };
 }
 
 export default function ChatButton({ commentId, type }: ChatButtonProps) {
@@ -44,6 +55,9 @@ export default function ChatButton({ commentId, type }: ChatButtonProps) {
     onSuccess: () => {
       router.push(ROUTE.CHAT);
     },
+    onError: (error: ChatAcceptErrorProps) => {
+      openToast("error", error.response.data.error.message);
+    },
   });
 
   const handleButtonClick = () => {
@@ -58,14 +72,14 @@ export default function ChatButton({ commentId, type }: ChatButtonProps) {
   const handleChatButtonClick = () => {
     const body = {
       postId: data.post.id,
-      commentId: commentId
+      commentId: commentId,
     };
     chatAcceptMutation.mutate({ body });
   };
 
   return (
     <div className={cn("chatBox")} ref={chatRef}>
-      <button onClick={handleButtonClick} className={cn("chat", { helpMeChat: type === "taker"})}>
+      <button onClick={handleButtonClick} className={cn("chat", { helpMeChat: type === "taker" })}>
         채팅하기
       </button>
       {isChatClick && (
@@ -75,7 +89,7 @@ export default function ChatButton({ commentId, type }: ChatButtonProps) {
             채팅하기를 진행한다면 상대방에게
             <br /> 실명이 공개됩니다.
           </p>
-          <button onClick={handleChatButtonClick} className={cn("chatButton", { helpMeChat: type === "taker"})} >
+          <button onClick={handleChatButtonClick} className={cn("chatButton", { helpMeChat: type === "taker" })}>
             채팅하기
           </button>
         </div>

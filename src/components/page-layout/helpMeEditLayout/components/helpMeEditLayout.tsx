@@ -20,7 +20,7 @@ import MyInfoCard from "@/components/common/MyInfoCard/MyInfoCard";
 import RadioInput from "@/components/common/RadioInput/RadioInput";
 import Textarea from "@/components/common/Textarea/Textarea";
 import openToast from "@/components/common/Toast/features/openToast";
-import styles from "@/components/page-layout/helpMeRegisterLayout/components/helpMeRegisterLayout.module.scss";
+import styles from "./helpMeEditLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import Calendar from "@/icons/calendar.svg";
 import RegisterArrow from "@/icons/send_arrow.svg";

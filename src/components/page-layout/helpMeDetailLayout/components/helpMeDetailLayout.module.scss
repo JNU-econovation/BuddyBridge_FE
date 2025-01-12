@@ -11,7 +11,7 @@
 
 .header {
   @include flexSort(column, null, center, 1rem);
-  color:black;
+  color: black;
   @include nsnFont(3.2rem, 400, normal);
   text-align: center;
   margin-bottom: 3rem;
@@ -21,7 +21,7 @@
   @include flexSort(column, null, center, 1rem);
   border-radius: 2rem;
   border: 0.1rem solid $black-1;
-  padding: 4rem 5rem;
+  padding: 4rem 7rem;
   width: 100%;
 }
 
@@ -55,19 +55,20 @@
   left: 10rem;
   min-width: 12rem;
   background-color: white;
-  border: 0.1rem solid #E2E8F0;
+  border: 0.1rem solid #e2e8f0;
   border-radius: 1rem;
-  box-shadow : 0.1rem 0.1rem 0.4rem 0.01rem #d1cece;
+  box-shadow: 0.1rem 0.1rem 0.4rem 0.01rem #d1cece;
   &--state {
     min-width: 8rem;
     left: 23rem;
     @include nsnFont(1.3rem, 200, normal);
   }
 
-  button, .editBtn {
+  button,
+  .editBtn {
     width: 100%;
     padding: 1rem 0;
-    border-bottom: 0.1rem solid #E2E8F0;
+    border-bottom: 0.1rem solid #e2e8f0;
     text-align: center;
 
     &:last-child {
@@ -93,21 +94,24 @@
 
 .postId {
   @include nsnFont(0.8rem, 300, normal);
-  background-color: #CAE9FF;
-  color: #2678FF;
+  background-color: #cae9ff;
+  color: #2678ff;
   padding: 0.3rem 0.7rem;
   border-radius: 0.4rem;
 }
 
 .contentBox {
-  @include flexSort(column, null, center, 7rem);
+  @include flexSort(column, null, center, 8rem);
+  position: relative;
+  width: 100%;
+  padding: 0 6rem;
 }
 
 .infoCard {
   @include flexSort(null, null, center, 5rem);
   padding: 5rem 7rem;
   border-radius: 1.5rem;
-  background-color: #EEEEEE;
+  background-color: #eeeeee;
 }
 
 .profileImageBox {
@@ -121,7 +125,6 @@
 .profileImg {
   border-radius: 50%;
 }
-
 
 .textInfoBox {
   @include flexSort(column, null, null, 1rem);
@@ -143,14 +146,17 @@
 
 .postInfoBox {
   @include flexSort(column, null, center, 2rem);
+  width: 100%;
 }
 
 .postDetailInfo {
   @include flexSort(column, null, flex-start, 1.5rem);
+  max-width: 100%;
 }
 
 .label {
-  min-width: 14rem;
+  min-width: 15rem;
+  font-weight: 400;
 }
 
 .periodContent {
@@ -163,34 +169,37 @@
 .time {
   @include nsnFont(2.3rem, 300, normal);
   @include flexSort(null, null, null, 1rem);
+  flex-wrap: wrap;
+  max-width: 100%;
 }
 
 .personIcon,
 .calendarIcon,
 .clockIcon,
-.districtIcon{
+.districtIcon {
   width: 3rem;
   height: 3rem;
 }
 
 .contentDetail {
   @include flexSort(column, null, null, 1rem);
+  width: 100%;
 }
 
 .contentDetailLabel {
-  @include nsnFont(2.3rem, 300, normal);
+  @include nsnFont(2.3rem, 400, normal);
   padding-left: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 0.1rem solid black;
+  border-bottom: 0.15rem solid black;
 }
 
 .contentDetailBox {
-  width: 78rem;
-  height: 22rem;
+  width: 100%;
+  min-height: 22rem;
   border-radius: 2rem;
   padding: 2rem;
   @include font(2rem, 500, normal);
-  border: 0.1rem solid $gray;
+  border: 0.15rem solid $gray;
 }
 
 .createdAt {
@@ -219,27 +228,27 @@
   }
 }
 
-.deleteModal{
+.deleteModal {
   @include flexSort(column, null, center, 2rem);
   padding: 2.3rem 4.7rem;
 }
 
-.deleteContent{
+.deleteContent {
   @include flexSort(column, null, center, 1rem);
 }
 
-.closeBtn{
+.closeBtn {
   margin-left: auto;
   font-size: 2rem;
   font-weight: 100;
 }
 
-.deleteText{
+.deleteText {
   @include nsnFont(2rem, 500, normal);
   padding: 0rem 6rem;
 }
 
-.confirmDeleteBtn{
+.confirmDeleteBtn {
   @include font(1.5rem, 500, normal);
   padding: 0.75rem 4.55rem;
   border-radius: 0.5rem;
