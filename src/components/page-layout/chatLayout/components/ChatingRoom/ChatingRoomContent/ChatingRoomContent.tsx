@@ -356,6 +356,7 @@ export default function ChattingRoomContent({
           setState={setIsHelpDone}
           email={data.email}
           name={data.name}
+          matchingId={chatingRoomNumber as number}
         />
       )}
       {isDeclarationModalOpen && (
