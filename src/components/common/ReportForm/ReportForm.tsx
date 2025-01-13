@@ -1,6 +1,7 @@
 import { FormEvent, useState } from "react";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 
 import openToast from "@/components/common/Toast/features/openToast";
@@ -26,14 +27,10 @@ interface formProps {
   setIsReportOpen: (value: boolean) => void;
 }
 
-interface errorProps {
-  response: {
-    data: {
-      error: {
-        code: string;
-        message: string;
-      };
-    };
+interface ErrorResponse {
+  error: {
+    code: string;
+    message: string;
   };
 }
 
@@ -53,8 +50,8 @@ export default function ReportForm({ nickname, postId, postType, contentType, co
       setIsReportOpen(false);
       openToast("success", "신고가 성공적으로 접수되었습니다.");
     },
-    onError: (error: errorProps) => {
-      if (error.response.data.error.code === "R002") {
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error?.response?.data.error.code === "R002") {
         openToast("error", error.response.data.error.message);
       } else {
         openToast("error", "신고를 접수하는 중 문제가 발생했습니다. 다시 시도해 주세요.");

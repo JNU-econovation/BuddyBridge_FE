@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 
 import { useRouter } from "next/router";
@@ -10,8 +11,8 @@ import getTakerDetail from "@/components/page-layout/helpMeDetailLayout/apis/get
 import { ROUTE } from "@/constants/route";
 import useOutsideClick from "@/hooks/useOutsideClick";
 
-import postChatAccept from "../apis/postChatAccept";
 import openToast from "../../Toast/features/openToast";
+import postChatAccept from "../apis/postChatAccept";
 
 const cn = classNames.bind(styles);
 
@@ -27,13 +28,9 @@ interface ChatButtonProps {
   type: string;
 }
 
-interface ChatAcceptErrorProps {
-  response: {
-    data: {
-      error: {
-        message: string;
-      };
-    };
+interface ChatAcceptErrorResponse {
+  error: {
+    message: string;
   };
 }
 
@@ -55,8 +52,10 @@ export default function ChatButton({ commentId, type }: ChatButtonProps) {
     onSuccess: () => {
       router.push(ROUTE.CHAT);
     },
-    onError: (error: ChatAcceptErrorProps) => {
-      openToast("error", error.response.data.error.message);
+    onError: (error: AxiosError<ChatAcceptErrorResponse>) => {
+      if (error.response) {
+        openToast("error", error.response.data.error.message);
+      }
     },
   });
 
