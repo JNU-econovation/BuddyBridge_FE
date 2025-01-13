@@ -1,6 +1,6 @@
 .modal {
-  width: 65rem;
-  max-height: 90%;
+  width: 50rem;
+  max-height: 80%;
   @include flexSort(column, null, center, null);
   overflow-y: scroll;
 
