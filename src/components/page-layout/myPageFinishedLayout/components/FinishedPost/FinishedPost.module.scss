@@ -1,0 +1,93 @@
+.Box {
+  width: 100%;
+  padding: 2.3rem 5rem;
+  @include flexSort(null, space-between, center, null);
+  border: 1px solid #9d9d9d;
+  border-radius: 2rem;
+  box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
+
+  &:hover {
+    background-color: $gray-3;
+  }
+}
+
+.leftBox {
+  @include flexSort(column, null, null, 1rem);
+}
+
+.titleBox {
+  @include flexSort(null, null, center, 3rem);
+}
+
+.postTypeLabel {
+  @include nsnFont(1.7rem, 500, normal);
+  color: $taker;
+  &.giverType {
+    color: $giver;
+  }
+}
+
+.title {
+  @include flexSort(null, null, center, 1rem);
+}
+
+.titleText {
+  @include nsnFont(2rem, 600, normal);
+}
+
+.detailBox {
+  @include flexSort(null, null, center, 1.2rem);
+}
+
+.districtBox,
+.dateBox,
+.timeBox {
+  @include flexSort(null, null, center, 0.3rem);
+  @include nsnFont(1.3rem, 300, normal);
+}
+
+.takerDoneBtn,
+.takerVCBtn,
+.giverVCBtn,
+.giverVVBtn {
+    @include flexSort(null, null, center, 0.5rem);
+    @include nsnFont(1.1rem, 600, normal);
+    padding: 0.7rem 1.3rem;
+    border-radius: 2rem;
+    margin-top: auto;
+}
+
+.arrowIcon {
+    width: 0.7rem;
+    height: 1.2rem;
+    padding-top: 0.1rem;
+    color: white;
+
+}
+
+.takerDoneBtn {
+    background-color: #EA9308;
+    border: 0.15rem solid #EA9308;
+    color: white;
+}
+
+.takerVCBtn {
+    background-color: white;
+    border: 0.15rem solid #EA9308;
+    color: #EA9308;
+}
+
+.giverVCBtn {
+    background-color: #45B555;
+    border: 0.15rem solid #45B555;
+    color: white; 
+}
+
+.giverVVBtn {
+    .arrowIcon {
+        color: #45B555;
+    }
+    background-color: white;
+    border: 0.15rem solid #45B555;
+    color: #45B555;
+}

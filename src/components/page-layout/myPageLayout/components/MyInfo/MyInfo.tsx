@@ -18,24 +18,28 @@ export default function MyInfo() {
 
   return (
     <div className={cn("container")}>
-      <p className={cn("title")}>내 정보</p>
       <div className={cn("myInfoContainer")}>
+        <p className={cn("title")}>내 정보</p>
         <div className={cn("myInfoBox")}>
-          <Image
-            src={myInfoData?.profileImageUrl as string}
-            className={cn("img")}
-            alt="프로필"
-            width={50}
-            height={50}
-          />
-          <p className={cn("title")}>{myInfoData?.nickname}</p>
+          <div className={cn("profileBox")}>
+            <Image
+              src={myInfoData?.profileImageUrl as string}
+              className={cn("img")}
+              alt="프로필"
+              width={100}
+              height={100}
+            />
+            <p>{myInfoData?.email}</p>
+          </div>
           <div className={cn("detailBox")}>
+            <p className={cn("name")}>{myInfoData?.name}/{myInfoData?.nickname}</p>
             <p>나이 : {myInfoData?.age}</p>
             <p>성별 : {myInfoData?.gender}</p>
+            <p>장애유형 : {myInfoData?.disabilityType}</p>
           </div>
         </div>
         <Link href={ROUTE.MY_PAGE_EDIT} className={cn("link")}>
-          수정하기
+          프로필 수정
         </Link>
       </div>
     </div>

@@ -1,0 +1,56 @@
+// .selectBox {
+//     display: inline-block;
+// }
+
+// .selectedValue {
+//     -webkit-appearance: none;
+//     -moz-appearance: none;
+//     appearance: none;
+//     @include nsnFont(1.3rem, 400, normal);
+//     border: 0.1rem solid #AAA;
+//     border-radius: 0.7rem;
+//     padding: 0.7rem 3.8rem 0.7rem 2.2rem;
+//     background: url('../../../../public/icons/dropdown.svg') no-repeat right 1.8rem center;
+//     text-align: left;
+//     background-size: 15%;
+//     &:focus {
+//         outline: none;
+//     }
+// }
+
+.filterBox {
+  @include flexSort(column, null, center, null);
+  position: relative;
+  min-width: 11rem;
+}
+
+.selectedOption {
+  @include flexSort(null, center, center, 1rem);
+  @include nsnFont(1.3rem, 500, normal);
+  width: 100%;
+  border: 0.1rem solid #aaa;
+  border-radius: 0.7rem;
+  padding: 0.7rem 1.8rem 0.7rem 2.6rem;
+}
+
+.optionBox {
+  @include flexSort(column, center, center, 0.4rem);
+  position: absolute;
+  width: 100%;
+  padding: 0.4rem 0;
+  top: 4rem;
+  border: 0.1rem solid #aaa;
+  border-radius: 0.7rem;
+  background-color: white;
+}
+
+.option {
+  @include nsnFont(1.3rem, 400, normal);
+  padding: 0.5rem 0rem;
+  width: 85%;
+  border-radius: 0.4rem;
+  text-align: center;
+  &:hover {
+      background-color: #eceaec;
+  }
+}

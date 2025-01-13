@@ -18,8 +18,8 @@ export default function MyPageNav() {
         <div key={title} className={cn("box")}>
           <p className={cn("title")}>{title}</p>
           <div className={cn("contentBox")}>
-            {content.map(({ href, name }) => (
-              <Link href={href} className={cn("button", { pick: router.pathname === href })} key={name}>
+            {content.map(({ href, name, subPath }) => (
+              <Link href={href} className={cn("button", { pick: router.pathname === href || subPath && String(subPath).includes(router.pathname)})} key={name}>
                 {name}
               </Link>
             ))}

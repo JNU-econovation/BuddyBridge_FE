@@ -1,6 +1,6 @@
 .Box {
   width: 100%;
-  padding: 2rem;
+  padding: 2.3rem 5rem;
   @include flexSort(null, space-between, center, null);
   border: 1px solid #9d9d9d;
   border-radius: 2rem;
@@ -16,27 +16,36 @@
 }
 
 .titleBox {
-  @include flexSort(null, null, center, 2rem);
+  @include flexSort(null, null, center, 3rem);
+}
+
+.postTypeLabel {
+  @include nsnFont(1.7rem, 500, normal);
+  color: $taker;
+  &.giverType {
+    color: $giver;
+  }
 }
 
 .title {
-  @include font(2rem, 600, normal);
-}
-
-.dateBox {
   @include flexSort(null, null, center, 1rem);
-  @include font(1.3rem, 300, normal);
 }
 
-.rightBox {
-  @include flexSort(column, null, flex-end, 1rem);
+.titleText {
+  @include nsnFont(2rem, 600, normal);
 }
 
-.detailBtn {
-  padding: 0.7rem 1rem;
-  border-radius: 1rem;
-  background: #8b8282;
-  color: white;
-  @include font(1.3rem, 600, normal);
-  @include flexSort(null, center, center, null);
+.detailBox {
+  @include flexSort(null, null, center, 1.2rem);
+}
+
+.districtBox,
+.dateBox,
+.timeBox {
+  @include flexSort(null, null, center, 0.3rem);
+  @include nsnFont(1.3rem, 300, normal);
+}
+
+.heartBtn {
+  margin-bottom: auto;
 }

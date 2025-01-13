@@ -1,0 +1,42 @@
+.assistanceTypeFilterBox {
+  @include flexSort(null, center, center, null);
+  @include nsnFont(2rem, 500, normal);
+}
+
+.takerBox,
+.giverBox {
+  @include flexSort(column, center, center, null);
+  color: #efefef;
+}
+
+.takerBox {
+  &.picked {
+    color: $taker;
+  }
+}
+
+.giverBox {
+  &.picked {
+    color: $giver;
+  }
+}
+
+.taker,
+.giver {
+  width: 16rem;
+  height: 0.4rem;
+  background-color: #efefef;
+  border-radius: 0.2rem;
+}
+
+.taker {
+  &.picked {
+    background-color: $taker;
+  }
+}
+
+.giver {
+  &.picked {
+    background-color: $giver;
+  }
+}

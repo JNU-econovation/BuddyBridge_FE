@@ -4,21 +4,29 @@
 }
 
 .title {
-  @include gmarketFont(3rem, 500, normal);
+  @include nsnFont(3rem, 500, normal);
 }
 
 .form {
   background-color: white;
   @include flexSort(column, null, null, 4rem);
-  padding: 7rem 3rem;
+  padding: 7rem 20rem;
 }
 
 .imgContainer {
+  position: relative;
   @include flexSort(null, center, null, null);
 }
 
 .img {
   border-radius: 50%;
+}
+
+.imgEditBtn{
+  position: absolute;
+  top: 7rem;
+  left: 53%;
+  cursor: pointer;
 }
 
 .contentContainer {
@@ -31,7 +39,8 @@
 .nicknameContainer,
 .ageContainer,
 .genderContainer,
-.disabilityTypeContainer {
+.disabilityTypeContainer,
+.emailContainer {
   @include flexSort(column, null, null, 2rem);
 }
 
@@ -39,38 +48,48 @@
 .nicknameTitle,
 .ageTitle,
 .genderTitle,
-.disabilityTypeTitle {
-  @include gmarketFont(2rem, 500, normal);
+.disabilityTypeTitle, 
+.emailTitle {
+  @include nsnFont(2rem, 500, normal);
+  padding: 0.7rem 0rem;
+  border-bottom: solid 0.1rem black;
 }
 
-.name,
-.nickname,
-.age,
-.gender {
-  background: #fbfbfd;
-  border-radius: 2rem;
+.nickname {
+  border-radius: 1rem;
   border: 0.1rem solid #cbc9cf;
   height: 4rem;
   padding: 2rem;
   @include flexSort(null, null, center, null);
-  @include gmarketFont(1.5rem, 400, normal);
+  @include nsnFont(1.7rem, 400, normal);
 }
 
-.nickname {
-  background-color: white;
+.errorMessage {
+  color: #F92D2D;
+}
+
+.name,
+.age,
+.gender,
+.email {
+  @include nsnFont(1.7rem, 400, normal);
+  padding: 0 0.4rem;
 }
 
 .buttonContainer {
   width: 100%;
-  @include flexSort(null, flex-end, center, null);
+  @include flexSort(null, center, center, null);
 }
 
 .button {
   border-radius: 1rem;
-  border: 0.1rem solid #0f42f5;
-  background: #0f42f5;
-  color: white;
-  width: 9rem;
-  padding: 1rem;
+  border: 0.2rem solid #9D9D9D;
+  color: #9D9D9D;
+  padding: 1.5rem 3rem;
   @include flexSort(null, center, center, null);
+  @include nsnFont(1.8rem, 800, normal);
+  &.active{
+    border: 0.2rem solid #4885FE;
+    color: #4885FE;
+  }
 }

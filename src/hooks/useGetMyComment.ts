@@ -4,9 +4,9 @@ import getMyComment from "@/components/page-layout/myPageHelpMeLayout/apis/getMy
 
 const useGetMyComment = (pageId: string, postType: string, filter: string) => {
   return useQuery({
-    queryKey: ["commentData", pageId],
+    queryKey: ["commentData", pageId, postType],
     queryFn: () => getMyComment(pageId as string, postType),
-    enabled: !!pageId && filter === "댓글",
+    enabled: !!pageId && !!postType && filter === "comment",
   });
 };
 

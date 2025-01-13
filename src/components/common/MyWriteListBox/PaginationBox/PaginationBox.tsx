@@ -2,13 +2,24 @@ import classNames from "classnames/bind";
 
 import { useRouter } from "next/router";
 
+import { CommentType } from "@/types/comment";
+import { MyWritePostResponse } from "@/types/post";
+
 import styles from "./PaginationBox.module.scss";
 import Pagination from "../../Pagenation/Pagenation";
-import { MyWriteListBoxProps } from "../MyWriteListBox";
+//import { MyWriteListBoxProps } from "../MyWriteListBox";
 
 const cn = classNames.bind(styles);
 
-interface PaginationBoxProps extends MyWriteListBoxProps {
+interface PaginationBoxProps {
+  postData: MyWritePostResponse["data"];
+  commentData: {
+    totalElements: number;
+    last: boolean;
+    content: CommentType[];
+  };
+  filter: string;
+  pageId: string;
   postType: string;
 }
 
@@ -27,7 +38,7 @@ export default function PaginationBox({ postData, commentData, filter, pageId, p
 
   return (
     <div className={cn("paginationBox")}>
-      {filter === "게시물" && (
+      {filter === "post" && (
         <Pagination
           type={postType}
           currentPage={Number(pageId)}
@@ -36,7 +47,7 @@ export default function PaginationBox({ postData, commentData, filter, pageId, p
           setPage={setPage}
         />
       )}
-      {filter === "댓글" && (
+      {filter === "comment" && (
         <Pagination
           type={postType}
           currentPage={Number(pageId)}
