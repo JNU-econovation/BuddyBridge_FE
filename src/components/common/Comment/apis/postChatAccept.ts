@@ -3,8 +3,7 @@ import { axiosInstance } from "@/apis/axiosInstance";
 interface PostChatAcceptType {
   body: {
     postId: number;
-    takerId: number;
-    giverId: number;
+    commentId: number;
   };
 }
 

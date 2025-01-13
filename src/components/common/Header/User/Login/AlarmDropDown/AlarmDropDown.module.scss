@@ -10,7 +10,7 @@
 }
 
 .alarmContainer {
-  background: #f9fafb;
+  background: #ffffff;
   position: absolute;
   width: 35rem;
   height: 37rem;
@@ -19,8 +19,8 @@
   right: -7rem;
   border-radius: 2rem;
   animation: fadeInDropdown 0.5s ease-out forwards;
-  padding: 2rem;
-  @include flexSort(column, null, null, 2rem);
+  box-shadow: 2px 3px 10px rgb(0, 0, 0, 0.6);
+  @include flexSort(column, null, null, null);
   z-index: 2;
 
   &::-webkit-scrollbar {
@@ -29,51 +29,79 @@
 }
 
 .titleBox {
+  @include flexSort(column, null, null, 1rem);
+  border-bottom: solid 0.05rem black;
+  padding: 1.5rem 2rem 1rem 1.7rem;
+}
+
+.titleBoxRow {
   @include flexSort(null, space-between, center, null);
 }
 
+.isReadedToggle {
+  @include flexSort(null, space-between, center, 2rem);
+  @include nsnFont(1.3rem, 500, normal);
+}
+
+.isReadedToggle button.off {
+  color: #8D8989;
+}
+
 .title {
-  @include gmarketFont(1.7rem, 400, normal);
+  @include nsnFont(1.7rem, 500, normal);
 }
 
 .readAllBtn {
-  @include gmarketFont(1.3rem, 400, normal);
+  @include nsnFont(1.3rem, 600, normal);
+  color: #4885FE;
 
   &:hover {
     text-decoration: underline;
     text-underline-position: under;
-    text-decoration-thickness: 0.2rem;
-  }
-}
-
-.totalReadBtn {
-  @include gmarketFont(1.3rem, 400, normal);
-
-  &:hover {
-    text-decoration: solid underline black 0.2rem;
+    text-decoration-thickness: 0.1rem;
   }
 }
 
 .alarmBox {
-  @include flexSort(column, null, null, 1rem);
+  @include flexSort(column, null, null, null);
 }
 
 .alarm {
-  background: #e0e4ff;
   padding: 1rem;
   color: black;
-  @include gmarketFont(1.3rem, 400, normal);
+  @include font(1.5rem, 400, normal);
   @include line-clamp(2);
 
   &.isRead {
-    background-color: white;
+    background-color: #EDEDED;
+    color: #afafaf;
   }
+}
+
+.alarmTag{
+  display: inline-block;
+  padding: 0.3rem 1.2rem;
+  margin-right: 1rem;
+  border-radius: 0.4rem;
+  @include font(1.3rem, 500, normal);
+  &.comment {
+    background-color: #EBFAE8;
+    color: #45B555;
+  }
+  &.chat {
+    background-color: #FFF7DE;
+    color: #FF8E1E;
+  }
+  
 }
 
 .fetchButton {
   text-align: center;
   padding: 1rem 2rem;
-  border: 0.1rem solid $gray;
-  border-radius: 3rem;
-  @include font(1.6rem, 500, normal);
+  @include font(1.6rem, 400, normal);
+  &:hover {
+    text-decoration: underline;
+    text-underline-position: under;
+    text-decoration-thickness: 0.1rem;
+  }
 }

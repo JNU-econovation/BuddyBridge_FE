@@ -43,10 +43,10 @@
 }
 
 .button:hover {
-  color: #6562e2;
-  border-color: #6562e2;
+  color: $taker;
+  border-color: $taker;
 }
 
 .button:hover .arrow {
-  fill: #6562e2;
+  fill: $taker;
 }

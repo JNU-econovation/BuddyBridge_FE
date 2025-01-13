@@ -19,7 +19,6 @@ export default function RootLayout({ children, isMainPage }: RootLayoutProps) {
     <div className={cn("container")}>
       <Header />
       <main className={cn("children")}>{children}</main>
-      <Footer isMainPage={isMainPage} />
     </div>
   );
 }

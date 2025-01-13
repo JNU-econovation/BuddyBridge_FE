@@ -46,7 +46,7 @@ const registerSchema = z.object({
       message: "마무리 기간을 선택해주세요",
     }),
   assistanceStartTime: z.string().min(1, "시작 시간을 선택해주세요."),
-  assistanceEndTime: z.string().min(1, "시작 시간을 선택해주세요."),
+  assistanceEndTime: z.string().min(1, "끝나는 시간을 선택해주세요."),
   scheduleType: z.string().min(1, "주기를 선택해주세요."),
   scheduleDetails: z.string().min(1, "상세 주기를 입력해주세요."),
   district: z.string().min(1, "장소를 선택해주세요."),
@@ -211,7 +211,7 @@ export default function HelpYouRegisterLayout() {
                       rules={{ required: true }}
                       render={({ field }) => (
                         <RadioInput
-                          postType="taker"
+                          postType="giver"
                           classNames={cn("period")}
                           {...field}
                           firstValue="정기"

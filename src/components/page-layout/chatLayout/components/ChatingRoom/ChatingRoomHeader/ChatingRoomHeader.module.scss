@@ -1,12 +1,22 @@
 .container {
-  padding: 1rem 5rem;
+  padding: 1rem 3rem;
   @include flexSort(null, space-between, center, null);
-  border-bottom: 0.1rem solid #e6e6ea;
+  border-bottom: 0.1rem solid #e8e8e8;
+  height: 8.7rem;
 }
 
 .nameBox {
-  @include flexSort(null, null, center, 1rem);
-  @include gmarketFont(2rem, 500, normal);
+  @include flexSort(null, null, center, 0.3rem);
+}
+
+.name,
+.dot,
+.type {
+  @include nsnFont(2rem, 700, normal);
+}
+
+.dot {
+  color: #ccc;
 }
 
 .hamburger {

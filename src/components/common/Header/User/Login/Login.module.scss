@@ -1,5 +1,5 @@
 .container {
-  @include flexSort(null, null, center, 3rem);
+  @include flexSort(null, null, center, 5rem);
 
   .nameBox {
     @include flexSort(null, null, center, 1rem);
@@ -11,7 +11,7 @@
   }
 
   .iconBox {
-    @include flexSort(null, null, center, 1rem);
+    @include flexSort(null, null, center, 3rem);
   }
 }
 
@@ -33,4 +33,18 @@
   border-radius: 2rem;
   @include font(1rem, 400, normal);
   padding: 0.2rem 0.5rem;
+}
+
+.alarmBox{
+  @include flexSort(null, null, center, null);
+}
+
+.unreadCount{
+  z-index: 3;
+  @include nsnFont(0.8rem, 700, normal);
+  margin-top: 1rem;
+  padding: 0.6rem 0.7rem;
+  color: white;
+  background-color: rgb(226, 2, 2);
+  border-radius: 1.5rem;
 }

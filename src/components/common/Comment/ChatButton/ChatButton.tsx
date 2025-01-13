@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 
 import { useRouter } from "next/router";
@@ -10,6 +11,7 @@ import getTakerDetail from "@/components/page-layout/helpMeDetailLayout/apis/get
 import { ROUTE } from "@/constants/route";
 import useOutsideClick from "@/hooks/useOutsideClick";
 
+import openToast from "../../Toast/features/openToast";
 import postChatAccept from "../apis/postChatAccept";
 
 const cn = classNames.bind(styles);
@@ -17,17 +19,22 @@ const cn = classNames.bind(styles);
 interface ChatAcceptType {
   body: {
     postId: number;
-    takerId: number;
-    giverId: number;
+    commentId: number;
   };
 }
 
 interface ChatButtonProps {
-  authorId: number;
+  commentId: number;
   type: string;
 }
 
-export default function ChatButton({ authorId, type }: ChatButtonProps) {
+interface ChatAcceptErrorResponse {
+  error: {
+    message: string;
+  };
+}
+
+export default function ChatButton({ commentId, type }: ChatButtonProps) {
   const [isChatClick, setIsChatClick] = useState(false);
   const chatRef = useRef<HTMLDivElement>(null);
   const editBoxRef = useRef<HTMLDivElement>(null);
@@ -45,6 +52,11 @@ export default function ChatButton({ authorId, type }: ChatButtonProps) {
     onSuccess: () => {
       router.push(ROUTE.CHAT);
     },
+    onError: (error: AxiosError<ChatAcceptErrorResponse>) => {
+      if (error.response) {
+        openToast("error", error.response.data.error.message);
+      }
+    },
   });
 
   const handleButtonClick = () => {
@@ -59,15 +71,14 @@ export default function ChatButton({ authorId, type }: ChatButtonProps) {
   const handleChatButtonClick = () => {
     const body = {
       postId: data.post.id,
-      takerId: type === "giver" ? authorId : data.author.memberId,
-      giverId: type === "giver" ? data.author.memberId : authorId,
+      commentId: commentId,
     };
     chatAcceptMutation.mutate({ body });
   };
 
   return (
     <div className={cn("chatBox")} ref={chatRef}>
-      <button onClick={handleButtonClick} className={cn("chat", { helpMeChat: type === "taker"})}>
+      <button onClick={handleButtonClick} className={cn("chat", { helpMeChat: type === "taker" })}>
         채팅하기
       </button>
       {isChatClick && (
@@ -77,7 +88,7 @@ export default function ChatButton({ authorId, type }: ChatButtonProps) {
             채팅하기를 진행한다면 상대방에게
             <br /> 실명이 공개됩니다.
           </p>
-          <button onClick={handleChatButtonClick} className={cn("chatButton", { helpMeChat: type === "taker"})} >
+          <button onClick={handleChatButtonClick} className={cn("chatButton", { helpMeChat: type === "taker" })}>
             채팅하기
           </button>
         </div>

@@ -1,0 +1,61 @@
+.modal {
+  width: 90rem;
+  height: 30rem;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
+  @include flexSort(column, center, center, 2rem);
+  position: relative;
+}
+
+.contentBox {
+  @include flexSort(column, null, center, 2rem);
+}
+
+.contentHeaderBox {
+  @include flexSort(null, null, center, 0.5rem);
+  @include nsnFont(2.2rem, 700, normal);
+}
+
+.contentHeader {
+  color: #dc1414;
+}
+
+.content {
+  color: #5c5b5b;
+  @include nsnFont(1.5rem, 700, normal);
+}
+
+.btnBox {
+  @include flexSort(null, null, center, 1rem);
+}
+
+.getNoHelpBtn {
+  border-radius: 0.5rem;
+  border: 0.1rem solid #e6e6ea;
+  background: #e6e6ea;
+  box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
+  @include font(1.5rem, 700, normal);
+  @include flexSort(null, center, center, null);
+  width: 18rem;
+  height: 4rem;
+}
+
+.getHelpBtn {
+  border-radius: 0.5rem;
+  border: 0.1rem solid #fff7de;
+  background: #fff7de;
+  box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
+  @include font(1.5rem, 700, normal);
+  @include flexSort(null, center, center, null);
+  width: 17rem;
+  height: 4rem;
+  color: #ff8e1e;
+}
+
+.close {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  cursor: pointer;
+}

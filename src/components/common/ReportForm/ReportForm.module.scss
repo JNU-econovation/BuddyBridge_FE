@@ -1,0 +1,119 @@
+.reportFormContainer {
+  @include flexSort(column, null, center, null);
+  max-width: 50rem;
+  position: relative;
+}
+
+.header {
+  @include flexSort(null, center, center, null);
+  width: 100%;
+  //background-color: beige;
+  border-bottom: 0.18rem solid #c6c6c6;
+  padding: 1.5rem 0rem;
+  position: relative;
+}
+
+.headerText {
+  @include nsnFont(2.3rem, 400, normal);
+  margin-left: auto;
+  position: absolute;
+}
+
+.closeBtn {
+  font-size: 3rem;
+  font-weight: 100;
+  color: black;
+  margin-left: auto;
+  margin-right: 2rem;
+}
+
+.contentBox {
+  @include flexSort(column, null, null, 2rem);
+  @include nsnFont(1.4rem, 300, normal);
+}
+
+.postInfoContent {
+  @include flexSort(null, null, null, 1rem);
+}
+
+.postInfo {
+  @include flexSort(column, null, null, 0.7rem);
+  padding: 1.3rem 2rem;
+  border-bottom: 0.18rem solid #c6c6c6;
+}
+
+.postInfoLabel,
+.reportInfoLabel {
+  @include nsnFont(1.5rem, 400, normal);
+  display: inline-block;
+  min-width: 9.2rem;
+}
+
+.bar {
+  color: #c6c6c6;
+}
+
+.reportInfo {
+  @include flexSort(column, null, null, 1.5rem);
+  padding: 0rem 2rem;
+}
+
+.reportTypeBox,
+.reportContentBox {
+  @include flexSort(column, null, null, 0.7rem);
+}
+
+.selectTypeBox {
+  @include nsnFont(1.5rem, 300, normal);
+  padding: 1rem 1rem;
+  border: 0.13rem solid #c6c6c6;
+  border-radius: 0.3rem;
+  &.defaultMsg {
+    color: #cdcdcd;
+  }
+}
+
+.reportContent {
+  min-height: 10rem;
+  @include nsnFont(1.5rem, 300, normal);
+  padding: 1rem 1rem;
+  border: 0.13rem solid #c6c6c6;
+  border-radius: 0.3rem;
+  resize: none;
+
+  &::placeholder {
+    @include nsnFont(1.5rem, 300, normal);
+    color: #cdcdcd;
+  }
+}
+
+.noticeBox {
+  @include flexSort(column, null, null, 0.7rem);
+  padding: 1.3rem 2rem;
+  width: 100%;
+  p {
+    @include flexSort(null, null, flex-start, 0.3rem);
+    @include nsnFont(1.5rem, 300, 1.7rem);
+    color: #8d8989;
+    word-break: break-all;
+    .infoIcon {
+      padding: 0.2rem 0rem;
+      width: 1.7rem;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.submitBtn {
+  @include nsnFont(1.5rem, 400, 1.7rem);
+  padding: 1.2rem 0rem;
+  margin: 0rem 2rem;
+  margin-bottom: 2.5rem;
+  border-radius: 0.7rem;
+  color: white;
+  text-align: center;
+  background-color: #4885fe;
+  &.takerReport {
+    background-color: #9290ea;
+  }
+}

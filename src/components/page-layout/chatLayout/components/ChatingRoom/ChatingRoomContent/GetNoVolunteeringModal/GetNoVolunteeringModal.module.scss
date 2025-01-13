@@ -1,0 +1,59 @@
+.modal {
+  width: 90rem;
+  height: 30rem;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
+  @include flexSort(column, center, center, 2rem);
+  position: relative;
+}
+
+.contentBox {
+  @include flexSort(column, null, center, 2rem);
+}
+
+.contentHeaderBox {
+  @include flexSort(null, null, center, 0.5rem);
+  @include nsnFont(2.2rem, 700, normal);
+}
+
+.contentHeader {
+  color: #dc1414;
+}
+
+.detailContentContainer {
+  @include flexSort(column, null, center, 1rem);
+  @include nsnFont(1.5rem, 700, normal);
+  color: #5c5b5b;
+}
+
+.detailContentBox {
+  @include flexSort(column, null, center, null);
+}
+
+.detailContent {
+  @include flexSort(null, null, center, null);
+}
+
+.postType {
+  color: #dc1414;
+}
+
+.nickNameContainer {
+  @include flexSort(null, null, center, null);
+}
+
+.nickName {
+  color: #dc1414;
+}
+
+.confirmBtn {
+  width: 20rem;
+  height: 4rem;
+  border-radius: 5px;
+  border: 1px solid #e6e6ea;
+  background: #e6e6ea;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  @include flexSort(null, center, center, null);
+  @include font(1.5rem, 700, normal);
+}

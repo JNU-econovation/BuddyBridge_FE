@@ -44,10 +44,10 @@
 }
 
 .button:hover {
-  color: #6db3cb;
-  border-color: #6db3cb;
+  color: $giver;
+  border-color: $giver;
 }
 
 .button:hover .arrow {
-  fill: #6db3cb;
+  fill: $giver;
 }
