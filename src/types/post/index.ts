@@ -110,8 +110,25 @@ export interface MyWritePostResponse {
   };
 }
 
-export interface MyFinishedPostType extends Omit<PostType, "isLiked">{
-  matchingStatus : "DONE" | "VOLUNTEERING_COMPLETED" | "VOLUNTEERING_VERIFIED"
+export interface MyFinishedPostType {
+  postId: number;
+  matchingId: number;
+  name: string;
+  email: string;
+  title: string;
+  district: "광주광역시" | "북구" | "서구" | "동구" | "남구" | "광산구";
+  postType: "TAKER" | "GIVER";
+  postStatus: "RECRUITING" | "FINISHED";
+  disabilityType: "시각장애" | "청각장애" | "지적장애" | "지체장애" | "자폐성장애" | "뇌병변장애" | "정신장애" | "없음";
+  assistanceType: "학습" | "이동" | "식사";
+  schedule: {
+    startDate: Date;
+    endDate: Date;
+    scheduleType: "정기" | "비정기";
+    assistanceStartTime: Date;
+    assistanceEndTime: Date;
+  };
+  matchingStatus: "DONE" | "VOLUNTEERING_COMPLETED" | "VOLUNTEERING_VERIFIED";
 }
 
 export interface MyFinishedPostResponse {

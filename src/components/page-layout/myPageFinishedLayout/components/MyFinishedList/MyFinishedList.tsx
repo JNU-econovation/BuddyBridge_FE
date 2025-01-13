@@ -7,25 +7,26 @@ import FinishedPost from "../FinishedPost/FinishedPost";
 
 const cn = classNames.bind(styles);
 
-interface MyLikesListProps {
+interface MyFinishedListProps {
   finishedList: MyFinishedPostType[];
 }
 
-export default function MyFinishedList({ finishedList }: MyLikesListProps) {
+export default function MyFinishedList({ finishedList }: MyFinishedListProps) {
   return (
     <div className={cn("container")}>
       {finishedList?.map((post) => (
         <FinishedPost
-          key={post.id}
+          key={post.postId}
           endDate={post.schedule.endDate}
-          id={post.id}
+          id={post.postId}
+          matchingId={post.matchingId}
           startDate={post.schedule.startDate}
           postStatus={post.postStatus}
           title={post.title}
           postType={post.postType}
           district={post.district}
-          startTime={post.assistance.assistanceStartTime}
-          endTime={post.assistance.assistanceEndTime}
+          startTime={post.schedule.assistanceStartTime}
+          endTime={post.schedule.assistanceEndTime}
           matchingStatus={post.matchingStatus}
         />
       ))}

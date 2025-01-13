@@ -8,10 +8,10 @@ import { useRouter } from "next/router";
 
 import PostStatusLabel from "@/components/common/PostStatusLabel/PostStatusLabel";
 import { ROUTE } from "@/constants/route";
-import Arrow from "@/icons/arrow.svg";
 import Calendar from "@/icons/calendar.svg";
 import Clock from "@/icons/clock.svg";
 import Location from "@/icons/location.svg";
+import Arrow from "@/icons/thick_arrow.svg";
 import { formatDateString } from "@/utils";
 
 import styles from "./FinishedPost.module.scss";
@@ -21,6 +21,7 @@ const cn = classNames.bind(styles);
 
 interface FinishedPostProps {
   id: number;
+  matchingId : number;
   title: string;
   postStatus: "RECRUITING" | "FINISHED";
   startDate: Date;
@@ -35,6 +36,7 @@ interface FinishedPostProps {
 export default function FinishedPost({
   endDate,
   id,
+  matchingId,
   startDate,
   postStatus,
   title,
@@ -98,7 +100,7 @@ export default function FinishedPost({
           {matchingStatus === "DONE" && (
             <button onClick={handleClickTakerDone} className={cn("takerDoneBtn")}>
               도움을 받았어요?
-              <Arrow />
+              <Arrow className={cn("arrowIcon")}/>
             </button>
           )}
           {matchingStatus === "VOLUNTEERING_COMPLETED" && (
@@ -112,13 +114,14 @@ export default function FinishedPost({
         <>
           {matchingStatus === "VOLUNTEERING_COMPLETED" && (
             <button onClick={handleClickGiverVC} className={cn("giverVCBtn")}>
-              도움을 주었나요?
-              <Arrow />
+              <span>도움을 주었나요?</span>
+              <Arrow className={cn("arrowIcon")}/>
             </button>
           )}
           {matchingStatus === "VOLUNTEERING_VERIFIED" && (
             <button onClick={handleClickGiverVV} className={cn("giverVVBtn")}>
-              도움을 주었어요!
+              도움을 줬어요!
+              <Arrow className={cn("arrowIcon")}/>
             </button>
           )}
         </>

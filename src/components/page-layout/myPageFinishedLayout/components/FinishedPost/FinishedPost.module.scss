@@ -50,5 +50,44 @@
 .takerVCBtn,
 .giverVCBtn,
 .giverVVBtn {
-    @include nsnFont(1.3rem, 800, normal);
+    @include flexSort(null, null, center, 0.5rem);
+    @include nsnFont(1.1rem, 600, normal);
+    padding: 0.7rem 1.3rem;
+    border-radius: 2rem;
+    margin-top: auto;
+}
+
+.arrowIcon {
+    width: 0.7rem;
+    height: 1.2rem;
+    padding-top: 0.1rem;
+    color: white;
+
+}
+
+.takerDoneBtn {
+    background-color: #EA9308;
+    border: 0.15rem solid #EA9308;
+    color: white;
+}
+
+.takerVCBtn {
+    background-color: white;
+    border: 0.15rem solid #EA9308;
+    color: #EA9308;
+}
+
+.giverVCBtn {
+    background-color: #45B555;
+    border: 0.15rem solid #45B555;
+    color: white; 
+}
+
+.giverVVBtn {
+    .arrowIcon {
+        color: #45B555;
+    }
+    background-color: white;
+    border: 0.15rem solid #45B555;
+    color: #45B555;
 }
