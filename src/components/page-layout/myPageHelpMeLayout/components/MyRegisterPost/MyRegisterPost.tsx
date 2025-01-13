@@ -41,13 +41,13 @@ export default function MyRegisterPost({ postType }: MyRegisterPostProps) {
       <p className={cn("title")}>내 정보</p>
       <div className={cn("myInfoContainer")}>
         <MyPageMyInfo />
-        <MyWriteListBox
+        {/* <MyWriteListBox
           postType={postType}
           filter={filter}
           pageId={pageId as string}
           commentData={commentData}
           postData={postData}
-        />
+        /> */}
       </div>
     </div>
   );
