@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { ko } from "date-fns/locale";
 import { Controller, useForm } from "react-hook-form";
@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 
 import Button from "@/components/common/Button/Button";
 import CustomDatePicker from "@/components/common/DatePicker/DatePicker";
-import { ASSISTANCE, PLACE } from "@/components/common/DropDown/constants";
+import { ASSISTANCE, DISABILITY, PLACE } from "@/components/common/DropDown/constants";
 import Dropdown from "@/components/common/DropDown/DropDown";
 import Input from "@/components/common/Input/Input";
 import Label from "@/components/common/Label/Label";
@@ -20,18 +20,19 @@ import MyInfoCard from "@/components/common/MyInfoCard/MyInfoCard";
 import RadioInput from "@/components/common/RadioInput/RadioInput";
 import Textarea from "@/components/common/Textarea/Textarea";
 import openToast from "@/components/common/Toast/features/openToast";
-import styles from "@/components/page-layout/helpYouRegisterLayout/components/helpYouRegisterLayout.module.scss";
+import styles from "./helpMeEditLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import Calendar from "@/icons/calendar.svg";
 import RegisterArrow from "@/icons/send_arrow.svg";
 
-import postHelpMeRegister from "../../helpMeRegisterLayout/apis/postHelpMeRegister";
+import getTakerDetail from "../../helpMeDetailLayout/apis/getTakerDetail";
 import { helpMeFormData } from "../../helpMeRegisterLayout/types";
 import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
+import patchHelpMeRegister from "../apis/patchHelpMeRegister";
 
 const cn = classNames.bind(styles);
 
-const registerSchema = z.object({
+const editSchema = z.object({
   title: z.string().min(1, "제목 최소 1자 이상이어야 합니다."),
   startDate: z
     .date()
@@ -46,7 +47,7 @@ const registerSchema = z.object({
       message: "마무리 기간을 선택해주세요",
     }),
   assistanceStartTime: z.string().min(1, "시작 시간을 선택해주세요."),
-  assistanceEndTime: z.string().min(1, "끝나는 시간을 선택해주세요."),
+  assistanceEndTime: z.string().min(1, "시작 시간을 선택해주세요."),
   scheduleType: z.string().min(1, "주기를 선택해주세요."),
   scheduleDetails: z.string().min(1, "상세 주기를 입력해주세요."),
   district: z.string().min(1, "장소를 선택해주세요."),
@@ -54,10 +55,14 @@ const registerSchema = z.object({
   content: z.string().min(1, "상세 내용을 입력해주세요."),
 });
 
-export default function HelpYouRegisterLayout() {
+export default function HelpMeEditLayout() {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const { query } = router;
+  const isMountedRef = useRef(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [content, setContent] = useState<helpMeFormData | null>(null);
+  const [content, setContent] = useState<null | Partial<helpMeFormData>>(null);
+  const [prevHelpMeData, setPrevHelpMeData] = useState<helpMeFormData | null>(null);
 
   const { data: myInfoData, isFetching } = useQuery({
     queryKey: ["userInfo"],
@@ -70,37 +75,81 @@ export default function HelpYouRegisterLayout() {
     setValue,
     control,
     formState: { errors, isValid },
-  } = useForm<helpMeFormData>({ resolver: zodResolver(registerSchema), mode: "onChange" });
+  } = useForm<helpMeFormData>({ resolver: zodResolver(editSchema), mode: "onChange" });
 
-  const uploadHelpYouMutation = useMutation({
-    mutationFn: (content: helpMeFormData) => postHelpMeRegister(content),
+  const { data: prevData, isPending } = useQuery({
+    queryKey: ["takerDetail", query.id],
+    queryFn: () => getTakerDetail(query.id as string),
+  });
+
+  const updateHelpMeMutation = useMutation({
+    mutationFn: (content: helpMeFormData) => patchHelpMeRegister(content, query.id as string),
+    onError: () => {
+      openToast("error", "게시글을 수정하는 중 문제가 발생했습니다. 다시 시도해 주세요.");
+    },
     onSuccess: () => {
-      router.push(ROUTE.HELP_YOU);
+      queryClient.invalidateQueries({ queryKey: ["takerDetail", query.id] });
+      router.push((ROUTE.HELP_ME + "/" + query.id) as string);
     },
   });
 
-  const handleHelpMetUpload = (data: helpMeFormData) => {
+  useEffect(() => {
+    if (prevData && !isPending) {
+      const newPrevHelpMeData: helpMeFormData = {
+        title: prevData.post.title,
+        assistanceType: prevData.post.assistance.assistanceType,
+        startDate: new Date(prevData.post.schedule.startDate),
+        endDate: new Date(prevData.post.schedule.endDate),
+        scheduleType: prevData.post.schedule.scheduleType,
+        scheduleDetails: prevData.post.schedule.scheduleDetails,
+        district: prevData.post.district,
+        content: prevData.post.content,
+        postType: prevData.post.postType,
+        gender: prevData.author.gender,
+        age: prevData.author.age,
+        disabilityType: prevData.author.disabilityType,
+        assistanceStartTime: prevData.post.assistance.assistanceStartTime,
+        assistanceEndTime: prevData.post.assistance.assistanceEndTime,
+      };
+
+      Object.entries(newPrevHelpMeData).forEach(([key, value]) => {
+        setValue(key as keyof helpMeFormData, value as never);
+      });
+
+      setPrevHelpMeData(newPrevHelpMeData);
+    }
+  }, [prevData, isPending, setValue]);
+
+  const handleHelpMeSubmit = (data: helpMeFormData) => {
     setIsModalOpen((prev) => !prev);
+    const modifiedContent: Partial<helpMeFormData> = {};
 
-    const content = {
-      title: data.title,
-      assistanceType: data.assistanceType,
-      startDate: data.startDate,
-      endDate: data.endDate,
-      scheduleType: data.scheduleType,
-      scheduleDetails: data.scheduleDetails,
-      district: data.district,
-      content: data.content,
-      postType: "GIVER",
-      gender: myInfoData.gender,
-      age: Number(myInfoData.age),
-      disabilityType: myInfoData.disabilityType,
-      assistanceStartTime: data.assistanceStartTime,
-      assistanceEndTime: data.assistanceEndTime,
-    };
-
-    setContent(content);
+    Object.entries(data).forEach(([key, value]) => {
+      const typedKey = key as keyof helpMeFormData;
+      if (prevHelpMeData) {
+        if (value instanceof Date) {
+          const prevDate = new Date(prevHelpMeData[typedKey]);
+          if (value.getTime !== prevDate.getTime) {
+            (modifiedContent[typedKey] as Date) = value;
+          }
+        } else {
+          if (value !== prevHelpMeData[typedKey]) {
+            modifiedContent[typedKey] = value;
+          }
+        }
+      }
+    });
+    setContent(modifiedContent);
   };
+
+  useEffect(() => {
+    if (myInfoData?.disabilityType === "없음" && !isMountedRef.current) {
+      isMountedRef.current = true;
+      router.push(ROUTE.MY_PAGE_EDIT);
+      openToast("error", "장애 유형을 입력해주세요.");
+      return;
+    }
+  }, [myInfoData, setValue, router]);
 
   useEffect(() => {
     if (!myInfoData && !isFetching) {
@@ -113,9 +162,9 @@ export default function HelpYouRegisterLayout() {
     <>
       <div className={cn("container")}>
         <div className={cn("box")}>
-          <p className={cn("title")}>도와줄게요! 게시글 작성</p>
+          <p className={cn("title")}>도와줄래요? 게시글 작성</p>
           <MyInfoCard />
-          <form className={cn("form")} onSubmit={handleSubmit(handleHelpMetUpload)}>
+          <form className={cn("form")} onSubmit={handleSubmit(handleHelpMeSubmit)}>
             <div className={cn("formContentBox")}>
               <div className={cn("titleContainer")}>
                 <Label className={cn("label")} htmlFor="title">
@@ -125,7 +174,7 @@ export default function HelpYouRegisterLayout() {
                 <Input
                   className={cn("titleInput")}
                   id="title"
-                  placeholder="구체적으로 줄 수 있는 도움을 적어주세요. 예) 대필, 조리봉사, 촬영 등"
+                  placeholder="구체적으로 필요한 도움을 적어주세요. 예) 이동 도움 필요"
                   {...register("title")}
                 />
                 {errors.title && <p className={cn("errorMessage")}>{errors.title.message}</p>}
@@ -211,7 +260,7 @@ export default function HelpYouRegisterLayout() {
                       rules={{ required: true }}
                       render={({ field }) => (
                         <RadioInput
-                          postType="giver"
+                          postType="taker"
                           classNames={cn("period")}
                           {...field}
                           firstValue="정기"
@@ -262,7 +311,8 @@ export default function HelpYouRegisterLayout() {
                 </Label>
                 <hr />
                 <Textarea
-                  placeholder="도움이 가능한 정보 및 시간을 상세하게 적어주세요. ex, 매일 3시부터 5시까지 지역 이동이 가능합니다. 요리 가능합니다. 등 "
+                  placeholder="도움이 필요한 정보를 상세하게 적어주세요. (인원/ 시간/ 세부 장소/ 도움 필요 내용)
+ex, 2시에 전대치과병원에서 진료 이동 도움이 필요합니다."
                   id="content"
                   className={cn("detailTextarea")}
                   {...register("content", { required: true })}
@@ -270,7 +320,7 @@ export default function HelpYouRegisterLayout() {
                 {errors.content && <p className={cn("errorMessage")}>{errors.content.message}</p>}
               </div>
               <Button className={cn("registerBox", { active: isValid })}>
-                등록하기
+                수정하기
                 <RegisterArrow className={cn("arrow")} />
               </Button>
             </div>
@@ -281,7 +331,7 @@ export default function HelpYouRegisterLayout() {
         <ConfirmModal
           setState={setIsModalOpen}
           content={content as helpMeFormData}
-          mutate={uploadHelpYouMutation.mutate}
+          mutate={updateHelpMeMutation.mutate}
         />
       )}
     </>
