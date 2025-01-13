@@ -1,0 +1,46 @@
+.toggleBox {
+  @include flexSort(null, null, center, 1rem);
+  padding: 0rem 4rem;
+  margin-top: 2rem;
+}
+
+.toggleLabel {
+  @include nsnFont(1.2rem, 600, normal);
+}
+
+.toggleBtn {
+  @include flexSort(null, null, center, null);
+  width: 5rem;
+  height: 2.5rem;
+  background-color: #ccc;
+  border: none;
+  border-radius: 1.25rem;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.toggleBtn.on {
+  background-color: #3b82f6;
+  justify-content: flex-end;
+}
+
+.toggleBtn.off {
+  justify-content: flex-start;
+}
+
+.toggleBtn::before {
+  content: "";
+  position: absolute;
+  top: 0.15rem;
+  left: 0.15rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  background-color: white;
+  border-radius: 50%;
+  transition: left 0.3s;
+}
+
+.toggleBtn.on::before {
+  left: 2.6rem;
+}
