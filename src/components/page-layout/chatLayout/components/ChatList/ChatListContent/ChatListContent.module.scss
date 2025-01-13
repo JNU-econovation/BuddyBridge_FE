@@ -1,5 +1,4 @@
 .container {
   @include flexSort(column, null, null, null);
   overflow-y: scroll;
-  height: 54rem;
 }

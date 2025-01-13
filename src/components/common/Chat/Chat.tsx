@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Image from "next/image";
@@ -16,27 +17,47 @@ interface ChatProps {
   type: string;
   img: string;
   id: number;
+  postId: number;
+  chattingRoomType: "DONE" | "PENDING";
+  unreadMessagesCount: number;
 }
 
-export default function Chat({ name, content, date, type, img, id }: ChatProps) {
-  const { setChatingRoomNumber } = useChatContext();
+export default function Chat({
+  name,
+  content,
+  date,
+  type,
+  img,
+  id,
+  postId,
+  chattingRoomType,
+  unreadMessagesCount,
+}: ChatProps) {
+  const { setChattingRoomType } = useChatContext();
 
   const handleChatClick = () => {
-    setChatingRoomNumber(id);
+    setChattingRoomType(chattingRoomType);
   };
 
   return (
     <Link href={`/chat/${id}`} className={cn("container")} onClick={handleChatClick}>
       <div className={cn("box")}>
-        <Image src={img} alt="프로필 이미지" width={50} height={50} className={cn("img")} />
+        <Image src={img} alt="프로필 이미지" width={40} height={40} className={cn("img")} />
         <div className={cn("contentBox")}>
           <div className={cn("headerBox")}>
             <p className={cn("name")}>{name}</p>
-            <p className={cn("type")}>{type}</p>
+            <p className={cn("dot")}>·</p>
+            <p className={cn("type")}>
+              {type === "TAKER" ? "도와줄래요? " : "도와줄게요! "}
+              {postId}번
+            </p>
           </div>
           <p className={cn("content")}>{content}</p>
         </div>
         <p className={cn("date")}>{formatDateString(date)}</p>
+        {unreadMessagesCount > 0 && (
+          <div className={cn("unreadMessagesCount")}>{unreadMessagesCount <= 9 ? unreadMessagesCount : "9+"}</div>
+        )}
       </div>
     </Link>
   );

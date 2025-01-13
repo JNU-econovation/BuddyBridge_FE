@@ -1,7 +1,7 @@
 .container {
   @include flexSort(column, null, null, null);
   background-color: white;
-  width: 36rem;
-  border-radius: 2rem;
-  border: 1px solid #e6e6ea;
+  width: 40rem;
+  border: 0.1rem solid #e6e6ea;
+  height: 100%;
 }

@@ -21,6 +21,9 @@ interface ChatType {
     receiverName: string;
     receiverProfileImg: string;
   };
+  postId: number;
+  matchingStatus: "DONE" | "PENDING";
+  unreadMessagesCount: number;
 }
 
 interface ChatListContentProps {
@@ -48,19 +51,26 @@ export default function ChatListContent({ matchingState }: ChatListContentProps)
     <></>;
   }
 
+  const chatLists = data?.pages.map((chat) => chat.matchings);
+
   return (
     <div className={cn("container")}>
-      {data?.pages[0].matchings?.map((chat: ChatType) => (
-        <Chat
-          img={chat?.receiver?.receiverProfileImg}
-          content={chat?.lastMessage}
-          date={chat?.lastMessageTime}
-          name={chat?.receiver?.receiverName}
-          type={chat?.postType}
-          key={chat?.matchingId}
-          id={chat?.matchingId}
-        />
-      ))}
+      {chatLists?.map((chatList) =>
+        chatList.map((chat: ChatType) => (
+          <Chat
+            img={chat?.receiver?.receiverProfileImg}
+            content={chat?.lastMessage}
+            date={chat?.lastMessageTime}
+            name={chat?.receiver?.receiverName}
+            type={chat?.postType}
+            key={chat?.matchingId}
+            postId={chat?.postId}
+            id={chat?.matchingId}
+            chattingRoomType={chat?.matchingStatus}
+            unreadMessagesCount={chat?.unreadMessagesCount}
+          />
+        )),
+      )}
       <div ref={lastRef}></div>
     </div>
   );
