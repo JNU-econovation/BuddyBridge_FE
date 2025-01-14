@@ -33,11 +33,17 @@
 }
 
 .volunteerGrant {
-  color: #00c16a;
   padding: 0.4rem 0.8rem;
-  background: rgba(0, 193, 106, 0.1);
   border-radius: 0.6rem;
-  border: 0.1rem solid rgba(0, 193, 106, 0.1);
+  background: rgba(239, 68, 68, 0.25);
+  color: rgba(239, 68, 68, 0.94);
+  border: 0.1rem solid #ef4444;
+
+  &.Certified {
+    border: 0.1rem solid rgba(0, 193, 106, 0.1);
+    background: rgba(0, 193, 106, 0.1);
+    color: #00c16a;
+  }
 }
 
 .writeDate {
