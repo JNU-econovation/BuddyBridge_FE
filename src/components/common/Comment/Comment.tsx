@@ -123,32 +123,29 @@ export default function Comment({ comment, authorId, postId, type, commentId }: 
           <p className={cn("commentWriterGender")}>성별: {comment.author.gender}</p>
         </div>
       </div>
-      <div className={cn("commentBackground",{ editingBackground: isNowEditing })}>
+      <div className={cn("commentBackground", { editingBackground: isNowEditing })}>
         <div className={cn("box")}>
           <div className={cn("upperContentBox")}>
             <div className={cn("titleBox")}>
               <p className={cn("nickname")}>{comment.author.nickname}</p>
               <p className={cn("date")}>{formatDateString(comment.modifiedAt)}</p>
             </div>
-            {
-              comment.author.memberId === data?.memberId ? (
-                <div className={cn("kebabBox")} ref={kebabRef}>
-                  <Kebab onClick={handleKebabClick} className={cn("kebab")} width={20} height={20} />
-                  {isKebabClick && (
-                    <div className={cn("editBox")} ref={editBoxRef}>
-                      <button onClick={handleCommentEditClick}>수정하기</button>
-                      <button onClick={handleCommentDeleteClick}>삭제하기</button>
-                    </div>
-                  )}
-                </div>
-              ): 
-              ( 
-                <div onClick={handleSirenClick} className={cn("sirenBtn")}>
-                  <Siren/>
-                  <span>신고하기</span>
-                </div>
-              )
-            }
+            {comment.author.memberId === data?.memberId ? (
+              <div className={cn("kebabBox")} ref={kebabRef}>
+                <Kebab onClick={handleKebabClick} className={cn("kebab")} width={20} height={20} />
+                {isKebabClick && (
+                  <div className={cn("editBox")} ref={editBoxRef}>
+                    <button onClick={handleCommentEditClick}>수정하기</button>
+                    <button onClick={handleCommentDeleteClick}>삭제하기</button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div onClick={handleSirenClick} className={cn("sirenBtn")}>
+                <Siren />
+                <span>신고하기</span>
+              </div>
+            )}
           </div>
           <div className={cn("contentBox")}>
             {isNowEditing ? (
@@ -176,18 +173,18 @@ export default function Comment({ comment, authorId, postId, type, commentId }: 
           </button>
         </div>
       )}
-      {
-        isReportOpen && 
-          <Modal className="ReportFormBox" setState={setIsReportOpen}>
-            <ReportForm 
-              nickname={comment.author.nickname} 
-              postId={postId} 
-              postType={type} 
-              contentType="comments" 
-              content={comment.content} 
-              setIsReportOpen={setIsReportOpen}/>
-          </Modal>
-      }
+      {isReportOpen && (
+        <Modal className="ReportFormBox" setState={setIsReportOpen}>
+          <ReportForm
+            nickname={comment.author.nickname}
+            postId={commentId}
+            postType={type}
+            contentType="comments"
+            content={comment.content}
+            setIsReportOpen={setIsReportOpen}
+          />
+        </Modal>
+      )}
     </div>
   );
 }
