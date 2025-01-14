@@ -1,0 +1,33 @@
+.container {
+  padding: 0 3rem 3rem 3rem;
+  @include flexSort(null, null, center, 1rem);
+}
+
+.img {
+  border-radius: 50%;
+}
+
+.contentContainer {
+  padding: 1.5rem 2rem;
+  @include flexSort(column, null, null, 1rem);
+  background: #f5f5f5;
+  width: fit-content;
+  border-radius: 1.5rem;
+}
+
+.titleBox {
+  @include flexSort(null, null, center, 1rem);
+}
+
+.nickname {
+  @include nsnFont(1.5rem, 400, normal);
+}
+
+.date {
+  color: #a19d9d;
+  @include nsnFont(1.2rem, 400, normal);
+}
+
+.content {
+  @include nsnFont(1.6rem, 700, normal);
+}
