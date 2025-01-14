@@ -1,8 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Image from "next/image";
-import { useRouter } from "next/router";
 
 import styles from "@/components/page-layout/postDeclarationDetailLayout/components/PostContent/PostContent.module.scss";
 import Calendar from "@/icons/calendar.svg";
@@ -11,31 +9,37 @@ import Location from "@/icons/location.svg";
 import Person from "@/icons/personnel.svg";
 import { formatDateString } from "@/utils";
 
-import getPostDetail from "../../apis/getPostDetail";
-
 const cn = classNames.bind(styles);
 
-export default function PostContent() {
-  const router = useRouter();
+interface PostContentProps {
+  post: {
+    id: number;
+    title: string;
+    district: string;
+    content: string;
+    createdAt: Date;
+    schedule: {
+      startDate: Date;
+      endDate: Date;
+      scheduleType: string;
+      scheduleDetails: string;
+    };
+    assistance: {
+      assistanceStartTime: string;
+      assistanceEndTime: string;
+      assistanceType: string;
+    };
+  };
+  author: {
+    profileImageUrl: string;
+    nickname: string;
+    gender: string;
+    age: number;
+    disabilityType: string;
+  };
+}
 
-  const { data, isError, isPending } = useQuery({
-    queryKey: ["adminPost"],
-    queryFn: () => getPostDetail(Number(router.query.id)),
-    enabled: !!router.query.id,
-  });
-
-  if (isError) {
-    return <>에러</>;
-  }
-
-  if (isPending) {
-    return <>...로딩중</>;
-  }
-
-  const { author, post } = data;
-
-  console.log(data);
-
+export default function PostContent({ post, author }: PostContentProps) {
   return (
     <div className={cn("container")}>
       <div className={cn("box")}>
