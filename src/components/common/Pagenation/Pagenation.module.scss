@@ -10,8 +10,13 @@
   cursor: pointer;
   @include nsnFont(1.4rem, 400, normal);
   border-radius: 1rem;
-  background: #4885fe;
-  color: white;
+  background: white;
+  color: black;
+
+  &.active {
+    background: #4885fe;
+    color: white;
+  }
 }
 
 .arrow {

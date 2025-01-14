@@ -121,8 +121,8 @@ export default function DeclarationLayout() {
             </div>
             <div className={cn("paginationBox")}>
               <Pagination
-                currentPage={currentPage + 1}
-                itemsPerPage={7}
+                currentPage={currentPage > 0 ? currentPage : 1}
+                itemsPerPage={6}
                 totalItems={data?.totalElements}
                 setPage={setPage}
               />
