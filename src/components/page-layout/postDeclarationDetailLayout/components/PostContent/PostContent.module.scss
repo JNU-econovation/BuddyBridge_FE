@@ -1,0 +1,145 @@
+.container {
+  flex: 1;
+  padding: 2rem 3rem;
+  @include flexSort(null, center, center, null);
+}
+
+.box {
+  @include flexSort(column, null, null, 2rem);
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  border-radius: 1rem;
+  border: 0.2rem solid #d7b9b9;
+  background: #fff;
+  padding: 4rem 5rem;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.titleBox {
+  @include flexSort(column, null, flex-start, null);
+}
+
+.postId {
+  @include nsnFont(1.4rem, 400, normal);
+}
+
+.postTitle {
+  @include nsnFont(2.2rem, 800, 2rem);
+}
+
+.infoCardContainer {
+  @include flexSort(null, center, center, null);
+}
+
+.infoCardBox {
+  @include flexSort(null, null, center, 3rem);
+  padding: 2rem 3rem;
+  width: fit-content;
+  border-radius: 1.5rem;
+  background-color: #eeeeee;
+}
+
+.profileImageBox {
+  position: relative;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profileImg {
+  border-radius: 50%;
+}
+
+.textInfoBox {
+  @include flexSort(column, null, null, 1rem);
+}
+
+.authorNickname {
+  @include nsnFont(1.5rem, 700, normal);
+}
+
+.authorDetailInfoBox {
+  @include flexSort(column, null, null, 0.5rem);
+}
+
+.gender,
+.age,
+.disabilityType {
+  @include nsnFont(1.2rem, 400, normal);
+}
+
+.postInfoBox {
+  @include flexSort(column, null, center, 1rem);
+}
+
+.districtTitleBox,
+.calendarTitleBox,
+.timeTitleBox,
+.assistanceTypeTitleBox {
+  @include flexSort(null, null, center, 1rem);
+}
+
+.label {
+  width: 9rem;
+  font-weight: 400;
+}
+
+.district,
+.periodContent,
+.assistanceType,
+.timeContentBox {
+  width: 25rem;
+}
+
+.periodContent {
+  @include flexSort(null, null, null, 1rem);
+}
+
+.assistanceTypeContainer,
+.districtContainer,
+.periodContainer,
+.timeContainer {
+  @include nsnFont(1.5rem, 300, normal);
+  @include flexSort(null, null, center, 1rem);
+}
+
+.personIcon,
+.calendarIcon,
+.clockIcon,
+.districtIcon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.contentDetailContainer {
+  @include flexSort(column, null, null, 1rem);
+  width: 100%;
+}
+
+.contentDetailLabel {
+  @include nsnFont(2rem, 400, normal);
+  padding-left: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 0.15rem solid black;
+}
+
+.contentDetail {
+  width: 100%;
+  min-height: 10rem;
+  border-radius: 2rem;
+  padding: 2rem;
+  @include font(1.5rem, 500, normal);
+  border: 0.15rem solid $gray;
+}
+
+.createdAt {
+  margin-left: auto;
+  text-align: right;
+  @include font(1.5rem, 300, normal);
+  color: $gray-2;
+}

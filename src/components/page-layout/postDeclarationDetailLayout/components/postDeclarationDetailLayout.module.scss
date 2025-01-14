@@ -1,0 +1,17 @@
+.container {
+  @include flexSort(null, center, center, null);
+  height: 100%;
+}
+
+.box {
+  border-radius: 1rem;
+  box-shadow: 0 0 0.4rem 0 rgba(0, 0, 0, 0.25);
+  @include flexSort(null, null, null, null);
+  height: 55rem;
+  width: 130rem;
+}
+
+.adminContainer {
+  flex: 1;
+  @include flexSort(null, null, null, null);
+}
