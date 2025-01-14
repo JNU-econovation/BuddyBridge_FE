@@ -7,7 +7,7 @@ import DoubleArrow from "@/icons/doubleArrow.svg";
 
 const cn = classNames.bind(styles);
 
-export default function Pagination({ currentPage, totalItems, itemsPerPage, setPage, type }: PaginationProps) {
+export default function Pagination({ currentPage, totalItems, itemsPerPage, setPage }: PaginationProps) {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const maxPagesToShow = 5;
   const currentGroup = Math.ceil(currentPage / maxPagesToShow);
@@ -43,11 +43,7 @@ export default function Pagination({ currentPage, totalItems, itemsPerPage, setP
         </>
       )}
       {pages.map((page) => (
-        <button
-          key={page}
-          onClick={() => setPage(page)}
-          className={cn("button", type, { active: currentPage === page })}
-        >
+        <button key={page} onClick={() => setPage(page)} className={cn("button", { active: currentPage === page })}>
           {page}
         </button>
       ))}

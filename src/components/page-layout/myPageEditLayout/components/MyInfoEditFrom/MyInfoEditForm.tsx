@@ -1,23 +1,23 @@
 import { useEffect } from "react";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 import { useForm } from "react-hook-form";
-import { AxiosError } from "axios";
+import { z } from "zod";
 
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { z } from "zod";
 
 import Button from "@/components/common/Button/Button";
 import { DISABILITY } from "@/components/common/DropDown/constants";
 import DropDown from "@/components/common/DropDown/DropDown";
 import styles from "@/components/page-layout/myPageEditLayout/components/MyInfoEditFrom/MyInfoEditForm.module.scss";
 import { ROUTE } from "@/constants/route";
+import EditBtn from "@/icons/edit.svg";
 
 import getMyInfo from "../../apis/getMyInfo";
 import patchMyInfo from "../../apis/putMyInfo";
-import EditBtn from "@/icons/edit.svg";
 
 const cn = classNames.bind(styles);
 
@@ -46,7 +46,13 @@ export default function MyInfoEditForm() {
     queryFn: getMyInfo,
   });
 
-  const { register, handleSubmit, setValue, setError, formState: { errors, isValid }} = useForm<FormType>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    setError,
+    formState: { errors, isValid },
+  } = useForm<FormType>();
 
   useEffect(() => {
     if (myInfoData?.disabilityType) {
@@ -63,12 +69,12 @@ export default function MyInfoEditForm() {
       queryClient.invalidateQueries({ queryKey: ["userInfo"] });
       router.push(ROUTE.MY_PAGE);
     },
-  
+
     onError: (error: AxiosError<ErrorResponse>) => {
-      if(error.response?.data) {
-        setError("nickname", { message: error.response.data.error.message});
+      if (error.response?.data) {
+        setError("nickname", { message: error.response.data.error.message });
       }
-    }
+    },
   });
 
   const handleUpdateInfo = (data: FormType) => {
@@ -101,14 +107,14 @@ export default function MyInfoEditForm() {
             <p className={cn("nicknameTitle")}>닉네임</p>
             <input
               className={cn("nickname")}
-              {...register("nickname", { 
+              {...register("nickname", {
                 required: "닉네임을 입력해주세요.",
                 minLength: { value: 2, message: "닉네임은 2~20글자만 가능합니다." },
                 maxLength: { value: 20, message: "닉네임은 2~20글자만 가능합니다." },
                 pattern: {
                   value: /^[a-zA-Z가-힣0-9]*$/,
                   message: "공백 및 특수 문자는 불가능합니다.",
-                }
+                },
               })}
               defaultValue={myInfoData?.nickname}
             />
@@ -136,7 +142,7 @@ export default function MyInfoEditForm() {
           <p className={cn("email")}>{myInfoData?.email}</p>
         </div>
         <div className={cn("buttonContainer")}>
-          <Button className={cn("button",{active:isValid})}>저장하기</Button>
+          <Button className={cn("button", { active: isValid })}>저장하기</Button>
         </div>
       </form>
     </div>

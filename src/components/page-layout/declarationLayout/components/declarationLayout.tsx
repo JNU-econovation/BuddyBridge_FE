@@ -1,0 +1,135 @@
+import { useState } from "react";
+
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import classNames from "classnames/bind";
+
+import { useRouter } from "next/router";
+
+import AdminNav from "@/components/common/AdminNav/AdminNav";
+import Pagination from "@/components/common/Pagenation/Pagenation";
+import openToast from "@/components/common/Toast/features/openToast";
+import styles from "@/components/page-layout/declarationLayout/components/declarationLayout.module.scss";
+import Cancel from "@/icons/cancel.svg";
+
+import DeclarationContent, { DeclarationContentProps } from "./DeclarationContent/DeclarationContent";
+import deleteDeclaration from "../apis/deleteDeclaration";
+import getDeclaration from "../apis/getDeclaration";
+
+const cn = classNames.bind(styles);
+
+export default function DeclarationLayout() {
+  const [type, setType] = useState<"all" | "posts" | "comments" | "matchings">("all");
+  const [checkId, setCheckId] = useState(0);
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const params = new URLSearchParams(router.query as any);
+
+  const currentPage = Number(params.get("page")) || 0;
+
+  const { data } = useQuery({
+    queryKey: ["declaration", type, currentPage > 0 ? currentPage : 1],
+    queryFn: () => getDeclaration(type, currentPage, 6),
+    enabled: currentPage >= 0,
+  });
+
+  const deleteDeclarationMutation = useMutation({
+    mutationFn: (id: number) => deleteDeclaration(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["declaration", type, currentPage > 0 ? currentPage : 1] });
+      openToast("success", "삭제되었습니다.");
+    },
+  });
+
+  const handleCommentDeleteClick = () => {
+    deleteDeclarationMutation.mutate(checkId);
+  };
+
+  const setPage = (newPage: number) => {
+    const pathName = router.pathname;
+    params.set("page", newPage.toString());
+    router.replace({
+      pathname: pathName,
+      query: { ...Object.fromEntries(params.entries()) },
+    });
+    queryClient.invalidateQueries({ queryKey: ["declaration", type, currentPage > 0 ? currentPage : 1] });
+  };
+
+  return (
+    <div className={cn("container")}>
+      <div className={cn("box")}>
+        <AdminNav />
+        <div className={cn("adminContainer")}>
+          <p className={cn("adminTitle")}>신고 관리</p>
+          <div className={cn("tableContainer")}>
+            <div className={cn("tableHeader")}>
+              <div className={cn("typeContainer")}>
+                <button className={cn("all", { selected: type === "all" })} onClick={() => setType("all")}>
+                  전체
+                </button>
+                <button className={cn("post", { selected: type === "posts" })} onClick={() => setType("posts")}>
+                  게시글
+                </button>
+                <button
+                  className={cn("comment", { selected: type === "comments" })}
+                  onClick={() => setType("comments")}
+                >
+                  댓글
+                </button>
+                <button
+                  className={cn("chattingRoom", { selected: type === "matchings" })}
+                  onClick={() => setType("matchings")}
+                >
+                  채팅방
+                </button>
+              </div>
+              <div className={cn("btnContainer")}>
+                <button onClick={handleCommentDeleteClick} className={cn("deleteBtn")}>
+                  삭제하기
+                </button>
+                <button className={cn("blackListBtn")}>
+                  블랙리스트
+                  <Cancel />
+                </button>
+              </div>
+            </div>
+            <div className={cn("tableBox")}>
+              <div className={cn("tableTitle")}>
+                <div className={cn("blank")} />
+                <p className={cn("reporter")}>신고 대상자</p>
+                <p className={cn("postInfo")}>게시글 정보</p>
+                <p className={cn("declarationContent")}>신고 대상 내용</p>
+                <p className={cn("declarationType")}>신고 유형</p>
+                <p className={cn("declarationPeople")}>신고자</p>
+                <p className={cn("declarationDate")}>신고일</p>
+              </div>
+              <ul className={cn("tableContentList")}>
+                {data?.content.map((item: DeclarationContentProps) => (
+                  <DeclarationContent
+                    key={item.id}
+                    id={item.id}
+                    postId={item.postId}
+                    reportContent={item.reportContent}
+                    reportDate={item.reportDate}
+                    reportType={item.reportType}
+                    reported={item.reported}
+                    reporter={item.reporter}
+                    checkId={checkId}
+                    setCheckId={setCheckId}
+                  />
+                ))}
+              </ul>
+            </div>
+            <div className={cn("paginationBox")}>
+              <Pagination
+                currentPage={currentPage + 1}
+                itemsPerPage={7}
+                totalItems={data?.totalElements}
+                setPage={setPage}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

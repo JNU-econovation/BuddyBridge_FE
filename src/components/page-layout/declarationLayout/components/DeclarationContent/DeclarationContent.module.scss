@@ -1,0 +1,53 @@
+.container {
+  @include flexSort(null, null, center, null);
+  height: 5rem;
+}
+
+.check {
+  width: 5%;
+  @include flexSort(null, center, center, null);
+}
+
+.reporter {
+  width: 10%;
+  @include nsnFont(1.4rem, 700, normal);
+  @include flexSort(null, center, center, null);
+}
+
+.postInfo {
+  width: 16%;
+  @include nsnFont(1.4rem, 700, normal);
+  @include flexSort(null, center, center, null);
+}
+
+.declarationContent {
+  width: 31%;
+  @include nsnFont(1.4rem, 700, normal);
+  @include line-clamp(1);
+}
+
+.declarationTypeBox {
+  width: 20%;
+  @include nsnFont(1.4rem, 700, normal);
+  @include flexSort(null, center, center, null);
+}
+
+.declarationType {
+  color: #00c16a;
+  padding: 0.4rem 0.8rem;
+  background: rgba(0, 193, 106, 0.1);
+  border-radius: 0.6rem;
+  border: 0.1rem solid rgba(0, 193, 106, 0.1);
+}
+
+.declarationPeople {
+  width: 10%;
+  @include nsnFont(1.4rem, 700, normal);
+  @include flexSort(null, center, center, null);
+}
+
+.declarationDate {
+  width: 10%;
+  @include nsnFont(1.4rem, 700, normal);
+  @include flexSort(null, center, center, null);
+}

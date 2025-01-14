@@ -135,13 +135,7 @@ export default function HelpMeLayout() {
             <Post data={post} key={post.id} />
           ))}
         </div>
-        <Pagination
-          type="TAKER"
-          currentPage={page}
-          itemsPerPage={8}
-          totalItems={data?.data.totalElements}
-          setPage={setPage}
-        />
+        <Pagination currentPage={page} itemsPerPage={8} totalItems={data?.data.totalElements} setPage={setPage} />
       </div>
     </main>
   );

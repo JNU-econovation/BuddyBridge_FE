@@ -1,0 +1,21 @@
+.container {
+  padding: 3rem;
+  width: 20%;
+  border-right: 0.3rem solid #e8e8e8;
+  @include flexSort(column, null, null, 3rem);
+}
+
+.title {
+  @include nsnFont(2rem, 700, normal);
+}
+
+.declaration,
+.user,
+.certification {
+  @include nsnFont(2.2rem, 400, normal);
+
+  &.active {
+    color: #4885fe;
+    font-weight: 800;
+  }
+}

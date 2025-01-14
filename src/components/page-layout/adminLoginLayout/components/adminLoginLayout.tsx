@@ -9,13 +9,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import openToast from "@/components/common/Toast/features/openToast";
-import styles from "@/components/page-layout/loginLayout/components/loginLayout.module.scss";
+import styles from "@/components/page-layout/adminLoginLayout/components/adminLoginLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import Email from "@/icons/email.svg";
 import Kakao from "@/icons/kakao.svg";
 import Password from "@/icons/password.svg";
 
-import postLogin from "../apis/postLogin";
+import postLogin from "../../loginLayout/apis/postLogin";
 
 const cn = classNames.bind(styles);
 
@@ -47,7 +47,7 @@ interface ErrorResponse {
   };
 }
 
-export default function LoginLayout() {
+export default function AdminLoginLayout() {
   const router = useRouter();
 
   const {
@@ -93,7 +93,7 @@ export default function LoginLayout() {
       <div className={cn("loginBox")}>
         <div className={cn("loginTitleBox")}>
           <p className={cn("loginEnglishTitle")}>BUDDY BRIDGE LOGIN</p>
-          <p className={cn("loginKoreanTitle")}>버디브릿지 로그인</p>
+          <p className={cn("loginKoreanTitle")}>버디브릿지 관리자 로그인</p>
         </div>
         <div className={cn("loginFormBox")}>
           <form className={cn("formContainer")} onSubmit={handleSubmit(handleLoginClick)}>
@@ -124,9 +124,6 @@ export default function LoginLayout() {
               </button>
               <Link href={ROUTE.SIGN_UP} type="button" className={cn("signUpBtn")}>
                 이메일 회원가입
-              </Link>
-              <Link href={ROUTE.ADMIN_LOGIN} className={cn("adminLogin")}>
-                관리자로 로그인
               </Link>
             </div>
           </form>

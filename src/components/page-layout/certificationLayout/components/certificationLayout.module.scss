@@ -1,0 +1,128 @@
+.container {
+  @include flexSort(null, center, center, null);
+  height: 100%;
+}
+
+.box {
+  border-radius: 1rem;
+  box-shadow: 0 0 0.4rem 0 rgba(0, 0, 0, 0.25);
+  @include flexSort(null, null, null, null);
+  height: 55rem;
+  width: 130rem;
+}
+
+.adminContainer {
+  flex: 1;
+  padding: 3rem;
+  @include flexSort(column, null, null, 2rem);
+}
+
+.adminTitle {
+  @include nsnFont(2.6rem, 700, normal);
+}
+
+.tableContainer {
+  @include flexSort(column, null, null, null);
+}
+
+.tableHeader {
+  @include flexSort(null, flex-end, null, null);
+  margin-bottom: 1rem;
+}
+
+.typeContainer {
+  @include flexSort(null, null, null, null);
+}
+
+.all,
+.post,
+.comment,
+.chattingRoom {
+  @include nsnFont(2rem, 600, normal);
+  padding: 1rem;
+  color: #b7b7b7;
+
+  &.selected {
+    color: #4885fe;
+    border-bottom: 0.3rem solid #4885fe;
+  }
+}
+
+.btnContainer {
+  @include flexSort(null, null, null, 2rem);
+}
+
+.deleteBtn {
+  border-radius: 1rem;
+  border: 0.15rem solid #5f5f5f;
+  color: #5f5f5f;
+  @include nsnFont(1.7rem, 700, normal);
+  width: 8.8rem;
+  height: 3.5rem;
+  @include flexSort(null, center, center, null);
+}
+
+.grantVolunteer {
+  width: 14rem;
+  height: 3.5rem;
+  @include nsnFont(1.7rem, 700, normal);
+  @include flexSort(null, center, center, 0.5rem);
+  border-radius: 1rem;
+  border: 0.15rem solid #b7b7b7;
+  background: #f1f5f9;
+}
+
+.tableBox {
+  @include flexSort(column, null, null, null);
+}
+
+.tableTitle {
+  @include flexSort(null, null, center, null);
+  height: 5rem;
+  border-top: 0.2rem solid #cdcdcd;
+  border-bottom: 0.2rem solid #cdcdcd;
+}
+
+.blank {
+  width: 5%;
+}
+
+.volunteer {
+  width: 14%;
+  @include nsnFont(1.5rem, 700, normal);
+  @include flexSort(null, center, center, null);
+}
+
+.volunteerPostInfo {
+  width: 16%;
+  @include nsnFont(1.5rem, 700, normal);
+  @include flexSort(null, center, center, null);
+}
+
+.volunteerEmail {
+  width: 30%;
+  @include nsnFont(1.5rem, 700, normal);
+  @include flexSort(null, center, center, null);
+}
+
+.volunteerGrant {
+  width: 20%;
+  @include nsnFont(1.5rem, 700, normal);
+  @include flexSort(null, center, center, null);
+}
+
+.writeDate {
+  width: 15%;
+  @include nsnFont(1.5rem, 700, normal);
+  @include flexSort(null, center, center, null);
+}
+
+.tableContentList {
+  @include flexSort(column, null, null, null);
+  height: 30rem;
+  border-bottom: 0.2rem solid #cdcdcd;
+}
+
+.paginationBox {
+  @include flexSort(null, center, center, null);
+}

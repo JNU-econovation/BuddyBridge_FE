@@ -128,13 +128,7 @@ export default function HelpYouLayout() {
             <Post data={post} key={post.id} />
           ))}
         </div>
-        <Pagination
-          type="GIVER"
-          currentPage={page}
-          itemsPerPage={8}
-          totalItems={data?.data.totalElements}
-          setPage={setPage}
-        />
+        <Pagination currentPage={page} itemsPerPage={8} totalItems={data?.data.totalElements} setPage={setPage} />
       </div>
     </main>
   );

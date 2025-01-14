@@ -1,0 +1,111 @@
+.container {
+  @include flexSort(column, null, null, null);
+  width: 45%;
+  border-right: 0.3rem solid #e8e8e8;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.headerBox {
+  padding: 2rem 5rem;
+  @include nsnFont(2.5rem, 600, normal);
+  @include flexSort(column, null, null, 2rem);
+  border-bottom: 0.3rem solid #e8e8e8;
+}
+
+.headerDetailBox {
+  @include flexSort(column, null, null, 1rem);
+}
+
+.reporterBox,
+.reporterDateBox,
+.reportedBox,
+.postBox,
+.reportedContentBox {
+  @include flexSort(null, null, center, 1rem);
+}
+
+.reporterTitle,
+.reporterDateTitle {
+  @include nsnFont(1.5rem, 700, normal);
+  width: 6.6rem;
+}
+
+.boundary {
+  color: #c6c6c6;
+  @include nsnFont(1.5rem, 700, normal);
+}
+
+.reporter,
+.reporterDate,
+.reportedName,
+.post,
+.reportedContent {
+  @include nsnFont(1.2rem, 400, normal);
+}
+
+.reportContentBox {
+  padding: 2rem 5rem;
+  @include flexSort(column, null, null, 1rem);
+}
+
+.reportedTitle,
+.postTitle,
+.reportedContentTitle,
+.reportTypeTitle,
+.reportReasonTitle {
+  @include nsnFont(1.5rem, 700, normal);
+  width: 10.1rem;
+}
+
+.reportTypeBox,
+.reportReasonBox {
+  @include flexSort(column, null, null, 1rem);
+}
+
+.reportType {
+  @include nsnFont(1.2rem, 400, normal);
+  padding: 0.2rem 0.8rem;
+  border-radius: 0.6rem;
+  border: 0.1rem solid rgba(0, 193, 106, 0.25);
+  background: rgba(0, 193, 106, 0.1);
+  color: #00c16a;
+  width: fit-content;
+}
+
+.reportReason {
+  border-radius: 0.5rem;
+  border: 0.2rem solid #cdcdcd;
+  @include nsnFont(1.4em, 400, normal);
+  padding: 1rem;
+}
+
+.btnContainer {
+  margin-top: 1rem;
+  @include flexSort(null, flex-end, null, null);
+}
+
+.btnBox {
+  @include flexSort(null, null, null, 1rem);
+}
+
+.deleteBtn {
+  border-radius: 1rem;
+  border: 0.15rem solid #5f5f5f;
+  color: #5f5f5f;
+  @include nsnFont(1.5rem, 700, normal);
+  width: fit-content;
+  padding: 0.5rem;
+}
+
+.blackListBtn {
+  border-radius: 1rem;
+  border: 1.5px solid rgba(255, 41, 41, 0.45);
+  background: rgba(255, 41, 41, 0.25);
+  @include nsnFont(1.5rem, 700, normal);
+  @include flexSort(null, center, center, 0.5rem);
+  width: fit-content;
+  padding: 0.5rem;
+}
