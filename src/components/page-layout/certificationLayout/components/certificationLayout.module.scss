@@ -94,13 +94,13 @@
 }
 
 .volunteerPostInfo {
-  width: 16%;
+  width: 20%;
   @include nsnFont(1.5rem, 700, normal);
   @include flexSort(null, center, center, null);
 }
 
 .volunteerEmail {
-  width: 30%;
+  width: 26%;
   @include nsnFont(1.5rem, 700, normal);
   @include flexSort(null, center, center, null);
 }
