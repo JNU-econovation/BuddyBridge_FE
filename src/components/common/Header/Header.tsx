@@ -20,22 +20,24 @@ export default function Header() {
   return (
     <>
       <div className={cn("container")}>
-        <header className={cn("header")}>
-          <Link href={ROUTE.HOME} className={cn("logoContainer")}>
-            <Logo />
-          </Link>
-          <nav className={cn("nav")}>
-            <Link href={ROUTE.HELP_ME} className={cn("navContent", helpMe)}>
-              도와줄래요?
+        <header className={cn("box")}>
+          <div className={cn("header")}>
+            <Link href={ROUTE.HOME} className={cn("logoContainer")}>
+              <Logo />
             </Link>
-            <Link href={ROUTE.HELP_YOU} className={cn("navContent", helpYou)}>
-              도와줄게요!
-            </Link>
-            <Link href={ROUTE.MY_PAGE} className={cn("navContent", myWrite)}>
-              마이페이지
-            </Link>
-          </nav>
-          <User />
+            <nav className={cn("nav")}>
+              <Link href={ROUTE.HELP_ME} className={cn("navContent", helpMe)}>
+                도와줄래요?
+              </Link>
+              <Link href={ROUTE.HELP_YOU} className={cn("navContent", helpYou)}>
+                도와줄게요!
+              </Link>
+              <Link href={ROUTE.MY_PAGE} className={cn("navContent", myWrite)}>
+                마이페이지
+              </Link>
+            </nav>
+            <User />
+          </div>
         </header>
       </div>
     </>
