@@ -27,7 +27,6 @@ import MyChat from "./MyChat/MyChat";
 import OppositeChat from "./OppositeChat/OppositeChat";
 import getChatingRoom from "../../../apis/getChatingRoom";
 import putMatchingStatus from "../../../apis/putMatchingStatus";
-import { useChatContext } from "../../chatLayout";
 
 const cn = classNames.bind(styles);
 
@@ -58,7 +57,8 @@ export default function ChattingRoomContent({
   setIsHamburgerClick,
   matchingState,
 }: ChattingRoomContentProps) {
-  const { chatingRoomNumber, chattingRoomType } = useChatContext();
+  const router = useRouter();
+  const chatingRoomNumber = Number(router.query["id"]);
   const [receivedMessages, setReceivedMessages] = useState<ReceivedMessage[]>([]);
   const [, setConnectionStatus] = useState("Disconnected");
   const clientRef = useRef<Client | null>(null);
@@ -90,7 +90,7 @@ export default function ChattingRoomContent({
   } = useInfiniteQuery({
     queryKey: ["chatingRoom", chatingRoomNumber],
     queryFn: async ({ pageParam }) => {
-      const result = await getChatingRoom(5, pageParam, chatingRoomNumber as number);
+      const result = await getChatingRoom(5, pageParam, chatingRoomNumber);
       queryClient.invalidateQueries({ queryKey: ["chatList", matchingState] });
       return result;
     },
@@ -100,9 +100,16 @@ export default function ChattingRoomContent({
     enabled: !!chatingRoomNumber,
   });
 
+  const { data: chattingRoomData } = useQuery({
+    queryKey: ["chattingRoomData", chatingRoomNumber],
+    queryFn: () => getChatingRoom(1, 0, chatingRoomNumber),
+  });
+
   const chatAcceptMutation = useMutation({
     mutationFn: ({ chattingRoomId, status }: putMatchingType) => putMatchingStatus(chattingRoomId, status),
   });
+
+  const chattingRoomType = chattingRoomData?.matchingStatus;
 
   useOutsideClick([stateChangeRoomRef], () => setIsHamburgerClick(false));
   useOutsideClick([matchingStatusChangeRef], () => setIsMatchingBtnClick(false));
@@ -132,6 +139,7 @@ export default function ChattingRoomContent({
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ["chatList", matchingState] });
+          queryClient.invalidateQueries({ queryKey: ["chattingRoomData", chatingRoomNumber] });
         },
       },
     );

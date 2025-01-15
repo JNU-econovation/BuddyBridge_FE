@@ -1,11 +1,9 @@
-import { useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Image from "next/image";
 import Link from "next/link";
 
 import styles from "@/components/common/Chat/Chat.module.scss";
-import { useChatContext } from "@/components/page-layout/chatLayout/components/chatLayout";
 import { formatDateString } from "@/utils";
 
 const cn = classNames.bind(styles);
@@ -22,25 +20,9 @@ interface ChatProps {
   unreadMessagesCount: number;
 }
 
-export default function Chat({
-  name,
-  content,
-  date,
-  type,
-  img,
-  id,
-  postId,
-  chattingRoomType,
-  unreadMessagesCount,
-}: ChatProps) {
-  const { setChattingRoomType } = useChatContext();
-
-  const handleChatClick = () => {
-    setChattingRoomType(chattingRoomType);
-  };
-
+export default function Chat({ name, content, date, type, img, id, postId, unreadMessagesCount }: ChatProps) {
   return (
-    <Link href={`/chat/${id}`} className={cn("container")} onClick={handleChatClick}>
+    <Link href={`/chat/${id}`} className={cn("container")}>
       <div className={cn("box")}>
         <Image src={img} alt="프로필 이미지" width={40} height={40} className={cn("img")} />
         <div className={cn("contentBox")}>

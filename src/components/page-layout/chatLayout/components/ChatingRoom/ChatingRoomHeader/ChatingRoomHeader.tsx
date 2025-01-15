@@ -4,12 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomHeader/ChatingRoomHeader.module.scss";
 import Hamburger from "@/icons/hamburger.svg";
 
 import getChatingRoom from "../../../apis/getChatingRoom";
-import { useChatContext } from "../../chatLayout";
 
 const cn = classNames.bind(styles);
 
@@ -18,7 +18,8 @@ interface ChatingRoomHeaderProps {
 }
 
 export default function ChatingRoomHeader({ setIsHamburgerClick }: ChatingRoomHeaderProps) {
-  const { chatingRoomNumber } = useChatContext();
+  const router = useRouter();
+  const chatingRoomNumber = Number(router.query["id"]);
 
   const { data } = useQuery({
     queryKey: ["chatingRoomHeader", chatingRoomNumber],
