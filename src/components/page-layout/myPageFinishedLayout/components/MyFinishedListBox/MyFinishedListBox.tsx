@@ -9,8 +9,6 @@ import AssistanceTypeFilter, {
   AssistanceTypeFilterProps,
 } from "@/components/common/AssistanceTypeFilter/AssistanceTypeFilter";
 import Pagination from "@/components/common/Pagenation/Pagenation";
-//import PostTypeFilter from "@/components/page-layout/myPageLikesLayout/components/PostTypeFilter/PostTypeFilter";
-import { ROUTE } from "@/constants/route";
 
 import styles from "./MyFinishedListBox.module.scss";
 import getMyFinished from "../../apis/getMyFinished";
@@ -61,7 +59,6 @@ export default function MyFinishedListBox() {
         <MyFinishedList finishedList={FinishedList.content} />
         <div className={cn("paginationBox")}>
           <Pagination
-            type={memberRole}
             currentPage={Number(pageId)}
             itemsPerPage={4}
             totalItems={Number(FinishedList?.totalElements)}
