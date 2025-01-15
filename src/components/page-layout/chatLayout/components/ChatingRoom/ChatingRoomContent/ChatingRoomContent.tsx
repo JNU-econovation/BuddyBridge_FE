@@ -114,8 +114,17 @@ export default function ChattingRoomContent({
     queryFn: () => getChatingRoom(1, 0, chatingRoomNumber),
   });
 
-  const chatAcceptMutation = useMutation({
+  const changeMatchingStatusMutation = useMutation({
     mutationFn: ({ chattingRoomId, status }: putMatchingType) => putMatchingStatus(chattingRoomId, status),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["chatList", matchingState] });
+      queryClient.invalidateQueries({ queryKey: ["chattingRoomData", chatingRoomNumber] });
+    },
+    onError: (error: AxiosError<deleteMatchingErrorResponse>) => {
+      if (error.response) {
+        openToast("error", error.response.data.error.message);
+      }
+    },
   });
 
   const deleteMatchingMutation = useMutation({
@@ -158,15 +167,7 @@ export default function ChattingRoomContent({
   );
 
   const handleMatchingStatusChangeClick = () => {
-    chatAcceptMutation.mutate(
-      { chattingRoomId: chatingRoomNumber as number, status: "TOGGLE_DONE" },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ["chatList", matchingState] });
-          queryClient.invalidateQueries({ queryKey: ["chattingRoomData", chatingRoomNumber] });
-        },
-      },
-    );
+    changeMatchingStatusMutation.mutate({ chattingRoomId: chatingRoomNumber as number, status: "TOGGLE_DONE" });
     setIsMatchingBtnClick(false);
   };
 
@@ -366,7 +367,9 @@ export default function ChattingRoomContent({
           setState={setIsConfirmVolunteeringModalOpen}
           setIsCompleteVolunteeringModalOpen={setIsCompleteVolunteeringModalOpen}
           setIsGetNoVolunteeringModalOpen={setIsGetNoVolunteeringModalOpen}
-          volunteeringMutation={(data: putMatchingType, options?: any) => chatAcceptMutation.mutate(data, options)}
+          volunteeringMutation={(data: putMatchingType, options?: any) =>
+            changeMatchingStatusMutation.mutate(data, options)
+          }
           chattingRoomId={chatingRoomNumber as number}
         />
       )}
