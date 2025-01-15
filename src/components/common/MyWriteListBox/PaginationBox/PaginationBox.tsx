@@ -7,7 +7,6 @@ import { MyWritePostResponse } from "@/types/post";
 
 import styles from "./PaginationBox.module.scss";
 import Pagination from "../../Pagenation/Pagenation";
-//import { MyWriteListBoxProps } from "../MyWriteListBox";
 
 const cn = classNames.bind(styles);
 
@@ -19,7 +18,7 @@ interface PaginationBoxProps {
     content: CommentType[];
   };
   filter: string;
-  pageId: string;
+  pageId: number;
   postType: string;
 }
 
