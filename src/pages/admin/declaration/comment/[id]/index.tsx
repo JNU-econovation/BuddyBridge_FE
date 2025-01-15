@@ -3,10 +3,10 @@ import { ReactElement } from "react";
 import RootLayout from "@/components/common/RootLayout/RootLayout";
 import CommentDeclarationDetailLayout from "@/components/page-layout/commentDeclarationDetailLayout/components/commentDeclarationDetailLayout";
 
-export default function commentDeclarationDetail() {
+export default function CommentDeclarationDetail() {
   return <CommentDeclarationDetailLayout />;
 }
 
-commentDeclarationDetail.getLayout = function getLayout(page: ReactElement) {
+CommentDeclarationDetail.getLayout = function getLayout(page: ReactElement) {
   return <RootLayout>{page}</RootLayout>;
 };
