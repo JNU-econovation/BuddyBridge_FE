@@ -2,6 +2,7 @@ import { Dispatch, KeyboardEvent, SetStateAction, useCallback, useEffect, useRef
 
 import { Client } from "@stomp/stompjs";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 import { useForm } from "react-hook-form";
 import { useInView } from "react-intersection-observer";
@@ -10,6 +11,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import getLogIn from "@/components/common/Header/apis/getLogIn";
+import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/ChatingRoomContent.module.scss";
 import { ROUTE } from "@/constants/route";
 import useOutsideClick from "@/hooks/useOutsideClick";
@@ -25,6 +27,7 @@ import DeclarationModal from "./DeclarationModal/DeclarationModal";
 import GetNoVolunteeringModal from "./GetNoVolunteeringModal/GetNoVolunteeringModal";
 import MyChat from "./MyChat/MyChat";
 import OppositeChat from "./OppositeChat/OppositeChat";
+import deleteMatching from "../../../apis/deleteMatching";
 import getChatingRoom from "../../../apis/getChatingRoom";
 import putMatchingStatus from "../../../apis/putMatchingStatus";
 
@@ -50,6 +53,12 @@ interface ChattingRoomContentProps {
 interface putMatchingType {
   chattingRoomId: number;
   status: string;
+}
+
+interface deleteMatchingErrorResponse {
+  error: {
+    message: string;
+  };
 }
 
 export default function ChattingRoomContent({
@@ -109,6 +118,21 @@ export default function ChattingRoomContent({
     mutationFn: ({ chattingRoomId, status }: putMatchingType) => putMatchingStatus(chattingRoomId, status),
   });
 
+  const deleteMatchingMutation = useMutation({
+    mutationFn: () => deleteMatching(chatingRoomNumber),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["chatList", matchingState] });
+      router.push(ROUTE.CHAT);
+      openToast("success", "매칭이 삭제되었습니다.");
+      () => setIsHamburgerClick(false);
+    },
+    onError: (error: AxiosError<deleteMatchingErrorResponse>) => {
+      if (error.response) {
+        openToast("error", error.response.data.error.message);
+      }
+    },
+  });
+
   const chattingRoomType = chattingRoomData?.matchingStatus;
 
   useOutsideClick([stateChangeRoomRef], () => setIsHamburgerClick(false));
@@ -144,6 +168,10 @@ export default function ChattingRoomContent({
       },
     );
     setIsMatchingBtnClick(false);
+  };
+
+  const handleDeleteMatching = () => {
+    deleteMatchingMutation.mutate();
   };
 
   useEffect(() => {
@@ -258,9 +286,9 @@ export default function ChattingRoomContent({
         <div className={cn("chatingOutContainer")}>
           <div className={cn("grayContainer")}></div>
           <div className={cn("whiteContainer")} ref={stateChangeRoomRef}>
-            <Link href={ROUTE.CHAT} className={cn("chatingRoomOutButton")} onClick={() => setIsHamburgerClick(false)}>
+            <button className={cn("chatingRoomOutButton")} onClick={handleDeleteMatching}>
               채팅방 나가기
-            </Link>
+            </button>
             {data.memberId === chattingData?.pages[0].postAuthorId && (
               <div className={cn("stateChangeContainer")}>
                 <p className={cn("stateChange")}>상태변경</p>
