@@ -19,6 +19,7 @@
 .detailContainer {
   @include flexSort(column, null, null, 1rem);
   overflow-y: scroll;
+  flex: 1;
 
   &::-webkit-scrollbar {
     display: none;
