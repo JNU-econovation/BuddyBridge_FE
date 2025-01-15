@@ -64,7 +64,7 @@ export default function LikesPost({
       <div className={cn("leftBox")}>
         <div className={cn("titleBox")}>
           <span className={cn("postTypeLabel", { giverType: postType === "GIVER" })}>{`${
-            postType === "TAKER" ? "도와줄래요?" : "도와줄게요"
+            postType === "TAKER" ? "도와줄래요?" : "도와줄게요!"
           } ${id}`}</span>
           <div className={cn("title")}>
             <p className={cn("titleText")}>{title}</p>
