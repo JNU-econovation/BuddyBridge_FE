@@ -12,7 +12,7 @@ const cn = classNames.bind(styles);
 export interface MyWriteListBoxProps {
   deleteMode: boolean;
   selectedContents: number[];
-  setSelectedContents: React.Dispatch<React.SetStateAction<number[]>>
+  setSelectedContents: React.Dispatch<React.SetStateAction<number[]>>;
   postData: MyWritePostResponse["data"];
   commentData: {
     totalElements: number;
@@ -20,22 +20,30 @@ export interface MyWriteListBoxProps {
     content: CommentType[];
   };
   filter: string;
-  pageId: string;
+  pageId: number;
   postType: string;
 }
 
-export default function MyWriteListBox({ deleteMode, selectedContents, setSelectedContents, postData, commentData, filter, pageId, postType }: MyWriteListBoxProps) {
-  
+export default function MyWriteListBox({
+  deleteMode,
+  selectedContents,
+  setSelectedContents,
+  postData,
+  commentData,
+  filter,
+  pageId,
+  postType,
+}: MyWriteListBoxProps) {
   return (
     <>
       <div className={cn("myWritePostBox")}>
-        <MyWriteList 
-          deleteMode={deleteMode} 
-          selectedContents={selectedContents} 
+        <MyWriteList
+          deleteMode={deleteMode}
+          selectedContents={selectedContents}
           setSelectedContents={setSelectedContents}
-          commentData={commentData} 
-          postData={postData} 
-          filter={filter} 
+          commentData={commentData}
+          postData={postData}
+          filter={filter}
         />
       </div>
       <div className={cn("paginationBox")}>

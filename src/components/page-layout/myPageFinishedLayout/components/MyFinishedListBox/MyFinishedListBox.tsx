@@ -22,7 +22,7 @@ const cn = classNames.bind(styles);
 export default function MyFinishedListBox() {
   const router = useRouter();
   const memberRole = (router.query.memberRole as AssistanceTypeFilterProps["memberRole"]) || "TAKER";
-  const pageId = router.query.pageId || "1";
+  const pageId = Number(router.query.pageId) || 1;
   const params = new URLSearchParams(router.query as any);
   const [isToggleOn, setIsToggleOn] = useState(false);
 
@@ -36,7 +36,7 @@ export default function MyFinishedListBox() {
     isError,
   } = useQuery({
     queryKey: ["Finished", pageId, memberRole, isToggleOn],
-    queryFn: () => getMyFinished(`${pageId}`, memberRole, isToggleOn),
+    queryFn: () => getMyFinished(pageId - 1, memberRole, isToggleOn),
     enabled: !!memberRole,
   });
 

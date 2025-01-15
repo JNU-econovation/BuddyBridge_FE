@@ -18,15 +18,15 @@ interface MyRegisterPostProps {
 export default function MyRegisterPost({ postType }: MyRegisterPostProps) {
   const router = useRouter();
   const filter = router.query.state === "댓글" ? "댓글" : "게시물";
-  const pageId = router.query.pageId || "1";
+  const pageId = Number(router.query.pageId) || 1;
 
-  const { data: postData, isLoading, isError } = useGetMyPost(pageId as string, postType, filter);
+  const { data: postData, isLoading, isError } = useGetMyPost(pageId, postType, filter);
 
   const {
     data: commentData,
     isLoading: isCommentLoading,
     isError: isCommentError,
-  } = useGetMyComment(pageId as string, postType, filter);
+  } = useGetMyComment(pageId, postType, filter);
 
   if (isLoading || !postData) return <div>로딩...</div>;
 

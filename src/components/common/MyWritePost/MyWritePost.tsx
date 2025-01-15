@@ -27,7 +27,7 @@ export default function MyWritePost({ post }: MyWritePostProps) {
     postType,
     district,
     schedule: { endDate, startDate },
-    assistance: { assistanceStartTime: startTime, assistanceEndTime: endTime},
+    assistance: { assistanceStartTime: startTime, assistanceEndTime: endTime },
     title,
   } = post;
 
@@ -35,7 +35,9 @@ export default function MyWritePost({ post }: MyWritePostProps) {
     <Link href={`${postType === "TAKER" ? ROUTE.HELP_ME : ROUTE.HELP_YOU}/${id}`} className={cn("container")}>
       <div className={cn("leftBox")}>
         <div className={cn("titleBox")}>
-          <span className={cn("postTypeLabel",{giverType:postType==="GIVER"})}>{`${postType === "TAKER" ? "도와줄래요?": "도와줄게요"} ${id}`}</span>
+          <span className={cn("postTypeLabel", { giverType: postType === "GIVER" })}>{`${
+            postType === "TAKER" ? "도와줄래요?" : "도와줄게요!"
+          } ${id}`}</span>
           <div className={cn("title")}>
             <p className={cn("titleText")}>{title}</p>
             <PostStatusLabel postStatus={postStatus} />
@@ -43,15 +45,15 @@ export default function MyWritePost({ post }: MyWritePostProps) {
         </div>
         <div className={cn("detailBox")}>
           <div className={cn("districtBox")}>
-            <Location/>
+            <Location />
             <p>{district}</p>
           </div>
           <div className={cn("dateBox")}>
-            <Calendar/>
+            <Calendar />
             <p>{`${formatDateString(startDate)} ~ ${formatDateString(endDate)}`}</p>
           </div>
           <div className={cn("timeBox")}>
-            <Clock/>
+            <Clock />
             <p>{`${startTime} ~ ${endTime}`}</p>
           </div>
         </div>
