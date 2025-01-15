@@ -17,7 +17,7 @@ export default function CommentDeclarationDetailLayout() {
   const router = useRouter();
 
   const { data, isError, isPending } = useQuery({
-    queryKey: ["adminPost"],
+    queryKey: ["adminComment", router.query.id],
     queryFn: () => getCommentDetail(Number(router.query.id)),
     enabled: !!router.query.id,
   });

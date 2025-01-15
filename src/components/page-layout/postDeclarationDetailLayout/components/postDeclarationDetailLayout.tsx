@@ -16,7 +16,7 @@ export default function PostDeclarationDetailLayout() {
   const router = useRouter();
 
   const { data, isError, isPending } = useQuery({
-    queryKey: ["adminPost"],
+    queryKey: ["adminPost", router.query.id],
     queryFn: () => getPostDetail(Number(router.query.id)),
     enabled: !!router.query.id,
   });
