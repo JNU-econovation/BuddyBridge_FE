@@ -38,8 +38,6 @@ export default function CertificationLayout() {
     enabled: currentPage >= 0,
   });
 
-  console.log(data);
-
   const deleteCertificationMutation = useMutation({
     mutationFn: (id: number) => deleteCertification(id),
     onSuccess: () => {
