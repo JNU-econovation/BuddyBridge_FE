@@ -3,6 +3,7 @@ import classNames from "classnames/bind";
 import Link from "next/link";
 
 import styles from "@/components/page-layout/certificationLayout/components/CertificationContent/CertificationContent.module.scss";
+import { ROUTE } from "@/constants/route";
 import { formatDateString } from "@/utils";
 
 const cn = classNames.bind(styles);
@@ -42,7 +43,7 @@ export default function CertificationContent({
 
   return (
     <li>
-      <Link href={"/"} className={cn("container")}>
+      <Link href={`${ROUTE.ADMIN_CERTIFICATION}/${certificationId}`} className={cn("container")}>
         <div className={cn("check")}>
           <input type="checkbox" checked={checkId === certificationId} onClick={handleCheckBoxClick} />
         </div>

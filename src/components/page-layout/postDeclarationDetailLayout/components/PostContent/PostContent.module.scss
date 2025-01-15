@@ -20,7 +20,7 @@
 }
 
 .titleBox {
-  @include flexSort(column, null, flex-start, null);
+  @include flexSort(column, null, flex-start, 1rem);
 }
 
 .postId {
