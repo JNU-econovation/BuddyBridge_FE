@@ -25,7 +25,7 @@ export default function HelpYouLayout() {
   const disabilityType = params.get("disabilityType") ?? "";
   const assistanceType = params.get("assistanceType") ?? "";
   const postStatus = params.get("postStatus") ?? "";
-  const page = Number(currentPage) || 1;
+  const page = Number(currentPage) || 0;
 
   const setPage = (newPage: number) => {
     const pathName = router.pathname;

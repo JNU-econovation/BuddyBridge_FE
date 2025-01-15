@@ -113,8 +113,8 @@ export interface MyWritePostResponse {
 export interface MyFinishedPostType {
   postId: number;
   matchingId: number;
-  name: string;
-  email: string;
+  giverName: string;
+  giverEmail: string;
   title: string;
   district: "광주광역시" | "북구" | "서구" | "동구" | "남구" | "광산구";
   postType: "TAKER" | "GIVER";

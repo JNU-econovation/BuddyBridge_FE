@@ -16,7 +16,7 @@ const cn = classNames.bind(styles);
 export default function MyLikesListBox() {
   const router = useRouter();
   const postType = (router.query.postType as PostTypeFilterProps["postType"]) || "TAKER";
-  const pageId = router.query.pageId || "1";
+  const pageId = router.query.pageId || "0";
   const params = new URLSearchParams(router.query as any);
 
   const {

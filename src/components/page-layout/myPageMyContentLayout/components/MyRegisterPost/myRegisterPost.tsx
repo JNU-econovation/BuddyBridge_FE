@@ -25,7 +25,7 @@ export default function MyRegisterPost() {
   const queryClient = useQueryClient();
   const postType = (router.query.postType as PostTypeFilterProps["postType"]) || "TAKER";
   const filter = router.query.state === "post" ? "post" : router.query.state === "comment" ? "comment" : "";
-  const pageId = router.query.pageId || "1";
+  const pageId = router.query.pageId || "0";
   const queryKey = router.query.state === "post" ? "postData" : router.query.state === "comment" ? "commenData" : "";
 
   const [contentType, setContentType] = useState(filter);

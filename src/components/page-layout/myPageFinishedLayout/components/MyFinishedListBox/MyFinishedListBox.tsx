@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
@@ -22,14 +22,23 @@ const cn = classNames.bind(styles);
 export default function MyFinishedListBox() {
   const router = useRouter();
   const memberRole = (router.query.memberRole as AssistanceTypeFilterProps["memberRole"]) || "TAKER";
-  const pageId = router.query.pageId || "1";
+  const pageId = router.query.pageId || "0";
   const params = new URLSearchParams(router.query as any);
   const [isToggleOn, setIsToggleOn] = useState(false);
 
   const toggleSwitch = () => {
     setIsToggleOn((prev) => !prev);
   };
-
+  
+  useEffect(() => {
+    if(!router.query.memberRole) {
+      router.replace({
+        pathname: router.pathname,
+        query: {...router.query, memberRole: "TAKER"},
+      })
+    }
+  },[])
+  
   const {
     data: FinishedList,
     isLoading,
@@ -54,21 +63,23 @@ export default function MyFinishedListBox() {
   if (isError) return <div>에러...</div>;
 
   return (
-    <div className={cn("myPageFinishedList")}>
-      <AssistanceTypeFilter pageId={`${pageId}`} memberRole={memberRole} />
-      <div className={cn("myFinishedListBox")}>
-        <CompleteToggle isOn={isToggleOn} toggleSwitch={toggleSwitch} />
-        <MyFinishedList finishedList={FinishedList.content} />
-        <div className={cn("paginationBox")}>
-          <Pagination
-            type={memberRole}
-            currentPage={Number(pageId)}
-            itemsPerPage={4}
-            totalItems={Number(FinishedList?.totalElements)}
-            setPage={setPage}
-          />
+    <>
+      <div className={cn("myPageFinishedList")}>
+        <AssistanceTypeFilter pageId={`${pageId}`} memberRole={memberRole} />
+        <div className={cn("myFinishedListBox")}>
+          <CompleteToggle isOn={isToggleOn} toggleSwitch={toggleSwitch} />
+          <MyFinishedList finishedList={FinishedList.content} />
+          <div className={cn("paginationBox")}>
+            <Pagination
+              type={memberRole}
+              currentPage={Number(pageId)}
+              itemsPerPage={4}
+              totalItems={Number(FinishedList?.totalElements)}
+              setPage={setPage}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

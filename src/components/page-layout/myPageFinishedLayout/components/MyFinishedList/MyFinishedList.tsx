@@ -19,6 +19,8 @@ export default function MyFinishedList({ finishedList }: MyFinishedListProps) {
           key={post.postId}
           endDate={post.schedule.endDate}
           id={post.postId}
+          email={post.giverEmail}
+          name={post.giverName}
           matchingId={post.matchingId}
           startDate={post.schedule.startDate}
           postStatus={post.postStatus}

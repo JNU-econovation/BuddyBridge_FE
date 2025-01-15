@@ -47,7 +47,7 @@
 }
 
 .takerDoneBtn,
-.takerVCBtn,
+.takerVC,
 .giverVCBtn,
 .giverVVBtn {
     @include flexSort(null, null, center, 0.5rem);
@@ -71,7 +71,7 @@
     color: white;
 }
 
-.takerVCBtn {
+.takerVC {
     background-color: white;
     border: 0.15rem solid #EA9308;
     color: #EA9308;
