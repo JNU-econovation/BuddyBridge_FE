@@ -18,7 +18,7 @@ interface PaginationBoxProps {
     content: CommentType[];
   };
   filter: string;
-  pageId: string;
+  pageId: number;
   postType: string;
 }
 

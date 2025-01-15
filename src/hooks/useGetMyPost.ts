@@ -2,11 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 
 import getMyPost from "@/components/page-layout/myPageHelpMeLayout/apis/getMyPost";
 
-const useGetMyPost = (pageId: string, postType: string, filter: string) => {
+const useGetMyPost = (pageId: number, postType: string, filter: string) => {
   return useQuery({
     queryKey: ["postData", pageId, postType],
-    queryFn: () => getMyPost(pageId as string, postType),
-    enabled: !!pageId && !!postType && filter === "post",
+    queryFn: () => getMyPost(pageId, postType),
+    enabled: pageId >= 0 && !!postType && filter === "post",
   });
 };
 

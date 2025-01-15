@@ -29,7 +29,7 @@ export default function AssistanceTypeFilter({ memberRole, pageId }: AssistanceT
       query: updateQuery,
     });
 
-    queryClient.invalidateQueries({ queryKey: ["Finisehd", pageId, memberRole] });
+    queryClient.invalidateQueries({ queryKey: ["Finished", pageId, memberRole] });
   };
 
   return (

@@ -39,7 +39,7 @@ export default function HelpMeLayout() {
 
   const { data } = useQuery({
     queryKey: ["post", page, disabilityType, assistanceType, postStatus],
-    queryFn: () => getPagenationItems("TAKER", page, 8, all, postStatus, disabilityType, assistanceType),
+    queryFn: () => getPagenationItems("TAKER", page - 1, 8, all, postStatus, disabilityType, assistanceType),
     placeholderData: keepPreviousData,
     enabled: !!all || !!disabilityType || !!assistanceType || !!postStatus,
   });

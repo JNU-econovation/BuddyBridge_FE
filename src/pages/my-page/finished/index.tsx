@@ -3,10 +3,10 @@ import { ReactElement } from "react";
 import RootLayout from "@/components/common/RootLayout/RootLayout";
 import MyPageFinishedLayout from "@/components/page-layout/myPageFinishedLayout/components/myPageFinishedLayout";
 
-export default function MyPageEdit() {
+export default function MyPageFinished() {
   return <MyPageFinishedLayout />;
 }
 
-MyPageEdit.getLayout = function getLayout(page: ReactElement) {
+MyPageFinished.getLayout = function getLayout(page: ReactElement) {
   return <RootLayout>{page}</RootLayout>;
 };
