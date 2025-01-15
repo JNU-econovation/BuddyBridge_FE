@@ -29,6 +29,7 @@ import MyChat from "./MyChat/MyChat";
 import OppositeChat from "./OppositeChat/OppositeChat";
 import deleteMatching from "../../../apis/deleteMatching";
 import getChatingRoom from "../../../apis/getChatingRoom";
+import postCertificationRequest from "../../../apis/postCertificationRequest";
 import putMatchingStatus from "../../../apis/putMatchingStatus";
 
 const cn = classNames.bind(styles);
@@ -119,6 +120,18 @@ export default function ChattingRoomContent({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["chatList", matchingState] });
       queryClient.invalidateQueries({ queryKey: ["chattingRoomData", chatingRoomNumber] });
+    },
+    onError: (error: AxiosError<deleteMatchingErrorResponse>) => {
+      if (error.response) {
+        openToast("error", error.response.data.error.message);
+      }
+    },
+  });
+
+  const postCertificationRequestMutation = useMutation({
+    mutationFn: () => postCertificationRequest(chatingRoomNumber),
+    onSuccess: () => {
+      openToast("success", "봉사 인증 요청이 완료되었습니다.");
     },
     onError: (error: AxiosError<deleteMatchingErrorResponse>) => {
       if (error.response) {
@@ -249,6 +262,11 @@ export default function ChattingRoomContent({
     setIsHamburgerClick(false);
   };
 
+  const handleHelpRequestBtnClick = () => {
+    setIsHamburgerClick(false);
+    postCertificationRequestMutation.mutate();
+  };
+
   return (
     <>
       <div className={cn("container")}>
@@ -257,8 +275,21 @@ export default function ChattingRoomContent({
           {receivedMessages?.map((msg, index) =>
             msg.messageType === "INFO" ? (
               <div className={cn("firstMessageContainer")} key={index}>
-                <p className={cn("firstMessage")}>매칭이 생성되었습니다.</p>
+                <p className={cn("firstMessage")}>{msg.content}</p>
               </div>
+            ) : msg.messageType === "REQUEST" &&
+              ((chattingData?.pages[0].postType === "TAKER" && data?.memberId !== msg.senderId) ||
+                (chattingData?.pages[0].postType === "GIVER" && data?.memberId !== msg.senderId)) ? (
+              <OppositeChat
+                date={msg.createdAt}
+                key={index}
+                oppsiteUser={chattingData?.pages[0].receiver}
+                chat={msg.content}
+              />
+            ) : msg.messageType === "REQUEST" &&
+              ((chattingData?.pages[0].postType === "TAKER" && data?.memberId === msg.senderId) ||
+                (chattingData?.pages[0].postType === "GIVER" && data?.memberId === msg.senderId)) ? (
+              <MyChat date={msg.createdAt} chat={msg.content} key={index} />
             ) : data?.memberId === msg.senderId ? (
               <MyChat date={msg.createdAt} chat={msg.content} key={index} />
             ) : (
@@ -338,6 +369,15 @@ export default function ChattingRoomContent({
                   }}
                 >
                   도움을 주었나요?
+                </button>
+              )}
+            {chattingRoomData.canVerificationRequest &&
+              chattingRoomType === "DONE" &&
+              ((chattingData?.pages[0].postType === "TAKER" && data.memberId !== chattingData?.pages[0].postAuthorId) ||
+                (chattingData?.pages[0].postType === "GIVER" &&
+                  data.memberId === chattingData?.pages[0].postAuthorId)) && (
+                <button className={cn("helpBtn")} onClick={handleHelpRequestBtnClick}>
+                  봉사 인증 요청하기
                 </button>
               )}
             <button
