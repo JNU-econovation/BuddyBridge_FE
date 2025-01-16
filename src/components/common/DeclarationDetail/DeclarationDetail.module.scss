@@ -1,7 +1,7 @@
 .container {
   @include flexSort(column, null, null, null);
   width: 45%;
-  border-right: 0.3rem solid #e8e8e8;
+  border-right: 0.15rem solid #e8e8e8;
   overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none;
@@ -12,7 +12,7 @@
   padding: 2rem 5rem;
   @include nsnFont(2.5rem, 600, normal);
   @include flexSort(column, null, null, 2rem);
-  border-bottom: 0.3rem solid #e8e8e8;
+  border-bottom: 0.15rem solid #e8e8e8;
 }
 
 .headerDetailBox {

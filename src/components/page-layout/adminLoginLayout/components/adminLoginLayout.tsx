@@ -61,7 +61,7 @@ export default function AdminLoginLayout() {
     onSuccess: (response) => {
       window.localStorage.setItem("accessToken", response.data.accessToken);
       window.localStorage.setItem("refreshToken", response.data.refreshToken);
-      router.push(ROUTE.HOME);
+      router.push(ROUTE.ADMIN_DECLARATION);
       openToast("success", "로그인이 완료되었습니다.");
     },
     onError: (error: AxiosError<ErrorResponse>) => {

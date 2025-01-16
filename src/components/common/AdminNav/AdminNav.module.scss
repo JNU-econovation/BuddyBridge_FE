@@ -1,8 +1,19 @@
 .container {
+  position: relative;
   padding: 3rem;
   width: 20%;
-  border-right: 0.3rem solid #e8e8e8;
   @include flexSort(column, null, null, 3rem);
+}
+
+.container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0.15rem;
+  height: 100%;
+  box-shadow: 0 0 0.4rem 0 rgba(0, 0, 0, 0.2);
+  background-color: #e8e8e8;
 }
 
 .title {
