@@ -1,6 +1,7 @@
 import { MouseEvent } from "react";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 
 import Link from "next/link";
@@ -17,11 +18,18 @@ import { formatDateString } from "@/utils";
 
 import postLikes from "./apis/postLikes";
 import PostLabel from "./PostLabel/PostLabel";
+import openToast from "../Toast/features/openToast";
 
 const cn = classNames.bind(styles);
 
 interface PostProps {
   data: PostType;
+}
+
+interface ErrorResponse {
+  error: {
+    message: string;
+  };
 }
 
 export default function Post({ data }: PostProps) {
@@ -42,23 +50,29 @@ export default function Post({ data }: PostProps) {
   const { mutate } = useMutation({
     mutationFn: () => postLikes(id),
     onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: ["takerPost"] });
+      if (localStorage.getItem("accessToken")) {
+        await queryClient.cancelQueries({ queryKey: ["takerPost"] });
 
-      const previousTodos = queryClient.getQueryData(["takerPost"]);
+        const previousTodos = queryClient.getQueryData(["takerPost"]);
 
-      queryClient.setQueryData(["takerPost"], (postList: PostType[]) =>
-        postList.map((item) => {
-          if (item.id === id) {
-            return { ...item, isLiked: !item.isLiked };
-          }
-          return item;
-        }),
-      );
-
-      return { previousTodos };
+        queryClient.setQueryData(["takerPost"], (postList: PostType[]) =>
+          postList.map((item) => {
+            if (item.id === id) {
+              return { ...item, isLiked: !item.isLiked };
+            }
+            return item;
+          }),
+        );
+        return { previousTodos };
+      }
     },
-    onError: (err, newTodo, context) => {
+    onError: (error: AxiosError<ErrorResponse>, newTodo, context) => {
       queryClient.setQueryData(["takerPost"], context?.previousTodos);
+      if (error.response?.status === 401) {
+        openToast("warn", "로그인이 필요한 서비스입니다.");
+      } else {
+        openToast("warn", "에러가 발생하였습니다.");
+      }
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["takerPost"] });
