@@ -125,6 +125,9 @@ export default function LoginLayout() {
               <Link href={ROUTE.SIGN_UP} type="button" className={cn("signUpBtn")}>
                 이메일 회원가입
               </Link>
+              <Link href={ROUTE.ADMIN_LOGIN} className={cn("adminLogin")}>
+                관리자로 로그인
+              </Link>
             </div>
           </form>
         </div>

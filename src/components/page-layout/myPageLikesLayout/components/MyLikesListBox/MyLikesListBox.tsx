@@ -49,7 +49,6 @@ export default function MyLikesListBox() {
         <MyLikesList likesList={likesList.content} />
         <div className={cn("paginationBox")}>
           <Pagination
-            type={postType}
             currentPage={Number(pageId)}
             itemsPerPage={4}
             totalItems={Number(likesList?.totalElements)}

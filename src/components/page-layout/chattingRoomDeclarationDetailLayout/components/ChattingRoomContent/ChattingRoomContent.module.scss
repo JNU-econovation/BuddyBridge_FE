@@ -1,0 +1,26 @@
+.container {
+  padding: 1rem;
+  flex: 1;
+}
+
+.chattingBox {
+  height: 100%;
+  overflow-y: scroll;
+  @include flexSort(column, null, null, 5rem);
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.firstMessageContainer {
+  @include flexSort(null, center, null, null);
+}
+
+.firstMessage {
+  background-color: gray;
+  text-align: center;
+  color: white;
+  padding: 1.1rem 2rem;
+  border-radius: 3rem;
+  @include font(1.5rem, 400, normal);
+}

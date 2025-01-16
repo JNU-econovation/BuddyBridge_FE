@@ -1,0 +1,32 @@
+.container {
+  position: relative;
+  padding: 3rem;
+  width: 20%;
+  @include flexSort(column, null, null, 3rem);
+}
+
+.container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0.15rem;
+  height: 100%;
+  box-shadow: 0 0 0.4rem 0 rgba(0, 0, 0, 0.2);
+  background-color: #e8e8e8;
+}
+
+.title {
+  @include nsnFont(2rem, 700, normal);
+}
+
+.declaration,
+.user,
+.certification {
+  @include nsnFont(2.2rem, 400, normal);
+
+  &.active {
+    color: #4885fe;
+    font-weight: 800;
+  }
+}

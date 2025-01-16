@@ -8,19 +8,14 @@
   padding: 1rem 1.5rem;
   color: $black-1;
   cursor: pointer;
-  @include font(1.8rem, 400, normal);
+  @include nsnFont(1.4rem, 400, normal);
   border-radius: 1rem;
+  background: white;
+  color: black;
 
   &.active {
-    &.GIVER {
-      background: $giver;
-      color: white;
-    }
-
-    &.TAKER {
-      background: $taker;
-      color: white;
-    }
+    background: #4885fe;
+    color: white;
   }
 }
 
