@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 import { ko } from "date-fns/locale";
@@ -67,6 +67,8 @@ export default function CertifyVolunteeringModal({
   name,
   matchingId,
 }: CertifyVolunteeringModalProps) {
+  const queryClient = useQueryClient();
+
   const { data, isError, isPending } = useQuery({
     queryKey: ["assistanceTypes"],
     queryFn: getPostEnums,
@@ -77,6 +79,7 @@ export default function CertifyVolunteeringModal({
     onSuccess: () => {
       setState((prev) => !prev);
       openToast("success", "봉사 인증 폼 작성이 완료되었습니다.");
+      queryClient.invalidateQueries({ queryKey: ["chattingRoomData", matchingId] });
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response) {

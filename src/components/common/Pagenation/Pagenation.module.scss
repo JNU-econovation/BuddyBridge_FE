@@ -14,10 +14,12 @@
   &.active {
     &.GIVER {
       background: $giver;
+      color: white;
     }
 
     &.TAKER {
       background: $taker;
+      color: white;
     }
   }
 }

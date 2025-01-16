@@ -2,6 +2,7 @@ import { Dispatch, KeyboardEvent, SetStateAction, useCallback, useEffect, useRef
 
 import { Client } from "@stomp/stompjs";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 import { useForm } from "react-hook-form";
 import { useInView } from "react-intersection-observer";
@@ -10,6 +11,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import getLogIn from "@/components/common/Header/apis/getLogIn";
+import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/ChatingRoomContent.module.scss";
 import { ROUTE } from "@/constants/route";
 import useOutsideClick from "@/hooks/useOutsideClick";
@@ -25,9 +27,10 @@ import DeclarationModal from "./DeclarationModal/DeclarationModal";
 import GetNoVolunteeringModal from "./GetNoVolunteeringModal/GetNoVolunteeringModal";
 import MyChat from "./MyChat/MyChat";
 import OppositeChat from "./OppositeChat/OppositeChat";
+import deleteMatching from "../../../apis/deleteMatching";
 import getChatingRoom from "../../../apis/getChatingRoom";
+import postCertificationRequest from "../../../apis/postCertificationRequest";
 import putMatchingStatus from "../../../apis/putMatchingStatus";
-import { useChatContext } from "../../chatLayout";
 
 const cn = classNames.bind(styles);
 
@@ -53,12 +56,19 @@ interface putMatchingType {
   status: string;
 }
 
+interface deleteMatchingErrorResponse {
+  error: {
+    message: string;
+  };
+}
+
 export default function ChattingRoomContent({
   isHamburgerClick,
   setIsHamburgerClick,
   matchingState,
 }: ChattingRoomContentProps) {
-  const { chatingRoomNumber, chattingRoomType } = useChatContext();
+  const router = useRouter();
+  const chatingRoomNumber = Number(router.query["id"]);
   const [receivedMessages, setReceivedMessages] = useState<ReceivedMessage[]>([]);
   const [, setConnectionStatus] = useState("Disconnected");
   const clientRef = useRef<Client | null>(null);
@@ -90,8 +100,7 @@ export default function ChattingRoomContent({
   } = useInfiniteQuery({
     queryKey: ["chatingRoom", chatingRoomNumber],
     queryFn: async ({ pageParam }) => {
-      const result = await getChatingRoom(5, pageParam, chatingRoomNumber as number);
-      queryClient.invalidateQueries({ queryKey: ["chatList", matchingState] });
+      const result = await getChatingRoom(5, pageParam, chatingRoomNumber);
       return result;
     },
     initialPageParam: 0,
@@ -100,9 +109,52 @@ export default function ChattingRoomContent({
     enabled: !!chatingRoomNumber,
   });
 
-  const chatAcceptMutation = useMutation({
-    mutationFn: ({ chattingRoomId, status }: putMatchingType) => putMatchingStatus(chattingRoomId, status),
+  const { data: chattingRoomData } = useQuery({
+    queryKey: ["chattingRoomData", chatingRoomNumber],
+    queryFn: () => getChatingRoom(1, 0, chatingRoomNumber),
   });
+
+  const changeMatchingStatusMutation = useMutation({
+    mutationFn: ({ chattingRoomId, status }: putMatchingType) => putMatchingStatus(chattingRoomId, status),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["chatList", matchingState] });
+      queryClient.invalidateQueries({ queryKey: ["chattingRoomData", chatingRoomNumber] });
+    },
+    onError: (error: AxiosError<deleteMatchingErrorResponse>) => {
+      if (error.response) {
+        openToast("error", error.response.data.error.message);
+      }
+    },
+  });
+
+  const postCertificationRequestMutation = useMutation({
+    mutationFn: () => postCertificationRequest(chatingRoomNumber),
+    onSuccess: () => {
+      openToast("success", "봉사 인증 요청이 완료되었습니다.");
+    },
+    onError: (error: AxiosError<deleteMatchingErrorResponse>) => {
+      if (error.response) {
+        openToast("error", error.response.data.error.message);
+      }
+    },
+  });
+
+  const deleteMatchingMutation = useMutation({
+    mutationFn: () => deleteMatching(chatingRoomNumber),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["chatList", matchingState] });
+      router.push(ROUTE.CHAT);
+      openToast("success", "매칭이 삭제되었습니다.");
+      () => setIsHamburgerClick(false);
+    },
+    onError: (error: AxiosError<deleteMatchingErrorResponse>) => {
+      if (error.response) {
+        openToast("error", error.response.data.error.message);
+      }
+    },
+  });
+
+  const chattingRoomType = chattingRoomData?.matchingStatus;
 
   useOutsideClick([stateChangeRoomRef], () => setIsHamburgerClick(false));
   useOutsideClick([matchingStatusChangeRef], () => setIsMatchingBtnClick(false));
@@ -127,15 +179,12 @@ export default function ChattingRoomContent({
   );
 
   const handleMatchingStatusChangeClick = () => {
-    chatAcceptMutation.mutate(
-      { chattingRoomId: chatingRoomNumber as number, status: "TOGGLE_DONE" },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ["chatList", matchingState] });
-        },
-      },
-    );
+    changeMatchingStatusMutation.mutate({ chattingRoomId: chatingRoomNumber as number, status: "TOGGLE_DONE" });
     setIsMatchingBtnClick(false);
+  };
+
+  const handleDeleteMatching = () => {
+    deleteMatchingMutation.mutate();
   };
 
   useEffect(() => {
@@ -150,14 +199,13 @@ export default function ChattingRoomContent({
       connectHeaders: {
         Authorization: `Bearer ${accessToken}`,
       },
-      debug: (str) => {
-        console.log(str);
-      },
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
       onConnect: () => {
         console.log("Connected");
         setConnectionStatus("Connected");
+        queryClient.invalidateQueries({ queryKey: ["chatList", matchingState] });
+
         client.subscribe(`/api/queue/chat/${chatingRoomNumber}`, (message) => {
           const newMessage = JSON.parse(message.body);
           setReceivedMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -212,6 +260,11 @@ export default function ChattingRoomContent({
     setIsHamburgerClick(false);
   };
 
+  const handleHelpRequestBtnClick = () => {
+    setIsHamburgerClick(false);
+    postCertificationRequestMutation.mutate();
+  };
+
   return (
     <>
       <div className={cn("container")}>
@@ -220,8 +273,21 @@ export default function ChattingRoomContent({
           {receivedMessages?.map((msg, index) =>
             msg.messageType === "INFO" ? (
               <div className={cn("firstMessageContainer")} key={index}>
-                <p className={cn("firstMessage")}>매칭이 생성되었습니다.</p>
+                <p className={cn("firstMessage")}>{msg.content}</p>
               </div>
+            ) : msg.messageType === "REQUEST" &&
+              ((chattingData?.pages[0].postType === "TAKER" && data?.memberId !== msg.senderId) ||
+                (chattingData?.pages[0].postType === "GIVER" && data?.memberId !== msg.senderId)) ? (
+              <OppositeChat
+                date={msg.createdAt}
+                key={index}
+                oppsiteUser={chattingData?.pages[0].receiver}
+                chat={msg.content}
+              />
+            ) : msg.messageType === "REQUEST" &&
+              ((chattingData?.pages[0].postType === "TAKER" && data?.memberId === msg.senderId) ||
+                (chattingData?.pages[0].postType === "GIVER" && data?.memberId === msg.senderId)) ? (
+              <MyChat date={msg.createdAt} chat={msg.content} key={index} />
             ) : data?.memberId === msg.senderId ? (
               <MyChat date={msg.createdAt} chat={msg.content} key={index} />
             ) : (
@@ -250,9 +316,9 @@ export default function ChattingRoomContent({
         <div className={cn("chatingOutContainer")}>
           <div className={cn("grayContainer")}></div>
           <div className={cn("whiteContainer")} ref={stateChangeRoomRef}>
-            <Link href={ROUTE.CHAT} className={cn("chatingRoomOutButton")} onClick={() => setIsHamburgerClick(false)}>
+            <button className={cn("chatingRoomOutButton")} onClick={handleDeleteMatching}>
               채팅방 나가기
-            </Link>
+            </button>
             {data.memberId === chattingData?.pages[0].postAuthorId && (
               <div className={cn("stateChangeContainer")}>
                 <p className={cn("stateChange")}>상태변경</p>
@@ -303,6 +369,15 @@ export default function ChattingRoomContent({
                   도움을 주었나요?
                 </button>
               )}
+            {chattingRoomData.canVerificationRequest &&
+              chattingRoomType === "DONE" &&
+              ((chattingData?.pages[0].postType === "TAKER" && data.memberId !== chattingData?.pages[0].postAuthorId) ||
+                (chattingData?.pages[0].postType === "GIVER" &&
+                  data.memberId === chattingData?.pages[0].postAuthorId)) && (
+                <button className={cn("helpBtn")} onClick={handleHelpRequestBtnClick}>
+                  봉사 인증 요청하기
+                </button>
+              )}
             <button
               className={cn("declarationBtn")}
               onClick={() => {
@@ -330,7 +405,9 @@ export default function ChattingRoomContent({
           setState={setIsConfirmVolunteeringModalOpen}
           setIsCompleteVolunteeringModalOpen={setIsCompleteVolunteeringModalOpen}
           setIsGetNoVolunteeringModalOpen={setIsGetNoVolunteeringModalOpen}
-          volunteeringMutation={(data: putMatchingType, options?: any) => chatAcceptMutation.mutate(data, options)}
+          volunteeringMutation={(data: putMatchingType, options?: any) =>
+            changeMatchingStatusMutation.mutate(data, options)
+          }
           chattingRoomId={chatingRoomNumber as number}
         />
       )}

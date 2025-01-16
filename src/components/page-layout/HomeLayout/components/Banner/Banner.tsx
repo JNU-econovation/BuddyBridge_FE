@@ -10,11 +10,8 @@ export default function Banner() {
     <div className={cn("container")}>
       <div className={cn("box")}>
         <div className={cn("textBox")}>
-          <div className={cn("textTitleBox")}>
-            <p className={cn("textUpTitle")}>따듯한 온기를,</p>
-            <p className={cn("textDownTitle")}>소중한 마음을</p>
-          </div>
-          <p className={cn("textContent")}>누구나 전할 수 있습니다.</p>
+          <p className={cn("textTitle")}>모두가 함께 살아가는 세상</p>
+          <p className={cn("textContent")}>장벽 없는 사회를 꿈꿉니다.</p>
         </div>
         <BannerImg className={cn("banner")} />
       </div>
