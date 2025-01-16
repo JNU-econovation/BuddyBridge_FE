@@ -101,7 +101,6 @@ export default function ChattingRoomContent({
     queryKey: ["chatingRoom", chatingRoomNumber],
     queryFn: async ({ pageParam }) => {
       const result = await getChatingRoom(5, pageParam, chatingRoomNumber);
-      queryClient.invalidateQueries({ queryKey: ["chatList", matchingState] });
       return result;
     },
     initialPageParam: 0,
@@ -200,14 +199,13 @@ export default function ChattingRoomContent({
       connectHeaders: {
         Authorization: `Bearer ${accessToken}`,
       },
-      debug: (str) => {
-        console.log(str);
-      },
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
       onConnect: () => {
         console.log("Connected");
         setConnectionStatus("Connected");
+        queryClient.invalidateQueries({ queryKey: ["chatList", matchingState] });
+
         client.subscribe(`/api/queue/chat/${chatingRoomNumber}`, (message) => {
           const newMessage = JSON.parse(message.body);
           setReceivedMessages((prevMessages) => [...prevMessages, newMessage]);
