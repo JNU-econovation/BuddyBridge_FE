@@ -1,6 +1,6 @@
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent } from "react";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Link from "next/link";
@@ -25,6 +25,8 @@ interface PostProps {
 }
 
 export default function Post({ data }: PostProps) {
+  const queryClient = useQueryClient();
+
   const {
     assistance: { assistanceEndTime, assistanceStartTime, assistanceType },
     disabilityType,
@@ -39,17 +41,32 @@ export default function Post({ data }: PostProps) {
 
   const { mutate } = useMutation({
     mutationFn: () => postLikes(id),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ["takerPost"] });
+
+      const previousTodos = queryClient.getQueryData(["takerPost"]);
+
+      queryClient.setQueryData(["takerPost"], (postList: PostType[]) =>
+        postList.map((item) => {
+          if (item.id === id) {
+            return { ...item, isLiked: !item.isLiked };
+          }
+          return item;
+        }),
+      );
+
+      return { previousTodos };
+    },
+    onError: (err, newTodo, context) => {
+      queryClient.setQueryData(["takerPost"], context?.previousTodos);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["takerPost"] });
+    },
   });
-
-  const [isHeartClick, setIsHeartClick] = useState(isLiked);
-
-  useEffect(() => {
-    setIsHeartClick(data.isLiked);
-  }, [data]);
 
   const handleHeartClick = (event: MouseEvent<SVGSVGElement>) => {
     event.preventDefault();
-    setIsHeartClick((prev) => !prev);
     mutate();
   };
 
@@ -70,7 +87,7 @@ export default function Post({ data }: PostProps) {
         >
           {postStatus === "RECRUITING" ? "매칭중" : "매칭완료"}
         </p>
-        {isHeartClick ? (
+        {isLiked ? (
           <RedHeart onClick={handleHeartClick} width={32} height={32} className={cn("heart")} />
         ) : (
           <Heart onClick={handleHeartClick} width={32} height={32} className={cn("heart")} />
