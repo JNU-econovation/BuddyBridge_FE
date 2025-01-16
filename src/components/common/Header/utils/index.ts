@@ -5,21 +5,31 @@ interface MergeNotificationsParams {
   prevNotifications: {
     pages: {
       content: AlarmDropDownProps["sseNotifications"][];
+      totalUnreadCount: number;
     }[];
   };
 }
 
 export const mergeNotifications = ({ sseNotifications, prevNotifications }: MergeNotificationsParams) => {
   if (!sseNotifications) {
-    return prevNotifications.pages.flatMap((page) => page.content.map((notification) => notification));
+    return {
+      notifications: prevNotifications.pages.flatMap((page) => page.content.map((notification) => notification)),
+      totalUnreadCount: prevNotifications.pages[0].totalUnreadCount,
+    };
   }
 
   if (sseNotifications.id === prevNotifications.pages[0].content[0].id) {
-    return prevNotifications.pages.flatMap((page) => page.content.map((notification) => notification));
+    return {
+      notifications: prevNotifications.pages.flatMap((page) => page.content.map((notification) => notification)),
+      totalUnreadCount: prevNotifications.pages[0].totalUnreadCount,
+    };
   }
 
-  return [
-    sseNotifications,
-    ...prevNotifications.pages.flatMap((page) => page.content.map((notification) => notification)),
-  ];
+  return {
+    notifications: [
+      sseNotifications,
+      ...prevNotifications.pages.flatMap((page) => page.content.map((notification) => notification)),
+    ],
+    totalUnreadCount: prevNotifications.pages[0].totalUnreadCount,
+  };
 };

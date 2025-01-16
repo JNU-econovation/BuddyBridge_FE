@@ -10,9 +10,14 @@ interface NotificationsResponse {
   nextPage: boolean;
   type: string;
   isRead: boolean;
+  totalUnreadCount: number;
 }
 
-export const useNotification = (sseNotifications: AlarmDropDownProps["sseNotifications"],type:string, isRead:string) => {
+export const useNotification = (
+  sseNotifications: AlarmDropDownProps["sseNotifications"],
+  type: string,
+  isRead: string,
+) => {
   const {
     data: prevNotifications,
     fetchNextPage,
@@ -21,8 +26,8 @@ export const useNotification = (sseNotifications: AlarmDropDownProps["sseNotific
     status,
     refetch,
   } = useInfiniteQuery<NotificationsResponse>({
-    queryKey: ["notifications",type, isRead],
-    queryFn: ({ pageParam }) => getNotifications(6, pageParam as number, type , isRead),
+    queryKey: ["notifications", type, isRead],
+    queryFn: ({ pageParam }) => getNotifications(6, pageParam as number, type, isRead),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
       lastPage.nextPage ? lastPage.cursor : undefined,
@@ -30,7 +35,7 @@ export const useNotification = (sseNotifications: AlarmDropDownProps["sseNotific
 
   if (status === "pending" || status === "error") return { data: null, fetchNextPage, hasNextPage, isFetchingNextPage };
 
-  const notifications = mergeNotifications({ sseNotifications, prevNotifications });
+  const { notifications, totalUnreadCount } = mergeNotifications({ sseNotifications, prevNotifications });
 
-  return { data: notifications, fetchNextPage, hasNextPage, isFetchingNextPage };
+  return { data: notifications, fetchNextPage, hasNextPage, isFetchingNextPage, totalUnreadCount };
 };

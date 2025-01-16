@@ -37,7 +37,6 @@ export default function Login({ name }: LoginProps) {
   const [isProfileOpen, setIsProfileOpen] = useDetectClose(profileDropdownRef, false);
   const [isAlarmOpen, setIsAlarmOpen] = useDetectClose(alarmDropdownRef, false);
   const [notifications, setNotifications] = useState<alarmType>();
-  const [retryCount, setRetryCount] = useState(0);
   const router = useRouter();
 
   const handleNameClick = () => {
@@ -52,67 +51,50 @@ export default function Login({ name }: LoginProps) {
     router.push(ROUTE.CHAT);
   };
 
-  // useEffect(() => {
-  //   if (!accessToken) return;
+  useEffect(() => {
+    if (!accessToken) return;
 
-  //   let eventSource: EventSourcePolyfill;
+    let eventSource: EventSourcePolyfill;
 
-  //   const connectSSE = () => {
-  //     if (retryCount >= 3) {
-  //       return;
-  //     }
+    const connectSSE = () => {
+      eventSource = new EventSourcePolyfill(`${process.env.NEXT_PUBLIC_BASE_URL}api/sse/connect`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
-  //     eventSource = new EventSourcePolyfill(`${process.env.NEXT_PUBLIC_BASE_URL}api/sse/connect`, {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     });
+      eventSource.addEventListener("notification", (event) => {
+        const newNotification = (event as any).data;
 
-  //     eventSource.addEventListener("notification", (event) => {
-  //       const newNotification = (event as any).data;
+        let parsedData;
 
-  //       let parsedData;
+        try {
+          parsedData = JSON.parse(newNotification);
+        } catch (error) {
+          return;
+        }
 
-  //       try {
-  //         parsedData = JSON.parse(newNotification);
-  //       } catch (error) {
-  //         return;
-  //       }
+        setNotifications(parsedData);
+      });
 
-  //       setNotifications(parsedData);
-  //     });
+      eventSource.onopen = () => {
+        console.log("SSE 연결 성공");
+      };
 
-  //     eventSource.onopen = () => {
-  //       setRetryCount(0);
-  //       console.log("SSE 연결 성공");
-  //     };
+      eventSource.onerror = (error) => {
+        console.error("SSE error:", error);
+        eventSource.close();
+      };
+    };
 
-  //     eventSource.onerror = (error) => {
-  //       console.error("SSE error:", error);
-  //       eventSource.close();
+    connectSSE();
 
-  //       setRetryCount((prevCount) => {
-  //         const newCount = prevCount + 1;
-  //         if (newCount < 3) {
-  //           setTimeout(connectSSE, 5000);
-  //         } else {
-  //           console.log("newCount :", newCount)
-  //         }
-  //         return newCount;
-  //       });
-  //     };
+    return () => {
+      eventSource.close();
+    };
+  }, [accessToken]);
 
-  //   };
-
-  //   connectSSE();
-
-  //   return;
-
-  // }, [accessToken, retryCount]);
-
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useNotification(notifications as alarmType, "", "");
-
-  const unreadCount = data?.filter((notification) => !notification.isRead).length || 0;
+  const { totalUnreadCount } = useNotification(notifications as alarmType, "", "");
 
   return (
     <div className={cn("container")}>
@@ -125,7 +107,7 @@ export default function Login({ name }: LoginProps) {
         <div ref={alarmDropdownRef} className={cn("alarmContainer")}>
           <div className={cn("alarmBox")}>
             <Alarm width={30} height={30} className={cn("alarm")} onClick={handleAlarmClick} />
-            <span className={cn("unreadCount")}>{unreadCount}</span>
+            <span className={cn("unreadCount")}>{totalUnreadCount && totalUnreadCount}</span>
             {isAlarmOpen && <AlarmDropDown sseNotifications={notifications as alarmType} />}
           </div>
         </div>

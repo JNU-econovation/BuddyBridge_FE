@@ -35,16 +35,17 @@
   padding: 0.2rem 0.5rem;
 }
 
-.alarmBox{
+.alarmBox {
   @include flexSort(null, null, center, null);
 }
 
-.unreadCount{
+.unreadCount {
   z-index: 3;
-  @include nsnFont(0.8rem, 700, normal);
+  @include nsnFont(1rem, 700, normal);
   margin-top: 1rem;
-  padding: 0.6rem 0.7rem;
+  padding: 0.6rem;
   color: white;
   background-color: rgb(226, 2, 2);
-  border-radius: 1.5rem;
+  border-radius: 50%;
+  width: fit-content;
 }
