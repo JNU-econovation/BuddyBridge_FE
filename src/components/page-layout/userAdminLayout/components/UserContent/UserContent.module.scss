@@ -1,0 +1,59 @@
+.container {
+  @include flexSort(null, null, center, null);
+  @include nsnFont(1.2rem, 700, normal);
+  height: 5rem;
+}
+
+.check {
+  width: 5%;
+  @include flexSort(null, center, center, null);
+}
+
+.name {
+  width: 11%;
+  @include flexSort(null, center, center, null);
+}
+
+.nickname {
+  width: 11%;
+  @include flexSort(null, center, center, null);
+}
+
+.gender {
+  width: 11%;
+  @include flexSort(null, center, center, null);
+}
+
+.age {
+  width: 11%;
+  @include flexSort(null, center, center, null);
+}
+
+.disabilityType {
+  width: 16%;
+  @include flexSort(null, center, center, null);
+}
+
+.email {
+  width: 20%;
+  @include flexSort(null, center, center, null);
+}
+
+.reportedCountBox {
+  width: 15%;
+  @include flexSort(null, center, center, null);
+}
+
+.reportedCount {
+  border-radius: 0.6rem;
+  border: 0.1rem solid rgba(0, 193, 106, 0.25);
+  background: rgba(0, 193, 106, 0.1);
+  padding: 0.4rem 0.8rem;
+  color: #00c16a;
+
+  &.danger {
+    border: 0.1rem solid #ef4444;
+    background: rgba(239, 68, 68, 0.25);
+    color: #ef4444ef;
+  }
+}
