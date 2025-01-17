@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 
+import { useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Modal from "@/components/common/Modal/Modal";
@@ -48,6 +49,8 @@ export default function ConfirmVolunteeringModal({
   chattingRoomId,
   volunteeringMutation,
 }: ConfirmVolunteeringModalProps) {
+  const queryClient = useQueryClient();
+
   const handleGetNoHelpBtnClick = () => {
     volunteeringMutation(
       { chattingRoomId, status: "MARK_AS_HELP_NOT_RECEIVED" },
@@ -55,6 +58,7 @@ export default function ConfirmVolunteeringModal({
         onSuccess: () => {
           setState((prev) => !prev);
           setIsGetNoVolunteeringModalOpen((prev) => !prev);
+          queryClient.invalidateQueries({ queryKey: ["chattingRoomData", chattingRoomId] });
         },
         onError: (error) => {
           openToast("warn", error.response.data.error.message);
@@ -71,6 +75,7 @@ export default function ConfirmVolunteeringModal({
         onSuccess: () => {
           setState((prev) => !prev);
           setIsCompleteVolunteeringModalOpen((prev) => !prev);
+          queryClient.invalidateQueries({ queryKey: ["chattingRoomData", chattingRoomId] });
         },
         onError: (error) => {
           openToast("warn", error.response.data.error.message);

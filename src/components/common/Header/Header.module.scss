@@ -1,14 +1,13 @@
 .container {
   @include flexSort(null, center, center, null);
   border-bottom: 0.1rem solid #ece9f0;
+  padding: 0 10rem;
 }
 
-.header {
-  padding: 0 10rem;
-  max-width: 150rem;
-  width: 100%;
+.box {
   position: relative;
-  @include flexSort(null, space-between, center, null);
+  width: 100%;
+  max-width: 150rem;
 
   .logoContainer {
     @include flexSort(null, null, null, 0.4rem);
@@ -42,4 +41,9 @@
       color: $taker;
     }
   }
+}
+
+.header {
+  @include flexSort(null, space-between, center, null);
+  width: 100%;
 }

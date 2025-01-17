@@ -1,0 +1,133 @@
+.container {
+  @include flexSort(null, center, center, null);
+  height: 100%;
+}
+
+.box {
+  border-radius: 1rem;
+  box-shadow: 0 0 0.4rem 0 rgba(0, 0, 0, 0.25);
+  @include flexSort(null, null, null, null);
+  height: 55rem;
+  width: 130rem;
+}
+
+.adminContainer {
+  flex: 1;
+  padding: 3rem;
+  @include flexSort(column, null, null, 2rem);
+}
+
+.adminTitle {
+  @include nsnFont(2.6rem, 700, normal);
+}
+
+.tableContainer {
+  @include flexSort(column, null, null, null);
+}
+
+.tableHeader {
+  @include flexSort(null, space-between, null, null);
+}
+
+.typeContainer {
+  @include flexSort(null, null, null, null);
+}
+
+.all,
+.post,
+.comment,
+.chattingRoom {
+  @include nsnFont(2rem, 600, normal);
+  padding: 1rem;
+  color: #b7b7b7;
+
+  &.selected {
+    color: #4885fe;
+    border-bottom: 0.4rem solid #4885fe;
+  }
+}
+
+.btnContainer {
+  @include flexSort(null, null, null, 2rem);
+}
+
+.deleteBtn {
+  border-radius: 1rem;
+  border: 0.15rem solid #5f5f5f;
+  color: #5f5f5f;
+  @include nsnFont(1.7rem, 700, normal);
+  width: 8.8rem;
+  height: 3.5rem;
+  @include flexSort(null, center, center, null);
+}
+
+.blackListBtn {
+  border-radius: 10px;
+  border: 1.5px solid rgba(255, 41, 41, 0.45);
+  background: rgba(255, 41, 41, 0.25);
+  width: 12.5rem;
+  height: 3.5rem;
+  @include nsnFont(1.7rem, 700, normal);
+  @include flexSort(null, center, center, 0.5rem);
+}
+
+.tableBox {
+  @include flexSort(column, null, null, null);
+}
+
+.tableTitle {
+  @include flexSort(null, null, center, null);
+  height: 5rem;
+  border-top: 0.2rem solid #cdcdcd;
+  border-bottom: 0.2rem solid #cdcdcd;
+}
+
+.blank {
+  width: 5%;
+}
+
+.reporter {
+  width: 10%;
+  @include nsnFont(1.5rem, 700, normal);
+  @include flexSort(null, center, center, null);
+}
+
+.postInfo {
+  width: 16%;
+  @include nsnFont(1.5rem, 700, normal);
+  @include flexSort(null, center, center, null);
+}
+
+.declarationContent {
+  width: 31%;
+  @include nsnFont(1.5rem, 700, normal);
+  @include flexSort(null, center, center, null);
+}
+
+.declarationType {
+  width: 20%;
+  @include nsnFont(1.5rem, 700, normal);
+  @include flexSort(null, center, center, null);
+}
+
+.declarationPeople {
+  width: 10%;
+  @include nsnFont(1.5rem, 700, normal);
+  @include flexSort(null, center, center, null);
+}
+
+.declarationDate {
+  width: 10%;
+  @include nsnFont(1.5rem, 700, normal);
+  @include flexSort(null, center, center, null);
+}
+
+.tableContentList {
+  @include flexSort(column, null, null, null);
+  height: 30rem;
+  border-bottom: 0.2rem solid #cdcdcd;
+}
+
+.paginationBox {
+  @include flexSort(null, center, center, null);
+}

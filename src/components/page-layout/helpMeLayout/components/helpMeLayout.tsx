@@ -39,7 +39,7 @@ export default function HelpMeLayout() {
 
   const { data } = useQuery({
     queryKey: ["post", page, disabilityType, assistanceType, postStatus],
-    queryFn: () => getPagenationItems("TAKER", page, 8, all, postStatus, disabilityType, assistanceType),
+    queryFn: () => getPagenationItems("TAKER", page - 1, 8, all, postStatus, disabilityType, assistanceType),
     placeholderData: keepPreviousData,
     enabled: !!all || !!disabilityType || !!assistanceType || !!postStatus,
   });
@@ -135,13 +135,7 @@ export default function HelpMeLayout() {
             <Post data={post} key={post.id} />
           ))}
         </div>
-        <Pagination
-          type="TAKER"
-          currentPage={page}
-          itemsPerPage={8}
-          totalItems={data?.data.totalElements}
-          setPage={setPage}
-        />
+        <Pagination currentPage={page} itemsPerPage={8} totalItems={data?.data.totalElements} setPage={setPage} />
       </div>
     </main>
   );

@@ -38,7 +38,7 @@ export default function HelpYouLayout() {
 
   const { data } = useQuery({
     queryKey: ["post", page, postStatus, disabilityType, assistanceType, postStatus],
-    queryFn: () => getPagenationItems("GIVER", page, 8, allType, postStatus, disabilityType, assistanceType),
+    queryFn: () => getPagenationItems("GIVER", page - 1, 8, allType, postStatus, disabilityType, assistanceType),
     placeholderData: keepPreviousData,
     enabled: !!allType || !!disabilityType || !!assistanceType || !!postStatus,
   });
@@ -128,13 +128,7 @@ export default function HelpYouLayout() {
             <Post data={post} key={post.id} />
           ))}
         </div>
-        <Pagination
-          type="GIVER"
-          currentPage={page}
-          itemsPerPage={8}
-          totalItems={data?.data.totalElements}
-          setPage={setPage}
-        />
+        <Pagination currentPage={page} itemsPerPage={8} totalItems={data?.data.totalElements} setPage={setPage} />
       </div>
     </main>
   );

@@ -7,7 +7,6 @@ import { MyWritePostResponse } from "@/types/post";
 
 import styles from "./PaginationBox.module.scss";
 import Pagination from "../../Pagenation/Pagenation";
-//import { MyWriteListBoxProps } from "../MyWriteListBox";
 
 const cn = classNames.bind(styles);
 
@@ -19,11 +18,11 @@ interface PaginationBoxProps {
     content: CommentType[];
   };
   filter: string;
-  pageId: string;
+  pageId: number;
   postType: string;
 }
 
-export default function PaginationBox({ postData, commentData, filter, pageId, postType }: PaginationBoxProps) {
+export default function PaginationBox({ postData, commentData, filter, pageId }: PaginationBoxProps) {
   const router = useRouter();
   const params = new URLSearchParams(router.query as any);
 
@@ -40,7 +39,6 @@ export default function PaginationBox({ postData, commentData, filter, pageId, p
     <div className={cn("paginationBox")}>
       {filter === "post" && (
         <Pagination
-          type={postType}
           currentPage={Number(pageId)}
           itemsPerPage={4}
           totalItems={postData?.totalElements}
@@ -49,7 +47,6 @@ export default function PaginationBox({ postData, commentData, filter, pageId, p
       )}
       {filter === "comment" && (
         <Pagination
-          type={postType}
           currentPage={Number(pageId)}
           itemsPerPage={4}
           totalItems={commentData?.totalElements}

@@ -25,7 +25,7 @@ export default function MyRegisterPost() {
   const queryClient = useQueryClient();
   const postType = (router.query.postType as PostTypeFilterProps["postType"]) || "TAKER";
   const filter = router.query.state === "post" ? "post" : router.query.state === "comment" ? "comment" : "";
-  const pageId = router.query.pageId || "0";
+  const pageId = Number(router.query.pageId) || 1;
   const queryKey = router.query.state === "post" ? "postData" : router.query.state === "comment" ? "commenData" : "";
 
   const [contentType, setContentType] = useState(filter);
@@ -35,13 +35,13 @@ export default function MyRegisterPost() {
   }, [filter]);
 
   const defaultData = { content: [], totalElements: 0, last: true };
-  const { data: postData = defaultData, isLoading, isError } = useGetMyPost(pageId as string, postType, filter);
+  const { data: postData = defaultData, isLoading, isError } = useGetMyPost(pageId - 1, postType, filter);
 
   const {
     data: commentData = defaultData,
     isLoading: isCommentLoading,
     isError: isCommentError,
-  } = useGetMyComment(pageId as string, postType, filter);
+  } = useGetMyComment(pageId - 1, postType, filter);
 
   const deletePostMutation = useMutation({
     mutationFn: (selectedContents: number[]) => deletePosts(selectedContents),
@@ -101,7 +101,7 @@ export default function MyRegisterPost() {
           setSelectedContents={setSelectedContents}
           postType={postType}
           filter={filter}
-          pageId={pageId as string}
+          pageId={pageId}
           commentData={commentData}
           postData={postData}
         />
