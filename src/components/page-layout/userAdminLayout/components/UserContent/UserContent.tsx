@@ -13,8 +13,8 @@ export interface UserContentProps {
   name: string;
   nickname: string;
   reportedCount: number;
-  checkId: number;
-  setCheckId: (checkId: number) => void;
+  checkId: number[];
+  setCheckId: (checkId: number[]) => void;
 }
 
 export default function UserContent({
@@ -30,10 +30,10 @@ export default function UserContent({
   setCheckId,
 }: UserContentProps) {
   const handleCheckBoxClick = (e: React.MouseEvent<HTMLInputElement>): void => {
-    if (checkId !== id) {
-      setCheckId(id as number);
+    if (!checkId.includes(id)) {
+      setCheckId([...checkId, id]);
     } else {
-      setCheckId(0);
+      setCheckId(checkId.filter((checkId) => checkId !== id));
     }
   };
 
@@ -41,7 +41,7 @@ export default function UserContent({
     <li>
       <div className={cn("container")}>
         <div className={cn("check")}>
-          <input type="checkbox" checked={checkId === id} onClick={handleCheckBoxClick} />
+          <input type="checkbox" checked={checkId.includes(id)} onClick={handleCheckBoxClick} />
         </div>
         <p className={cn("name")}>{name}</p>
         <p className={cn("nickname")}>{nickname}</p>

@@ -12,9 +12,6 @@ import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/userAdminLayout/components/userAdminLayout.module.scss";
 
 import UserContent, { UserContentProps } from "./UserContent/UserContent";
-import CertificationContent, {
-  CertificationContentProps,
-} from "../../certificationLayout/components/CertificationContent/CertificationContent";
 import deleteUser from "../apis/deleteUser";
 import getUsers from "../apis/getUsers";
 
@@ -27,7 +24,7 @@ interface ErrorResponse {
 }
 
 export default function UserAdminLayout() {
-  const [checkId, setCheckId] = useState(0);
+  const [checkId, setCheckId] = useState<number[]>([]);
   const router = useRouter();
   const queryClient = useQueryClient();
   const params = new URLSearchParams(router.query as any);
@@ -41,7 +38,7 @@ export default function UserAdminLayout() {
   });
 
   const deleteUserMutation = useMutation({
-    mutationFn: (id: number) => deleteUser(id),
+    mutationFn: (id: number[]) => deleteUser(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users", currentPage] });
       openToast("success", "삭제되었습니다.");
