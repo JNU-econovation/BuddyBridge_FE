@@ -14,12 +14,16 @@ import Input from "@/components/common/Input/Input";
 import Modal from "@/components/common/Modal/Modal";
 import Textarea from "@/components/common/Textarea/Textarea";
 import openToast from "@/components/common/Toast/features/openToast";
+import getPostEnums from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/CertifyVolunteeringModal/apis/getPostEnums";
+import postCertificationsForm, {
+  formType,
+} from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/CertifyVolunteeringModal/apis/postCertificationsForm";
 import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/CertifyVolunteeringModal/CertifyVolunteeringModal.module.scss";
 import Calendar from "@/icons/calendar.svg";
 import Close from "@/icons/close.svg";
 
-import getPostEnums from "./apis/getPostEnums";
-import postCertificationsForm, { formType } from "./apis/postCertificationsForm";
+import getPrevCertification from "./apis/getPrevCertification";
+import putCertification from "./apis/putCertification";
 
 const cn = classNames.bind(styles);
 
@@ -69,17 +73,26 @@ export default function CertifyVolunteeringModal({
 }: CertifyVolunteeringModalProps) {
   const queryClient = useQueryClient();
 
+  const { data: prevCertification } = useQuery({
+    queryKey: ["prevCertification", matchingId],
+    queryFn: () => getPrevCertification(matchingId),
+    enabled: !!matchingId,
+  });
+
   const { data, isError, isPending } = useQuery({
     queryKey: ["assistanceTypes"],
     queryFn: getPostEnums,
   });
 
   const certificationsFormMutation = useMutation({
-    mutationFn: (body: formType) => postCertificationsForm(body, matchingId),
+    mutationFn: (body: formType) =>
+      prevCertification ? putCertification(matchingId, body) : postCertificationsForm(body, matchingId),
     onSuccess: () => {
       setState((prev) => !prev);
-      openToast("success", "봉사 인증 폼 작성이 완료되었습니다.");
-      queryClient.invalidateQueries({ queryKey: ["chattingRoomData", matchingId] });
+      openToast(
+        "success",
+        prevCertification ? "봉사 인증 폼 수정이 완료되었습니다." : "봉사 인증 폼 작성이 완료되었습니다.",
+      );
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response) {
@@ -99,6 +112,7 @@ export default function CertifyVolunteeringModal({
   } = useForm<FormData>({
     resolver: zodResolver(volunteerSchema),
     mode: "onSubmit",
+    defaultValues: prevCertification || {},
   });
 
   const handleVolunteerComplete = (data: FormData) => {
@@ -209,7 +223,7 @@ export default function CertifyVolunteeringModal({
             {errors.content && <p className={cn("errorMessage")}>{errors.content.message}</p>}
           </div>
         </div>
-        <button className={cn("completeVolunteeringBtn")}>봉사 인증 완료</button>
+        <button className={cn("completeVolunteeringBtn")}>{prevCertification ? "수정 완료" : "봉사 인증 완료"}</button>
       </form>
       <Close className={cn("close")} onClick={() => setState((prev) => !prev)} />
     </Modal>

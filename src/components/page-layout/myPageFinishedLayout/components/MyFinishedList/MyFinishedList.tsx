@@ -9,9 +9,10 @@ const cn = classNames.bind(styles);
 
 interface MyFinishedListProps {
   finishedList: MyFinishedPostType[];
+  memberRole: "TAKER"|"GIVER"
 }
 
-export default function MyFinishedList({ finishedList }: MyFinishedListProps) {
+export default function MyFinishedList({ finishedList, memberRole }: MyFinishedListProps) {
   return (
     <div className={cn("container")}>
       {finishedList?.map((post) => (
@@ -30,6 +31,7 @@ export default function MyFinishedList({ finishedList }: MyFinishedListProps) {
           startTime={post.schedule.assistanceStartTime}
           endTime={post.schedule.assistanceEndTime}
           matchingStatus={post.matchingStatus}
+          memberRole={memberRole}
         />
       ))}
     </div>

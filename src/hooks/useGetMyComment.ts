@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import getMyComment from "@/components/page-layout/myPageHelpMeLayout/apis/getMyComment";
+import getMyComment from "@/components/page-layout/myPageMyContentLayout/apis/getMyComment";
 
 const useGetMyComment = (pageId: number, postType: string, filter: string) => {
   return useQuery({

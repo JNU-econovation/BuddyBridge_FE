@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import PostStatusLabel from "@/components/common/PostStatusLabel/PostStatusLabel";
-import CertifyVolunteeringModal from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/CertifyVolunteeringModal/CertifyVolunteeringModal";
+import MyPageCertifyVolunteeringModal from "@/components/page-layout/myPageFinishedLayout/components/MyPageCertifyVolunteeringModal/MyPageCertifyVolunteeringModal";
 import CompleteVolunteeringModal from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/CompleteVolunteeringModal/CompleteVolunteeringModal";
 import GetNoVolunteeringModal from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/GetNoVolunteeringModal/GetNoVolunteeringModal";
 import MyPageConfirmVolunteeringModal from "@/components/page-layout/myPageFinishedLayout/components/MyPageConfirmVolunteeringModal/MyPageConfirmVolunteeringModal";
@@ -36,6 +36,7 @@ interface FinishedPostProps {
   startTime: Date;
   endTime: Date;
   matchingStatus: string;
+  memberRole: "TAKER" | "GIVER";
 }
 
 export default function FinishedPost({
@@ -52,9 +53,10 @@ export default function FinishedPost({
   startTime,
   endTime,
   matchingStatus,
+  memberRole,
 }: FinishedPostProps) {
   const router = useRouter();
-  const memberRole = router.query.memberRole;
+  //const memberRole = router.query.memberRole;
   console.log(email, name, matchingId);
 
   const [isConfirmVolunteeringModalOpen, setIsConfirmVolunteeringModalOpen] = useState(false);
@@ -70,7 +72,10 @@ export default function FinishedPost({
     e.preventDefault();
     setIsCertifyVolunteeringModalOpen(prev=>!prev);
   };
-  const handleClickGiverVV = () => {};
+  const handleClickGiverVV = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setIsCertifyVolunteeringModalOpen(prev=>!prev);
+  };
 
   return (
     <>
@@ -154,7 +159,7 @@ export default function FinishedPost({
         />
       )}
       {isCertifyVolunteeringModalOpen && (
-        <CertifyVolunteeringModal
+        <MyPageCertifyVolunteeringModal
           setState={setIsCertifyVolunteeringModalOpen}
           postId={id}
           postType={postType}
