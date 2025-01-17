@@ -1,0 +1,5 @@
+.container {
+  @include flexSort(null, center, center, null);
+  width: 100%;
+  height: 100%;
+}
