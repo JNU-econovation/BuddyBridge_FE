@@ -21,7 +21,7 @@ export const useLikeMutation = ({ id, queryKey }: UseLikeMutationProps) => {
     mutationFn: () => postLikes(id),
     onMutate: async () => {
       if (localStorage.getItem("accessToken")) {
-        await queryClient.cancelQueries({ queryKey: queryKey });
+        await queryClient.cancelQueries({ queryKey });
 
         const previousTodos = queryClient.getQueryData(queryKey);
 
@@ -45,7 +45,7 @@ export const useLikeMutation = ({ id, queryKey }: UseLikeMutationProps) => {
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: queryKey });
+      queryClient.invalidateQueries({ queryKey });
     },
   });
 };

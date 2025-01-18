@@ -92,7 +92,7 @@ interface PostHeartProps {
 }
 
 export function PostHeart({ id, isLiked, queryKey }: PostHeartProps) {
-  const { mutate } = useLikeMutation({ id, queryKey: queryKey });
+  const { mutate } = useLikeMutation({ id, queryKey });
 
   const handleHeartClick = (event: MouseEvent<SVGSVGElement>) => {
     event.preventDefault();
