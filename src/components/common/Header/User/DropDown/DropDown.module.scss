@@ -30,7 +30,7 @@
 .myProfileContainer {
   @include flexSort(column, null, center, 2rem);
   @include font(1.6rem, 700, normal);
-  padding: 3rem;
+  padding: 2rem;
 }
 
 .myProfile {
