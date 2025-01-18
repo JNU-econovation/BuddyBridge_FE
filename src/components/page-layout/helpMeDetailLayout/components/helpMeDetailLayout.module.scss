@@ -6,7 +6,7 @@
 .box {
   @include flexSort(column, null, center, 1rem);
   width: 100%;
-  max-width: 100rem;
+  max-width: 90rem;
 }
 
 .header {
@@ -21,7 +21,7 @@
   @include flexSort(column, null, center, 1rem);
   border-radius: 2rem;
   border: 0.1rem solid $black-1;
-  padding: 4rem 7rem;
+  padding: 4rem 0rem;
   width: 100%;
 }
 
@@ -36,6 +36,10 @@
 .sirenBtn {
   @include flexSort(column, null, center, 0.2rem);
   cursor: pointer;
+}
+
+.sirenBtn {
+  margin-right: 4rem;
 }
 
 .kebabBtn {
@@ -161,6 +165,7 @@
 
 .periodContent {
   @include flexSort(null, null, null, 1rem);
+  max-width: 55rem;
 }
 
 .assistanceType,
@@ -203,8 +208,9 @@
 }
 
 .createdAt {
+  margin-top: 2rem;
   margin-left: auto;
-  text-align: right;
+  margin-right: 3rem;
   @include font(2rem, 300, normal);
   color: $gray-2;
 }
@@ -219,9 +225,9 @@
 
 .commentBox {
   width: 100%;
-  max-height: 51.8rem;
+  max-height: 52rem;
   overflow-y: scroll;
-  padding: 15rem 10rem 0 10rem;
+  padding: 10rem 0rem 0rem 0rem;
 
   &::-webkit-scrollbar {
     display: none;

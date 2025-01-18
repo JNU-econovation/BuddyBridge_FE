@@ -240,8 +240,8 @@ function Main( data:any) {
               <p className={cn("contentDetailLabel")}>상세 내용</p>
               <div className={cn("contentDetailBox")}>{content}</div>
             </div>
-            <p className={cn("createdAt")}>작성일자: {formatDateString(createdAt)}</p>
           </div>
+          <p className={cn("createdAt")}>작성일자: {formatDateString(createdAt)}</p>
         </div>
         {userData && (
           <>

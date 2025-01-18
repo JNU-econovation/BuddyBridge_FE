@@ -1,5 +1,4 @@
 .container {
-  //margin-top: 10rem;
   width: 100%;
   margin: 10rem 10rem 0 10rem;
   @include flexSort(column, null, null, 3rem);
@@ -8,7 +7,7 @@
 .commentLabelBox {
   @include flexSort(null, null, center, 2rem);
   @include nsnFont(2.3rem, 500, normal);
-  margin: 0 2rem;
+  margin: 0 0.5rem;
   padding: 1rem 1rem;
   border-bottom: 0.1rem solid black;
 }
