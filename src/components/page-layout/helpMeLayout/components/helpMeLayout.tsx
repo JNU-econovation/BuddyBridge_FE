@@ -7,9 +7,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import Filter from "@/components/common/Filter/Filter";
-import getPagenationItems from "@/components/common/Pagenation/apis/getHelpMeList";
+import getPaginationItems from "@/components/common/Pagenation/apis/getHelpMeList";
 import Pagination from "@/components/common/Pagenation/Pagenation";
-import Post from "@/components/common/Post/Post";
+import { Post, PostHeart } from "@/components/common/Post/Post";
 import styles from "@/components/page-layout/helpMeLayout/components/helpMeLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import RegisterArrow from "@/icons/send_arrow.svg";
@@ -38,8 +38,8 @@ export default function HelpMeLayout() {
   };
 
   const { data } = useQuery({
-    queryKey: ["post", page, disabilityType, assistanceType, postStatus],
-    queryFn: () => getPagenationItems("TAKER", page - 1, 8, all, postStatus, disabilityType, assistanceType),
+    queryKey: ["helpMePostList", `${page}`, disabilityType, assistanceType, postStatus],
+    queryFn: () => getPaginationItems("TAKER", page - 1, 8, all, postStatus, disabilityType, assistanceType),
     placeholderData: keepPreviousData,
     enabled: !!all || !!disabilityType || !!assistanceType || !!postStatus,
   });
@@ -131,11 +131,17 @@ export default function HelpMeLayout() {
       </Link>
       <div className={cn("cardListContainer")}>
         <div className={cn("cardListBox")}>
-          {data?.data.content.map((post: PostType) => (
-            <Post data={post} key={post.id} />
+          {data?.content.map((post: PostType) => (
+            <Post data={post} key={post.id}>
+              <PostHeart
+                queryKey={["helpMePostList", `${page}`, disabilityType, assistanceType, postStatus]}
+                id={post.id}
+                isLiked={post.isLiked}
+              />
+            </Post>
           ))}
         </div>
-        <Pagination currentPage={page} itemsPerPage={8} totalItems={data?.data.totalElements} setPage={setPage} />
+        <Pagination currentPage={page} itemsPerPage={8} totalItems={data?.totalElements} setPage={setPage} />
       </div>
     </main>
   );

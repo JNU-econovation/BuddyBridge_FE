@@ -7,7 +7,7 @@ export default async function getTakerPost() {
       "posts?post-type=TAKER&page=0&size=4&sorted=modifiedAt,DESC&post-status=RECRUITING",
     );
 
-    return data.data.content;
+    return data.data;
   } catch {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
@@ -16,6 +16,6 @@ export default async function getTakerPost() {
       "posts?post-type=TAKER&page=0&size=4&sorted=modifiedAt,DESC&post-status=RECRUITING",
     );
 
-    return data.data.content;
+    return data.data;
   }
 }

@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 
 import Link from "next/link";
 
-import Post from "@/components/common/Post/Post";
+import { Post, PostHeart } from "@/components/common/Post/Post";
 import styles from "@/components/page-layout/HomeLayout/components/PostList/TakerPostList/TakerPostList.module.scss";
 import { ROUTE } from "@/constants/route";
 import Plus from "@/icons/plus.svg";
@@ -15,7 +15,7 @@ const cn = classNames.bind(styles);
 
 export default function TakerPostList() {
   const { data } = useSuspenseQuery({
-    queryKey: ["takerPost"],
+    queryKey: ["mainHelpMePostList"],
     queryFn: () => getTakerPost(),
   });
 
@@ -28,8 +28,10 @@ export default function TakerPostList() {
         </Link>
       </header>
       <div className={cn("postListBox")}>
-        {data?.map((post: PostType) => (
-          <Post data={post} key={post.id} />
+        {data.content.map((post: PostType) => (
+          <Post data={post} key={post.id}>
+            <PostHeart queryKey={["mainHelpMePostList"]} id={post.id} isLiked={post.isLiked} />
+          </Post>
         ))}
       </div>
     </div>
