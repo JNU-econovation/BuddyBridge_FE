@@ -15,9 +15,7 @@ import Modal from "@/components/common/Modal/Modal";
 import Textarea from "@/components/common/Textarea/Textarea";
 import openToast from "@/components/common/Toast/features/openToast";
 import getPostEnums from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/CertifyVolunteeringModal/apis/getPostEnums";
-import postCertificationsForm, {
-  formType,
-} from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/CertifyVolunteeringModal/apis/postCertificationsForm";
+import postCertificationsForm, {formType} from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/CertifyVolunteeringModal/apis/postCertificationsForm";
 import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/CertifyVolunteeringModal/CertifyVolunteeringModal.module.scss";
 import Calendar from "@/icons/calendar.svg";
 import Close from "@/icons/close.svg";
