@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import getMyPost from "@/components/page-layout/myPageHelpMeLayout/apis/getMyPost";
+import getMyPost from "@/components/page-layout/myPageMyContentLayout/apis/getMyPost";
 
 const useGetMyPost = (pageId: number, postType: string, filter: string) => {
   return useQuery({
