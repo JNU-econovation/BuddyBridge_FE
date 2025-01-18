@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
@@ -10,6 +10,7 @@ import AdminNav from "@/components/common/AdminNav/AdminNav";
 import Pagination from "@/components/common/Pagenation/Pagenation";
 import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/certificationLayout/components/certificationLayout.module.scss";
+import { ROUTE } from "@/constants/route";
 
 import CertificationContent, { CertificationContentProps } from "./CertificationContent/CertificationContent";
 import deleteCertification from "../apis/deleteCertification";
@@ -32,7 +33,7 @@ export default function CertificationLayout() {
 
   const currentPage = Number(params.get("page")) || 0;
 
-  const { data } = useQuery({
+  const { data, error, isPending } = useQuery({
     queryKey: ["certification", currentPage > 0 ? currentPage : 1],
     queryFn: () => getCertifications(currentPage, 6),
     enabled: currentPage >= 0,
@@ -59,6 +60,15 @@ export default function CertificationLayout() {
       }
     },
   });
+
+  useEffect(() => {
+    if (error?.message === "접근 권한이 없습니다.") {
+      openToast("error", error?.message);
+      router.push(ROUTE.HOME);
+    }
+  }, [error, router]);
+
+  if (isPending) return <>...로딩</>;
 
   const handleCertificationDeleteClick = () => {
     deleteCertificationMutation.mutate(checkId);

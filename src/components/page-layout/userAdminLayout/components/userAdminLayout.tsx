@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import classNames from "classnames/bind";
+import { ro } from "date-fns/locale";
 
 import { useRouter } from "next/router";
 
@@ -10,6 +11,7 @@ import AdminNav from "@/components/common/AdminNav/AdminNav";
 import Pagination from "@/components/common/Pagenation/Pagenation";
 import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/userAdminLayout/components/userAdminLayout.module.scss";
+import { ROUTE } from "@/constants/route";
 
 import UserContent, { UserContentProps } from "./UserContent/UserContent";
 import deleteUser from "../apis/deleteUser";
@@ -31,7 +33,7 @@ export default function UserAdminLayout() {
 
   const currentPage = Number(params.get("page")) || 1;
 
-  const { data } = useQuery({
+  const { data, isPending, error } = useQuery({
     queryKey: ["users", currentPage],
     queryFn: () => getUsers(currentPage, 6),
     enabled: !!currentPage,
@@ -63,6 +65,15 @@ export default function UserAdminLayout() {
     });
     queryClient.invalidateQueries({ queryKey: ["users", currentPage] });
   };
+
+  useEffect(() => {
+    if (error?.message === "접근 권한이 없습니다.") {
+      openToast("error", error?.message);
+      router.push(ROUTE.HOME);
+    }
+  }, [error, router]);
+
+  if (isPending) return <>...로딩</>;
 
   return (
     <div className={cn("container")}>

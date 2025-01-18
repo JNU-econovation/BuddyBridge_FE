@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
@@ -5,7 +7,9 @@ import { useRouter } from "next/router";
 
 import AdminNav from "@/components/common/AdminNav/AdminNav";
 import CertificationDetail from "@/components/common/CertificationDetail/CertificationDetail";
+import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/certificationDetailLayout/components/CertificationDetailLayout.module.scss";
+import { ROUTE } from "@/constants/route";
 
 import PostContent from "../../postDeclarationDetailLayout/components/PostContent/PostContent";
 import getCertificationDetail from "../apis/getCertificationDetail";
@@ -15,19 +19,20 @@ const cn = classNames.bind(styles);
 export default function CertificationDetailLayout() {
   const router = useRouter();
 
-  const { data, isError, isPending } = useQuery({
+  const { data, error, isPending } = useQuery({
     queryKey: ["certificationDetail"],
     queryFn: () => getCertificationDetail(Number(router.query.id)),
     enabled: !!router.query.id,
   });
 
-  if (isError) {
-    return <>에러</>;
-  }
+  useEffect(() => {
+    if (error?.message === "접근 권한이 없습니다.") {
+      openToast("error", error?.message);
+      router.push(ROUTE.HOME);
+    }
+  }, [error, router]);
 
-  if (isPending) {
-    return <>...로딩중</>;
-  }
+  if (isPending) return <>...로딩</>;
 
   const {
     post: { post, author },
