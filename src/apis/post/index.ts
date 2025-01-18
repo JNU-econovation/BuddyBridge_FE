@@ -12,9 +12,7 @@ interface UseLikeMutationProps {
 }
 
 interface QueryData {
-  data: {
-    content: PostType[];
-  };
+  content: PostType[];
 }
 
 export const useLikeMutation = ({ id, queryKey }: UseLikeMutationProps) => {
@@ -28,7 +26,7 @@ export const useLikeMutation = ({ id, queryKey }: UseLikeMutationProps) => {
         const previousTodos = queryClient.getQueryData(queryKey);
 
         queryClient.setQueryData(queryKey, (response: QueryData) => {
-          response.data.content.map((item) => {
+          response.content.map((item) => {
             if (item.id === id) {
               return { ...item, isLiked: !item.isLiked };
             }
