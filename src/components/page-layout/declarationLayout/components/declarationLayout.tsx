@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
@@ -9,6 +9,7 @@ import AdminNav from "@/components/common/AdminNav/AdminNav";
 import Pagination from "@/components/common/Pagenation/Pagenation";
 import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/declarationLayout/components/declarationLayout.module.scss";
+import { ROUTE } from "@/constants/route";
 import Cancel from "@/icons/cancel.svg";
 
 import DeclarationContent, { DeclarationContentProps } from "./DeclarationContent/DeclarationContent";
@@ -26,7 +27,7 @@ export default function DeclarationLayout() {
 
   const currentPage = Number(params.get("page")) || 0;
 
-  const { data } = useQuery({
+  const { data, isPending, error } = useQuery({
     queryKey: ["declaration", type, currentPage > 0 ? currentPage : 1],
     queryFn: () => getDeclaration(type, currentPage, 6),
     enabled: currentPage >= 0,
@@ -53,6 +54,15 @@ export default function DeclarationLayout() {
     });
     queryClient.invalidateQueries({ queryKey: ["declaration", type, currentPage > 0 ? currentPage : 1] });
   };
+
+  useEffect(() => {
+    if (error?.message === "접근 권한이 없습니다.") {
+      openToast("error", error?.message);
+      router.push(ROUTE.HOME);
+    }
+  }, [error, router]);
+
+  if (isPending) return <>...로딩</>;
 
   return (
     <div className={cn("container")}>

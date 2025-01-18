@@ -1,0 +1,102 @@
+.container {
+  @include flexSort(null, center, center, null);
+  height: 100%;
+}
+
+.box {
+  border-radius: 1rem;
+  box-shadow: 0 0 0.4rem 0 rgba(0, 0, 0, 0.25);
+  @include flexSort(null, null, null, null);
+  height: 55rem;
+  width: 130rem;
+}
+
+.adminContainer {
+  flex: 1;
+  padding: 3rem;
+  @include flexSort(column, null, null, 2rem);
+}
+
+.adminTitle {
+  @include nsnFont(2.6rem, 700, normal);
+}
+
+.tableContainer {
+  @include flexSort(column, null, null, null);
+}
+
+.tableHeader {
+  @include flexSort(null, flex-end, null, null);
+  margin-bottom: 1rem;
+}
+
+.deleteBtn {
+  border-radius: 1rem;
+  border: 0.15rem solid #5f5f5f;
+  color: #5f5f5f;
+  @include nsnFont(1.7rem, 700, normal);
+  width: 8.8rem;
+  height: 3.5rem;
+  @include flexSort(null, center, center, null);
+}
+
+.tableBox {
+  @include flexSort(column, null, null, null);
+}
+
+.tableTitle {
+  @include flexSort(null, null, center, null);
+  height: 5rem;
+  border-top: 0.2rem solid #cdcdcd;
+  border-bottom: 0.2rem solid #cdcdcd;
+  @include nsnFont(1.5rem, 700, normal);
+}
+
+.blank {
+  width: 5%;
+}
+
+.userName {
+  width: 11%;
+  @include flexSort(null, center, center, null);
+}
+
+.userNickname {
+  width: 11%;
+  @include flexSort(null, center, center, null);
+}
+
+.gender {
+  width: 11%;
+  @include flexSort(null, center, center, null);
+}
+
+.age {
+  width: 11%;
+  @include flexSort(null, center, center, null);
+}
+
+.disabilityType {
+  width: 16%;
+  @include flexSort(null, center, center, null);
+}
+
+.email {
+  width: 20%;
+  @include flexSort(null, center, center, null);
+}
+
+.reportedCount {
+  width: 15%;
+  @include flexSort(null, center, center, null);
+}
+
+.tableContentList {
+  @include flexSort(column, null, null, null);
+  height: 30rem;
+  border-bottom: 0.2rem solid #cdcdcd;
+}
+
+.paginationBox {
+  @include flexSort(null, center, center, null);
+}

@@ -14,18 +14,16 @@ import Input from "@/components/common/Input/Input";
 import Modal from "@/components/common/Modal/Modal";
 import Textarea from "@/components/common/Textarea/Textarea";
 import openToast from "@/components/common/Toast/features/openToast";
-import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/CertifyVolunteeringModal/CertifyVolunteeringModal.module.scss";
-import getPostEnums from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/RegisterCertifyVolunteeringModal/apis/getPostEnums";
-import postCertificationsForm,{formType} from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/RegisterCertifyVolunteeringModal/apis/postCertificationsForm";
+import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/RegisterCertifyVolunteeringModal/RegisterCertifyVolunteeringModal.module.scss";
 import Calendar from "@/icons/calendar.svg";
 import Close from "@/icons/close.svg";
 
-import getPrevCertification from "./apis/getPrevCertification";
-import putCertification from "./apis/putCertification";
+import getPostEnums from "./apis/getPostEnums";
+import postCertificationsForm, { formType } from "./apis/postCertificationsForm";
 
 const cn = classNames.bind(styles);
 
-interface CertifyVolunteeringModalProps {
+interface RegisterCertifyVolunteeringModalProps {
   setState: Dispatch<SetStateAction<boolean>>;
   postType: "TAKER" | "GIVER";
   postId: number;
@@ -58,24 +56,18 @@ const volunteerSchema = z.object({
   startTime: z.string().min(1, "시작 시간을 선택해주세요."),
   endTime: z.string().min(1, "끝나는 시간을 선택해주세요."),
   assistanceType: z.string().min(1, "도움 유형을 선택해주세요."),
-  content: z.string().min(200, "200자 이상을 입력해주세요."),
+  content: z.string().min(150, "150자 이상을 입력해주세요."),
 });
 
-export default function CertifyVolunteeringModal({
+export default function RegisterCertifyVolunteeringModal({
   setState,
   postId,
   postType,
   email,
   name,
   matchingId,
-}: CertifyVolunteeringModalProps) {
+}: RegisterCertifyVolunteeringModalProps) {
   const queryClient = useQueryClient();
-
-  const { data: prevCertification } = useQuery({
-    queryKey: ["prevCertification", matchingId],
-    queryFn: () => getPrevCertification(matchingId),
-    enabled: !!matchingId,
-  });
 
   const { data, isError, isPending } = useQuery({
     queryKey: ["assistanceTypes"],
@@ -83,20 +75,18 @@ export default function CertifyVolunteeringModal({
   });
 
   const certificationsFormMutation = useMutation({
-    mutationFn: (body: formType) =>
-      prevCertification ? putCertification(matchingId, body) : postCertificationsForm(body, matchingId),
+    mutationFn: (body: formType) => postCertificationsForm(body, matchingId),
     onSuccess: () => {
       setState((prev) => !prev);
-      queryClient.invalidateQueries({queryKey:["prevCertification", matchingId]})
-      openToast(
-        "success",
-        prevCertification ? "봉사 인증 폼 수정이 완료되었습니다." : "봉사 인증 폼 작성이 완료되었습니다.",
-      );
+      openToast("success", "봉사 인증 폼 작성이 완료되었습니다.");
+      queryClient.invalidateQueries({ queryKey: ["chattingRoomData", matchingId] });
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response) {
+        setState((prev) => !prev);
         openToast("error", error.response.data.error.message);
       } else {
+        setState((prev) => !prev);
         openToast("error", "에러가 발생했습니다.");
       }
     },
@@ -111,7 +101,6 @@ export default function CertifyVolunteeringModal({
   } = useForm<FormData>({
     resolver: zodResolver(volunteerSchema),
     mode: "onSubmit",
-    defaultValues: prevCertification || {},
   });
 
   const handleVolunteerComplete = (data: FormData) => {
@@ -211,7 +200,7 @@ export default function CertifyVolunteeringModal({
         <div className={cn("thoughtsContainer")}>
           <p className={cn("thoughtsTitle")}>6. 봉사 활동 내용 및 소감 </p>
           <header className={cn("thoughtsHeader")}>
-            봉사 활동 내용 및 소감을 자유롭게 작성해 주세요. (200자 이상){" "}
+            봉사 활동 내용 및 소감을 자유롭게 작성해 주세요. (150자 이상)
           </header>
           <div className={cn("thoughtsContentBox")}>
             <Textarea
@@ -222,7 +211,7 @@ export default function CertifyVolunteeringModal({
             {errors.content && <p className={cn("errorMessage")}>{errors.content.message}</p>}
           </div>
         </div>
-        <button className={cn("completeVolunteeringBtn")}>{prevCertification ? "수정 완료" : "봉사 인증 완료"}</button>
+        <button className={cn("completeVolunteeringBtn")}>봉사 인증 완료</button>
       </form>
       <Close className={cn("close")} onClick={() => setState((prev) => !prev)} />
     </Modal>

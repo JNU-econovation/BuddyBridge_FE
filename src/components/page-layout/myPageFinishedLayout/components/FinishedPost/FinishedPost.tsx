@@ -7,9 +7,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import PostStatusLabel from "@/components/common/PostStatusLabel/PostStatusLabel";
-import MyPageCertifyVolunteeringModal from "@/components/page-layout/myPageFinishedLayout/components/MyPageCertifyVolunteeringModal/MyPageCertifyVolunteeringModal";
 import CompleteVolunteeringModal from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/CompleteVolunteeringModal/CompleteVolunteeringModal";
 import GetNoVolunteeringModal from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/GetNoVolunteeringModal/GetNoVolunteeringModal";
+import MyPageCertifyVolunteeringModal from "@/components/page-layout/myPageFinishedLayout/components/MyPageCertifyVolunteeringModal/MyPageCertifyVolunteeringModal";
 import MyPageConfirmVolunteeringModal from "@/components/page-layout/myPageFinishedLayout/components/MyPageConfirmVolunteeringModal/MyPageConfirmVolunteeringModal";
 import { ROUTE } from "@/constants/route";
 import Calendar from "@/icons/calendar.svg";

@@ -7,7 +7,6 @@ import classNames from "classnames/bind";
 import { useForm } from "react-hook-form";
 import { useInView } from "react-intersection-observer";
 
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 import getLogIn from "@/components/common/Header/apis/getLogIn";
@@ -27,6 +26,7 @@ import DeclarationModal from "./DeclarationModal/DeclarationModal";
 import GetNoVolunteeringModal from "./GetNoVolunteeringModal/GetNoVolunteeringModal";
 import MyChat from "./MyChat/MyChat";
 import OppositeChat from "./OppositeChat/OppositeChat";
+import RegisterCertifyVolunteeringModal from "./RegisterCertifyVolunteeringModal/RegisterCertifyVolunteeringModal";
 import deleteMatching from "../../../apis/deleteMatching";
 import getChatingRoom from "../../../apis/getChatingRoom";
 import postCertificationRequest from "../../../apis/postCertificationRequest";
@@ -81,6 +81,7 @@ export default function ChattingRoomContent({
   const [isCompleteVolunteeringModalOpen, setIsCompleteVolunteeringModalOpen] = useState(false);
   const [isGetNoVolunteeringModalOpen, setIsGetNoVolunteeringModalOpen] = useState(false);
   const [isHelpDone, setIsHelpDone] = useState(false);
+  const [isCertificationClick, setIsCertificationClick] = useState(false);
   const [isDeclarationModalOpen, setIsDeclarationModalOpen] = useState(false);
   DeclarationModal;
   const queryClient = useQueryClient();
@@ -369,6 +370,20 @@ export default function ChattingRoomContent({
                   도움을 주었나요?
                 </button>
               )}
+            {chattingRoomType === "VOLUNTEERING_VERIFIED" &&
+              ((chattingData?.pages[0].postType === "TAKER" && data.memberId !== chattingData?.pages[0].postAuthorId) ||
+                (chattingData?.pages[0].postType === "GIVER" &&
+                  data.memberId === chattingData?.pages[0].postAuthorId)) && (
+                <button
+                  className={cn("helpBtn")}
+                  onClick={() => {
+                    setIsCertificationClick((prev) => !prev);
+                    setIsHamburgerClick(false);
+                  }}
+                >
+                  도움을 줬어요!
+                </button>
+              )}
             {chattingRoomData.canVerificationRequest &&
               chattingRoomType === "DONE" &&
               ((chattingData?.pages[0].postType === "TAKER" && data.memberId !== chattingData?.pages[0].postAuthorId) ||
@@ -427,7 +442,7 @@ export default function ChattingRoomContent({
         />
       )}
       {isHelpDone && (
-        <CertifyVolunteeringModal
+        <RegisterCertifyVolunteeringModal
           postType={chattingData?.pages[0].postType}
           postId={chattingData?.pages[0].postId}
           setState={setIsHelpDone}
@@ -435,6 +450,9 @@ export default function ChattingRoomContent({
           name={data.name}
           matchingId={chatingRoomNumber as number}
         />
+      )}
+      {isCertificationClick && (
+        <CertifyVolunteeringModal setState={setIsCertificationClick} matchingId={chatingRoomNumber as number} />
       )}
       {isDeclarationModalOpen && (
         <DeclarationModal
