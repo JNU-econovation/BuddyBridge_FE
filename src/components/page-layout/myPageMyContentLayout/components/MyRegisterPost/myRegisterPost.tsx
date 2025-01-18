@@ -13,9 +13,8 @@ import useGetMyComment from "@/hooks/useGetMyComment";
 import useGetMyPost from "@/hooks/useGetMyPost";
 
 import styles from "./myRegisterPost.module.scss";
-import PostTypeFilter, {
-  PostTypeFilterProps,
-} from "../../../myPageLikesLayout/components/PostTypeFilter/PostTypeFilter";
+import PostTypeFilter, {PostTypeFilterProps,} from "../../../myPageLikesLayout/components/PostTypeFilter/PostTypeFilter";
+import deleteComments from "../../apis/deleteComments";
 import deletePosts from "../../apis/deletePosts";
 
 const cn = classNames.bind(styles);
@@ -24,7 +23,7 @@ export default function MyRegisterPost() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const postType = (router.query.postType as PostTypeFilterProps["postType"]) || "TAKER";
-  const filter = router.query.state === "post" ? "post" : router.query.state === "comment" ? "comment" : "";
+  const filter = router.query.state === "post" ? "post" : router.query.state === "comment" ? "comment" : "post";
   const pageId = Number(router.query.pageId) || 1;
   const queryKey = router.query.state === "post" ? "postData" : router.query.state === "comment" ? "commenData" : "";
 
@@ -47,8 +46,17 @@ export default function MyRegisterPost() {
     mutationFn: (selectedContents: number[]) => deletePosts(selectedContents),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["postData", pageId, postType] });
-      router.push(router.asPath);
       openToast("success", "성공적으로 삭제되었습니다.");
+      window.location.reload()
+    },
+  });
+
+  const deleteCommentMutation = useMutation({
+    mutationFn: (selectedContents: number[]) => deleteComments(selectedContents),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["commentData", pageId, postType] });
+      openToast("success", "성공적으로 삭제되었습니다.");
+      window.location.reload()
     },
   });
 
@@ -62,8 +70,10 @@ export default function MyRegisterPost() {
 
   const handleDelete = () => {
     if (filter === "post") {
-      console.log(selectedContents);
       deletePostMutation.mutate(selectedContents);
+    }
+    if (filter === "comment") {
+      deleteCommentMutation.mutate(selectedContents);
     }
     setSelectedContents([]);
     setIsDeleteMode(false);
