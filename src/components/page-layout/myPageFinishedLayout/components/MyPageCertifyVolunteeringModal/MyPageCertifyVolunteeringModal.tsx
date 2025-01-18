@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -14,9 +14,11 @@ import Input from "@/components/common/Input/Input";
 import Modal from "@/components/common/Modal/Modal";
 import Textarea from "@/components/common/Textarea/Textarea";
 import openToast from "@/components/common/Toast/features/openToast";
-import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/CertifyVolunteeringModal/CertifyVolunteeringModal.module.scss";
 import getPostEnums from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/RegisterCertifyVolunteeringModal/apis/getPostEnums";
-import postCertificationsForm,{formType} from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/RegisterCertifyVolunteeringModal/apis/postCertificationsForm";
+import postCertificationsForm, {
+  formType,
+} from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/RegisterCertifyVolunteeringModal/apis/postCertificationsForm";
+import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/RegisterCertifyVolunteeringModal/RegisterCertifyVolunteeringModal.module.scss";
 import Calendar from "@/icons/calendar.svg";
 import Close from "@/icons/close.svg";
 
@@ -71,7 +73,11 @@ export default function CertifyVolunteeringModal({
 }: CertifyVolunteeringModalProps) {
   const queryClient = useQueryClient();
 
-  const { data: prevCertification } = useQuery({
+  const {
+    data: prevCertification,
+    isPending: isPrevCertificationPending,
+    isError: isPrevCertificationError,
+  } = useQuery({
     queryKey: ["prevCertification", matchingId],
     queryFn: () => getPrevCertification(matchingId),
     enabled: !!matchingId,
@@ -87,7 +93,7 @@ export default function CertifyVolunteeringModal({
       prevCertification ? putCertification(matchingId, body) : postCertificationsForm(body, matchingId),
     onSuccess: () => {
       setState((prev) => !prev);
-      queryClient.invalidateQueries({queryKey:["prevCertification", matchingId]})
+      queryClient.invalidateQueries({ queryKey: ["prevCertification", matchingId] });
       openToast(
         "success",
         prevCertification ? "봉사 인증 폼 수정이 완료되었습니다." : "봉사 인증 폼 작성이 완료되었습니다.",
@@ -101,7 +107,7 @@ export default function CertifyVolunteeringModal({
       }
     },
   });
-
+  
   const {
     register,
     handleSubmit,
@@ -114,6 +120,14 @@ export default function CertifyVolunteeringModal({
     defaultValues: prevCertification || {},
   });
 
+  useEffect(() => {
+    if (prevCertification) {
+      Object.entries(prevCertification).forEach(([key, value]) => {
+        setValue(key as keyof FormData, value as string | Date);
+      });
+    }
+  }, [prevCertification, setValue]);
+  
   const handleVolunteerComplete = (data: FormData) => {
     certificationsFormMutation.mutate(data);
   };
@@ -125,6 +139,15 @@ export default function CertifyVolunteeringModal({
   if (isPending) {
     return <>...로딩중</>;
   }
+
+  if (isPrevCertificationError) {
+    return <>에러</>;
+  }
+
+  if (isPrevCertificationPending) {
+    return <>...로딩중</>;
+  }
+
 
   return (
     <Modal className={cn("modal")} setState={setState}>
