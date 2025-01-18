@@ -46,12 +46,6 @@
   }
 }
 
-.heart {
-  position: absolute;
-  top: 1rem;
-  right: 2rem;
-}
-
 .contentBox {
   height: calc(100% - 3rem);
   margin-top: 3rem;
@@ -131,4 +125,10 @@
   bottom: 1rem;
   z-index: 1;
   @include nsnFont(2rem, 900, normal);
+}
+
+.heart {
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
 }
