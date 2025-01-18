@@ -1,7 +1,7 @@
 .container {
   padding: 0.5rem 1rem;
   background: linear-gradient(0deg, #cae9ff 0%, #cae9ff 100%);
-  @include nsnFont(1.4rem, 700, normal);
+  @include nsnFont(1.3rem, 700, 1.5rem);
   border-radius: 1rem;
   color: #2678ff;
 }

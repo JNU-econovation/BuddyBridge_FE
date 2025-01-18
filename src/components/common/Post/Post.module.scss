@@ -120,7 +120,7 @@
 .postLabelBox {
   @include flexSort(null, null, center, 1rem);
   position: absolute;
-  right: 6rem;
+  right: 4rem;
   bottom: 1rem;
   z-index: 1;
 }
