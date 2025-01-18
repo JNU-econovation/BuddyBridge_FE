@@ -56,8 +56,6 @@ export default function FinishedPost({
   memberRole,
 }: FinishedPostProps) {
   const router = useRouter();
-  //const memberRole = router.query.memberRole;
-  console.log(email, name, matchingId);
 
   const [isConfirmVolunteeringModalOpen, setIsConfirmVolunteeringModalOpen] = useState(false);
   const [isCompleteVolunteeringModalOpen, setIsCompleteVolunteeringModalOpen] = useState(false);
@@ -134,6 +132,14 @@ export default function FinishedPost({
                 <Arrow className={cn("arrowIcon")} />
               </button>
             )}
+            {
+              matchingStatus === "DONE" && (
+                <button className={cn("giverDoneBtn")}>
+                  도움완료 요청하기
+                  <Arrow className={cn("arrowIcon")} />
+                </button>
+              )
+            }
           </>
         )}
       </Link>

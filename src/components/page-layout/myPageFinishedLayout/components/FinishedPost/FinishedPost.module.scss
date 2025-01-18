@@ -49,7 +49,8 @@
 .takerDoneBtn,
 .takerVC,
 .giverVCBtn,
-.giverVVBtn {
+.giverVVBtn,
+.giverDoneBtn {
     @include flexSort(null, null, center, 0.5rem);
     @include nsnFont(1.1rem, 600, normal);
     padding: 0.7rem 1.3rem;
@@ -90,4 +91,8 @@
     background-color: white;
     border: 0.15rem solid #45B555;
     color: #45B555;
+}
+
+.giverDoneBtn {
+  background-color: #F5DE2F;
 }

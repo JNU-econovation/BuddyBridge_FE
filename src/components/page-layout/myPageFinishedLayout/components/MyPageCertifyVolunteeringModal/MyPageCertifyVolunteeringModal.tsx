@@ -58,7 +58,7 @@ const volunteerSchema = z.object({
   startTime: z.string().min(1, "시작 시간을 선택해주세요."),
   endTime: z.string().min(1, "끝나는 시간을 선택해주세요."),
   assistanceType: z.string().min(1, "도움 유형을 선택해주세요."),
-  content: z.string().min(150, "200자 이상을 입력해주세요."),
+  content: z.string().min(200, "200자 이상을 입력해주세요."),
 });
 
 export default function CertifyVolunteeringModal({
@@ -87,6 +87,7 @@ export default function CertifyVolunteeringModal({
       prevCertification ? putCertification(matchingId, body) : postCertificationsForm(body, matchingId),
     onSuccess: () => {
       setState((prev) => !prev);
+      queryClient.invalidateQueries({queryKey:["prevCertification", matchingId]})
       openToast(
         "success",
         prevCertification ? "봉사 인증 폼 수정이 완료되었습니다." : "봉사 인증 폼 작성이 완료되었습니다.",
