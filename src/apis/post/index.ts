@@ -27,10 +27,7 @@ export const useLikeMutation = ({ id, queryKey }: UseLikeMutationProps) => {
 
         queryClient.setQueryData(queryKey, (response: QueryData) => {
           response.content.map((item) => {
-            if (item.id === id) {
-              return { ...item, isLiked: !item.isLiked };
-            }
-            return item;
+            item.id === id ? { ...item, isLiked: !item.isLiked } : item;
           });
         });
         return { previousTodos };
@@ -38,11 +35,9 @@ export const useLikeMutation = ({ id, queryKey }: UseLikeMutationProps) => {
     },
     onError: (error: AxiosError<ErrorResponse>, newTodo, context) => {
       queryClient.setQueryData(queryKey, context?.previousTodos);
-      if (error.response?.status === 401) {
-        openToast("warn", "로그인이 필요한 서비스입니다.");
-      } else {
-        openToast("warn", "에러가 발생하였습니다.");
-      }
+      error.response?.status === 401
+        ? openToast("warn", "로그인이 필요한 서비스입니다.")
+        : openToast("warn", "에러가 발생하였습니다.");
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey });
