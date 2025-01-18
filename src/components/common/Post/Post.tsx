@@ -12,7 +12,7 @@ import Calendar from "@/icons/calendar.svg";
 import Clock from "@/icons/clock.svg";
 import Heart from "@/icons/heart.svg";
 import Location from "@/icons/location.svg";
-import RedHeart from "@/icons/red_heart.svg";
+import PinkHeart from "@/icons/pink_heart.svg";
 import { PostType } from "@/types/post";
 import { formatDateString } from "@/utils";
 
@@ -99,10 +99,10 @@ export default function Post({ data }: PostProps) {
             giver: postType === "GIVER",
           })}
         >
-          {postStatus === "RECRUITING" ? "매칭중" : "매칭완료"}
+          {postStatus === "RECRUITING" ? "모집중" : "모집완료"}
         </p>
         {isLiked ? (
-          <RedHeart onClick={handleHeartClick} width={32} height={32} className={cn("heart")} />
+          <PinkHeart onClick={handleHeartClick} width={32} height={32} className={cn("heart")} />
         ) : (
           <Heart onClick={handleHeartClick} width={32} height={32} className={cn("heart")} />
         )}
