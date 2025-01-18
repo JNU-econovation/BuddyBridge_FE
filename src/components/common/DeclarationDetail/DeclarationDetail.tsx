@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import { useMutation, useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
@@ -17,7 +19,7 @@ const cn = classNames.bind(styles);
 export default function DeclarationDetail() {
   const router = useRouter();
 
-  const { data, isError, isPending } = useQuery({
+  const { data, error, isPending } = useQuery({
     queryKey: ["detailDeclaration", router.query.id],
     queryFn: () => getDetailDeclaration(Number(router.query.id)),
     enabled: !!router.query.id,
@@ -35,9 +37,14 @@ export default function DeclarationDetail() {
     deleteDeclarationMutation.mutate(Number(router.query.id));
   };
 
-  if (isPending) return <>...로딩중</>;
+  useEffect(() => {
+    if (error?.message === "접근 권한이 없습니다.") {
+      openToast("error", error?.message);
+      router.push(ROUTE.HOME);
+    }
+  }, [error, router]);
 
-  if (isError) return <>에러</>;
+  if (isPending) return <>...로딩</>;
 
   return (
     <div className={cn("container")}>

@@ -41,7 +41,7 @@
 
 .unreadCount {
   z-index: 3;
-  @include nsnFont(1rem, 700, normal);
+  @include nsnFont(1rem, 700, 0.58rem);
   margin-top: 1rem;
   padding: 0.6rem;
   color: white;
