@@ -61,6 +61,7 @@ export default function Login({ name }: LoginProps) {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
+        heartbeatTimeout: 60 * 60 * 1000,
       });
 
       eventSource.addEventListener("notification", (event) => {
@@ -84,6 +85,8 @@ export default function Login({ name }: LoginProps) {
       eventSource.onerror = (error) => {
         console.error("SSE error:", error);
         eventSource.close();
+
+        connectSSE();
       };
     };
 
