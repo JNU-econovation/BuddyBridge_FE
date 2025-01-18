@@ -11,8 +11,8 @@
 
 .dropDownContainer {
   @include flexSort(column, null, null, 3rem);
-  top: 7rem;
-  right: 10rem;
+  top: 6rem;
+  right: 0rem;
   position: absolute;
   z-index: 1080;
   box-shadow: rgba(0, 0, 0, 0.1) 0rem 0.8rem 4rem 0rem;
