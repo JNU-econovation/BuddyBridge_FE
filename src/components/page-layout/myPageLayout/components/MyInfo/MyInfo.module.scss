@@ -6,14 +6,15 @@
 }
 
 .title {
-  @include nsnFont(2rem, 500, normal);
+  @include nsnFont(1.5rem, 500, normal);
   padding: 2rem 3rem;
   position: absolute;
 }
 
 .myInfoContainer {
-  width: 80%;
-  height: 70%;
+  width: 75%;
+  min-height: 25rem;
+  aspect-ratio: 7/4;
   border-radius: 2rem;
   position: relative;
   @include flexSort(column, null, null, null);
