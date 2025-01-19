@@ -7,7 +7,6 @@
 .header {
   @include flexSort(null, center, center, null);
   width: 100%;
-  //background-color: beige;
   border-bottom: 0.18rem solid #c6c6c6;
   padding: 1.5rem 0rem;
   position: relative;

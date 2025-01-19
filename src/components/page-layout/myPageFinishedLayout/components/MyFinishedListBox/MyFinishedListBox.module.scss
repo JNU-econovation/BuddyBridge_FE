@@ -1,12 +1,12 @@
 .myPageFinishedList {
-  @include flexSort(column, null, null, null);
+  @include flexSort(column, null, center, null);
   flex: 1;
   width: 100%;
 }
 
 .myFinishedListBox {
   @include flexSort(column, null, null, null);
-  width: 100%;
+  width: 90%;
   height: 100%;
   min-height: 65rem;
   background-color: white;
