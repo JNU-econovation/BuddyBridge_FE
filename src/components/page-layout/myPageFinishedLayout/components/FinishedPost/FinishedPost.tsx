@@ -1,12 +1,14 @@
 import { useState } from "react";
 
 import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 import PostStatusLabel from "@/components/common/PostStatusLabel/PostStatusLabel";
+import openToast from "@/components/common/Toast/features/openToast";
+import postCertificationRequest from "@/components/page-layout/chatLayout/apis/postCertificationRequest";
 import CompleteVolunteeringModal from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/CompleteVolunteeringModal/CompleteVolunteeringModal";
 import GetNoVolunteeringModal from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/GetNoVolunteeringModal/GetNoVolunteeringModal";
 import MyPageCertifyVolunteeringModal from "@/components/page-layout/myPageFinishedLayout/components/MyPageCertifyVolunteeringModal/MyPageCertifyVolunteeringModal";
@@ -16,6 +18,7 @@ import Calendar from "@/icons/calendar.svg";
 import Clock from "@/icons/clock.svg";
 import Location from "@/icons/location.svg";
 import Arrow from "@/icons/thick_arrow.svg";
+import { ErrorResponse } from "@/types/error";
 import { formatDateString } from "@/utils";
 
 import styles from "./FinishedPost.module.scss";
@@ -37,6 +40,7 @@ interface FinishedPostProps {
   endTime: Date;
   matchingStatus: string;
   memberRole: "TAKER" | "GIVER";
+  canRequest: boolean;
 }
 
 export default function FinishedPost({
@@ -54,13 +58,24 @@ export default function FinishedPost({
   endTime,
   matchingStatus,
   memberRole,
+  canRequest,
 }: FinishedPostProps) {
-  const router = useRouter();
-
   const [isConfirmVolunteeringModalOpen, setIsConfirmVolunteeringModalOpen] = useState(false);
   const [isCompleteVolunteeringModalOpen, setIsCompleteVolunteeringModalOpen] = useState(false);
   const [isGetNoVolunteeringModalOpen, setIsGetNoVolunteeringModalOpen] = useState(false);
   const [isCertifyVolunteeringModalOpen, setIsCertifyVolunteeringModalOpen] = useState(false);
+
+  const postCertificationRequestMutation = useMutation({
+    mutationFn: () => postCertificationRequest(matchingId),
+    onSuccess: () => {
+      openToast("success", "봉사 인증 요청이 완료되었습니다.");
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response) {
+        openToast("error", error.response.data.error.message);
+      }
+    },
+  });
 
   const handleClickTakerDone = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -73,6 +88,9 @@ export default function FinishedPost({
   const handleClickGiverVV = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsCertifyVolunteeringModalOpen((prev) => !prev);
+  };
+  const handleClickRequestBtn = () => {
+    postCertificationRequestMutation.mutate();
   };
 
   return (
@@ -111,9 +129,7 @@ export default function FinishedPost({
                 <Arrow className={cn("arrowIcon")} />
               </button>
             )}
-            {(matchingStatus === "VOLUNTEERING_COMPLETED" || "VOLUNTEERING_VERIFIED") && (
-              <div className={cn("takerVC")}>도움을 받았어요!</div>
-            )}
+            {matchingStatus === "VOLUNTEERING_COMPLETED" && <div className={cn("takerVC")}>도움을 받았어요!</div>}
           </>
         )}
         {memberRole === "GIVER" && (
@@ -130,11 +146,13 @@ export default function FinishedPost({
                 <Arrow className={cn("arrowIcon")} />
               </button>
             )}
-            {matchingStatus === "DONE" && (
-              <button className={cn("giverDoneBtn")}>
+            {canRequest ? (
+              <button onClick={handleClickRequestBtn} className={cn("activeRequestBtn")}>
                 도움완료 요청하기
                 <Arrow className={cn("arrowIcon")} />
               </button>
+            ) : (
+              matchingStatus === "DONE" && <button className={cn("inactiveRequestBtn")}>도움완료 요청하기</button>
             )}
           </>
         )}
