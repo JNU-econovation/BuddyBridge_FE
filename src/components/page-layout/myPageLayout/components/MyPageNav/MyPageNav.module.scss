@@ -1,6 +1,6 @@
 .container {
   position: relative;
-  width: 70vw;
+  width: 60vw;
   margin: auto;
   padding: 2rem 3.2rem;
   @include flexSort(null, center, null, 2rem);
@@ -9,10 +9,10 @@
 }
 
 .box {
-  width: 100%;
+  width: 90%;
   @include flexSort(null, space-between, center, null);
-  @include nsnFont(2rem, 500, normal);
-  color: #787373;
+  @include nsnFont(2rem, 600, normal);
+  color: black;
 }
 
 .title {

@@ -1,21 +1,21 @@
-import { useState } from "react";
-
-import { useMutation } from "@tanstack/react-query";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 import { ROUTE } from "@/constants/route";
 import Calendar from "@/icons/calendar.svg";
 import Clock from "@/icons/clock.svg";
 import Location from "@/icons/location.svg";
 import PinkHeart from "@/icons/pink_heart.svg";
+import { ErrorResponse } from "@/types/error";
 import { formatDateString } from "@/utils";
 
 import styles from "./LikesPost.module.scss";
 import postLikes from "../Post/apis/postLikes";
 import PostStatusLabel from "../PostStatusLabel/PostStatusLabel";
+import openToast from "../Toast/features/openToast";
 
 const cn = classNames.bind(styles);
 
@@ -30,6 +30,7 @@ interface LikesPostProps {
   startTime: Date;
   endTime: Date;
   isLiked: boolean;
+  pageId: number;
 }
 
 export default function LikesPost({
@@ -43,21 +44,21 @@ export default function LikesPost({
   startTime,
   endTime,
   isLiked,
+  pageId,
 }: LikesPostProps) {
-  const router = useRouter();
-  const [isHeartClick, setIsHeartClick] = useState(isLiked);
+  const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
     mutationFn: () => postLikes(id),
     onSuccess: () => {
-      window.location.reload();
+      queryClient.invalidateQueries({ queryKey: ["LikesList", pageId, postType] });
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response) {
+        openToast("error", error.response.data.error.message);
+      }
     },
   });
-
-  const handleHeartClick = () => {
-    setIsHeartClick((prev) => !prev);
-    mutate();
-  };
 
   return (
     <Link href={postType === "TAKER" ? `${ROUTE.HELP_ME}/${id}` : `${ROUTE.HELP_YOU}/${id}`} className={cn("Box")}>
@@ -89,7 +90,7 @@ export default function LikesPost({
       <button
         onClick={(e) => {
           e.preventDefault();
-          handleHeartClick();
+          mutate();
         }}
         className={cn("heartBtn")}
       >

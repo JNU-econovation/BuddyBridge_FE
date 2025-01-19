@@ -92,8 +92,8 @@ export default function MyInfoEditForm() {
 
   return (
     <div className={cn("container")}>
-      <p className={cn("title")}>내 정보</p>
       <form className={cn("form")} onSubmit={handleSubmit(handleUpdateInfo)}>
+        <p className={cn("title")}>내 정보 수정</p>
         <div className={cn("imgContainer")}>
           <Image alt="프로필" src={myInfoData?.profileImageUrl} width={100} height={100} className={cn("img")} />
           <EditBtn width={27} height={27} className={cn("imgEditBtn")} />

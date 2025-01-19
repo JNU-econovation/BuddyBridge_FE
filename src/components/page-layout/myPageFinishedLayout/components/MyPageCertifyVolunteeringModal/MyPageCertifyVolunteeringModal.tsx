@@ -21,6 +21,7 @@ import postCertificationsForm, {
 import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/RegisterCertifyVolunteeringModal/RegisterCertifyVolunteeringModal.module.scss";
 import Calendar from "@/icons/calendar.svg";
 import Close from "@/icons/close.svg";
+import { ErrorResponse } from "@/types/error";
 
 import getPrevCertification from "./apis/getPrevCertification";
 import putCertification from "./apis/putCertification";
@@ -42,12 +43,6 @@ interface FormData {
   startTime: Date;
   endTime: Date;
   content: string;
-}
-
-interface ErrorResponse {
-  error: {
-    message: string;
-  };
 }
 
 const volunteerSchema = z.object({
@@ -127,7 +122,7 @@ export default function CertifyVolunteeringModal({
       });
     }
   }, [prevCertification, setValue]);
-  
+
   const handleVolunteerComplete = (data: FormData) => {
     certificationsFormMutation.mutate(data);
   };

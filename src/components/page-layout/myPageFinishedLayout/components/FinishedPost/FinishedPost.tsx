@@ -64,15 +64,15 @@ export default function FinishedPost({
 
   const handleClickTakerDone = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setIsConfirmVolunteeringModalOpen(prev=>!prev);
+    setIsConfirmVolunteeringModalOpen((prev) => !prev);
   };
   const handleClickGiverVC = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setIsCertifyVolunteeringModalOpen(prev=>!prev);
+    setIsCertifyVolunteeringModalOpen((prev) => !prev);
   };
   const handleClickGiverVV = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setIsCertifyVolunteeringModalOpen(prev=>!prev);
+    setIsCertifyVolunteeringModalOpen((prev) => !prev);
   };
 
   return (
@@ -111,10 +111,8 @@ export default function FinishedPost({
                 <Arrow className={cn("arrowIcon")} />
               </button>
             )}
-            {matchingStatus === "VOLUNTEERING_COMPLETED" && (
-              <div className={cn("takerVC")}>
-                도움을 받았어요!
-              </div>
+            {(matchingStatus === "VOLUNTEERING_COMPLETED" || "VOLUNTEERING_VERIFIED") && (
+              <div className={cn("takerVC")}>도움을 받았어요!</div>
             )}
           </>
         )}
@@ -132,14 +130,12 @@ export default function FinishedPost({
                 <Arrow className={cn("arrowIcon")} />
               </button>
             )}
-            {
-              matchingStatus === "DONE" && (
-                <button className={cn("giverDoneBtn")}>
-                  도움완료 요청하기
-                  <Arrow className={cn("arrowIcon")} />
-                </button>
-              )
-            }
+            {matchingStatus === "DONE" && (
+              <button className={cn("giverDoneBtn")}>
+                도움완료 요청하기
+                <Arrow className={cn("arrowIcon")} />
+              </button>
+            )}
           </>
         )}
       </Link>
