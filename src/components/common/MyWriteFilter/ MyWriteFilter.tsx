@@ -25,7 +25,6 @@ export default function MyWriteFilter({ selectedOption, onChangeOption }: Filter
   };
 
   const handleChangeOption = (e: { target: { value: string } }) => {
-    console.log(e);
     const selectValue = e.target.value;
     onChangeOption(e.target.value);
 
