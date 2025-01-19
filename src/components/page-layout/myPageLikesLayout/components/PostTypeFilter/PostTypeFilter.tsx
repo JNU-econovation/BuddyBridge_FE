@@ -17,7 +17,6 @@ export interface PostTypeFilterProps {
 export default function PostTypeFilter({ queryKey, route, postType, pageId }: PostTypeFilterProps) {
   const router = useRouter();
   const queryClient = useQueryClient();
-  console.log("필터", queryKey)
 
   const handleFilterClick = (postType: string) => {
     const updateQuery = {
