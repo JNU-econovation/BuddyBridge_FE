@@ -1,6 +1,6 @@
 import { axiosInstance } from "@/apis/axiosInstance";
 
-export default async function getPagenationItems(
+export default async function getPaginationItems(
   postType: string,
   page: number,
   limit: number,
@@ -17,5 +17,5 @@ export default async function getPagenationItems(
       (assistanceType ? `&assistance-type=${assistanceType}` : "");
   const { data } = await axiosInstance.get(url);
 
-  return data;
+  return data.data;
 }

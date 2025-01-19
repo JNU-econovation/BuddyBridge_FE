@@ -10,7 +10,7 @@ import { ROUTE } from "@/constants/route";
 import Calendar from "@/icons/calendar.svg";
 import Clock from "@/icons/clock.svg";
 import Location from "@/icons/location.svg";
-import RedHeart from "@/icons/red_heart.svg";
+import PinkHeart from "@/icons/pink_heart.svg";
 import { formatDateString } from "@/utils";
 
 import styles from "./LikesPost.module.scss";
@@ -93,7 +93,7 @@ export default function LikesPost({
         }}
         className={cn("heartBtn")}
       >
-        <RedHeart width={32} height={32} />
+        <PinkHeart width={32} height={32} />
       </button>
     </Link>
   );

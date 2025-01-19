@@ -4,7 +4,7 @@
 }
 
 .title {
-  @include gmarketFont(3rem, 500, normal);
+  @include nsnFont(3rem, 500, normal);
 }
 
 .myInfoContainer {

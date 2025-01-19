@@ -27,7 +27,7 @@ import Heart from "../../../../../public/icons/heart.svg";
 import Kebab from "../../../../../public/icons/kebab.svg";
 import Location from "../../../../../public/icons/location.svg";
 import Person from "../../../../../public/icons/personnel.svg";
-import RedHeart from "../../../../../public/icons/red_heart.svg";
+import PinkHeart from "../../../../../public/icons/pink_heart.svg";
 import Siren from "../../../../../public/icons/siren.svg";
 import deletePost from "../../helpMeDetailLayout/apis/deletePost";
 import getAllComment from "../apis/getAllComment";
@@ -52,7 +52,7 @@ export default function HelpYouDetailLayout() {
   const router = useRouter();
   const { id: pageId } = router.query;
 
-  const { data, isPending} = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["giverDetail", pageId],
     queryFn: () => getGiverDetail(pageId as string),
     enabled: !!pageId,
@@ -60,10 +60,10 @@ export default function HelpYouDetailLayout() {
 
   if (isPending) {
     return;
-  } else return <Main data={data}/>;
+  } else return <Main data={data} />;
 }
 
-function Main( data:any) {
+function Main(data: any) {
   const router = useRouter();
 
   const { id: pageId } = router.query;
@@ -98,12 +98,12 @@ function Main( data:any) {
   });
 
   const handleDeleteButtonClick = () => {
-    setIsDeleteOpen((prev)=>!prev);
+    setIsDeleteOpen((prev) => !prev);
   };
 
   const confirmDelete = () => {
     deletePostMutation.mutate(id);
-  }
+  };
 
   const { mutate } = useMutation({
     mutationFn: () => postLikes(id),
@@ -136,7 +136,7 @@ function Main( data:any) {
   };
   const handleSirenClick = () => {
     setIsReportOpen(true);
-  }; 
+  };
 
   useEffect(() => {
     setIsHeartClick(isLiked);
@@ -155,7 +155,7 @@ function Main( data:any) {
         <div className={cn("totalContainer")}>
           <div className={cn("btnMenu")}>
             {isHeartClick ? (
-              <RedHeart onClick={handleHeartClick} width={35} height={35} className={cn("likeBtn")} />
+              <PinkHeart onClick={handleHeartClick} width={35} height={35} className={cn("likeBtn")} />
             ) : (
               <Heart onClick={handleHeartClick} width={37} height={37} className={cn("likeBtn")} />
             )}
@@ -176,7 +176,9 @@ function Main( data:any) {
                 <Link href={{ pathname: ROUTE.HELP_YOU_EDIT, query: { id: id } }} className={cn("editBtn")}>
                   수정하기
                 </Link>
-                <button onClick={handleDeleteButtonClick} className={cn("deleteBtn")}>삭제하기</button>
+                <button onClick={handleDeleteButtonClick} className={cn("deleteBtn")}>
+                  삭제하기
+                </button>
               </div>
             )}
             {isKebabClick && isStateClick && (
@@ -193,7 +195,7 @@ function Main( data:any) {
           <div className={cn("contentBox")}>
             <div className={cn("infoCard")}>
               <div className={cn("profileImageBox")}>
-                <Image src={profileImageUrl} alt="프로필 사진" className={cn("profileImg")} fill/>
+                <Image src={profileImageUrl} alt="프로필 사진" className={cn("profileImg")} fill />
               </div>
               <div className={cn("textInfoBox")}>
                 <p className={cn("authorNickname")}>{nickname}</p>
@@ -248,12 +250,13 @@ function Main( data:any) {
             <div className={cn("commentBox")}>
               {commentData?.pages.map((page) =>
                 page.content.map((comment: CommentProps) => (
-                  <Comment 
-                    type="giver" 
-                    authorId={data.data.author.memberId} 
-                    postId={id} comment={comment} 
-                    commentId={comment.commentId} 
-                    key={comment.commentId} 
+                  <Comment
+                    type="giver"
+                    authorId={data.data.author.memberId}
+                    postId={id}
+                    comment={comment}
+                    commentId={comment.commentId}
+                    key={comment.commentId}
                   />
                 )),
               )}
@@ -279,24 +282,33 @@ function Main( data:any) {
           />
         )}
       </div>
-      {
-        isReportOpen && 
-          <Modal className="ReportFormBox" setState={setIsReportOpen}>
-            <ReportForm nickname={nickname} postId={id} postType="giver" contentType="posts" content={title} setIsReportOpen={setIsReportOpen}/>
-          </Modal>
-      }
-      {
-        isDeleteOpen &&
-          <Modal className="deleteModalBox" setState={setIsDeleteOpen}>
-            <div className={cn("deleteModal")}>
-              <button onClick={handleDeleteButtonClick} className={cn("closeBtn")}>X</button>
-              <div className={cn("deleteContent")}>
-                <div className={cn("deleteText")}>정말로 삭제 하시겠습니까?</div>
-                <button onClick={confirmDelete} className={cn("confirmDeleteBtn")}>삭제하기</button>
-              </div>
+      {isReportOpen && (
+        <Modal className="ReportFormBox" setState={setIsReportOpen}>
+          <ReportForm
+            nickname={nickname}
+            postId={id}
+            postType="giver"
+            contentType="posts"
+            content={title}
+            setIsReportOpen={setIsReportOpen}
+          />
+        </Modal>
+      )}
+      {isDeleteOpen && (
+        <Modal className="deleteModalBox" setState={setIsDeleteOpen}>
+          <div className={cn("deleteModal")}>
+            <button onClick={handleDeleteButtonClick} className={cn("closeBtn")}>
+              X
+            </button>
+            <div className={cn("deleteContent")}>
+              <div className={cn("deleteText")}>정말로 삭제 하시겠습니까?</div>
+              <button onClick={confirmDelete} className={cn("confirmDeleteBtn")}>
+                삭제하기
+              </button>
             </div>
-          </Modal>
-      }
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

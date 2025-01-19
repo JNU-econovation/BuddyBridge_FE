@@ -61,6 +61,7 @@ export default function DropDown({ isNameClick }: DropDownProps) {
           height={80}
           alt="카카오톡 프로필"
         />
+        <p>{data.nickname}</p>
       </div>
       <Link href={ROUTE.MY_PAGE} className={cn("myPage")}>
         마이페이지

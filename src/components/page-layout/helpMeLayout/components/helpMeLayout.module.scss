@@ -1,16 +1,17 @@
 .container {
   @include flexSort(column, null, null, null);
-  padding: 5rem 10rem;
+  padding: 5rem 23rem;
 }
 
 .filterContainer {
   width: 100%;
-  @include flexSort(column, null, center, null);
+  @include flexSort(column, null, center, 5rem);
 }
 
 .title {
   color: black;
-  @include nsnFont(2.8rem, 400, 4.2rem);
+  @include nsnFont(2.6rem, 550, 3.5rem);
+  @include flexSort(column, null, center, null);
 }
 
 .cardListContainer {
@@ -25,13 +26,13 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  gap: 6rem;
+  gap: 3rem;
 }
 
 .button {
   z-index: 1;
   @include flexSort(null, null, center, 1rem);
-  right: 5%;
+  right: 0;
   align-self: flex-end;
   border: 0.1rem solid #9d9d9d;
   border-radius: 1rem;

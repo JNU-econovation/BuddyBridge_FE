@@ -1,7 +1,6 @@
 .container {
   @include flexSort(column, null, null, null);
   position: relative;
-  top: 3rem;
   max-width: 150rem;
   text-align: center;
   width: 100%;

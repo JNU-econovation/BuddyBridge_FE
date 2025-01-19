@@ -1,11 +1,11 @@
 .container {
-  @include flexSort(null, null, center, 5rem);
+  @include flexSort(null, null, center, 2rem);
 
   .nameBox {
     @include flexSort(null, null, center, 1rem);
-    @include font(2rem, 400, normal);
+    @include font(1.5rem, 400, normal);
     border: 0.1rem solid $gray;
-    padding: 1rem 2rem;
+    padding: 0.7rem 2rem;
     border-radius: 3rem;
     cursor: pointer;
   }
@@ -37,9 +37,12 @@
 
 .alarmBox {
   @include flexSort(null, null, center, null);
+  position: relative;
 }
 
 .unreadCount {
+  position: absolute;
+  right: -1rem;
   z-index: 3;
   @include nsnFont(1rem, 700, 0.58rem);
   margin-top: 1rem;
