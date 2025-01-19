@@ -57,6 +57,7 @@ export function Post({ data, children }: PostProps) {
         <div className={cn("contentBox")}>
           <div className={cn("box")}>
             <p className={cn("title")}>{title}</p>
+            <div className={cn("hr")} />
             <div className={cn("detailBox")}>
               <div className={cn("districtBox")}>
                 <Location />
