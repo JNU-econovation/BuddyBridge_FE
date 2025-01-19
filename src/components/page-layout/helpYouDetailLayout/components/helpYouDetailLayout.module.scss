@@ -62,11 +62,6 @@
   border: 0.1rem solid #e2e8f0;
   border-radius: 1rem;
   box-shadow: 0.1rem 0.1rem 0.4rem 0.01rem #d1cece;
-  &--state {
-    min-width: 8rem;
-    left: 23rem;
-    @include nsnFont(1.3rem, 200, normal);
-  }
 
   button,
   .editBtn {
@@ -79,10 +74,6 @@
       border-bottom: none;
     }
   }
-}
-
-.stateBtn {
-  @include flexSort(null, center, center, 0.5rem);
 }
 
 .titleBox {

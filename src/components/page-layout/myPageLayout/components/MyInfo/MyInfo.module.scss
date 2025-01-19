@@ -12,12 +12,13 @@
 }
 
 .myInfoContainer {
-  width: 100%;
-  height: 90%;
+  width: 80%;
+  height: 70%;
   border-radius: 2rem;
   position: relative;
   @include flexSort(column, null, null, null);
-  background-color: #e6e6e6;
+  background-color: #E6E6E6;
+  box-shadow: 0rem 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
 }
 
 .myInfoBox {
@@ -44,8 +45,6 @@
     @include nsnFont(2.3rem, 400, normal);
   }
 }
-
-
 
 .link {
   position: absolute;

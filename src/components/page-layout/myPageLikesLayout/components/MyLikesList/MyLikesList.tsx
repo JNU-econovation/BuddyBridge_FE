@@ -9,9 +9,10 @@ const cn = classNames.bind(styles);
 
 interface MyLikesListProps {
   likesList: PostType[];
+  pageId : number;
 }
 
-export default function MyLikesList({ likesList }: MyLikesListProps) {
+export default function MyLikesList( {likesList, pageId} : MyLikesListProps) {
   return (
     <div className={cn("container")}>
       {likesList?.map((post) => (
@@ -27,6 +28,7 @@ export default function MyLikesList({ likesList }: MyLikesListProps) {
           startTime={post.assistance.assistanceStartTime}
           endTime={post.assistance.assistanceEndTime}
           isLiked={post.isLiked}
+          pageId = {pageId}
         />
       ))}
     </div>

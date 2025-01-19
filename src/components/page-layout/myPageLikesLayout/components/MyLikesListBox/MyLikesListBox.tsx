@@ -46,7 +46,7 @@ export default function MyLikesListBox() {
     <div className={cn("myPageLikesList")}>
       <PostTypeFilter queryKey="Likes" route={ROUTE.MY_PAGE_Likes} pageId={`${pageId}`} postType={`${postType}`} />
       <div className={cn("myLikesListBox")}>
-        <MyLikesList likesList={likesList.content} />
+        <MyLikesList likesList={likesList.content} pageId={pageId}/>
         <div className={cn("paginationBox")}>
           <Pagination
             currentPage={Number(pageId)}

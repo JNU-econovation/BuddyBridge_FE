@@ -169,22 +169,12 @@ function Main(data: any) {
             )}
             {isKebabClick && (
               <div className={cn("btnBox")}>
-                <button onClick={handleStateBtnClick} className={cn("stateBtn")}>
-                  상태변경
-                  <Arrow width={18} height={18} />
-                </button>
                 <Link href={{ pathname: ROUTE.HELP_YOU_EDIT, query: { id: id } }} className={cn("editBtn")}>
                   수정하기
                 </Link>
                 <button onClick={handleDeleteButtonClick} className={cn("deleteBtn")}>
                   삭제하기
                 </button>
-              </div>
-            )}
-            {isKebabClick && isStateClick && (
-              <div className={cn("btnBox", "btnBox--state")}>
-                <button>모집중</button>
-                <button>모집완료</button>
               </div>
             )}
           </div>
