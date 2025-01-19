@@ -1,7 +1,7 @@
 .container {
   @include flexSort(null, center, center, null);
   border-bottom: 0.1rem solid #ece9f0;
-  padding: 0 10rem;
+  padding: 0 23rem;
 }
 
 .box {
@@ -14,12 +14,12 @@
   }
 
   .nav {
-    @include gmarketFont(2.3rem, 500, normal);
+    @include nsnFont(2rem, 500, normal);
     @include flexSort(null, null, center, 15rem);
     height: 100%;
 
     @include smallDesktop {
-      gap: 10rem;
+      gap: 5rem;
     }
   }
 
@@ -31,14 +31,17 @@
 
     &.helpMe {
       color: $taker;
+      font-weight: 700;
     }
 
     &.helpYou {
       color: $giver;
+      font-weight: 700;
     }
 
     &.myWrite {
-      color: $taker;
+      color: black;
+      font-weight: 700;
     }
   }
 }

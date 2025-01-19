@@ -61,6 +61,7 @@ export default function Login({ name }: LoginProps) {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
+        heartbeatTimeout: 60 * 60 * 1000,
       });
 
       eventSource.addEventListener("notification", (event) => {
@@ -84,6 +85,8 @@ export default function Login({ name }: LoginProps) {
       eventSource.onerror = (error) => {
         console.error("SSE error:", error);
         eventSource.close();
+
+        connectSSE();
       };
     };
 
@@ -106,12 +109,12 @@ export default function Login({ name }: LoginProps) {
       <div className={cn("iconBox")}>
         <div ref={alarmDropdownRef} className={cn("alarmContainer")}>
           <div className={cn("alarmBox")}>
-            <Alarm width={30} height={30} className={cn("alarm")} onClick={handleAlarmClick} />
+            <Alarm width={25} height={25} className={cn("alarm")} onClick={handleAlarmClick} />
             <span className={cn("unreadCount")}>{totalUnreadCount && totalUnreadCount}</span>
             {isAlarmOpen && <AlarmDropDown sseNotifications={notifications as alarmType} />}
           </div>
         </div>
-        <Chat width={30} height={30} onClick={handleChatClick} className={cn("chat")} />
+        <Chat width={25} height={25} onClick={handleChatClick} className={cn("chat")} />
       </div>
     </div>
   );

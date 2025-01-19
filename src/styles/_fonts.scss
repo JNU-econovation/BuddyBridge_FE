@@ -1,10 +1,4 @@
 @font-face {
-  font-family: "GmarketSans";
-  font-weight: 100 900;
-  src: url("../assets/fonts/GmarketSansTTFMedium.ttf") format("woff");
-}
-
-@font-face {
   font-family: "NanumSquareNeo";
   font-weight: 100 900;
   src: url("../assets/fonts/NanumSquareNeo-Variable.ttf") format("woff");
@@ -12,14 +6,6 @@
 
 @mixin font($size, $weight, $height) {
   font-family: "Pretendard";
-  font-size: $size;
-  font-style: normal;
-  font-weight: $weight;
-  line-height: $height;
-}
-
-@mixin gmarketFont($size, $weight, $height) {
-  font-family: "GmarketSans";
   font-size: $size;
   font-style: normal;
   font-weight: $weight;

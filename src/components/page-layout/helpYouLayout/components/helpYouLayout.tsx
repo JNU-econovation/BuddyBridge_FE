@@ -7,9 +7,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import Filter from "@/components/common/Filter/Filter";
-import getPagenationItems from "@/components/common/Pagenation/apis/getHelpMeList";
+import getPaginationItems from "@/components/common/Pagenation/apis/getHelpMeList";
 import Pagination from "@/components/common/Pagenation/Pagenation";
-import Post from "@/components/common/Post/Post";
+import { Post, PostHeart } from "@/components/common/Post/Post";
 import styles from "@/components/page-layout/helpYouLayout/components/helpYouLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import RegisterArrow from "@/icons/send_arrow.svg";
@@ -37,8 +37,8 @@ export default function HelpYouLayout() {
   };
 
   const { data } = useQuery({
-    queryKey: ["post", page, postStatus, disabilityType, assistanceType, postStatus],
-    queryFn: () => getPagenationItems("GIVER", page - 1, 8, allType, postStatus, disabilityType, assistanceType),
+    queryKey: ["helpYouPostList", `${page}`, postStatus, disabilityType, assistanceType],
+    queryFn: () => getPaginationItems("GIVER", page - 1, 8, allType, postStatus, disabilityType, assistanceType),
     placeholderData: keepPreviousData,
     enabled: !!allType || !!disabilityType || !!assistanceType || !!postStatus,
   });
@@ -124,11 +124,17 @@ export default function HelpYouLayout() {
       </Link>
       <div className={cn("cardListContainer")}>
         <div className={cn("cardListBox")}>
-          {data?.data.content.map((post: PostType) => (
-            <Post data={post} key={post.id} />
+          {data?.content.map((post: PostType) => (
+            <Post data={post} key={post.id}>
+              <PostHeart
+                queryKey={["helpYouPostList", `${page}`, disabilityType, assistanceType, postStatus]}
+                id={post.id}
+                isLiked={post.isLiked}
+              />
+            </Post>
           ))}
         </div>
-        <Pagination currentPage={page} itemsPerPage={8} totalItems={data?.data.totalElements} setPage={setPage} />
+        <Pagination currentPage={page} itemsPerPage={8} totalItems={data?.totalElements} setPage={setPage} />
       </div>
     </main>
   );

@@ -35,7 +35,7 @@
   padding: 0 2rem 1rem 2rem;
   border-radius: 0 0 1rem 1rem;
   color: white;
-  @include nsnFont(1.6rem, 700, normal);
+  @include nsnFont(1.8rem, 700, normal);
 
   &.taker {
     background-color: $taker;
@@ -44,12 +44,6 @@
   &.giver {
     background-color: $giver;
   }
-}
-
-.heart {
-  position: absolute;
-  top: 1rem;
-  right: 2rem;
 }
 
 .contentBox {
@@ -63,17 +57,17 @@
   height: 100%;
 
   @include smallDesktop {
-    gap: 3rem;
+    gap: 2rem;
   }
 }
 
 .title {
-  @include font(2rem, 500, normal);
+  @include font(2rem, 700, normal);
   @include line-clamp(2);
   border-bottom: 0.1rem solid #ccc;
   padding-bottom: 2rem;
   @include smallDesktop {
-    @include font(1.8rem, 500, normal);
+    @include nsnFont(2rem, 700, normal);
   }
 }
 
@@ -103,7 +97,7 @@
 .calendar,
 .clock,
 .headcount {
-  @include nsnFont(1.3rem, 400, normal);
+  @include nsnFont(1.5rem, 400, normal);
 }
 
 .hashtagBox {
@@ -120,7 +114,7 @@
 .postLabelBox {
   @include flexSort(null, null, center, 1rem);
   position: absolute;
-  right: 6rem;
+  right: 4rem;
   bottom: 1rem;
   z-index: 1;
 }
@@ -131,4 +125,10 @@
   bottom: 1rem;
   z-index: 1;
   @include nsnFont(2rem, 900, normal);
+}
+
+.heart {
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
 }

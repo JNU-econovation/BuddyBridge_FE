@@ -11,7 +11,7 @@
 }
 
 .logo {
-  @include gmarketFont(4rem, 400, normal);
+  @include nsnFont(4rem, 400, normal);
   padding-bottom: 4.6rem;
   border-bottom: 0.1rem solid black;
 }
