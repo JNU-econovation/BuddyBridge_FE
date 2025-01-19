@@ -1,6 +1,7 @@
 import { KeyboardEvent } from "react";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 import { useForm } from "react-hook-form";
 
@@ -38,6 +39,12 @@ interface Comment {
   content: string;
 }
 
+interface ErrorResponse {
+  error: {
+    message: string;
+  }
+}
+
 export default function CommentWrite({ user, id, commentMemIds, gender, type }: CommentWriteProps) {
   const { register, handleSubmit, reset } = useForm<Comment>();
   const queryClient = useQueryClient();
@@ -48,20 +55,15 @@ export default function CommentWrite({ user, id, commentMemIds, gender, type }: 
       queryClient.invalidateQueries({ queryKey: ["comment"] });
       reset();
     },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if(error.response){
+        openToast("error", error.response?.data.error.message);
+      }
+    }
   });
 
   const handleCommentUpload = (data: Comment) => {
-    if (!commentMemIds.includes(user.memberId)) {
-      if (data.content.trim() !== "") {
-        if(user.gender === gender) {
-          uploadCommentMutation.mutate({ id, content: data.content });
-        } else {
-          openToast("warn", "같은 성별끼리만 댓글 작성 및 매칭이 가능합니다.");
-        }  
-      }
-    } else {
-      openToast("warn", "댓글은 한 개만 작성 가능합니다.");
-    }
+    uploadCommentMutation.mutate({ id, content: data.content });
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {

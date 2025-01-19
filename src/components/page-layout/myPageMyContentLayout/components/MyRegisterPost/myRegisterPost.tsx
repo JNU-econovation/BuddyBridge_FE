@@ -13,7 +13,9 @@ import useGetMyComment from "@/hooks/useGetMyComment";
 import useGetMyPost from "@/hooks/useGetMyPost";
 
 import styles from "./myRegisterPost.module.scss";
-import PostTypeFilter, {PostTypeFilterProps,} from "../../../myPageLikesLayout/components/PostTypeFilter/PostTypeFilter";
+import PostTypeFilter, {
+  PostTypeFilterProps,
+} from "../../../myPageLikesLayout/components/PostTypeFilter/PostTypeFilter";
 import deleteComments from "../../apis/deleteComments";
 import deletePosts from "../../apis/deletePosts";
 
@@ -23,15 +25,11 @@ export default function MyRegisterPost() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const postType = (router.query.postType as PostTypeFilterProps["postType"]) || "TAKER";
-  const filter = router.query.state === "post" ? "post" : router.query.state === "comment" ? "comment" : "post";
+  const filter = (router.query.state as string) || "post";
   const pageId = Number(router.query.pageId) || 1;
   const queryKey = router.query.state === "post" ? "postData" : router.query.state === "comment" ? "commenData" : "";
 
   const [contentType, setContentType] = useState(filter);
-
-  useEffect(() => {
-    setContentType(filter);
-  }, [filter]);
 
   const defaultData = { content: [], totalElements: 0, last: true };
   const { data: postData = defaultData, isLoading, isError } = useGetMyPost(pageId - 1, postType, filter);
@@ -45,18 +43,18 @@ export default function MyRegisterPost() {
   const deletePostMutation = useMutation({
     mutationFn: (selectedContents: number[]) => deletePosts(selectedContents),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["postData", pageId, postType] });
+      console.log("무효화:", "postData", pageId, postType);
+      queryClient.invalidateQueries({ queryKey: ["postData", pageId - 1, postType]} );
       openToast("success", "성공적으로 삭제되었습니다.");
-      window.location.reload()
     },
   });
 
   const deleteCommentMutation = useMutation({
     mutationFn: (selectedContents: number[]) => deleteComments(selectedContents),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["commentData", pageId, postType] });
+      console.log("무효화", "commentData", pageId, postType);
+      queryClient.invalidateQueries({ queryKey: ["commentData", pageId - 1 , postType] });
       openToast("success", "성공적으로 삭제되었습니다.");
-      window.location.reload()
     },
   });
 
