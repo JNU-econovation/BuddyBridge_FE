@@ -6,7 +6,7 @@
 .box {
   @include flexSort(column, null, center, 5rem);
   border: 0.1rem solid black;
-  width: 100rem;
+  width: 90rem;
   border-radius: 1rem;
   padding: 5rem 0;
 }
@@ -166,11 +166,11 @@
   border: 0.1rem solid #9d9d9d;
 
   &.active {
-    color: #4885FE;
-    border: 0.1rem solid #4885FE;
+    color: #4885fe;
+    border: 0.1rem solid #4885fe;
 
     .arrow {
-      fill: #4885FE;
+      fill: #4885fe;
     }
   }
 }

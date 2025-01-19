@@ -6,7 +6,7 @@
 .box {
   @include flexSort(column, null, center, 5rem);
   border: 0.1rem solid black;
-  width: 100rem;
+  width: 90rem;
   border-radius: 1rem;
   padding: 5rem 0;
 }
