@@ -7,10 +7,6 @@
 
 .loginBox {
   @include flexSort(column, null, center, 3rem);
-
-  @include desktop {
-    gap: 17rem;
-  }
 }
 
 .loginFormBox {
