@@ -129,6 +129,7 @@ export interface MyFinishedPostType {
     assistanceEndTime: Date;
   };
   matchingStatus: "DONE" | "VOLUNTEERING_COMPLETED" | "VOLUNTEERING_VERIFIED";
+  canVerificationRequest: boolean;
 }
 
 export interface MyFinishedPostResponse {

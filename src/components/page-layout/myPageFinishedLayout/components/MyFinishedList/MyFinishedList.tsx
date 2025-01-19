@@ -32,6 +32,7 @@ export default function MyFinishedList({ finishedList, memberRole }: MyFinishedL
           endTime={post.schedule.assistanceEndTime}
           matchingStatus={post.matchingStatus}
           memberRole={memberRole}
+          canRequest={post.canVerificationRequest}
         />
       ))}
     </div>
