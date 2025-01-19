@@ -155,9 +155,9 @@ function Main(data: any) {
         <div className={cn("totalContainer")}>
           <div className={cn("btnMenu")}>
             {isHeartClick ? (
-              <PinkHeart onClick={handleHeartClick} width={35} height={35} className={cn("likeBtn")} />
+              <PinkHeart onClick={handleHeartClick} width={32} height={32} className={cn("likeBtn")} />
             ) : (
-              <Heart onClick={handleHeartClick} width={37} height={37} className={cn("likeBtn")} />
+              <Heart onClick={handleHeartClick} width={32} height={32} className={cn("likeBtn")} />
             )}
             {userData?.memberId === data.data.author.memberId ? (
               <Kebab onClick={handleKebabClick} width={35} height={35} className={cn("kebabBtn")} />
