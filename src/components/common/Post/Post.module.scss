@@ -114,15 +114,12 @@
 .postLabelBox {
   @include flexSort(null, null, center, 1rem);
   position: absolute;
-  right: 4rem;
+  right: 2rem;
   bottom: 1rem;
   z-index: 1;
 }
 
 .postId {
-  position: absolute;
-  right: 2rem;
-  bottom: 1rem;
   z-index: 1;
   @include nsnFont(2rem, 900, normal);
 }

@@ -76,10 +76,10 @@ export function Post({ data, children }: PostProps) {
           </div>
         </div>
       </div>
-      <p className={cn("postId")}>{id}</p>
       <div className={cn("postLabelBox")}>
         <PostLabel text={assistanceType} />
         {disabilityType !== "없음" && <PostLabel text={disabilityType} />}
+        <p className={cn("postId")}>{id}</p>
       </div>
     </Link>
   );
