@@ -27,23 +27,21 @@ export default function MyRegisterPost() {
   const postType = (router.query.postType as PostTypeFilterProps["postType"]) || "TAKER";
   const filter = (router.query.state as string) || "post";
   const pageId = Number(router.query.pageId) || 1;
-  const queryKey = router.query.state === "post" ? "postData" : router.query.state === "comment" ? "commenData" : "";
+  const queryKey = router.query.state === "post" ? "postData" : router.query.state === "comment" ? "commentData" : "";
 
   const [contentType, setContentType] = useState(filter);
 
   const defaultData = { content: [], totalElements: 0, last: true };
-  const { data: postData = defaultData, isLoading, isError } = useGetMyPost(pageId - 1, postType, filter);
+  const { data:postData = defaultData, isError } = useGetMyPost(pageId - 1, postType, filter);
 
   const {
     data: commentData = defaultData,
-    isLoading: isCommentLoading,
     isError: isCommentError,
   } = useGetMyComment(pageId - 1, postType, filter);
 
   const deletePostMutation = useMutation({
     mutationFn: (selectedContents: number[]) => deletePosts(selectedContents),
     onSuccess: () => {
-      console.log("무효화:", "postData", pageId, postType);
       queryClient.invalidateQueries({ queryKey: ["postData", pageId - 1, postType]} );
       openToast("success", "성공적으로 삭제되었습니다.");
     },
@@ -52,7 +50,6 @@ export default function MyRegisterPost() {
   const deleteCommentMutation = useMutation({
     mutationFn: (selectedContents: number[]) => deleteComments(selectedContents),
     onSuccess: () => {
-      console.log("무효화", "commentData", pageId, postType);
       queryClient.invalidateQueries({ queryKey: ["commentData", pageId - 1 , postType] });
       openToast("success", "성공적으로 삭제되었습니다.");
     },
@@ -77,11 +74,8 @@ export default function MyRegisterPost() {
     setIsDeleteMode(false);
   };
 
-  if (isLoading) return <div>로딩...</div>;
-
   if (isError) return <div>에러...</div>;
 
-  if (isCommentLoading) return <div>로딩...</div>;
 
   if (isCommentError) return <div>에러...</div>;
 
