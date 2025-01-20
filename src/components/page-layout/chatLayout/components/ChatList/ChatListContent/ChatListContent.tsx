@@ -22,12 +22,12 @@ interface ChatType {
     receiverProfileImg: string;
   };
   postId: number;
-  matchingStatus: "DONE" | "PENDING";
+  matchingStatus: "ALL" | "DONE" | "PENDING";
   unreadMessagesCount: number;
 }
 
 interface ChatListContentProps {
-  matchingState: string;
+  matchingState: "ALL" | "PENDING" | "DONE";
 }
 
 export default function ChatListContent({ matchingState }: ChatListContentProps) {

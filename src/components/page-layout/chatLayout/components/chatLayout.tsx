@@ -11,7 +11,7 @@ import MyInfo from "./ChatList/MyInfo/MyInfo";
 const cn = classNames.bind(styles);
 
 export default function ChatLayout() {
-  const [matchingState, setMatchingState] = useState("ALL");
+  const [matchingState, setMatchingState] = useState<"ALL" | "PENDING" | "DONE">("ALL");
 
   return (
     <div className={cn("container")}>
