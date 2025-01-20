@@ -31,28 +31,41 @@ import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
 
 const cn = classNames.bind(styles);
 
-const registerSchema = z.object({
-  title: z.string().min(1, "제목 최소 1자 이상이어야 합니다."),
-  startDate: z
-    .date()
-    .optional()
-    .refine((date) => date !== undefined, {
-      message: "시작 기간을 선택해주세요",
-    }),
-  endDate: z
-    .date()
-    .optional()
-    .refine((date) => date !== undefined, {
-      message: "마무리 기간을 선택해주세요",
-    }),
-  assistanceStartTime: z.string().min(1, "시작 시간을 선택해주세요."),
-  assistanceEndTime: z.string().min(1, "끝나는 시간을 선택해주세요."),
-  scheduleType: z.string().min(1, "주기를 선택해주세요."),
-  scheduleDetails: z.string().min(1, "상세 주기를 입력해주세요."),
-  district: z.string().min(1, "장소를 선택해주세요."),
-  assistanceType: z.string().min(1, "도움 유형을 선택해주세요."),
-  content: z.string().min(1, "상세 내용을 입력해주세요."),
-});
+const registerSchema = z
+  .object({
+    title: z.string().min(1, "제목 최소 1자 이상이어야 합니다."),
+    startDate: z
+      .date()
+      .optional()
+      .refine((date) => date !== undefined, {
+        message: "시작 기간을 선택해주세요",
+      }),
+    endDate: z
+      .date()
+      .optional()
+      .refine((date) => date !== undefined, {
+        message: "마무리 기간을 선택해주세요",
+      }),
+    assistanceStartTime: z.string().min(1, "시작 시간을 선택해주세요."),
+    assistanceEndTime: z.string().min(1, "끝나는 시간을 선택해주세요."),
+    scheduleType: z.string().min(1, "주기를 선택해주세요."),
+    scheduleDetails: z.string().min(1, "상세 주기를 입력해주세요."),
+    district: z.string().min(1, "장소를 선택해주세요."),
+    assistanceType: z.string().min(1, "도움 유형을 선택해주세요."),
+    content: z.string().min(1, "상세 내용을 입력해주세요."),
+  })
+  .refine(
+    (data) => {
+      if (data.startDate && data.endDate) {
+        return data.startDate <= data.endDate;
+      }
+      return true;
+    },
+    {
+      message: "시작 기간은 마무리 기간을 초과할 수 없습니다.",
+      path: ["startDate"],
+    },
+  );
 
 export default function HelpYouRegisterLayout() {
   const router = useRouter();
@@ -102,6 +115,16 @@ export default function HelpYouRegisterLayout() {
     setContent(content);
   };
 
+  const onSubmit = handleSubmit(
+    (data) => handleHelpMetUpload(data),
+    () => {
+      const firstError = Object.keys(errors)[0];
+      if (firstError) {
+        openToast("error", "폼의 에러 메시지를 확인해주세요.");
+      }
+    },
+  );
+
   useEffect(() => {
     if (!myInfoData && !isFetching) {
       router.push(ROUTE.LOGIN);
@@ -115,7 +138,7 @@ export default function HelpYouRegisterLayout() {
         <div className={cn("box")}>
           <p className={cn("title")}>도와줄게요! 게시글 작성</p>
           <MyInfoCard />
-          <form className={cn("form")} onSubmit={handleSubmit(handleHelpMetUpload)}>
+          <form className={cn("form")} onSubmit={onSubmit}>
             <div className={cn("formContentBox")}>
               <div className={cn("titleContainer")}>
                 <Label className={cn("label")} htmlFor="title">
