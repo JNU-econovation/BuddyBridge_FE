@@ -14,37 +14,37 @@ interface PostHeartProps {
 export function PostHeart({ id, isLiked, queryKey, style }: PostHeartProps) {
   const { mutate } = useLikeMutation({ id, queryKey });
 
-  const handleHeartClick = (event: MouseEvent<SVGSVGElement>) => {
+  const handleHeartClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     mutate();
   };
 
   return (
-    <>
+    <button onClick={handleHeartClick}>
       {isLiked ? (
-        <PinkHeart onClick={handleHeartClick} width={32} height={32} className={style} />
+        <PinkHeart width={32} height={32} className={style} />
       ) : (
-        <Heart onClick={handleHeartClick} width={32} height={32} className={style} />
+        <Heart width={32} height={32} className={style} />
       )}
-    </>
+    </button>
   );
 }
 
 export function PostDetailHeart({ id, isLiked, queryKey, style }: PostHeartProps) {
   const { mutate } = usePostDetailLikeMutation({ id, queryKey });
 
-  const handleHeartClick = (event: MouseEvent<SVGSVGElement>) => {
+  const handleHeartClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     mutate();
   };
 
   return (
-    <>
+    <button onClick={handleHeartClick}>
       {isLiked ? (
-        <PinkHeart onClick={handleHeartClick} width={32} height={32} className={style} />
+        <PinkHeart width={32} height={32} className={style} />
       ) : (
-        <Heart onClick={handleHeartClick} width={32} height={32} className={style} />
+        <Heart width={32} height={32} className={style} />
       )}
-    </>
+    </button>
   );
 }
