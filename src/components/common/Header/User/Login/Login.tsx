@@ -19,7 +19,7 @@ import DropDown from "../DropDown/DropDown";
 const cn = classNames.bind(styles);
 
 interface LoginProps {
-  name: string | undefined;
+  name: string;
 }
 
 interface alarmType {
