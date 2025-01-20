@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 
 import Link from "next/link";
@@ -10,6 +11,7 @@ import styles from "@/components/common/DeclarationDetail/DeclarationDetail.modu
 import deleteDeclaration from "@/components/page-layout/declarationLayout/apis/deleteDeclaration";
 import { ROUTE } from "@/constants/route";
 import Cancel from "@/icons/cancel.svg";
+import { ErrorResponse } from "@/types/error";
 
 import getDetailDeclaration from "./apis/getDetailDeclaration";
 import openToast from "../Toast/features/openToast";
@@ -30,6 +32,13 @@ export default function DeclarationDetail() {
     onSuccess: () => {
       router.push(ROUTE.ADMIN_DECLARATION);
       openToast("success", "삭제되었습니다.");
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response) {
+        openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "알 수 없는 오류가 발생했습니다.");
+      }
     },
   });
 

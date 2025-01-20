@@ -50,6 +50,8 @@ export default function CertificationDetail({ volunteeringDetail }: Certificatio
     onError: (error: AxiosError<deleteCertificationErrorResponse>) => {
       if (error.response) {
         openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "알 수 없는 오류가 발생했습니다.");
       }
     },
   });
