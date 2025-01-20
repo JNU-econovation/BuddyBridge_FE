@@ -35,6 +35,7 @@ interface CertifyVolunteeringModalProps {
   email: string;
   name: string;
   matchingId: number;
+  matchingStatus: string;
 }
 
 interface FormData {
@@ -65,8 +66,10 @@ export default function CertifyVolunteeringModal({
   email,
   name,
   matchingId,
+  matchingStatus,
 }: CertifyVolunteeringModalProps) {
   const queryClient = useQueryClient();
+  const isNewCertification = matchingStatus === "VOLUNTEERING_VERIFIED";
 
   const {
     data: prevCertification,
@@ -75,7 +78,7 @@ export default function CertifyVolunteeringModal({
   } = useQuery({
     queryKey: ["prevCertification", matchingId],
     queryFn: () => getPrevCertification(matchingId),
-    enabled: !!matchingId,
+    enabled: !!matchingId && isNewCertification
   });
 
   const { data, isError, isPending } = useQuery({
@@ -139,7 +142,7 @@ export default function CertifyVolunteeringModal({
     return <>에러</>;
   }
 
-  if (isPrevCertificationPending) {
+  if (isNewCertification && isPrevCertificationPending) {
     return <>...로딩중</>;
   }
 

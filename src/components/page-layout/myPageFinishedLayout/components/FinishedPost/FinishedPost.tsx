@@ -186,6 +186,7 @@ export default function FinishedPost({
           email={email}
           name={name}
           matchingId={matchingId}
+          matchingStatus={matchingStatus}
         />
       )}
     </>
