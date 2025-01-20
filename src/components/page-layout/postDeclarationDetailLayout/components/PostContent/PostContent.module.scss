@@ -133,13 +133,13 @@
   min-height: 10rem;
   border-radius: 2rem;
   padding: 2rem;
-  @include font(1.5rem, 500, normal);
+  @include nsnFont(1.5rem, 500, normal);
   border: 0.15rem solid $gray;
 }
 
 .createdAt {
   margin-left: auto;
   text-align: right;
-  @include font(1.5rem, 300, normal);
+  @include nsnFont(1.5rem, 300, normal);
   color: $gray-2;
 }

@@ -39,7 +39,7 @@
 }
 
 .nickname {
-  @include font(2rem, 400, normal);
+  @include nsnFont(2rem, 400, normal);
 }
 
 .contentBox {
@@ -49,7 +49,7 @@
 .textarea {
   resize: none;
   width: 95%;
-  @include font(2rem, 400, normal);
+  @include nsnFont(2rem, 400, normal);
   padding: 0 2rem;
   height: 10rem;
   border: none;
@@ -63,8 +63,8 @@
   vertical-align: middle;
   cursor: pointer;
   &:hover {
-    color: #97B8F9;
-    &.helpMeRegister{
+    color: #97b8f9;
+    &.helpMeRegister {
       color: #9b99fc;
     }
   }

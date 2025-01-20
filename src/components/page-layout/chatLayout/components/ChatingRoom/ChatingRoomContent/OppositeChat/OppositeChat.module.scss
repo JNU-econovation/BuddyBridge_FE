@@ -28,5 +28,5 @@
   position: absolute;
   bottom: 0;
   right: -4rem;
-  @include font(1.3rem, 400, normal);
+  @include nsnFont(1.3rem, 400, normal);
 }

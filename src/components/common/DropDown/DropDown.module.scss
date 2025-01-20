@@ -40,7 +40,7 @@
 .option {
   width: 100%;
   border-bottom: 0.1rem solid $gray;
-  @include font(1.5rem, 400, normal);
+  @include nsnFont(1.5rem, 400, normal);
   text-align: center;
   padding: 2rem 0;
 

@@ -3,11 +3,11 @@
 }
 
 .chat {
-  background-color: #97B8F9;
+  background-color: #97b8f9;
   color: white;
   padding: 0.7rem 1.5rem;
   border-radius: 2rem;
-  @include font(1.3rem, 400, normal);
+  @include nsnFont(1.3rem, 400, normal);
   &.helpMeChat {
     background-color: #9b99fc;
   }
@@ -27,21 +27,21 @@
 }
 
 .title {
-  @include font(1.3rem, 700, normal);
+  @include nsnFont(1.3rem, 700, normal);
 }
 
 .content {
-  @include font(1.1rem, 300, normal);
+  @include nsnFont(1.1rem, 300, normal);
   text-align: center;
 }
 
 .chatButton {
   padding: 0.7rem 1rem;
   background-color: white;
-  border: 0.1rem solid #97B8F9;
-  color: #97B8F9;
+  border: 0.1rem solid #97b8f9;
+  color: #97b8f9;
   border-radius: 2rem;
-  @include font(1.1rem, 600, normal);
+  @include nsnFont(1.1rem, 600, normal);
   &.helpMeChat {
     border: 0.1rem solid #9b99fc;
     color: #9b99fc;

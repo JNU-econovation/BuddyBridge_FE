@@ -44,7 +44,7 @@
 }
 
 .isReadedToggle button.off {
-  color: #8D8989;
+  color: #8d8989;
 }
 
 .title {
@@ -53,7 +53,7 @@
 
 .readAllBtn {
   @include nsnFont(1.3rem, 600, normal);
-  color: #4885FE;
+  color: #4885fe;
 
   &:hover {
     text-decoration: underline;
@@ -69,36 +69,35 @@
 .alarm {
   padding: 1rem;
   color: black;
-  @include font(1.5rem, 400, normal);
+  @include nsnFont(1.5rem, 400, normal);
   @include line-clamp(2);
 
   &.isRead {
-    background-color: #EDEDED;
+    background-color: #ededed;
     color: #afafaf;
   }
 }
 
-.alarmTag{
+.alarmTag {
   display: inline-block;
   padding: 0.3rem 1.2rem;
   margin-right: 1rem;
   border-radius: 0.4rem;
-  @include font(1.3rem, 500, normal);
+  @include nsnFont(1.3rem, 500, normal);
   &.comment {
-    background-color: #EBFAE8;
-    color: #45B555;
+    background-color: #ebfae8;
+    color: #45b555;
   }
   &.chat {
-    background-color: #FFF7DE;
-    color: #FF8E1E;
+    background-color: #fff7de;
+    color: #ff8e1e;
   }
-  
 }
 
 .fetchButton {
   text-align: center;
   padding: 1rem 2rem;
-  @include font(1.6rem, 400, normal);
+  @include nsnFont(1.6rem, 400, normal);
   &:hover {
     text-decoration: underline;
     text-underline-position: under;

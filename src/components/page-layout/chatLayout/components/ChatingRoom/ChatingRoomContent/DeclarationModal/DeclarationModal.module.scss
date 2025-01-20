@@ -113,7 +113,7 @@
   background: #9290ea;
   box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
   color: white;
-  @include font(2rem, 700, normal);
+  @include nsnFont(2rem, 700, normal);
   @include flexSort(null, center, center, null);
   padding: 1.55rem 3rem;
   margin-bottom: 2rem;

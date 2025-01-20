@@ -55,5 +55,5 @@
   background: #e6e6ea;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   @include flexSort(null, center, center, null);
-  @include font(1.5rem, 700, normal);
+  @include nsnFont(1.5rem, 700, normal);
 }

@@ -18,11 +18,11 @@
 }
 
 .textTitle {
-  @include font(3.5rem, 800, normal);
+  @include nsnFont(3.5rem, 800, normal);
 }
 
 .textContent {
-  @include font(2.5rem, 400, normal);
+  @include nsnFont(2.5rem, 400, normal);
 }
 
 .banner {
