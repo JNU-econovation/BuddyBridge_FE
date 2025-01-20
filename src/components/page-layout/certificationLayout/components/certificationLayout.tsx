@@ -76,6 +76,7 @@ export default function CertificationLayout() {
 
   const handleCertificationPostClick = () => {
     postCertificationMutation.mutate(checkId);
+    setCheckId(0);
   };
 
   const setPage = (newPage: number) => {
