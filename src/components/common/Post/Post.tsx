@@ -1,17 +1,12 @@
-import { MouseEvent } from "react";
-
 import classNames from "classnames/bind";
 
 import Link from "next/link";
 
-import { useLikeMutation } from "@/apis/post";
 import styles from "@/components/common/Post/Post.module.scss";
 import { ROUTE } from "@/constants/route";
 import Calendar from "@/icons/calendar.svg";
 import Clock from "@/icons/clock.svg";
-import Heart from "@/icons/heart.svg";
 import Location from "@/icons/location.svg";
-import PinkHeart from "@/icons/pink_heart.svg";
 import { PostType } from "@/types/post";
 import { formatDateString } from "@/utils";
 
@@ -57,6 +52,7 @@ export function Post({ data, children }: PostProps) {
         <div className={cn("contentBox")}>
           <div className={cn("box")}>
             <p className={cn("title")}>{title}</p>
+            <div className={cn("hr")} />
             <div className={cn("detailBox")}>
               <div className={cn("districtBox")}>
                 <Location />
@@ -82,30 +78,5 @@ export function Post({ data, children }: PostProps) {
         <p className={cn("postId")}>{id}</p>
       </div>
     </Link>
-  );
-}
-
-interface PostHeartProps {
-  id: number;
-  isLiked: boolean;
-  queryKey: string[];
-}
-
-export function PostHeart({ id, isLiked, queryKey }: PostHeartProps) {
-  const { mutate } = useLikeMutation({ id, queryKey });
-
-  const handleHeartClick = (event: MouseEvent<SVGSVGElement>) => {
-    event.preventDefault();
-    mutate();
-  };
-
-  return (
-    <>
-      {isLiked ? (
-        <PinkHeart onClick={handleHeartClick} width={32} height={32} className={cn("heart")} />
-      ) : (
-        <Heart onClick={handleHeartClick} width={32} height={32} className={cn("heart")} />
-      )}
-    </>
   );
 }

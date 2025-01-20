@@ -63,12 +63,11 @@
 
 .title {
   @include font(2rem, 700, normal);
-  @include line-clamp(2);
+  @include line-clamp(1);
+}
+
+.hr {
   border-bottom: 0.1rem solid #ccc;
-  padding-bottom: 2rem;
-  @include smallDesktop {
-    @include nsnFont(2rem, 700, normal);
-  }
 }
 
 .detailBox {
@@ -122,10 +121,4 @@
 .postId {
   z-index: 1;
   @include nsnFont(2rem, 900, normal);
-}
-
-.heart {
-  position: absolute;
-  top: 1rem;
-  right: 2rem;
 }

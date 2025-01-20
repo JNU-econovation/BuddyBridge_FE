@@ -13,6 +13,7 @@ import getLogIn from "@/components/common/Header/apis/getLogIn";
 import Loader from "@/components/common/Loader/Loader";
 import Modal from "@/components/common/Modal/Modal";
 import postLikes from "@/components/common/Post/apis/postLikes";
+import { PostDetailHeart } from "@/components/common/Post/PostHeart/PostHeart";
 import ReportForm from "@/components/common/ReportForm/ReportForm";
 import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/helpYouDetailLayout/components/helpYouDetailLayout.module.scss";
@@ -50,24 +51,15 @@ interface CommentProps {
 
 export default function HelpYouDetailLayout() {
   const router = useRouter();
-  const { id: pageId } = router.query;
-
-  const { data, isPending } = useQuery({
-    queryKey: ["giverDetail", pageId],
-    queryFn: () => getGiverDetail(pageId as string),
-    enabled: !!pageId,
-  });
-
-  if (isPending) {
-    return;
-  } else return <Main data={data} />;
-}
-
-function Main(data: any) {
-  const router = useRouter();
-
-  const { id: pageId } = router.query;
   const queryClient = useQueryClient();
+
+  const { id: pageId } = router.query;
+
+  const [isReportOpen, setIsReportOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isHeartClick, setIsHeartClick] = useState(false);
+  const [isKebabClick, setIsKebabClick] = useState(false);
+  const [isStateClick, setIsStateClick] = useState(false);
 
   const { data: userData } = useQuery({
     queryKey: ["userLogIn"],
@@ -88,10 +80,19 @@ function Main(data: any) {
     enabled: !!pageId,
   });
 
+  const {
+    data: postDetailData,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: ["giverPostDetail", pageId],
+    queryFn: () => getGiverDetail(pageId as string),
+    enabled: !!pageId,
+  });
+
   const deletePostMutation = useMutation({
     mutationFn: (id: number) => deletePost(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["giverDetail", pageId] });
       router.push(ROUTE.HELP_YOU);
       openToast("success", "성공적으로 삭제되었습니다.");
     },
@@ -105,28 +106,17 @@ function Main(data: any) {
     deletePostMutation.mutate(id);
   };
 
-  const { mutate } = useMutation({
-    mutationFn: () => postLikes(id),
-  });
+  if (isPending) return <>...로딩</>;
 
-  const handleHeartClick = () => {
-    setIsHeartClick((prev: boolean) => !prev);
-    mutate();
-  };
+  if (isError) return <>에러</>;
 
-  const { nickname, memberId, disabilityType, gender, profileImageUrl, age } = data.data.author;
+  const { nickname, disabilityType, gender, profileImageUrl, age } = postDetailData.author;
 
-  const { district, id, title, content, createdAt, isLiked, assistance, schedule } = data.data.post;
+  const { district, id, title, content, createdAt, isLiked, assistance, schedule } = postDetailData.post;
 
   const { assistanceType, assistanceStartTime, assistanceEndTime } = assistance;
 
   const { scheduleType, startDate, endDate, scheduleDetails } = schedule;
-
-  const [isReportOpen, setIsReportOpen] = useState(false);
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [isHeartClick, setIsHeartClick] = useState(false);
-  const [isKebabClick, setIsKebabClick] = useState(false);
-  const [isStateClick, setIsStateClick] = useState(false);
 
   const handleKebabClick = () => {
     setIsKebabClick((prev) => !prev);
@@ -137,10 +127,6 @@ function Main(data: any) {
   const handleSirenClick = () => {
     setIsReportOpen(true);
   };
-
-  useEffect(() => {
-    setIsHeartClick(isLiked);
-  }, [data, isLiked]);
 
   const commentMemIds: Array<number> =
     commentData?.pages.flatMap((page) => page.content.map((comment: CommentProps) => comment.author.memberId)) || [];
@@ -154,12 +140,13 @@ function Main(data: any) {
         </header>
         <div className={cn("totalContainer")}>
           <div className={cn("btnMenu")}>
-            {isHeartClick ? (
-              <PinkHeart onClick={handleHeartClick} width={35} height={35} className={cn("likeBtn")} />
-            ) : (
-              <Heart onClick={handleHeartClick} width={37} height={37} className={cn("likeBtn")} />
-            )}
-            {userData?.memberId === data.data.author.memberId ? (
+            <PostDetailHeart
+              style={cn("heart")}
+              id={id}
+              isLiked={isLiked}
+              queryKey={["giverPostDetail", `${pageId}`]}
+            />
+            {userData?.memberId === postDetailData.author.memberId ? (
               <Kebab onClick={handleKebabClick} width={35} height={35} className={cn("kebabBtn")} />
             ) : (
               <div onClick={handleSirenClick} className={cn("sirenBtn")}>
@@ -242,7 +229,7 @@ function Main(data: any) {
                 page.content.map((comment: CommentProps) => (
                   <Comment
                     type="giver"
-                    authorId={data.data.author.memberId}
+                    authorId={postDetailData.author.memberId}
                     postId={id}
                     comment={comment}
                     commentId={comment.commentId}

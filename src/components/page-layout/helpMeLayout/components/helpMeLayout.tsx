@@ -9,7 +9,8 @@ import { useRouter } from "next/router";
 import Filter from "@/components/common/Filter/Filter";
 import getPaginationItems from "@/components/common/Pagenation/apis/getHelpMeList";
 import Pagination from "@/components/common/Pagenation/Pagenation";
-import { Post, PostHeart } from "@/components/common/Post/Post";
+import { Post } from "@/components/common/Post/Post";
+import { PostHeart } from "@/components/common/Post/PostHeart/PostHeart";
 import styles from "@/components/page-layout/helpMeLayout/components/helpMeLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import RegisterArrow from "@/icons/send_arrow.svg";
@@ -137,6 +138,7 @@ export default function HelpMeLayout() {
                 queryKey={["helpMePostList", `${page}`, disabilityType, assistanceType, postStatus]}
                 id={post.id}
                 isLiked={post.isLiked}
+                style={cn("heart")}
               />
             </Post>
           ))}
