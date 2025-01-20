@@ -25,11 +25,11 @@ export const useLikeMutation = ({ id, queryKey }: UseLikeMutationProps) => {
 
         const previousTodos = queryClient.getQueryData(queryKey);
 
-        queryClient.setQueryData(queryKey, (response: QueryData) => {
-          response.content.map((item) => {
-            item.id === id ? { ...item, isLiked: !item.isLiked } : item;
-          });
-        });
+        queryClient.setQueryData(queryKey, (response: QueryData) => ({
+          ...response,
+          content: response.content.map((item) => (item.id === id ? { ...item, isLiked: !item.isLiked } : item)),
+        }));
+
         return { previousTodos };
       }
     },
@@ -55,9 +55,11 @@ export const usePostDetailLikeMutation = ({ id, queryKey }: UseLikeMutationProps
 
         const previousTodos = queryClient.getQueryData(queryKey);
 
-        queryClient.setQueryData(queryKey, (response: PostDetailType) => {
-          return { ...response, post: { ...response.post, isLiked: !response.post.isLiked } };
-        });
+        queryClient.setQueryData(queryKey, (response: PostDetailType) => ({
+          ...response,
+          post: { ...response.post, isLiked: !response.post.isLiked },
+        }));
+
         return { previousTodos };
       }
     },
