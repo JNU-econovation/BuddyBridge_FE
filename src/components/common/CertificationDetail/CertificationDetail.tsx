@@ -105,7 +105,7 @@ export default function CertificationDetail({ volunteeringDetail }: Certificatio
           <p className={cn("postTitle")}>3. 봉사한 게시글</p>
           <div className={cn("postDetailBox")}>
             <p className={cn("post")}>{volunteeringDetail.postType === "GIVER" ? "도와줄게요!" : "도와줄래요?"}</p>
-            <p className={cn("post")}>postType{volunteeringDetail.postId}</p>
+            <p className={cn("post")}>{volunteeringDetail.postId}</p>
           </div>
         </div>
         <div className={cn("volunteerDateBox")}>
