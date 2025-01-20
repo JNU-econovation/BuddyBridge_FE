@@ -12,27 +12,25 @@ export default async function getAllChatList(limit: number, cursor: number, matc
   }
 
   if (matchingState == "PENDING" && cursor !== 0) {
-    const { data } = await axiosInstance.get(
-      `chat/matchings?limit=${limit}&cursor=${cursor}&matching-status=["PENDING"]`,
-    );
+    const { data } = await axiosInstance.get(`chat/matchings?limit=${limit}&cursor=${cursor}&matching-status=PENDING`);
     return data.data;
   }
 
   if (matchingState == "PENDING" && cursor === 0) {
-    const { data } = await axiosInstance.get(`chat/matchings?limit=${limit}&matching-status=["PENDING"]`);
+    const { data } = await axiosInstance.get(`chat/matchings?limit=${limit}&matching-status=PENDING`);
     return data.data;
   }
 
   if (matchingState == "DONE" && cursor !== 0) {
     const { data } = await axiosInstance.get(
-      `chat/matchings?limit=${limit}&cursor=${cursor}&matching-status=["DONE","VOLUNTEERING_COMPLETED","VOLUNTEERING_VERIFIED"]`,
+      `chat/matchings?limit=${limit}&cursor=${cursor}&matching-status=DONE,VOLUNTEERING_COMPLETED,VOLUNTEERING_VERIFIED`,
     );
     return data.data;
   }
 
   if (matchingState == "DONE" && cursor === 0) {
     const { data } = await axiosInstance.get(
-      `chat/matchings?limit=${limit}&matching-status=["DONE","VOLUNTEERING_COMPLETED","VOLUNTEERING_VERIFIED"]`,
+      `chat/matchings?limit=${limit}&matching-status=DONE,VOLUNTEERING_COMPLETED,VOLUNTEERING_VERIFIED`,
     );
     return data.data;
   }
