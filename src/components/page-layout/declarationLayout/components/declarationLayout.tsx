@@ -146,8 +146,8 @@ export default function DeclarationLayout() {
                     reportContent={item.reportContent}
                     reportDate={item.reportDate}
                     reportType={item.reportType}
-                    reported={item.reported}
-                    reporter={item.reporter}
+                    reportedName={item.reportedName}
+                    reporterName={item.reporterName}
                     checkId={checkId}
                     setCheckId={setCheckId}
                     isBlackListed={item.isBlackListed}

@@ -15,8 +15,8 @@ export interface DeclarationContentProps {
   reportContent: string;
   reportDate: Date;
   reportType: string;
-  reported: string;
-  reporter: string;
+  reportedName: string;
+  reporterName: string;
   checkId: number;
   setCheckId: (checkId: number) => void;
   isBlackListed: boolean;
@@ -28,8 +28,8 @@ export default function DeclarationContent({
   reportContent,
   reportDate,
   reportType,
-  reported,
-  reporter,
+  reportedName,
+  reporterName,
   checkId,
   setCheckId,
   isBlackListed,
@@ -66,7 +66,7 @@ export default function DeclarationContent({
         </div>
         <div className={cn("reportedBox")}>
           <p className={cn("reported")}>
-            {reported}
+            {reportedName}
             {isBlackListed && <Black_List className={cn("blackList")} />}
           </p>
         </div>
@@ -75,7 +75,7 @@ export default function DeclarationContent({
         <div className={cn("declarationTypeBox")}>
           <p className={cn("declarationType")}>{reportType}</p>
         </div>
-        <p className={cn("declarationPeople")}>{reporter}</p>
+        <p className={cn("declarationPeople")}>{reporterName}</p>
         <p className={cn("declarationDate")}>{formatDateString(reportDate)}</p>
       </Link>
     </li>
