@@ -251,6 +251,7 @@ export default function ChattingRoomContent({
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
+      if (e.nativeEvent.isComposing) return;
       e.preventDefault();
       handleSubmit(sendMessage)();
     }
