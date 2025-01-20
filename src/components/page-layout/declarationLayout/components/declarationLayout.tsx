@@ -150,6 +150,7 @@ export default function DeclarationLayout() {
                     reporter={item.reporter}
                     checkId={checkId}
                     setCheckId={setCheckId}
+                    isBlackListed={item.isBlackListed}
                   />
                 ))}
               </ul>

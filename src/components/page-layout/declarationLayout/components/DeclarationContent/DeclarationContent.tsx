@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import styles from "@/components/page-layout/declarationLayout/components/DeclarationContent/DeclarationContent.module.scss";
 import { ROUTE } from "@/constants/route";
+import Black_List from "@/icons/black_list.svg";
 import { formatDateString } from "@/utils";
 
 const cn = classNames.bind(styles);
@@ -18,6 +19,7 @@ export interface DeclarationContentProps {
   reporter: string;
   checkId: number;
   setCheckId: (checkId: number) => void;
+  isBlackListed: boolean;
 }
 
 export default function DeclarationContent({
@@ -30,6 +32,7 @@ export default function DeclarationContent({
   reporter,
   checkId,
   setCheckId,
+  isBlackListed,
 }: DeclarationContentProps) {
   const handleCheckBoxClick = (e: React.MouseEvent<HTMLInputElement>): void => {
     e.stopPropagation();
@@ -61,7 +64,12 @@ export default function DeclarationContent({
         <div className={cn("check")}>
           <input type="checkbox" checked={checkId === id} onClick={handleCheckBoxClick} />
         </div>
-        <p className={cn("reporter")}>{reported}</p>
+        <div className={cn("reportedBox")}>
+          <p className={cn("reported")}>
+            {reported}
+            {isBlackListed && <Black_List className={cn("blackList")} />}
+          </p>
+        </div>
         <p className={cn("postInfo")}>{postId}번</p>
         <p className={cn("declarationContent")}>{reportContent}</p>
         <div className={cn("declarationTypeBox")}>

@@ -128,6 +128,7 @@ export default function CertificationLayout() {
                     postType={item.postType}
                     checkId={checkId}
                     setCheckId={setCheckId}
+                    isBlackListed={item.isBlackListed}
                   />
                 ))}
               </ul>

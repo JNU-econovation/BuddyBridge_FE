@@ -1,6 +1,7 @@
 import classNames from "classnames/bind";
 
 import styles from "@/components/page-layout/userAdminLayout/components/UserContent/UserContent.module.scss";
+import Black_List from "@/icons/black_list.svg";
 
 const cn = classNames.bind(styles);
 
@@ -15,6 +16,7 @@ export interface UserContentProps {
   reportedCount: number;
   checkId: number[];
   setCheckId: (checkId: number[]) => void;
+  isBlackListed: boolean;
 }
 
 export default function UserContent({
@@ -28,6 +30,7 @@ export default function UserContent({
   reportedCount,
   checkId,
   setCheckId,
+  isBlackListed,
 }: UserContentProps) {
   const handleCheckBoxClick = (e: React.MouseEvent<HTMLInputElement>): void => {
     if (!checkId.includes(id)) {
@@ -43,7 +46,12 @@ export default function UserContent({
         <div className={cn("check")}>
           <input type="checkbox" checked={checkId.includes(id)} onClick={handleCheckBoxClick} />
         </div>
-        <p className={cn("name")}>{name}</p>
+        <div className={cn("nameBox")}>
+          <p className={cn("name")}>
+            {name}
+            {isBlackListed && <Black_List className={cn("blackList")} />}
+          </p>
+        </div>
         <p className={cn("nickname")}>{nickname}</p>
         <p className={cn("gender")}>{gender}</p>
         <p className={cn("age")}>{age}</p>
