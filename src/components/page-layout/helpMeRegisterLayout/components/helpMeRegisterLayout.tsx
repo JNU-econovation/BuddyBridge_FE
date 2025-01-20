@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 
 import Button from "@/components/common/Button/Button";
 import CustomDatePicker from "@/components/common/DatePicker/DatePicker";
-import { ASSISTANCE, DISABILITY, PLACE } from "@/components/common/DropDown/constants";
+import { ASSISTANCE, PLACE } from "@/components/common/DropDown/constants";
 import Dropdown from "@/components/common/DropDown/DropDown";
 import Input from "@/components/common/Input/Input";
 import Label from "@/components/common/Label/Label";
@@ -155,7 +155,12 @@ export default function HelpMeRegisterLayout() {
                         <CustomDatePicker
                           locale={ko}
                           selected={field.value}
-                          onChange={field.onChange}
+                          onChange={(date: Date) => {
+                            if (date) {
+                              const adjustedDate = new Date(date.setHours(12, 0, 0, 0));
+                              field.onChange(adjustedDate);
+                            }
+                          }}
                           dateFormat="yyyy.MM.dd"
                           customInputRef={field.ref}
                           placeholder="0000.00.00"
@@ -176,7 +181,12 @@ export default function HelpMeRegisterLayout() {
                         <CustomDatePicker
                           locale={ko}
                           selected={field.value}
-                          onChange={field.onChange}
+                          onChange={(date: Date) => {
+                            if (date) {
+                              const adjustedDate = new Date(date.setHours(12, 0, 0, 0));
+                              field.onChange(adjustedDate);
+                            }
+                          }}
                           dateFormat="yyyy.MM.dd"
                           customInputRef={field.ref}
                           placeholder="0000.00.00"
