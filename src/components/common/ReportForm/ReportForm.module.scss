@@ -72,6 +72,10 @@
   }
 }
 
+.reportType {
+  color: black;
+}
+
 .reportContent {
   min-height: 10rem;
   @include nsnFont(1.5rem, 300, normal);

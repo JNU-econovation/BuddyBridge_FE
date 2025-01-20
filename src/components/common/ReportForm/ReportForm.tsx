@@ -126,9 +126,13 @@ export default function ReportForm({ nickname, postId, postType, contentType, co
               <option value="">신고할 유형을 선택해 주세요.</option>
               {reportTypes?.map((value: string, index: number) =>
                 value === "기타" ? (
-                  <option key={index}>{value} (신고 내용을 필수로 작성해 주세요!)</option>
+                  <option className={cn("reportType")} key={index}>
+                    {value} (신고 내용을 필수로 작성해 주세요!)
+                  </option>
                 ) : (
-                  <option key={index}>{value}</option>
+                  <option className={cn("reportType")} key={index}>
+                    {value}
+                  </option>
                 ),
               )}
             </select>
