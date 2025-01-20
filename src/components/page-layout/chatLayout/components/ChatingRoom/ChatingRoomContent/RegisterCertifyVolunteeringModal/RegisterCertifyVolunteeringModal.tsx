@@ -56,7 +56,7 @@ const volunteerSchema = z.object({
   startTime: z.string().min(1, "시작 시간을 선택해주세요."),
   endTime: z.string().min(1, "끝나는 시간을 선택해주세요."),
   assistanceType: z.string().min(1, "도움 유형을 선택해주세요."),
-  content: z.string().min(150, "150자 이상을 입력해주세요."),
+  content: z.string().min(200, "200자 이상을 입력해주세요."),
 });
 
 export default function RegisterCertifyVolunteeringModal({
@@ -83,10 +83,8 @@ export default function RegisterCertifyVolunteeringModal({
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response) {
-        setState((prev) => !prev);
         openToast("error", error.response.data.error.message);
       } else {
-        setState((prev) => !prev);
         openToast("error", "에러가 발생했습니다.");
       }
     },
@@ -200,7 +198,7 @@ export default function RegisterCertifyVolunteeringModal({
         <div className={cn("thoughtsContainer")}>
           <p className={cn("thoughtsTitle")}>6. 봉사 활동 내용 및 소감 </p>
           <header className={cn("thoughtsHeader")}>
-            봉사 활동 내용 및 소감을 자유롭게 작성해 주세요. (150자 이상)
+            봉사 활동 내용 및 소감을 자유롭게 작성해 주세요. (200자 이상)
           </header>
           <div className={cn("thoughtsContentBox")}>
             <Textarea
