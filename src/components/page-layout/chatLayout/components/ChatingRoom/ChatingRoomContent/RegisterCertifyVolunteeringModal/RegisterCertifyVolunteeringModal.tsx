@@ -56,7 +56,7 @@ const volunteerSchema = z.object({
   startTime: z.string().min(1, "시작 시간을 선택해주세요."),
   endTime: z.string().min(1, "끝나는 시간을 선택해주세요."),
   assistanceType: z.string().min(1, "도움 유형을 선택해주세요."),
-  content: z.string().min(200, "200자 이상을 입력해주세요."),
+  content: z.string().min(200, "200자 이상을 입력해주세요.").max(1000, "1000자 이하로 입력해주세요."),
 });
 
 export default function RegisterCertifyVolunteeringModal({
