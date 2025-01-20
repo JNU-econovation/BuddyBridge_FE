@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 
@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 
 import styles from "@/components/common/DeclarationDetail/DeclarationDetail.module.scss";
 import deleteDeclaration from "@/components/page-layout/declarationLayout/apis/deleteDeclaration";
+import postBlackList from "@/components/page-layout/declarationLayout/apis/postBlackList";
 import { ROUTE } from "@/constants/route";
 import Cancel from "@/icons/cancel.svg";
 import { ErrorResponse } from "@/types/error";
@@ -20,6 +21,7 @@ const cn = classNames.bind(styles);
 
 export default function DeclarationDetail() {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { data, error, isPending } = useQuery({
     queryKey: ["detailDeclaration", router.query.id],
@@ -42,8 +44,25 @@ export default function DeclarationDetail() {
     },
   });
 
+  const postBlackListMutation = useMutation({
+    mutationFn: (id: number) => postBlackList(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["detailDeclaration", router.query.id] });
+      openToast("success", "블랙리스트에 추가되었습니다.");
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response) {
+        openToast("error", error.response.data.error.message);
+      }
+    },
+  });
+
   const handleCommentDeleteClick = () => {
     deleteDeclarationMutation.mutate(Number(router.query.id));
+  };
+
+  const handleBlackListClick = () => {
+    postBlackListMutation.mutate(data.reportedId);
   };
 
   useEffect(() => {
@@ -101,7 +120,7 @@ export default function DeclarationDetail() {
             <button onClick={handleCommentDeleteClick} className={cn("deleteBtn")}>
               삭제하기
             </button>
-            <button className={cn("blackListBtn")}>
+            <button className={cn("blackListBtn")} onClick={handleBlackListClick}>
               블랙리스트
               <Cancel />
             </button>
