@@ -8,7 +8,14 @@
   box-shadow: 0 0 0.4rem 0 rgba(0, 0, 0, 0.25);
   @include flexSort(null, null, null, null);
   height: 55rem;
-  width: 130rem;
+  width: 80vw;
+  min-width: 120rem;
+
+  @include desktop {
+    max-width: 150rem;
+    height: 70vh;
+    max-height: 70rem;
+  }
 }
 
 .adminContainer {
