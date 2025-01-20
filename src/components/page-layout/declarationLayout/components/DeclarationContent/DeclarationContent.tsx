@@ -17,9 +17,13 @@ export interface DeclarationContentProps {
   reportType: string;
   reportedName: string;
   reporterName: string;
-  checkId: number;
-  setCheckId: (checkId: number) => void;
+  checkId: {
+    id: number;
+    reportedId: number;
+  };
+  setCheckId: (checkId: { id: number; reportedId: number }) => void;
   isBlackListed: boolean;
+  reportedId: number;
 }
 
 export default function DeclarationContent({
@@ -31,15 +35,16 @@ export default function DeclarationContent({
   reportedName,
   reporterName,
   checkId,
+  reportedId,
   setCheckId,
   isBlackListed,
 }: DeclarationContentProps) {
   const handleCheckBoxClick = (e: React.MouseEvent<HTMLInputElement>): void => {
     e.stopPropagation();
-    if (checkId !== id) {
-      setCheckId(id as number);
+    if (checkId.id !== id) {
+      setCheckId({ id: id as number, reportedId });
     } else {
-      setCheckId(0);
+      setCheckId({ id: 0, reportedId: 0 });
     }
   };
 
@@ -62,7 +67,7 @@ export default function DeclarationContent({
         className={cn("container")}
       >
         <div className={cn("check")}>
-          <input type="checkbox" checked={checkId === id} onClick={handleCheckBoxClick} />
+          <input type="checkbox" checked={checkId.id === id} onClick={handleCheckBoxClick} />
         </div>
         <div className={cn("reportedBox")}>
           <p className={cn("reported")}>

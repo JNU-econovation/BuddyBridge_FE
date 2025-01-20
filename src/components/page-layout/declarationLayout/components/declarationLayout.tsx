@@ -23,7 +23,10 @@ const cn = classNames.bind(styles);
 
 export default function DeclarationLayout() {
   const [type, setType] = useState<"all" | "posts" | "comments" | "matchings">("all");
-  const [checkId, setCheckId] = useState(0);
+  const [checkId, setCheckId] = useState({
+    id: 0,
+    reportedId: 0,
+  });
   const router = useRouter();
   const queryClient = useQueryClient();
   const params = new URLSearchParams(router.query as any);
@@ -63,11 +66,11 @@ export default function DeclarationLayout() {
   });
 
   const handleDeleteClick = () => {
-    deleteDeclarationMutation.mutate(checkId);
+    deleteDeclarationMutation.mutate(checkId.id);
   };
 
   const handleBlackListClick = () => {
-    postBlackListMutation.mutate(checkId);
+    postBlackListMutation.mutate(checkId.reportedId);
   };
 
   const setPage = (newPage: number) => {
@@ -148,6 +151,7 @@ export default function DeclarationLayout() {
                     reportType={item.reportType}
                     reportedName={item.reportedName}
                     reporterName={item.reporterName}
+                    reportedId={item.reportedId}
                     checkId={checkId}
                     setCheckId={setCheckId}
                     isBlackListed={item.isBlackListed}
