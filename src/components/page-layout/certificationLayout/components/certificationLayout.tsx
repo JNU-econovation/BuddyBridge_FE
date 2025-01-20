@@ -11,6 +11,7 @@ import Pagination from "@/components/common/Pagenation/Pagenation";
 import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/certificationLayout/components/certificationLayout.module.scss";
 import { ROUTE } from "@/constants/route";
+import { ErrorResponse } from "@/types/error";
 
 import CertificationContent, { CertificationContentProps } from "./CertificationContent/CertificationContent";
 import deleteCertification from "../apis/deleteCertification";
@@ -18,12 +19,6 @@ import getCertifications from "../apis/getCertifications";
 import postCertification from "../apis/postCertification";
 
 const cn = classNames.bind(styles);
-
-interface CertificationErrorResponse {
-  error: {
-    message: string;
-  };
-}
 
 export default function CertificationLayout() {
   const [checkId, setCheckId] = useState(0);
@@ -45,6 +40,13 @@ export default function CertificationLayout() {
       queryClient.invalidateQueries({ queryKey: ["certification", currentPage > 0 ? currentPage : 1] });
       openToast("success", "삭제되었습니다.");
     },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response) {
+        openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "알 수 없는 오류가 발생했습니다.");
+      }
+    },
   });
 
   const postCertificationMutation = useMutation({
@@ -54,7 +56,7 @@ export default function CertificationLayout() {
       openToast("success", "봉사 시간 부여가 완료되었습니다.");
       setCheckId(0);
     },
-    onError: (error: AxiosError<CertificationErrorResponse>) => {
+    onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response) {
         openToast("error", error.response.data.error.message);
       }
@@ -76,6 +78,7 @@ export default function CertificationLayout() {
 
   const handleCertificationPostClick = () => {
     postCertificationMutation.mutate(checkId);
+    setCheckId(0);
   };
 
   const setPage = (newPage: number) => {
@@ -128,6 +131,7 @@ export default function CertificationLayout() {
                     postType={item.postType}
                     checkId={checkId}
                     setCheckId={setCheckId}
+                    isBlackListed={item.isBlackListed}
                   />
                 ))}
               </ul>

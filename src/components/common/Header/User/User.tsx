@@ -6,12 +6,12 @@ import NotLogin from "@/components/common/Header/User/NotLogin/NotLogin";
 import getLogIn from "../apis/getLogIn";
 
 export default function User() {
-  const { data, isLoading, isError } = useQuery({
+  const { data, isPending, isError } = useQuery({
     queryKey: ["userLogIn"],
     queryFn: () => getLogIn(),
   });
 
-  if (isLoading) {
+  if (isPending) {
     return <>...로딩중</>;
   }
 
@@ -19,5 +19,5 @@ export default function User() {
     return <NotLogin />;
   }
 
-  return data ? <Login name={data?.nickname} /> : <NotLogin />;
+  return data ? <Login name={data.nickname} /> : <NotLogin />;
 }

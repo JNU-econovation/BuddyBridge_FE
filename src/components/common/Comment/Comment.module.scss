@@ -44,30 +44,30 @@
 }
 
 .commentWriterNickname {
-  @include font(1.8rem, 600, normal);
+  @include nsnFont(1.8rem, 600, normal);
 }
 
 .commentWriterAge,
 .commentWriterGender {
-  @include font(1.5rem, 300, normal);
+  @include nsnFont(1.5rem, 300, normal);
 }
- 
+
 .commentBackground {
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   border-radius: 1.5rem;
   &.editingBackground {
-    box-shadow : 0.2rem 0.2rem 0.6rem 0.1rem #d1cece;
+    box-shadow: 0.2rem 0.2rem 0.6rem 0.1rem #d1cece;
   }
   max-width: 80%;
 }
 
 .titleBox:before {
   left: -1rem;
-  border-top: 2rem solid #F5F5F5;
+  border-top: 2rem solid #f5f5f5;
   border-left: 2.5rem solid transparent;
-  content:"";
-  position:absolute;
- }
+  content: "";
+  position: absolute;
+}
 
 .box {
   position: relative;
@@ -111,31 +111,31 @@
 
 .kebab {
   cursor: pointer;
-  stroke: #33363F;
+  stroke: #33363f;
 }
 
 .editBox {
   z-index: 1;
   border-radius: 1rem;
-  border: 0.1rem solid #E2E8F0;
+  border: 0.1rem solid #e2e8f0;
   position: absolute;
   bottom: -4rem;
   right: -8rem;
   background-color: white;
   @include flexSort(column, null, center, null);
-  box-shadow : 0.1rem 0.1rem 0.4rem 0.01rem #d1cece;
+  box-shadow: 0.1rem 0.1rem 0.4rem 0.01rem #d1cece;
 
   button {
     padding: 0.7rem 2rem;
-    @include font(1.5rem, 400, normal);
-    &:first-child{
-      border-bottom: 0.1rem solid #E2E8F0;
+    @include nsnFont(1.5rem, 400, normal);
+    &:first-child {
+      border-bottom: 0.1rem solid #e2e8f0;
     }
   }
 }
 
 .editTextarea {
-  all:unset;
+  all: unset;
   @include nsnFont(2rem, 400, normal);
   width: auto;
   height: auto;
@@ -152,28 +152,27 @@
 .saveBtn {
   @include nsnFont(1.3rem, 400, normal);
   padding: 0.5rem 1rem;
-  color:white;
-  background-color: #5F5F5F;
+  color: white;
+  background-color: #5f5f5f;
   border-radius: 0.5rem;
   text-align: center;
 
   &:hover {
-    box-shadow : 0rem 0rem 0.2rem 0.1rem #d1cece;
+    box-shadow: 0rem 0rem 0.2rem 0.1rem #d1cece;
   }
-  
 }
 
 .cancelBtn {
   @include nsnFont(1.3rem, 400, normal);
   padding: 0.45rem 1rem;
-  color:#5F5F5F;
+  color: #5f5f5f;
   background-color: white;
-  border: solid 0.0625rem #5F5F5F;
+  border: solid 0.0625rem #5f5f5f;
   border-radius: 0.5rem;
   text-align: center;
 
   &:hover {
-    box-shadow : 0rem 0rem 0.2rem 0.1rem #d1cece;
+    box-shadow: 0rem 0rem 0.2rem 0.1rem #d1cece;
   }
 }
 

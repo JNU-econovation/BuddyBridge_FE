@@ -112,6 +112,7 @@ export default function UserAdminLayout() {
                     reportedCount={item.reportedCount}
                     checkId={checkId}
                     setCheckId={setCheckId}
+                    isBlackListed={item.isBlackListed}
                   />
                 ))}
               </ul>

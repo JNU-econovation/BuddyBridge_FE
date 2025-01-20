@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import styles from "@/components/page-layout/certificationLayout/components/CertificationContent/CertificationContent.module.scss";
 import { ROUTE } from "@/constants/route";
+import Black_List from "@/icons/black_list.svg";
 import { formatDateString } from "@/utils";
 
 const cn = classNames.bind(styles);
@@ -19,6 +20,7 @@ export interface CertificationContentProps {
   checkId: number;
   postType: "TAKER" | "GIVER";
   setCheckId: (checkId: number) => void;
+  isBlackListed: boolean;
 }
 
 export default function CertificationContent({
@@ -31,6 +33,7 @@ export default function CertificationContent({
   checkId,
   postType,
   setCheckId,
+  isBlackListed,
 }: CertificationContentProps) {
   const handleCheckBoxClick = (e: React.MouseEvent<HTMLInputElement>): void => {
     e.stopPropagation();
@@ -47,7 +50,12 @@ export default function CertificationContent({
         <div className={cn("check")}>
           <input type="checkbox" checked={checkId === certificationId} onClick={handleCheckBoxClick} />
         </div>
-        <p className={cn("volunteer")}>{volunteerName}</p>
+        <div className={cn("volunteerBox")}>
+          <p className={cn("volunteerName")}>
+            {volunteerName}
+            {isBlackListed && <Black_List className={cn("blackList")} />}
+          </p>
+        </div>
         <p className={cn("volunteerPostInfo")}>
           {`${postType === "GIVER" ? "도와줄게요! " : "도와줄래요? "}${postId}`}번
         </p>

@@ -3,7 +3,7 @@
   border-radius: 0.6rem;
   padding: 0.3rem 0.8rem;
   border: 0.1rem solid #ff6767;
-  @include font(1.2rem, 500, normal);
+  @include nsnFont(1.2rem, 500, normal);
 
   &.RECRUITING {
     background-color: white;

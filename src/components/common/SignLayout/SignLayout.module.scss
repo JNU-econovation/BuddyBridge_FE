@@ -25,9 +25,9 @@
 }
 
 .logoContent {
-  @include font(3rem, 300, normal);
+  @include nsnFont(3rem, 300, normal);
 
   @include desktop {
-    @include font(4rem, 300, normal);
+    @include nsnFont(4rem, 300, normal);
   }
 }

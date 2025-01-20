@@ -66,6 +66,11 @@ export default function DropDown({ isNameClick }: DropDownProps) {
       <Link href={ROUTE.MY_PAGE} className={cn("myPage")}>
         마이페이지
       </Link>
+      {data.role === "ADMIN" && (
+        <Link href={ROUTE.ADMIN_DECLARATION} className={cn("adminPage")}>
+          관리자페이지
+        </Link>
+      )}
       <button onClick={handleLogoutClick} className={cn("logout")}>
         로그아웃
       </button>

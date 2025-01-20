@@ -35,7 +35,7 @@
   border: 0.1rem solid #e6e6ea;
   background: #e6e6ea;
   box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
-  @include font(1.5rem, 700, normal);
+  @include nsnFont(1.5rem, 700, normal);
   @include flexSort(null, center, center, null);
   width: 18rem;
   height: 4rem;
@@ -46,7 +46,7 @@
   border: 0.1rem solid #fff7de;
   background: #fff7de;
   box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
-  @include font(1.5rem, 700, normal);
+  @include nsnFont(1.5rem, 700, normal);
   @include flexSort(null, center, center, null);
   width: 17rem;
   height: 4rem;

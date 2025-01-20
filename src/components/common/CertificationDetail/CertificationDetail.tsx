@@ -50,6 +50,8 @@ export default function CertificationDetail({ volunteeringDetail }: Certificatio
     onError: (error: AxiosError<deleteCertificationErrorResponse>) => {
       if (error.response) {
         openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "알 수 없는 오류가 발생했습니다.");
       }
     },
   });
@@ -105,7 +107,7 @@ export default function CertificationDetail({ volunteeringDetail }: Certificatio
           <p className={cn("postTitle")}>3. 봉사한 게시글</p>
           <div className={cn("postDetailBox")}>
             <p className={cn("post")}>{volunteeringDetail.postType === "GIVER" ? "도와줄게요!" : "도와줄래요?"}</p>
-            <p className={cn("post")}>postType{volunteeringDetail.postId}</p>
+            <p className={cn("post")}>{volunteeringDetail.postId}</p>
           </div>
         </div>
         <div className={cn("volunteerDateBox")}>
@@ -122,7 +124,9 @@ export default function CertificationDetail({ volunteeringDetail }: Certificatio
         </div>
         <div className={cn("volunteerDetailContentBox")}>
           <p className={cn("volunteerContentTitle")}>6. 봉사 활동 내용 및 소감</p>
-          <textarea className={cn("volunteerContent")}>{volunteeringDetail.volunteerContent}</textarea>
+          <textarea readOnly className={cn("volunteerContent")}>
+            {volunteeringDetail.volunteerContent}
+          </textarea>
         </div>
         <div className={cn("btnContainer")}>
           <div className={cn("btnBox")}>

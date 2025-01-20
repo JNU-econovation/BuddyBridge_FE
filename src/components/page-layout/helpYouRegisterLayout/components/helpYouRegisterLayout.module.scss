@@ -196,7 +196,7 @@
 }
 
 .modalBtnContent {
-  @include font(1.5rem, 700, normal);
+  @include nsnFont(1.5rem, 700, normal);
   padding: 0.75rem 4.55rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #e6e6ea;

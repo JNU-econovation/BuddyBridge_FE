@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import styles from "@/components/page-layout/declarationLayout/components/DeclarationContent/DeclarationContent.module.scss";
 import { ROUTE } from "@/constants/route";
+import Black_List from "@/icons/black_list.svg";
 import { formatDateString } from "@/utils";
 
 const cn = classNames.bind(styles);
@@ -14,10 +15,15 @@ export interface DeclarationContentProps {
   reportContent: string;
   reportDate: Date;
   reportType: string;
-  reported: string;
-  reporter: string;
-  checkId: number;
-  setCheckId: (checkId: number) => void;
+  reportedName: string;
+  reporterName: string;
+  checkId: {
+    id: number;
+    reportedId: number;
+  };
+  setCheckId: (checkId: { id: number; reportedId: number }) => void;
+  isBlackListed: boolean;
+  reportedId: number;
 }
 
 export default function DeclarationContent({
@@ -26,17 +32,19 @@ export default function DeclarationContent({
   reportContent,
   reportDate,
   reportType,
-  reported,
-  reporter,
+  reportedName,
+  reporterName,
   checkId,
+  reportedId,
   setCheckId,
+  isBlackListed,
 }: DeclarationContentProps) {
   const handleCheckBoxClick = (e: React.MouseEvent<HTMLInputElement>): void => {
     e.stopPropagation();
-    if (checkId !== id) {
-      setCheckId(id as number);
+    if (checkId.id !== id) {
+      setCheckId({ id: id as number, reportedId });
     } else {
-      setCheckId(0);
+      setCheckId({ id: 0, reportedId: 0 });
     }
   };
 
@@ -59,15 +67,20 @@ export default function DeclarationContent({
         className={cn("container")}
       >
         <div className={cn("check")}>
-          <input type="checkbox" checked={checkId === id} onClick={handleCheckBoxClick} />
+          <input type="checkbox" checked={checkId.id === id} onClick={handleCheckBoxClick} />
         </div>
-        <p className={cn("reporter")}>{reported}</p>
+        <div className={cn("reportedBox")}>
+          <p className={cn("reported")}>
+            {reportedName}
+            {isBlackListed && <Black_List className={cn("blackList")} />}
+          </p>
+        </div>
         <p className={cn("postInfo")}>{postId}번</p>
         <p className={cn("declarationContent")}>{reportContent}</p>
         <div className={cn("declarationTypeBox")}>
           <p className={cn("declarationType")}>{reportType}</p>
         </div>
-        <p className={cn("declarationPeople")}>{reporter}</p>
+        <p className={cn("declarationPeople")}>{reporterName}</p>
         <p className={cn("declarationDate")}>{formatDateString(reportDate)}</p>
       </Link>
     </li>

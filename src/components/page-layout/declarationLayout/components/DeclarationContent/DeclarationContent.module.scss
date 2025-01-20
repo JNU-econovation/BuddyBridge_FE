@@ -8,10 +8,20 @@
   @include flexSort(null, center, center, null);
 }
 
-.reporter {
+.reportedBox {
   width: 10%;
   @include nsnFont(1.4rem, 700, normal);
   @include flexSort(null, center, center, null);
+}
+
+.reported {
+  position: relative;
+}
+
+.blackList {
+  position: absolute;
+  right: -0.7rem;
+  top: 0.1rem;
 }
 
 .postInfo {

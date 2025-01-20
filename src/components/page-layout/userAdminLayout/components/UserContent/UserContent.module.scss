@@ -9,9 +9,19 @@
   @include flexSort(null, center, center, null);
 }
 
-.name {
+.nameBox {
   width: 11%;
   @include flexSort(null, center, center, null);
+}
+
+.name {
+  position: relative;
+}
+
+.blackList {
+  position: absolute;
+  right: -0.7rem;
+  top: 0.1rem;
 }
 
 .nickname {

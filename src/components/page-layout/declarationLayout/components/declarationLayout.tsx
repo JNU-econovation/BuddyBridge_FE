@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 
 import { useRouter } from "next/router";
@@ -11,16 +12,21 @@ import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/declarationLayout/components/declarationLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 import Cancel from "@/icons/cancel.svg";
+import { ErrorResponse } from "@/types/error";
 
 import DeclarationContent, { DeclarationContentProps } from "./DeclarationContent/DeclarationContent";
 import deleteDeclaration from "../apis/deleteDeclaration";
 import getDeclaration from "../apis/getDeclaration";
+import postBlackList from "../apis/postBlackList";
 
 const cn = classNames.bind(styles);
 
 export default function DeclarationLayout() {
   const [type, setType] = useState<"all" | "posts" | "comments" | "matchings">("all");
-  const [checkId, setCheckId] = useState(0);
+  const [checkId, setCheckId] = useState({
+    id: 0,
+    reportedId: 0,
+  });
   const router = useRouter();
   const queryClient = useQueryClient();
   const params = new URLSearchParams(router.query as any);
@@ -39,10 +45,32 @@ export default function DeclarationLayout() {
       queryClient.invalidateQueries({ queryKey: ["declaration", type, currentPage > 0 ? currentPage : 1] });
       openToast("success", "삭제되었습니다.");
     },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response) {
+        openToast("error", error.response.data.error.message);
+      }
+    },
   });
 
-  const handleCommentDeleteClick = () => {
-    deleteDeclarationMutation.mutate(checkId);
+  const postBlackListMutation = useMutation({
+    mutationFn: (id: number) => postBlackList(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["declaration", type, currentPage > 0 ? currentPage : 1] });
+      openToast("success", "블랙리스트에 추가되었습니다.");
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response) {
+        openToast("error", error.response.data.error.message);
+      }
+    },
+  });
+
+  const handleDeleteClick = () => {
+    deleteDeclarationMutation.mutate(checkId.id);
+  };
+
+  const handleBlackListClick = () => {
+    postBlackListMutation.mutate(checkId.reportedId);
   };
 
   const setPage = (newPage: number) => {
@@ -93,10 +121,10 @@ export default function DeclarationLayout() {
                 </button>
               </div>
               <div className={cn("btnContainer")}>
-                <button onClick={handleCommentDeleteClick} className={cn("deleteBtn")}>
+                <button onClick={handleDeleteClick} className={cn("deleteBtn")}>
                   삭제하기
                 </button>
-                <button className={cn("blackListBtn")}>
+                <button onClick={handleBlackListClick} className={cn("blackListBtn")}>
                   블랙리스트
                   <Cancel />
                 </button>
@@ -121,10 +149,12 @@ export default function DeclarationLayout() {
                     reportContent={item.reportContent}
                     reportDate={item.reportDate}
                     reportType={item.reportType}
-                    reported={item.reported}
-                    reporter={item.reporter}
+                    reportedName={item.reportedName}
+                    reporterName={item.reporterName}
+                    reportedId={item.reportedId}
                     checkId={checkId}
                     setCheckId={setCheckId}
+                    isBlackListed={item.isBlackListed}
                   />
                 ))}
               </ul>
