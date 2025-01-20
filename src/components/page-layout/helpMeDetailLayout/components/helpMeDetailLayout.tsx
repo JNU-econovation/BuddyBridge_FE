@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
@@ -12,7 +12,7 @@ import CommentWrite from "@/components/common/commentWrite/commentWrite";
 import getLogIn from "@/components/common/Header/apis/getLogIn";
 import Loader from "@/components/common/Loader/Loader";
 import Modal from "@/components/common/Modal/Modal";
-import postLikes from "@/components/common/Post/apis/postLikes";
+import { PostDetailHeart, PostHeart } from "@/components/common/Post/PostHeart/PostHeart";
 import ReportForm from "@/components/common/ReportForm/ReportForm";
 import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/helpMeDetailLayout/components/helpMeDetailLayout.module.scss";
@@ -23,11 +23,9 @@ import { formatDateString } from "@/utils";
 import Arrow from "../../../../../public/icons/arrow_down.svg";
 import Calendar from "../../../../../public/icons/calendar.svg";
 import Clock from "../../../../../public/icons/clock.svg";
-import Heart from "../../../../../public/icons/heart.svg";
 import Kebab from "../../../../../public/icons/kebab.svg";
 import Location from "../../../../../public/icons/location.svg";
 import Person from "../../../../../public/icons/personnel.svg";
-import PinkHeart from "../../../../../public/icons/pink_heart.svg";
 import Siren from "../../../../../public/icons/siren.svg";
 import getAllComment from "../../helpYouDetailLayout/apis/getAllComment";
 import deletePost from "../apis/deletePost";
@@ -52,24 +50,12 @@ export default function HelpMeDetailLayout() {
   const router = useRouter();
   const { id: pageId } = router.query;
 
-  const { data, isPending } = useQuery({
-    queryKey: ["takerDetail", pageId],
-    queryFn: () => getTakerDetail(pageId as string),
-    enabled: !!pageId,
-  });
+  const [isReportOpen, setIsReportOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isKebabClick, setIsKebabClick] = useState(false);
+  const [isStateClick, setIsStateClick] = useState(false);
 
-  if (isPending) {
-    return;
-  } else return <Main data={data} />;
-}
-
-function Main(data: any) {
-  const router = useRouter();
-
-  const { id: pageId } = router.query;
-  const queryClient = useQueryClient();
-
-  const { data: userData, isError: userIsError } = useQuery({
+  const { data: userData } = useQuery({
     queryKey: ["userLogIn"],
     queryFn: () => getLogIn(),
   });
@@ -88,10 +74,19 @@ function Main(data: any) {
     enabled: !!pageId,
   });
 
+  const {
+    data: postDetailData,
+    isPending,
+    isError,
+  } = useQuery({
+    queryKey: ["takerPostDetail", `${pageId}`],
+    queryFn: () => getTakerDetail(`${pageId}`),
+    enabled: !!pageId,
+  });
+
   const deletePostMutation = useMutation({
     mutationFn: (id: number) => deletePost(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["takerDetail", pageId] });
       router.push(ROUTE.HELP_ME);
       openToast("success", "성공적으로 삭제되었습니다.");
     },
@@ -105,28 +100,17 @@ function Main(data: any) {
     deletePostMutation.mutate(id);
   };
 
-  const { mutate } = useMutation({
-    mutationFn: () => postLikes(id),
-  });
+  if (isPending) return <>...로딩</>;
 
-  const handleHeartClick = () => {
-    setIsHeartClick((prev: boolean) => !prev);
-    mutate();
-  };
+  if (isError) return <>에러</>;
 
-  const { nickname, memberId, disabilityType, gender, profileImageUrl, age } = data.data.author;
+  const { nickname, disabilityType, gender, profileImageUrl, age } = postDetailData.author;
 
-  const { district, id, title, content, createdAt, isLiked, assistance, schedule } = data.data.post;
+  const { district, id, title, content, createdAt, isLiked, assistance, schedule } = postDetailData.post;
 
   const { assistanceType, assistanceStartTime, assistanceEndTime } = assistance;
 
   const { scheduleType, startDate, endDate, scheduleDetails } = schedule;
-
-  const [isReportOpen, setIsReportOpen] = useState(false);
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [isHeartClick, setIsHeartClick] = useState(false);
-  const [isKebabClick, setIsKebabClick] = useState(false);
-  const [isStateClick, setIsStateClick] = useState(false);
 
   const handleKebabClick = () => {
     setIsKebabClick((prev) => !prev);
@@ -137,10 +121,6 @@ function Main(data: any) {
   const handleSirenClick = () => {
     setIsReportOpen(true);
   };
-
-  useEffect(() => {
-    setIsHeartClick(isLiked);
-  }, [data, isLiked]);
 
   const commentMemIds: Array<number> =
     commentData?.pages.flatMap((page) => page.content.map((comment: CommentProps) => comment.author.memberId)) || [];
@@ -154,12 +134,13 @@ function Main(data: any) {
         </header>
         <div className={cn("totalContainer")}>
           <div className={cn("btnMenu")}>
-            {isHeartClick ? (
-              <PinkHeart onClick={handleHeartClick} width={35} height={35} className={cn("likeBtn")} />
-            ) : (
-              <Heart onClick={handleHeartClick} width={37} height={37} className={cn("likeBtn")} />
-            )}
-            {userData?.memberId === data.data.author.memberId ? (
+            <PostDetailHeart
+              style={cn("heart")}
+              id={id}
+              isLiked={isLiked}
+              queryKey={["takerPostDetail", `${pageId}`]}
+            />
+            {userData?.memberId === postDetailData.author.memberId ? (
               <Kebab onClick={handleKebabClick} width={35} height={35} className={cn("kebabBtn")} />
             ) : (
               <div onClick={handleSirenClick} className={cn("sirenBtn")}>
@@ -169,12 +150,22 @@ function Main(data: any) {
             )}
             {isKebabClick && (
               <div className={cn("btnBox")}>
+                <button onClick={handleStateBtnClick} className={cn("stateBtn")}>
+                  상태변경
+                  <Arrow width={18} height={18} />
+                </button>
                 <Link href={{ pathname: ROUTE.HELP_ME_EDIT, query: { id: id } }} className={cn("editBtn")}>
                   수정하기
                 </Link>
                 <button onClick={handleDeleteButtonClick} className={cn("deleteBtn")}>
                   삭제하기
                 </button>
+              </div>
+            )}
+            {isKebabClick && isStateClick && (
+              <div className={cn("btnBox", "btnBox--state")}>
+                <button>모집중</button>
+                <button>모집완료</button>
               </div>
             )}
           </div>
@@ -232,8 +223,8 @@ function Main(data: any) {
               <p className={cn("contentDetailLabel")}>상세 내용</p>
               <div className={cn("contentDetailBox")}>{content}</div>
             </div>
+            <p className={cn("createdAt")}>작성일자: {formatDateString(createdAt)}</p>
           </div>
-          <p className={cn("createdAt")}>작성일자: {formatDateString(createdAt)}</p>
         </div>
         {userData && (
           <>
@@ -242,7 +233,7 @@ function Main(data: any) {
                 page.content.map((comment: CommentProps) => (
                   <Comment
                     type="taker"
-                    authorId={data.data.author.memberId}
+                    authorId={postDetailData.author.memberId}
                     postId={id}
                     comment={comment}
                     commentId={comment.commentId}
