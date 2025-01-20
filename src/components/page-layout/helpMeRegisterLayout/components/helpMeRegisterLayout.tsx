@@ -65,6 +65,18 @@ const registerSchema = z
       message: "시작 기간은 마무리 기간을 초과할 수 없습니다.",
       path: ["startDate"],
     },
+  )
+  .refine(
+    (data) => {
+      const { assistanceStartTime, assistanceEndTime } = data;
+      const startTime = new Date(`1970-01-01T${assistanceStartTime}:00`);
+      const endTime = new Date(`1970-01-01T${assistanceEndTime}:00`);
+      return startTime <= endTime;
+    },
+    {
+      message: "시작 시간은 끝나는 시간보다 늦을 수 없습니다.",
+      path: ["assistanceStartTime"],
+    },
   );
 
 export default function HelpMeRegisterLayout() {
