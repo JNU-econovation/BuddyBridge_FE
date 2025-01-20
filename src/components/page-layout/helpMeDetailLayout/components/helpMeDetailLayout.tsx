@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames/bind";
@@ -12,7 +12,7 @@ import CommentWrite from "@/components/common/commentWrite/commentWrite";
 import getLogIn from "@/components/common/Header/apis/getLogIn";
 import Loader from "@/components/common/Loader/Loader";
 import Modal from "@/components/common/Modal/Modal";
-import { PostDetailHeart, PostHeart } from "@/components/common/Post/PostHeart/PostHeart";
+import postLikes from "@/components/common/Post/apis/postLikes";
 import ReportForm from "@/components/common/ReportForm/ReportForm";
 import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/helpMeDetailLayout/components/helpMeDetailLayout.module.scss";
@@ -23,9 +23,11 @@ import { formatDateString } from "@/utils";
 import Arrow from "../../../../../public/icons/arrow_down.svg";
 import Calendar from "../../../../../public/icons/calendar.svg";
 import Clock from "../../../../../public/icons/clock.svg";
+import Heart from "../../../../../public/icons/heart.svg";
 import Kebab from "../../../../../public/icons/kebab.svg";
 import Location from "../../../../../public/icons/location.svg";
 import Person from "../../../../../public/icons/personnel.svg";
+import PinkHeart from "../../../../../public/icons/pink_heart.svg";
 import Siren from "../../../../../public/icons/siren.svg";
 import getAllComment from "../../helpYouDetailLayout/apis/getAllComment";
 import deletePost from "../apis/deletePost";
@@ -50,12 +52,24 @@ export default function HelpMeDetailLayout() {
   const router = useRouter();
   const { id: pageId } = router.query;
 
-  const [isReportOpen, setIsReportOpen] = useState(false);
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [isKebabClick, setIsKebabClick] = useState(false);
-  const [isStateClick, setIsStateClick] = useState(false);
+  const { data, isPending } = useQuery({
+    queryKey: ["takerDetail", pageId],
+    queryFn: () => getTakerDetail(pageId as string),
+    enabled: !!pageId,
+  });
 
-  const { data: userData } = useQuery({
+  if (isPending) {
+    return;
+  } else return <Main data={data} />;
+}
+
+function Main(data: any) {
+  const router = useRouter();
+
+  const { id: pageId } = router.query;
+  const queryClient = useQueryClient();
+
+  const { data: userData, isError: userIsError } = useQuery({
     queryKey: ["userLogIn"],
     queryFn: () => getLogIn(),
   });
@@ -74,19 +88,10 @@ export default function HelpMeDetailLayout() {
     enabled: !!pageId,
   });
 
-  const {
-    data: postDetailData,
-    isPending,
-    isError,
-  } = useQuery({
-    queryKey: ["takerPostDetail", `${pageId}`],
-    queryFn: () => getTakerDetail(`${pageId}`),
-    enabled: !!pageId,
-  });
-
   const deletePostMutation = useMutation({
     mutationFn: (id: number) => deletePost(id),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["takerDetail", pageId] });
       router.push(ROUTE.HELP_ME);
       openToast("success", "성공적으로 삭제되었습니다.");
     },
@@ -100,17 +105,28 @@ export default function HelpMeDetailLayout() {
     deletePostMutation.mutate(id);
   };
 
-  if (isPending) return <>...로딩</>;
+  const { mutate } = useMutation({
+    mutationFn: () => postLikes(id),
+  });
 
-  if (isError) return <>에러</>;
+  const handleHeartClick = () => {
+    setIsHeartClick((prev: boolean) => !prev);
+    mutate();
+  };
 
-  const { nickname, disabilityType, gender, profileImageUrl, age } = postDetailData.author;
+  const { nickname, memberId, disabilityType, gender, profileImageUrl, age } = data.data.author;
 
-  const { district, id, title, content, createdAt, isLiked, assistance, schedule } = postDetailData.post;
+  const { district, id, title, content, createdAt, isLiked, assistance, schedule } = data.data.post;
 
   const { assistanceType, assistanceStartTime, assistanceEndTime } = assistance;
 
   const { scheduleType, startDate, endDate, scheduleDetails } = schedule;
+
+  const [isReportOpen, setIsReportOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isHeartClick, setIsHeartClick] = useState(false);
+  const [isKebabClick, setIsKebabClick] = useState(false);
+  const [isStateClick, setIsStateClick] = useState(false);
 
   const handleKebabClick = () => {
     setIsKebabClick((prev) => !prev);
@@ -121,6 +137,10 @@ export default function HelpMeDetailLayout() {
   const handleSirenClick = () => {
     setIsReportOpen(true);
   };
+
+  useEffect(() => {
+    setIsHeartClick(isLiked);
+  }, [data, isLiked]);
 
   const commentMemIds: Array<number> =
     commentData?.pages.flatMap((page) => page.content.map((comment: CommentProps) => comment.author.memberId)) || [];
@@ -134,13 +154,12 @@ export default function HelpMeDetailLayout() {
         </header>
         <div className={cn("totalContainer")}>
           <div className={cn("btnMenu")}>
-            <PostDetailHeart
-              style={cn("heart")}
-              id={id}
-              isLiked={isLiked}
-              queryKey={["takerPostDetail", `${pageId}`]}
-            />
-            {userData?.memberId === postDetailData.author.memberId ? (
+            {isHeartClick ? (
+              <PinkHeart onClick={handleHeartClick} width={35} height={35} className={cn("likeBtn")} />
+            ) : (
+              <Heart onClick={handleHeartClick} width={37} height={37} className={cn("likeBtn")} />
+            )}
+            {userData?.memberId === data.data.author.memberId ? (
               <Kebab onClick={handleKebabClick} width={35} height={35} className={cn("kebabBtn")} />
             ) : (
               <div onClick={handleSirenClick} className={cn("sirenBtn")}>
@@ -223,7 +242,7 @@ export default function HelpMeDetailLayout() {
                 page.content.map((comment: CommentProps) => (
                   <Comment
                     type="taker"
-                    authorId={postDetailData.author.memberId}
+                    authorId={data.data.author.memberId}
                     postId={id}
                     comment={comment}
                     commentId={comment.commentId}

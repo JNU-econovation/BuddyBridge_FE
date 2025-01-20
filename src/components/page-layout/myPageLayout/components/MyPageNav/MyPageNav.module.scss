@@ -1,6 +1,7 @@
 .container {
   position: relative;
   width: 60vw;
+  max-width: 100rem;
   margin: auto;
   padding: 2rem 3.2rem;
   @include flexSort(null, center, null, 2rem);

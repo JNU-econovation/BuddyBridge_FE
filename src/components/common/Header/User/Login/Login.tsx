@@ -51,51 +51,51 @@ export default function Login({ name }: LoginProps) {
     router.push(ROUTE.CHAT);
   };
 
-  useEffect(() => {
-    if (!accessToken) return;
+  // useEffect(() => {
+  //   if (!accessToken) return;
 
-    let eventSource: EventSourcePolyfill;
+  //   let eventSource: EventSourcePolyfill;
 
-    const connectSSE = () => {
-      eventSource = new EventSourcePolyfill(`${process.env.NEXT_PUBLIC_BASE_URL}api/sse/connect`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        heartbeatTimeout: 60 * 60 * 1000,
-      });
+  //   const connectSSE = () => {
+  //     eventSource = new EventSourcePolyfill(`${process.env.NEXT_PUBLIC_BASE_URL}api/sse/connect`, {
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //       heartbeatTimeout: 60 * 60 * 1000,
+  //     });
 
-      eventSource.addEventListener("notification", (event) => {
-        const newNotification = (event as any).data;
+  //     eventSource.addEventListener("notification", (event) => {
+  //       const newNotification = (event as any).data;
 
-        let parsedData;
+  //       let parsedData;
 
-        try {
-          parsedData = JSON.parse(newNotification);
-        } catch (error) {
-          return;
-        }
+  //       try {
+  //         parsedData = JSON.parse(newNotification);
+  //       } catch (error) {
+  //         return;
+  //       }
 
-        setNotifications(parsedData);
-      });
+  //       setNotifications(parsedData);
+  //     });
 
-      eventSource.onopen = () => {
-        console.log("SSE 연결 성공");
-      };
+  //     eventSource.onopen = () => {
+  //       console.log("SSE 연결 성공");
+  //     };
 
-      eventSource.onerror = (error) => {
-        console.error("SSE error:", error);
-        eventSource.close();
+  //     eventSource.onerror = (error) => {
+  //       console.error("SSE error:", error);
+  //       eventSource.close();
 
-        connectSSE();
-      };
-    };
+  //       connectSSE();
+  //     };
+  //   };
 
-    connectSSE();
+  //   connectSSE();
 
-    return () => {
-      eventSource.close();
-    };
-  }, [accessToken]);
+  //   return () => {
+  //     eventSource.close();
+  //   };
+  // }, [accessToken]);
 
   const { totalUnreadCount } = useNotification(notifications as alarmType, "", "");
 
