@@ -13,13 +13,13 @@ export default async function getAllChatList(limit: number, cursor: number, matc
 
   if (matchingState == "PENDING" && cursor !== 0) {
     const { data } = await axiosInstance.get(
-      `chat/matchings?limit=${limit}&cursor=${cursor}&matching-status=${matchingState}`,
+      `chat/matchings?limit=${limit}&cursor=${cursor}&matching-status=["PENDING"]`,
     );
     return data.data;
   }
 
   if (matchingState == "PENDING" && cursor === 0) {
-    const { data } = await axiosInstance.get(`chat/matchings?limit=${limit}&matching-status=${matchingState}`);
+    const { data } = await axiosInstance.get(`chat/matchings?limit=${limit}&matching-status=["PENDING"]`);
     return data.data;
   }
 
