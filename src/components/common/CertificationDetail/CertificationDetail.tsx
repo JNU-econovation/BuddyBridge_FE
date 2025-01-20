@@ -122,7 +122,9 @@ export default function CertificationDetail({ volunteeringDetail }: Certificatio
         </div>
         <div className={cn("volunteerDetailContentBox")}>
           <p className={cn("volunteerContentTitle")}>6. 봉사 활동 내용 및 소감</p>
-          <textarea className={cn("volunteerContent")}>{volunteeringDetail.volunteerContent}</textarea>
+          <textarea readOnly className={cn("volunteerContent")}>
+            {volunteeringDetail.volunteerContent}
+          </textarea>
         </div>
         <div className={cn("btnContainer")}>
           <div className={cn("btnBox")}>
