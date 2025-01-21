@@ -5,8 +5,10 @@ import { EventSourcePolyfill } from "event-source-polyfill";
 
 import { useRouter } from "next/router";
 
+import { getNewAccessToken } from "@/apis/getNewAccessToken";
 import useDetectClose from "@/components/common/DropDown/hooks/useDetectClose";
 import styles from "@/components/common/Header/User/Login/Login.module.scss";
+import openToast from "@/components/common/Toast/features/openToast";
 import { ROUTE } from "@/constants/route";
 import Alarm from "@/icons/alarm.svg";
 import ArrowDown from "@/icons/arrow_down.svg";
@@ -51,51 +53,62 @@ export default function Login({ name }: LoginProps) {
     router.push(ROUTE.CHAT);
   };
 
-  // useEffect(() => {
-  //   if (!accessToken) return;
+  useEffect(() => {
+    if (!accessToken) return;
 
-  //   let eventSource: EventSourcePolyfill;
+    let eventSource: EventSourcePolyfill;
 
-  //   const connectSSE = () => {
-  //     eventSource = new EventSourcePolyfill(`${process.env.NEXT_PUBLIC_BASE_URL}api/sse/connect`, {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //       heartbeatTimeout: 60 * 60 * 1000,
-  //     });
+    const connectSSE = () => {
+      const token = localStorage.getItem("accessToken");
 
-  //     eventSource.addEventListener("notification", (event) => {
-  //       const newNotification = (event as any).data;
+      eventSource = new EventSourcePolyfill(`${process.env.NEXT_PUBLIC_BASE_URL}api/sse/connect`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        heartbeatTimeout: 60 * 60 * 1000,
+      });
 
-  //       let parsedData;
+      eventSource.addEventListener("notification", (event) => {
+        const newNotification = (event as any).data;
 
-  //       try {
-  //         parsedData = JSON.parse(newNotification);
-  //       } catch (error) {
-  //         return;
-  //       }
+        let parsedData;
 
-  //       setNotifications(parsedData);
-  //     });
+        try {
+          parsedData = JSON.parse(newNotification);
+        } catch (error) {
+          return;
+        }
 
-  //     eventSource.onopen = () => {
-  //       console.log("SSE 연결 성공");
-  //     };
+        setNotifications(parsedData);
+      });
 
-  //     eventSource.onerror = (error) => {
-  //       console.error("SSE error:", error);
-  //       eventSource.close();
+      eventSource.onopen = () => {
+        console.log("SSE 연결 성공");
+      };
 
-  //       connectSSE();
-  //     };
-  //   };
+      eventSource.onerror = async (error) => {
+        eventSource.close();
 
-  //   connectSSE();
+        if ((error as any).status === 401) {
+          try {
+            await getNewAccessToken();
+            connectSSE();
+          } catch (error) {
+            openToast("error", "로그인 기간이 만료되었습니다. 다시 로그인해주세요.");
+            router.push(ROUTE.LOGIN);
+          }
+        } else {
+          connectSSE();
+        }
+      };
+    };
 
-  //   return () => {
-  //     eventSource.close();
-  //   };
-  // }, [accessToken]);
+    connectSSE();
+
+    return () => {
+      eventSource.close();
+    };
+  }, [router, accessToken]);
 
   const { totalUnreadCount } = useNotification(notifications as alarmType, "", "");
 

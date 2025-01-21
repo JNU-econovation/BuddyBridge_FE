@@ -8,8 +8,8 @@ import ChatListHeader from "../ChatList/ChatListHeader/ChatListHeader";
 const cn = classNames.bind(styles);
 
 interface ChatListProps {
-  matchingState: string;
-  setMatchingState: (matchingState: string) => void;
+  matchingState: "ALL" | "PENDING" | "DONE";
+  setMatchingState: (matchingState: "ALL" | "PENDING" | "DONE") => void;
 }
 
 export default function ChatList({ matchingState, setMatchingState }: ChatListProps) {

@@ -26,7 +26,14 @@
   input[type="radio"]:checked + label {
     @include flexSort(null, center, center, null);
     color: $white;
-    background: #d2d8fc;
+
+    &.taker {
+      background-color: $taker;
+    }
+
+    &.giver {
+      background-color: $giver;
+    }
   }
 }
 

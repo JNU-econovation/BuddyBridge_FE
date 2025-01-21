@@ -16,7 +16,7 @@ interface ChatProps {
   img: string;
   id: number;
   postId: number;
-  chattingRoomType: "DONE" | "PENDING";
+  chattingRoomType: "ALL" | "PENDING" | "DONE";
   unreadMessagesCount: number;
 }
 
