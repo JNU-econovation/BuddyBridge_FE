@@ -146,13 +146,11 @@ export default function FinishedPost({
                 <Arrow className={cn("arrowIcon")} />
               </button>
             )}
-            {canRequest ? (
+            {canRequest && (
               <button onClick={handleClickRequestBtn} className={cn("activeRequestBtn")}>
                 도움완료 요청하기
                 <Arrow className={cn("arrowIcon")} />
               </button>
-            ) : (
-              matchingStatus === "DONE" && <button className={cn("inactiveRequestBtn")}>도움완료 요청하기</button>
             )}
           </>
         )}
@@ -186,6 +184,7 @@ export default function FinishedPost({
           email={email}
           name={name}
           matchingId={matchingId}
+          matchingStatus={matchingStatus}
         />
       )}
     </>

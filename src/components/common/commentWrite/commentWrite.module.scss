@@ -51,7 +51,7 @@
   width: 95%;
   @include nsnFont(2rem, 400, normal);
   padding: 0 2rem;
-  height: 10rem;
+  min-height: max-content;
   border: none;
   outline: none;
 }

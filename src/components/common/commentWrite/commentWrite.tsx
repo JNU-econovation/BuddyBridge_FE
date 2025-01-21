@@ -1,4 +1,4 @@
-import { KeyboardEvent } from "react";
+import { KeyboardEvent, useRef } from "react";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
@@ -49,6 +49,15 @@ export default function CommentWrite({ user, id, commentMemIds, gender, type }: 
   const { register, handleSubmit, reset } = useForm<Comment>();
   const queryClient = useQueryClient();
 
+  const textarea = useRef<HTMLTextAreaElement>(null);
+
+  const handleResizeHeight = () => {
+    if (textarea.current) {
+      textarea.current.style.height = "auto";
+      textarea.current.style.height = `${textarea.current.scrollHeight}px`;
+    }
+  };
+
   const uploadCommentMutation = useMutation({
     mutationFn: ({ id, content }: CommentData) => postComment(id, content),
     onSuccess: () => {
@@ -94,7 +103,9 @@ export default function CommentWrite({ user, id, commentMemIds, gender, type }: 
           {...register("content", { required: "내용을 입력하세요." })}
           placeholder="내용을 작성하세요."
           className={cn("textarea")}
+          ref={textarea}
           onKeyDown={handleKeyDown}
+          onChange={handleResizeHeight}
         ></textarea>
         <button>
           <Register className={cn("register", { helpMeRegister: type === "taker" })} />
