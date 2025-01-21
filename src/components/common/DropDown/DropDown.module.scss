@@ -28,9 +28,8 @@
 .dropDownContainer {
   background-color: $white;
   position: absolute;
-  width: 60%;
+  width: 100%;
   left: 50%;
-  top: 6rem;
   z-index: 1080;
   border: 0.1rem solid $gray;
   overflow-y: auto;

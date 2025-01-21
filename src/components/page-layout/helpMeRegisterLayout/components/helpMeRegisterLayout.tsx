@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
-import { ko } from "date-fns/locale";
+import { fi, ko } from "date-fns/locale";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 
 import Button from "@/components/common/Button/Button";
 import CustomDatePicker from "@/components/common/DatePicker/DatePicker";
-import { ASSISTANCE, DISABILITY, PLACE } from "@/components/common/DropDown/constants";
+import { ASSISTANCE, PLACE } from "@/components/common/DropDown/constants";
 import Dropdown from "@/components/common/DropDown/DropDown";
 import Input from "@/components/common/Input/Input";
 import Label from "@/components/common/Label/Label";
@@ -31,28 +31,53 @@ import { helpMeFormData } from "../types";
 
 const cn = classNames.bind(styles);
 
-const registerSchema = z.object({
-  title: z.string().min(1, "제목 최소 1자 이상이어야 합니다."),
-  startDate: z
-    .date()
-    .optional()
-    .refine((date) => date !== undefined, {
-      message: "시작 기간을 선택해주세요",
-    }),
-  endDate: z
-    .date()
-    .optional()
-    .refine((date) => date !== undefined, {
-      message: "마무리 기간을 선택해주세요",
-    }),
-  assistanceStartTime: z.string().min(1, "시작 시간을 선택해주세요."),
-  assistanceEndTime: z.string().min(1, "끝나는 시간을 선택해주세요."),
-  scheduleType: z.string().min(1, "주기를 선택해주세요."),
-  scheduleDetails: z.string().min(1, "상세 주기를 입력해주세요."),
-  district: z.string().min(1, "장소를 선택해주세요."),
-  assistanceType: z.string().min(1, "도움 유형을 선택해주세요."),
-  content: z.string().min(1, "상세 내용을 입력해주세요."),
-});
+const registerSchema = z
+  .object({
+    title: z.string().min(1, "제목 최소 1자 이상이어야 합니다."),
+    startDate: z
+      .date()
+      .optional()
+      .refine((date) => date !== undefined, {
+        message: "시작 기간을 선택해주세요",
+      }),
+    endDate: z
+      .date()
+      .optional()
+      .refine((date) => date !== undefined, {
+        message: "마무리 기간을 선택해주세요",
+      }),
+    assistanceStartTime: z.string().min(1, "시작 시간을 선택해주세요."),
+    assistanceEndTime: z.string().min(1, "끝나는 시간을 선택해주세요."),
+    scheduleType: z.string().min(1, "주기를 선택해주세요."),
+    scheduleDetails: z.string().min(1, "상세 주기를 입력해주세요."),
+    district: z.string().min(1, "장소를 선택해주세요."),
+    assistanceType: z.string().min(1, "도움 유형을 선택해주세요."),
+    content: z.string().min(1, "상세 내용을 입력해주세요."),
+  })
+  .refine(
+    (data) => {
+      if (data.startDate && data.endDate) {
+        return data.startDate <= data.endDate;
+      }
+      return true;
+    },
+    {
+      message: "시작 기간은 마무리 기간을 초과할 수 없습니다.",
+      path: ["startDate"],
+    },
+  )
+  .refine(
+    (data) => {
+      const { assistanceStartTime, assistanceEndTime } = data;
+      const startTime = new Date(`1970-01-01T${assistanceStartTime}:00`);
+      const endTime = new Date(`1970-01-01T${assistanceEndTime}:00`);
+      return startTime <= endTime;
+    },
+    {
+      message: "시작 시간은 끝나는 시간보다 늦을 수 없습니다.",
+      path: ["assistanceStartTime"],
+    },
+  );
 
 export default function HelpMeRegisterLayout() {
   const router = useRouter();
@@ -70,6 +95,7 @@ export default function HelpMeRegisterLayout() {
     handleSubmit,
     setValue,
     control,
+    setFocus,
     formState: { errors, isValid },
   } = useForm<helpMeFormData>({ resolver: zodResolver(registerSchema), mode: "onChange" });
 
@@ -103,6 +129,16 @@ export default function HelpMeRegisterLayout() {
     setContent(content);
   };
 
+  const onSubmit = handleSubmit(
+    (data) => handleHelpMetUpload(data),
+    () => {
+      const firstError = Object.keys(errors)[0];
+      if (firstError) {
+        openToast("error", "폼의 에러 메시지를 확인해주세요.");
+      }
+    },
+  );
+
   useEffect(() => {
     if (myInfoData?.disabilityType === "없음" && !isMountedRef.current) {
       isMountedRef.current = true;
@@ -125,7 +161,7 @@ export default function HelpMeRegisterLayout() {
         <div className={cn("box")}>
           <p className={cn("title")}>도와줄래요? 게시글 작성</p>
           <MyInfoCard />
-          <form className={cn("form")} onSubmit={handleSubmit(handleHelpMetUpload)}>
+          <form className={cn("form")} onSubmit={onSubmit}>
             <div className={cn("formContentBox")}>
               <div className={cn("titleContainer")}>
                 <Label className={cn("label")} htmlFor="title">
@@ -155,7 +191,12 @@ export default function HelpMeRegisterLayout() {
                         <CustomDatePicker
                           locale={ko}
                           selected={field.value}
-                          onChange={field.onChange}
+                          onChange={(date: Date) => {
+                            if (date) {
+                              const adjustedDate = new Date(date.setHours(12, 0, 0, 0));
+                              field.onChange(adjustedDate);
+                            }
+                          }}
                           dateFormat="yyyy.MM.dd"
                           customInputRef={field.ref}
                           placeholder="0000.00.00"
@@ -176,7 +217,12 @@ export default function HelpMeRegisterLayout() {
                         <CustomDatePicker
                           locale={ko}
                           selected={field.value}
-                          onChange={field.onChange}
+                          onChange={(date: Date) => {
+                            if (date) {
+                              const adjustedDate = new Date(date.setHours(12, 0, 0, 0));
+                              field.onChange(adjustedDate);
+                            }
+                          }}
                           dateFormat="yyyy.MM.dd"
                           customInputRef={field.ref}
                           placeholder="0000.00.00"

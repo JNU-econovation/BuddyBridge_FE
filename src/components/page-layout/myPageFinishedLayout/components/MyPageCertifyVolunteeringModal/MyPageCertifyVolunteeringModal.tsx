@@ -35,6 +35,7 @@ interface CertifyVolunteeringModalProps {
   email: string;
   name: string;
   matchingId: number;
+  matchingStatus: string;
 }
 
 interface FormData {
@@ -55,7 +56,7 @@ const volunteerSchema = z.object({
   startTime: z.string().min(1, "시작 시간을 선택해주세요."),
   endTime: z.string().min(1, "끝나는 시간을 선택해주세요."),
   assistanceType: z.string().min(1, "도움 유형을 선택해주세요."),
-  content: z.string().min(200, "200자 이상을 입력해주세요."),
+  content: z.string().min(200, "200자 이상을 입력해주세요.").max(1000, "1000자 이하로 입력해주세요."),
 });
 
 export default function CertifyVolunteeringModal({
@@ -65,8 +66,10 @@ export default function CertifyVolunteeringModal({
   email,
   name,
   matchingId,
+  matchingStatus,
 }: CertifyVolunteeringModalProps) {
   const queryClient = useQueryClient();
+  const isNewCertification = matchingStatus === "VOLUNTEERING_VERIFIED";
 
   const {
     data: prevCertification,
@@ -75,7 +78,7 @@ export default function CertifyVolunteeringModal({
   } = useQuery({
     queryKey: ["prevCertification", matchingId],
     queryFn: () => getPrevCertification(matchingId),
-    enabled: !!matchingId,
+    enabled: !!matchingId && isNewCertification
   });
 
   const { data, isError, isPending } = useQuery({
@@ -102,7 +105,7 @@ export default function CertifyVolunteeringModal({
       }
     },
   });
-  
+
   const {
     register,
     handleSubmit,
@@ -139,10 +142,9 @@ export default function CertifyVolunteeringModal({
     return <>에러</>;
   }
 
-  if (isPrevCertificationPending) {
+  if (isNewCertification && isPrevCertificationPending) {
     return <>...로딩중</>;
   }
-
 
   return (
     <Modal className={cn("modal")} setState={setState}>

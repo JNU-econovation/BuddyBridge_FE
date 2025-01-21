@@ -51,7 +51,6 @@ interface CommentProps {
 
 export default function HelpYouDetailLayout() {
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   const { id: pageId } = router.query;
 
@@ -121,9 +120,7 @@ export default function HelpYouDetailLayout() {
   const handleKebabClick = () => {
     setIsKebabClick((prev) => !prev);
   };
-  const handleStateBtnClick = () => {
-    setIsStateClick((prev) => !prev);
-  };
+
   const handleSirenClick = () => {
     setIsReportOpen(true);
   };
@@ -166,8 +163,10 @@ export default function HelpYouDetailLayout() {
             )}
           </div>
           <div className={cn("titleBox")}>
+            <div className={cn("postIdBox")}>
+              <span className={cn("postId")}>{id}번 글</span>
+            </div>
             <p className={cn("title")}>{title}</p>
-            <span className={cn("postId")}>{id}번 글</span>
           </div>
           <div className={cn("contentBox")}>
             <div className={cn("infoCard")}>

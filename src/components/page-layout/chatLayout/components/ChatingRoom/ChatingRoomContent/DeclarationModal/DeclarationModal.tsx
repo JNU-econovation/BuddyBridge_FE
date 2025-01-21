@@ -42,10 +42,24 @@ interface ErrorType {
   };
 }
 
-const declarationSchema = z.object({
-  reportType: z.string().min(1, "신고할 유형을 선택해 주세요."),
-  reportReason: z.string().min(1, "신고할 내용을 입력해 주세요."),
-});
+const declarationSchema = z
+  .object({
+    reportType: z.string().min(1, "신고할 유형을 선택해 주세요."),
+    reportReason: z.string(),
+  })
+  .refine(
+    (data) => {
+      if (data.reportType !== "기타") {
+        return true;
+      }
+
+      return data.reportReason.length >= 1;
+    },
+    {
+      message: "기타 신고의 경우 신고 내용을 입력해 주세요.",
+      path: ["reportReason"],
+    },
+  );
 
 export default function DeclarationModal({ setState, postId, postType, name, chattingRoomId }: DeclarationModalProps) {
   const {

@@ -81,10 +81,10 @@ export default function CertifyVolunteeringModal({ setState, matchingId }: Certi
         <div className={cn("thoughtsContainer")}>
           <p className={cn("thoughtsTitle")}>6. 봉사 활동 내용 및 소감 </p>
           <header className={cn("thoughtsHeader")}>
-            봉사 활동 내용 및 소감을 자유롭게 작성해 주세요. (150자 이상)
+            봉사 활동 내용 및 소감을 자유롭게 작성해 주세요. (200자 이상)
           </header>
           <textarea readOnly className={cn("thoughtsContentBox")}>
-            {data.volunteerContent}
+            {data.content}
           </textarea>
         </div>
       </div>

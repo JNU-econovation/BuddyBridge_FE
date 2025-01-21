@@ -50,8 +50,7 @@
 .takerVC,
 .giverVCBtn,
 .giverVVBtn,
-.activeRequestBtn, 
-.inactiveRequestBtn {
+.activeRequestBtn {
     @include flexSort(null, null, center, 0.5rem);
     @include nsnFont(1.1rem, 600, normal);
     padding: 0.7rem 1.3rem;
@@ -97,10 +96,4 @@
 .activeRequestBtn {
   background-color: #F5DE2F;
   border: 0.15rem solid #F5DE2F;
-}
-
-.inactiveRequestBtn {
-  background-color: white;
-  color: #676363;
-  border: 0.15rem solid #676363;
 }

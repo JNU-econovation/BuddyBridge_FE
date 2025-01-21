@@ -6,8 +6,8 @@ import { MATCHING_STATE } from "@/components/page-layout/chatLayout/constants/in
 const cn = classNames.bind(styles);
 
 interface ChatListProps {
-  matchingState: string;
-  setMatchingState: (matchingState: string) => void;
+  matchingState: "ALL" | "PENDING" | "DONE";
+  setMatchingState: (matchingState: "ALL" | "PENDING" | "DONE") => void;
 }
 
 export default function ChatListHeader({ matchingState, setMatchingState }: ChatListProps) {
@@ -18,7 +18,7 @@ export default function ChatListHeader({ matchingState, setMatchingState }: Chat
           <button
             className={cn({ selected: matchingState === state.engState })}
             key={state.state}
-            onClick={() => setMatchingState(state.engState)}
+            onClick={() => setMatchingState(state.engState as "ALL" | "PENDING" | "DONE")}
           >
             {state.state}
           </button>

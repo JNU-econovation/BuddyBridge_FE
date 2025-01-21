@@ -1,4 +1,4 @@
-import { KeyboardEvent } from "react";
+import { KeyboardEvent, useRef } from "react";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
@@ -42,12 +42,21 @@ interface Comment {
 interface ErrorResponse {
   error: {
     message: string;
-  }
+  };
 }
 
 export default function CommentWrite({ user, id, commentMemIds, gender, type }: CommentWriteProps) {
   const { register, handleSubmit, reset } = useForm<Comment>();
   const queryClient = useQueryClient();
+
+  const textarea = useRef<HTMLTextAreaElement>(null);
+
+  const handleResizeHeight = () => {
+    if (textarea.current) {
+      textarea.current.style.height = "auto";
+      textarea.current.style.height = `${textarea.current.scrollHeight}px`;
+    }
+  };
 
   const uploadCommentMutation = useMutation({
     mutationFn: ({ id, content }: CommentData) => postComment(id, content),
@@ -56,10 +65,10 @@ export default function CommentWrite({ user, id, commentMemIds, gender, type }: 
       reset();
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      if(error.response){
+      if (error.response) {
         openToast("error", error.response?.data.error.message);
       }
-    }
+    },
   });
 
   const handleCommentUpload = (data: Comment) => {
@@ -68,6 +77,7 @@ export default function CommentWrite({ user, id, commentMemIds, gender, type }: 
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
+      if (e.nativeEvent.isComposing) return;
       e.preventDefault();
       handleSubmit(handleCommentUpload)();
     }
@@ -76,11 +86,11 @@ export default function CommentWrite({ user, id, commentMemIds, gender, type }: 
   return (
     <div className={cn("container")}>
       <div className={cn("commentLabelBox")}>
-          <span>댓글 작성</span>
-          <div className={cn("labelDetail")}>
-            <BanIcon width={25} height={25}/>
-            <span>비방, 욕설 등 부적절한 댓글은 작성이 제한되며, 삭제 될 수 있습니다.</span>
-          </div>
+        <span>댓글 작성</span>
+        <div className={cn("labelDetail")}>
+          <BanIcon width={25} height={25} />
+          <span>비방, 욕설 등 부적절한 댓글은 작성이 제한되며, 삭제 될 수 있습니다.</span>
+        </div>
       </div>
       <form className={cn("box")} onSubmit={handleSubmit(handleCommentUpload)}>
         <div className={cn("userBox")}>
@@ -93,10 +103,12 @@ export default function CommentWrite({ user, id, commentMemIds, gender, type }: 
           {...register("content", { required: "내용을 입력하세요." })}
           placeholder="내용을 작성하세요."
           className={cn("textarea")}
+          ref={textarea}
           onKeyDown={handleKeyDown}
+          onChange={handleResizeHeight}
         ></textarea>
         <button>
-          <Register className={cn("register",{ helpMeRegister:type==="taker" })} />
+          <Register className={cn("register", { helpMeRegister: type === "taker" })} />
         </button>
       </form>
     </div>
