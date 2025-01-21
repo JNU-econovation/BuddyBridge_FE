@@ -1,0 +1,210 @@
+.container {
+  background: #e0e4ff;
+  width: 100%;
+  min-height: 100%;
+  padding: 5rem 40rem;
+  @include flexSort(row, center, null, null);
+
+  @include smallDesktop {
+    padding: 4rem 15rem;
+  }
+
+  @include tablet {
+    padding: 3rem 15rem;
+  }
+
+  @include mobile {
+    padding: 3rem 3rem;
+  }
+}
+
+.form {
+  max-width: 167.5rem;
+  @include flexSort(column, null, null, 2rem);
+}
+
+.headerBox {
+  background-color: white;
+  padding: 3rem;
+  @include flexSort(column, space-between, null, 1rem);
+  border-radius: 2rem;
+  border-top: 2rem solid #4885fe;
+  max-height: 20rem;
+
+  @include smallDesktop {
+    max-height: 18rem;
+    padding: 2rem;
+  }
+
+  @include tablet {
+    max-height: 16rem;
+    padding: 2rem;
+  }
+
+  @include mobile {
+    max-height: 14rem;
+    padding: 1.5rem;
+    min-height: 11rem;
+  }
+}
+
+.header {
+  @include nsnFont(4rem, 500, normal);
+
+  @include smallDesktop {
+    font-size: 3.6rem;
+  }
+
+  @include tablet {
+    font-size: 3.2rem;
+  }
+
+  @include mobile {
+    font-size: 2.8rem;
+  }
+}
+
+.headerContent {
+  @include nsnFont(2rem, 300, normal);
+
+  @include smallDesktop {
+    font-size: 1.6rem;
+  }
+
+  @include tablet {
+    font-size: 1.4rem;
+  }
+
+  @include mobile {
+    font-size: 1.3rem;
+  }
+}
+
+.questionBox {
+  background-color: white;
+  padding: 3rem;
+  @include flexSort(column, null, null, 2rem);
+  border-radius: 2rem;
+
+  @include smallDesktop {
+    padding: 2rem;
+  }
+
+  @include tablet {
+    padding: 2rem;
+  }
+
+  @include mobile {
+    padding: 2rem;
+  }
+}
+
+.questionHeader {
+  @include nsnFont(2.5rem, 400, normal);
+
+  @include smallDesktop {
+    font-size: 2rem;
+  }
+
+  @include tablet {
+    font-size: 1.8rem;
+  }
+
+  @include mobile {
+    font-size: 1.6rem;
+  }
+}
+
+.yesNoBox,
+.multipleChoiceBox {
+  @include flexSort(column, null, null, 2rem);
+  @include nsnFont(2.5rem, 300, normal);
+
+  @include smallDesktop {
+    @include nsnFont(1.8rem, 400, normal);
+  }
+
+  @include tablet {
+    font-size: 1.6rem;
+  }
+
+  @include mobile {
+    font-size: 1.4rem;
+  }
+}
+
+.additionalQuestionBox {
+  @include flexSort(column, null, null, 2rem);
+}
+
+.additionalQuestion {
+  @include nsnFont(2rem, 400, normal);
+
+  @include smallDesktop {
+    font-size: 1.6rem;
+  }
+
+  @include tablet {
+    font-size: 1.4rem;
+  }
+
+  @include mobile {
+    font-size: 1.2rem;
+  }
+}
+
+.additionalQuestionInput {
+  @include nsnFont(1.5rem, 400, normal);
+  resize: none;
+  border: 0;
+  border-bottom: 0.2rem solid #b7b7b7;
+  padding-bottom: 1rem;
+
+  &:focus {
+    outline: none;
+    border-bottom: 0.2rem solid black;
+  }
+
+  &::placeholder {
+    font-size: 1.5rem;
+  }
+
+  @include tablet {
+    &::placeholder {
+      font-size: 1.2rem;
+    }
+  }
+
+  @include mobile {
+    &::placeholder {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.submitBtn {
+  background-color: #4885fe;
+  color: white;
+  padding: 1.5rem 2rem;
+  border-radius: 1rem;
+  @include nsnFont(2rem, 400, normal);
+  transition: 0.3s;
+  @include flexSort(row, center, center, null);
+
+  &:hover {
+    background-color: #3b6fc7;
+  }
+
+  @include tablet {
+    font-size: 1.8rem;
+  }
+
+  @include mobile {
+    font-size: 1.6rem;
+  }
+}
+
+.errorMessage {
+  @include nsnFont(1.2rem, 500, normal);
+  color: red;
+}
