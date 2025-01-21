@@ -5,8 +5,10 @@ import { EventSourcePolyfill } from "event-source-polyfill";
 
 import { useRouter } from "next/router";
 
+import { getNewAccessToken } from "@/apis/getNewAccessToken";
 import useDetectClose from "@/components/common/DropDown/hooks/useDetectClose";
 import styles from "@/components/common/Header/User/Login/Login.module.scss";
+import openToast from "@/components/common/Toast/features/openToast";
 import { ROUTE } from "@/constants/route";
 import Alarm from "@/icons/alarm.svg";
 import ArrowDown from "@/icons/arrow_down.svg";
@@ -57,9 +59,11 @@ export default function Login({ name }: LoginProps) {
     let eventSource: EventSourcePolyfill;
 
     const connectSSE = () => {
+      const token = localStorage.getItem("accessToken");
+
       eventSource = new EventSourcePolyfill(`${process.env.NEXT_PUBLIC_BASE_URL}api/sse/connect`, {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${token}`,
         },
         heartbeatTimeout: 60 * 60 * 1000,
       });
@@ -82,11 +86,20 @@ export default function Login({ name }: LoginProps) {
         console.log("SSE 연결 성공");
       };
 
-      eventSource.onerror = (error) => {
-        console.error("SSE error:", error);
+      eventSource.onerror = async (error) => {
         eventSource.close();
 
-        connectSSE();
+        if ((error as any).status === 401) {
+          try {
+            await getNewAccessToken();
+            connectSSE();
+          } catch (error) {
+            openToast("error", "로그인 기간이 만료되었습니다. 다시 로그인해주세요.");
+            router.push(ROUTE.LOGIN);
+          }
+        } else {
+          connectSSE();
+        }
       };
     };
 
@@ -95,7 +108,7 @@ export default function Login({ name }: LoginProps) {
     return () => {
       eventSource.close();
     };
-  }, [accessToken]);
+  }, [router, accessToken]);
 
   const { totalUnreadCount } = useNotification(notifications as alarmType, "", "");
 
