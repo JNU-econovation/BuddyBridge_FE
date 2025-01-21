@@ -108,7 +108,7 @@ export default function Login({ name }: LoginProps) {
     return () => {
       eventSource.close();
     };
-  }, [router, accessToken]);
+  }, [accessToken]);
 
   const { totalUnreadCount } = useNotification(notifications as alarmType, "", "");
 
