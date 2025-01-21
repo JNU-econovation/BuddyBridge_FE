@@ -148,7 +148,7 @@ export default function HelpMeDetailLayout() {
             )}
             {isKebabClick && (
               <div className={cn("btnBox")}>
-                <button onClick={handleStateBtnClick} className={cn("stateBtn")}>
+                <button onClick={() => setIsStateClick((prev) => !prev)} className={cn("stateBtn")}>
                   상태변경
                   <Arrow width={18} height={18} />
                 </button>
