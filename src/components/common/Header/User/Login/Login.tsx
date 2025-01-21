@@ -97,8 +97,10 @@ export default function Login({ name }: LoginProps) {
             openToast("error", "로그인 기간이 만료되었습니다. 다시 로그인해주세요.");
             router.push(ROUTE.LOGIN);
           }
-        } else {
+        } else if ((error as any).status === 400 || (error as any).status === 404) {
           connectSSE();
+        } else {
+          openToast("error", "서버 점검 중 입니다.");
         }
       };
     };
