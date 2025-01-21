@@ -29,7 +29,7 @@ export interface SurveyData {
   sixthQuestion: "1점" | "2점" | "3점" | "4점" | "5점";
   sixthQuestionAdditional: string;
   seventhQuestion: "yes" | "no";
-  seventhOneQuestion: "yes" | "no";
+  seventhOneQuestion: string;
   participantEmail: string;
 }
 
@@ -83,13 +83,21 @@ const surveySchema = z
       .refine((value) => value !== null, {
         message: "응답을 선택해주세요.",
       }),
-    seventhOneQuestion: z.enum(["yes", "no"]).nullable().optional(),
+    seventhOneQuestion: z.string().optional(),
     participantEmail: z.string().optional(),
   })
   .superRefine((data, ctx) => {
     if (data.firstQuestion === "yes" && !data.firstQuestionAdditional) {
       ctx.addIssue({
         path: ["firstQuestionAdditional"],
+        code: z.ZodIssueCode.custom,
+        message: "필수로 작성해주세요.",
+      });
+    }
+
+    if (data.seventhQuestion === "yes" && !data.seventhOneQuestion) {
+      ctx.addIssue({
+        path: ["seventhOneQuestion"],
         code: z.ZodIssueCode.custom,
         message: "필수로 작성해주세요.",
       });
@@ -108,6 +116,8 @@ export default function SurveyLayout() {
   const {
     register,
     handleSubmit,
+    reset,
+    setValue,
     formState: { errors },
   } = useForm<SurveyData>({
     resolver: zodResolver(surveySchema),
@@ -125,7 +135,7 @@ export default function SurveyLayout() {
       sixthQuestion: undefined,
       sixthQuestionAdditional: "",
       seventhQuestion: undefined,
-      seventhOneQuestion: undefined,
+      seventhOneQuestion: "",
       participantEmail: "",
     },
   });
@@ -144,6 +154,7 @@ export default function SurveyLayout() {
     mutationFn: (content: SurveyData) => postSurvey(content),
     onSuccess: () => {
       openToast("success", "설문 조사가 완료되었습니다.");
+      reset();
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response) {
@@ -590,6 +601,7 @@ export default function SurveyLayout() {
                   />
                   <label htmlFor="seventh-one-no"> 아니요</label>
                 </div>
+                {errors.seventhOneQuestion && <p className={cn("errorMessage")}>{errors.seventhOneQuestion.message}</p>}
               </div>
             </div>
           )}
