@@ -14,7 +14,7 @@
   }
 
   @include mobile {
-    padding: 3rem 5rem;
+    padding: 3rem 3rem;
   }
 }
 
@@ -103,15 +103,15 @@
   @include nsnFont(2.5rem, 400, normal);
 
   @include smallDesktop {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
 
   @include tablet {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
   }
 
   @include mobile {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
   }
 }
 
@@ -187,7 +187,7 @@
   color: white;
   padding: 1.5rem 2rem;
   border-radius: 1rem;
-  @include nsnFont(1.5rem, 400, normal);
+  @include nsnFont(2rem, 400, normal);
   transition: 0.3s;
   @include flexSort(row, center, center, null);
 
@@ -196,11 +196,11 @@
   }
 
   @include tablet {
-    font-size: 1.4rem;
+    font-size: 1.8rem;
   }
 
   @include mobile {
-    font-size: 1.2rem;
+    font-size: 1.6rem;
   }
 }
 
