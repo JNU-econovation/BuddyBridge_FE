@@ -51,7 +51,6 @@ interface CommentProps {
 
 export default function HelpYouDetailLayout() {
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   const { id: pageId } = router.query;
 
