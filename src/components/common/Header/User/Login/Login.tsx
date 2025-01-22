@@ -99,8 +99,10 @@ export default function Login({ name }: LoginProps) {
           }
         } else if ((error as any).status === 400 || (error as any).status === 404) {
           connectSSE();
+        } else if ((error as any).error.message.includes("No activity")) {
+          connectSSE();
         } else {
-          openToast("error", "서버 점검 중 입니다.");
+          openToast("error", "서버 점검중입니다.");
         }
       };
     };
