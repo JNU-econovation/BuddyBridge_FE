@@ -53,64 +53,64 @@ export default function Login({ name }: LoginProps) {
     router.push(ROUTE.CHAT);
   };
 
-  // useEffect(() => {
-  //   if (!accessToken) return;
+  useEffect(() => {
+    if (!accessToken) return;
 
-  //   let eventSource: EventSourcePolyfill;
+    let eventSource: EventSourcePolyfill;
 
-  //   const connectSSE = () => {
-  //     const token = localStorage.getItem("accessToken");
+    const connectSSE = () => {
+      const token = localStorage.getItem("accessToken");
 
-  //     eventSource = new EventSourcePolyfill(`${process.env.NEXT_PUBLIC_BASE_URL}api/sse/connect`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       heartbeatTimeout: 60 * 60 * 1000,
-  //     });
+      eventSource = new EventSourcePolyfill(`${process.env.NEXT_PUBLIC_BASE_URL}api/sse/connect`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        heartbeatTimeout: 60 * 60 * 1000,
+      });
 
-  //     eventSource.addEventListener("notification", (event) => {
-  //       const newNotification = (event as any).data;
+      eventSource.addEventListener("notification", (event) => {
+        const newNotification = (event as any).data;
 
-  //       let parsedData;
+        let parsedData;
 
-  //       try {
-  //         parsedData = JSON.parse(newNotification);
-  //       } catch (error) {
-  //         return;
-  //       }
+        try {
+          parsedData = JSON.parse(newNotification);
+        } catch (error) {
+          return;
+        }
 
-  //       setNotifications(parsedData);
-  //     });
+        setNotifications(parsedData);
+      });
 
-  //     eventSource.onopen = () => {
-  //       console.log("SSE 연결 성공");
-  //     };
+      eventSource.onopen = () => {
+        console.log("SSE 연결 성공");
+      };
 
-  //     eventSource.onerror = async (error) => {
-  //       eventSource.close();
+      eventSource.onerror = async (error) => {
+        eventSource.close();
 
-  //       if ((error as any).status === 401) {
-  //         try {
-  //           await getNewAccessToken();
-  //           connectSSE();
-  //         } catch (error) {
-  //           openToast("error", "로그인 기간이 만료되었습니다. 다시 로그인해주세요.");
-  //           router.push(ROUTE.LOGIN);
-  //         }
-  //       } else if ((error as any).status === 400 || (error as any).status === 404) {
-  //         connectSSE();
-  //       } else {
-  //         openToast("error", "서버 점검 중 입니다.");
-  //       }
-  //     };
-  //   };
+        if ((error as any).status === 401) {
+          try {
+            await getNewAccessToken();
+            connectSSE();
+          } catch (error) {
+            openToast("error", "로그인 기간이 만료되었습니다. 다시 로그인해주세요.");
+            router.push(ROUTE.LOGIN);
+          }
+        } else if ((error as any).status === 400 || (error as any).status === 404) {
+          connectSSE();
+        } else {
+          openToast("error", "서버 점검 중 입니다.");
+        }
+      };
+    };
 
-  //   connectSSE();
+    connectSSE();
 
-  //   return () => {
-  //     eventSource.close();
-  //   };
-  // }, [accessToken]);
+    return () => {
+      eventSource.close();
+    };
+  }, [accessToken]);
 
   const { totalUnreadCount } = useNotification(notifications as alarmType, "", "");
 
