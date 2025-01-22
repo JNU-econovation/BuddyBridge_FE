@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 import { fi, ko } from "date-fns/locale";
 import { Controller, useForm } from "react-hook-form";
@@ -24,6 +25,7 @@ import styles from "@/components/page-layout/helpMeRegisterLayout/components/hel
 import { ROUTE } from "@/constants/route";
 import Calendar from "@/icons/calendar.svg";
 import RegisterArrow from "@/icons/send_arrow.svg";
+import { ErrorResponse } from "@/types/error";
 
 import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
 import postHelpMeRegister from "../apis/postHelpMeRegister";
@@ -33,7 +35,7 @@ const cn = classNames.bind(styles);
 
 const registerSchema = z
   .object({
-    title: z.string().min(1, "제목 최소 1자 이상이어야 합니다."),
+    title: z.string().min(1, "제목은 최소 1자 이상이어야 합니다.").max(30, "제목은 최대 30자까지만 가능합니다."),
     startDate: z
       .date()
       .optional()
@@ -103,6 +105,17 @@ export default function HelpMeRegisterLayout() {
     mutationFn: (content: helpMeFormData) => postHelpMeRegister(content),
     onSuccess: () => {
       router.push(ROUTE.HELP_ME);
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response) {
+        const invalidParams = error.response.data.error.invalidParams;
+        if (invalidParams) {
+          const fullInvalidMessage = invalidParams.map((param) => param.message).join(", ");
+          openToast("error", fullInvalidMessage);
+        } else {
+          openToast("error", error.response.data.error.message);
+        }
+      }
     },
   });
 
