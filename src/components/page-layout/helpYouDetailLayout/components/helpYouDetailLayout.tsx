@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 
 import Image from "next/image";
@@ -18,6 +19,7 @@ import ReportForm from "@/components/common/ReportForm/ReportForm";
 import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/helpYouDetailLayout/components/helpYouDetailLayout.module.scss";
 import { ROUTE } from "@/constants/route";
+import { ErrorResponse } from "@/types/error";
 import { KaKaoUserInfo } from "@/types/user";
 import { formatDateString } from "@/utils";
 
@@ -94,6 +96,17 @@ export default function HelpYouDetailLayout() {
     onSuccess: () => {
       router.push(ROUTE.HELP_YOU);
       openToast("success", "성공적으로 삭제되었습니다.");
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response) {
+        const invalidParams = error.response.data.error.invalidParams;
+        if (invalidParams) {
+          const fullInvalidMessage = invalidParams.map((param) => param.message).join(", ");
+          openToast("error", fullInvalidMessage);
+        } else {
+          openToast("error", error.response.data.error.message);
+        }
+      }
     },
   });
 
@@ -193,11 +206,13 @@ export default function HelpYouDetailLayout() {
                   <Calendar className={cn("calendarIcon")} />
                   <span className={cn("label")}>기간 &#38; 주기</span>
                   <span className={cn("periodContent")}>
-                    <span>{formatDateString(startDate)}</span>
-                    <span>~</span>
-                    <span>{formatDateString(endDate)},</span>
-                    <span>{scheduleType}</span>
-                    <span>({scheduleDetails})</span>
+                    <div className={cn("periodSimpleContent")}>
+                      <span>{formatDateString(startDate)}</span>
+                      <span>~</span>
+                      <span>{formatDateString(endDate)},</span>
+                      <span>{scheduleType}</span>
+                    </div>
+                    <span className={cn("periodDetailContent")}>({scheduleDetails})</span>
                   </span>
                 </p>
                 <p className={cn("time")}>
