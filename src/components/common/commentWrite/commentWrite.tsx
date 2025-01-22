@@ -49,7 +49,7 @@ export default function CommentWrite({ user, id, commentMemIds, gender, type }: 
   const { register, handleSubmit, reset } = useForm<Comment>();
   const queryClient = useQueryClient();
 
-  const textarea = useRef<HTMLTextAreaElement>(null);
+  const textarea = useRef<HTMLTextAreaElement | null>(null);
 
   const handleResizeHeight = () => {
     if (textarea.current) {
@@ -100,12 +100,15 @@ export default function CommentWrite({ user, id, commentMemIds, gender, type }: 
           <p className={cn("nickname")}>{user?.nickname}</p>
         </div>
         <textarea
-          {...register("content", { required: "내용을 입력하세요." })}
+          {...register("content", { required: "내용을 입력하세요." ,})}
           placeholder="내용을 작성하세요."
           className={cn("textarea")}
-          ref={textarea}
+          ref={(e) => {
+            register('content').ref(e);
+            textarea.current = e;
+          }}
           onKeyDown={handleKeyDown}
-          onChange={handleResizeHeight}
+          onInput={handleResizeHeight}
         ></textarea>
         <button>
           <Register className={cn("register", { helpMeRegister: type === "taker" })} />
