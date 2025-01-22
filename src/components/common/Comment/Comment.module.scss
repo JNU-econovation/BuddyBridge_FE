@@ -103,6 +103,7 @@
 .content {
   @include nsnFont(2rem, 400, normal);
   word-break: break-all;
+  white-space: pre-line;
 }
 
 .kebabBox {
