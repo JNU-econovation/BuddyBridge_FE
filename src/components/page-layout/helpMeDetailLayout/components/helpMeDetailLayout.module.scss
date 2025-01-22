@@ -211,6 +211,7 @@
   @include nsnFont(2rem, 500, normal);
   border: 0.15rem solid $gray;
   overflow-y: scroll;
+  white-space: pre-line;
 
   &::-webkit-scrollbar {
     display: none;
