@@ -128,7 +128,7 @@ export default function Login({ name }: LoginProps) {
           <div className={cn("alarmBox")}>
             <Alarm width={25} height={25} className={cn("alarm")} onClick={handleAlarmClick} />
             <span className={cn("unreadCount")}>{totalUnreadCount && totalUnreadCount}</span>
-            {isAlarmOpen && <AlarmDropDown sseNotifications={notifications as alarmType} />}
+            {isAlarmOpen && <AlarmDropDown sseNotifications={notifications as alarmType} setIsOpen={setIsAlarmOpen} />}
           </div>
         </div>
         <Chat width={25} height={25} onClick={handleChatClick} className={cn("chat")} />

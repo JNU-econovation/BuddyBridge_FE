@@ -24,9 +24,8 @@ export const useNotification = (
     hasNextPage,
     isFetchingNextPage,
     status,
-    refetch,
   } = useInfiniteQuery<NotificationsResponse>({
-    queryKey: ["notifications", type, isRead],
+    queryKey: ["notifications", type, isRead, sseNotifications ? sseNotifications.id : ""],
     queryFn: ({ pageParam }) => getNotifications(6, pageParam as number, type, isRead),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
