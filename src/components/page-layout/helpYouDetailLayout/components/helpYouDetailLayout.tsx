@@ -13,7 +13,6 @@ import CommentWrite from "@/components/common/commentWrite/commentWrite";
 import getLogIn from "@/components/common/Header/apis/getLogIn";
 import Loader from "@/components/common/Loader/Loader";
 import Modal from "@/components/common/Modal/Modal";
-import postLikes from "@/components/common/Post/apis/postLikes";
 import { PostDetailHeart } from "@/components/common/Post/PostHeart/PostHeart";
 import ReportForm from "@/components/common/ReportForm/ReportForm";
 import openToast from "@/components/common/Toast/features/openToast";
@@ -124,7 +123,7 @@ export default function HelpYouDetailLayout() {
 
   const { nickname, disabilityType, gender, profileImageUrl, age } = postDetailData.author;
 
-  const { district, id, title, content, createdAt, isLiked, assistance, schedule } = postDetailData.post;
+  const { district, id, title, content, createdAt, isLiked, assistance, schedule, postStatus } = postDetailData.post;
 
   const { assistanceType, assistanceStartTime, assistanceEndTime } = assistance;
 
@@ -270,6 +269,7 @@ export default function HelpYouDetailLayout() {
             commentMemIds={commentMemIds}
             gender={gender}
             type="giver"
+            postStatus={postStatus}
           />
         )}
       </div>

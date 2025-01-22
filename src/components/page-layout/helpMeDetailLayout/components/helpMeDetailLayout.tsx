@@ -119,7 +119,7 @@ export default function HelpMeDetailLayout() {
 
   const { nickname, disabilityType, gender, profileImageUrl, age } = postDetailData.author;
 
-  const { district, id, title, content, createdAt, isLiked, assistance, schedule } = postDetailData.post;
+  const { district, id, title, content, createdAt, isLiked, assistance, schedule, postStatus } = postDetailData.post;
 
   const { assistanceType, assistanceStartTime, assistanceEndTime } = assistance;
 
@@ -275,6 +275,7 @@ export default function HelpMeDetailLayout() {
             commentMemIds={commentMemIds}
             gender={gender}
             type="taker"
+            postStatus={postStatus}
           />
         )}
       </div>
