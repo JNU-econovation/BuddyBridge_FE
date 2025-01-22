@@ -99,8 +99,10 @@ export default function Login({ name }: LoginProps) {
           }
         } else if ((error as any).status === 400 || (error as any).status === 404) {
           connectSSE();
+        } else if ((error as any).error.message.includes("No activity")) {
+          connectSSE();
         } else {
-          openToast("error", "서버 점검 중 입니다.");
+          openToast("error", "서버 점검중입니다.");
         }
       };
     };
@@ -126,7 +128,7 @@ export default function Login({ name }: LoginProps) {
           <div className={cn("alarmBox")}>
             <Alarm width={25} height={25} className={cn("alarm")} onClick={handleAlarmClick} />
             <span className={cn("unreadCount")}>{totalUnreadCount && totalUnreadCount}</span>
-            {isAlarmOpen && <AlarmDropDown sseNotifications={notifications as alarmType} />}
+            {isAlarmOpen && <AlarmDropDown sseNotifications={notifications as alarmType} setIsOpen={setIsAlarmOpen} />}
           </div>
         </div>
         <Chat width={25} height={25} onClick={handleChatClick} className={cn("chat")} />

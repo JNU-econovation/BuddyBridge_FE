@@ -16,20 +16,10 @@ export const mergeNotifications = ({ sseNotifications, prevNotifications }: Merg
       notifications: prevNotifications.pages.flatMap((page) => page.content.map((notification) => notification)),
       totalUnreadCount: prevNotifications.pages[0].totalUnreadCount,
     };
-  }
-
-  if (sseNotifications.id === prevNotifications.pages[0].content[0].id) {
+  } else {
     return {
       notifications: prevNotifications.pages.flatMap((page) => page.content.map((notification) => notification)),
       totalUnreadCount: prevNotifications.pages[0].totalUnreadCount,
     };
   }
-
-  return {
-    notifications: [
-      sseNotifications,
-      ...prevNotifications.pages.flatMap((page) => page.content.map((notification) => notification)),
-    ],
-    totalUnreadCount: prevNotifications.pages[0].totalUnreadCount,
-  };
 };

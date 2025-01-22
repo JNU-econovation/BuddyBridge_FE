@@ -22,6 +22,7 @@ export interface AlarmDropDownProps {
     isRead: boolean;
     type: string;
   };
+  setIsOpen: (prev: boolean) => void;
 }
 
 interface DropdownOption {
@@ -29,7 +30,7 @@ interface DropdownOption {
   value: string;
 }
 
-export default function AlarmDropDown({ sseNotifications }: AlarmDropDownProps) {
+export default function AlarmDropDown({ sseNotifications, setIsOpen }: AlarmDropDownProps) {
   const router = useRouter();
   const params = new URLSearchParams(router.query as any);
 
@@ -43,7 +44,7 @@ export default function AlarmDropDown({ sseNotifications }: AlarmDropDownProps) 
   const updateQueryParam = (key: string, value: string) => {
     const newParams = new URLSearchParams(router.query as any);
     if (value === "") {
-      newParams.delete(key); 
+      newParams.delete(key);
     } else {
       newParams.set(key, value);
     }
@@ -58,7 +59,7 @@ export default function AlarmDropDown({ sseNotifications }: AlarmDropDownProps) 
     updateQueryParam("is-read", "false");
   };
 
-  const [selectedOption, setSelectedOption] = useState<DropdownOption | null>({label: "전체", value: ""});
+  const [selectedOption, setSelectedOption] = useState<DropdownOption | null>({ label: "전체", value: "" });
 
   const handleSelectOption = (option: DropdownOption) => {
     setSelectedOption(option);
@@ -70,19 +71,17 @@ export default function AlarmDropDown({ sseNotifications }: AlarmDropDownProps) 
       <header className={cn("titleBox")}>
         <div className={cn("titleBoxRow")}>
           <div className={cn("title")}>알림</div>
-          <AlarmFilter selectedOption={selectedOption} onSelectOption={handleSelectOption}/>
+          <AlarmFilter selectedOption={selectedOption} onSelectOption={handleSelectOption} />
         </div>
         <div className={cn("titleBoxRow")}>
           <div className={cn("isReadedToggle")}>
-            <button onClick={handleShowAll}>
-              모든 알림
-            </button>
+            <button onClick={handleShowAll}>모든 알림</button>
             <button onClick={handleShowUnread}>
-              안 읽은 알림 
+              안 읽은 알림
               {data?.filter(
-                (notification) => 
-                  notification.isRead === false && 
-                  (notification.type === selectedOption?.value || selectedOption?.value === "")
+                (notification) =>
+                  notification.isRead === false &&
+                  (notification.type === selectedOption?.value || selectedOption?.value === ""),
               ).length || 0}
             </button>
           </div>
@@ -97,13 +96,22 @@ export default function AlarmDropDown({ sseNotifications }: AlarmDropDownProps) 
             href={notification?.url || ""}
             key={index}
             className={cn("alarm", { isRead: notification.isRead === true })}
-            onClick={() => readNotification(notification.id)}
+            onClick={() =>
+              readNotification(notification.id, {
+                onSuccess: () => {
+                  setIsOpen(false);
+                },
+              })
+            }
           >
-            <div className={cn("alarmTag", {
-              "comment": notification.type === "COMMENT", 
-              "chat": notification.type !== "COMMENT"
-            })}>
-            {notification.type === "COMMENT" ? "댓글" : "채팅"}</div>
+            <div
+              className={cn("alarmTag", {
+                comment: notification.type === "COMMENT",
+                chat: notification.type !== "COMMENT",
+              })}
+            >
+              {notification.type === "COMMENT" ? "댓글" : "채팅"}
+            </div>
             {notification?.content}
           </Link>
         ))}

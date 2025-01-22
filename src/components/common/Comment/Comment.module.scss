@@ -120,15 +120,18 @@
   border-radius: 1rem;
   border: 0.1rem solid #e2e8f0;
   position: absolute;
-  bottom: -4rem;
-  right: -8rem;
+  bottom: 0rem;
+  right: -13rem;
   background-color: white;
   @include flexSort(column, null, center, null);
   box-shadow: 0.1rem 0.1rem 0.4rem 0.01rem #d1cece;
 
   button {
     padding: 0.7rem 2rem;
+    width: 12rem;
     @include nsnFont(1.5rem, 400, normal);
+    @include flexSort(null, center, center, null);
+
     &:first-child {
       border-bottom: 0.1rem solid #e2e8f0;
     }
