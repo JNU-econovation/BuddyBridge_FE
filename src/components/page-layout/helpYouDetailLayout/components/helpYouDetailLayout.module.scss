@@ -203,6 +203,7 @@
   border: 0.15rem solid $gray;
   overflow-y: scroll;
   white-space: pre-line;
+  word-break: break-all;
 
   &::-webkit-scrollbar {
     display: none;
