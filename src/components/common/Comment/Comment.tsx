@@ -74,6 +74,7 @@ export default function Comment({ comment, authorId, postId, type, commentId }: 
 
   const handleCommentEditClick = () => {
     setIsNowEditing(true);
+    setIsKebabClick(false);
   };
 
   const editCommentMutation = useMutation({
