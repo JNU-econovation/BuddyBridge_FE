@@ -48,6 +48,10 @@
   @include nsnFont(1.6rem, 600, normal);
 }
 
+.genderDropDownContainer {
+  height: auto;
+}
+
 .genderDropDown {
   width: 100%;
   height: 5.4rem;

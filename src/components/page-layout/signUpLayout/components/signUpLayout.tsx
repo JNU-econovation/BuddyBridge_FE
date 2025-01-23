@@ -146,6 +146,7 @@ export default function SignUpLayout() {
             <div className={cn("genderContainer")}>
               <label className={cn("genderLabel")}>성별</label>
               <Dropdown
+                containerClassNames={cn("genderDropDownContainer")}
                 classNames={cn("genderDropDown")}
                 placeholder="성별을 선택해 주세요"
                 options={GENDER}
