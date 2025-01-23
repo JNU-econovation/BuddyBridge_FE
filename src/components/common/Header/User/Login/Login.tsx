@@ -119,7 +119,7 @@ export default function Login({ name }: LoginProps) {
   return (
     <div className={cn("container")}>
       <div ref={profileDropdownRef} className={cn("nameBox")} onClick={handleNameClick}>
-        <p>{`${name}님`}</p>
+        <p>{name}</p>
         <ArrowDown width={13} height={13} />
         <DropDown isNameClick={isProfileOpen} />
       </div>
