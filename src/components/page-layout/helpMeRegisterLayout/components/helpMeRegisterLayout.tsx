@@ -54,7 +54,7 @@ const registerSchema = z
     scheduleDetails: z.string().min(1, "상세 주기를 입력해주세요."),
     district: z.string().min(1, "장소를 선택해주세요."),
     assistanceType: z.string().min(1, "도움 유형을 선택해주세요."),
-    content: z.string().min(1, "상세 내용을 입력해주세요.").max(1000, "상세 내용은 최대 1000자입니다."),
+    content: z.string().min(1, "상세 내용을 입력해주세요.").max(500, "상세 내용은 최대 500자입니다."),
   })
   .refine(
     (data) => {
