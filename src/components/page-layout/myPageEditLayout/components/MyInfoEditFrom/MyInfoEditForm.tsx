@@ -13,9 +13,11 @@ import { useRouter } from "next/router";
 import Button from "@/components/common/Button/Button";
 import { DISABILITY } from "@/components/common/DropDown/constants";
 import DropDown from "@/components/common/DropDown/DropDown";
+import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/myPageEditLayout/components/MyInfoEditFrom/MyInfoEditForm.module.scss";
 import { ROUTE } from "@/constants/route";
 import EditBtn from "@/icons/edit.svg";
+import { ErrorResponse } from "@/types/error";
 
 import getMyInfo from "../../apis/getMyInfo";
 import patchMyInfo from "../../apis/putMyInfo";
@@ -30,12 +32,6 @@ export interface FormType {
   email?: string;
   age?: string;
   gender: string;
-}
-
-interface ErrorResponse {
-  error: {
-    message: string;
-  };
 }
 
 const nickNameSchema = z.object({
@@ -82,10 +78,13 @@ export default function MyInfoEditForm() {
       queryClient.invalidateQueries({ queryKey: ["userInfo"] });
       router.push(ROUTE.MY_PAGE);
     },
-
     onError: (error: AxiosError<ErrorResponse>) => {
-      if (error.response?.data) {
-        setError("nickname", { message: error.response.data.error.message });
+      if (error.response?.data.error.invalidParams) {
+        openToast("error", error.response.data.error.invalidParams[0].message);
+      } else if (error.response?.data.error.message) {
+        openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "정보 수정에 실패했습니다.");
       }
     },
   });
