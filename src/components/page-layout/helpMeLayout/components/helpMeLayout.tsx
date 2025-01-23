@@ -96,7 +96,6 @@ export default function HelpMeLayout() {
           searchParams.delete("postStatus");
         } else {
           searchParams.set("postStatus", postStatusList.join(","));
-          console.log(postStatusList);
         }
       } else {
         if (postStatusList.length === 1) {
@@ -152,7 +151,13 @@ export default function HelpMeLayout() {
             </Post>
           ))}
         </div>
-        <Pagination currentPage={page} itemsPerPage={8} totalItems={data?.totalElements} setPage={setPage} pageType="TAKER"/>
+        <Pagination
+          currentPage={page}
+          itemsPerPage={8}
+          totalItems={data?.totalElements}
+          setPage={setPage}
+          pageType="TAKER"
+        />
       </div>
     </main>
   );

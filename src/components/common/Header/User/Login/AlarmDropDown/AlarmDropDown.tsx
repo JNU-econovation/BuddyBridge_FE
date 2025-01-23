@@ -55,12 +55,10 @@ export default function AlarmDropDown({ sseNotifications, setIsOpen }: AlarmDrop
 
   const handleShowAll = () => {
     updateQueryParam("is-read", "");
-    console.log(isRead);
   };
 
   const handleShowUnread = () => {
     updateQueryParam("is-read", "false");
-    console.log(isRead);
   };
 
   const { totalUnreadCount } = useNotification(sseNotifications as alarmType, "", "");

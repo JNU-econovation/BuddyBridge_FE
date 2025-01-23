@@ -21,7 +21,7 @@ export interface MyWriteListBoxProps {
   };
   filter: string;
   pageId: number;
-  postType: "GIVER" | "TAKER"
+  postType: "GIVER" | "TAKER";
 }
 
 export default function MyWriteListBox({
@@ -34,9 +34,7 @@ export default function MyWriteListBox({
   pageId,
   postType,
 }: MyWriteListBoxProps) {
-  console.log(postType);
   return (
-    
     <>
       <div className={cn("myWritePostBox")}>
         <MyWriteList

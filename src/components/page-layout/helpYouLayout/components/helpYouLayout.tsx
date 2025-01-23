@@ -95,7 +95,6 @@ export default function HelpYouLayout() {
           searchParams.delete("postStatus");
         } else {
           searchParams.set("postStatus", postStatusList.join(","));
-          console.log(postStatusList);
         }
       } else {
         if (postStatusList.length === 1) {
@@ -151,7 +150,13 @@ export default function HelpYouLayout() {
             </Post>
           ))}
         </div>
-        <Pagination currentPage={page} itemsPerPage={8} totalItems={data?.totalElements} setPage={setPage} pageType="GIVER"/>
+        <Pagination
+          currentPage={page}
+          itemsPerPage={8}
+          totalItems={data?.totalElements}
+          setPage={setPage}
+          pageType="GIVER"
+        />
       </div>
     </main>
   );
