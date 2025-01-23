@@ -9,10 +9,22 @@
   @include flexSort(column, null, center, 2rem);
 }
 
-.profileImg {
+.profileImgBox {
+  border-top: 0.3rem solid #6562e2;
+  border-left: 0.3rem solid #6562e2;
+  border-bottom: 0.3rem solid #4885fe;
+  border-right: 0.3rem solid #4885fe;
   border-radius: 50%;
   overflow: hidden;
+  transform: rotate(45deg);
+  @include flexSort(null, center, center, null);
 }
+
+.profileImg {
+  transform: rotate(-45deg);
+  border-radius: 50%;
+}
+
 .name {
   @include nsnFont(1.6rem, 700, normal);
 }
