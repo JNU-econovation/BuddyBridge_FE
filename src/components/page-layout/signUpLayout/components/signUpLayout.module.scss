@@ -167,30 +167,43 @@
 }
 
 .modal {
-  padding: 4rem 5.5rem;
-  @include flexSort(column, null, center, 2.4rem);
+  padding: 6rem 7rem;
+  @include flexSort(column, null, center, 3rem);
+  box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
 }
 
 .modalContent {
   color: #ec0d0d;
-  @include nsnFont(1.8rem, 500, normal);
+  @include nsnFont(2.5rem, 700, normal);
+}
+
+.btnBox {
+  @include flexSort(null, center, center, 2rem);
 }
 
 .modalConfirmBtn,
 .modalCloseBtn {
   border-radius: 0.5rem;
   border: 0.1rem solid #d3d3d3;
-  background: #d3d3d3;
+  background: rgba(0, 0, 0, 0.12);
   @include flexSort(null, center, center, null);
-  @include nsnFont(1.2rem, 300, normal);
-  padding: 8px 21px 10px 21px;
+  @include nsnFont(1.5rem, 400, normal);
+  padding: 0.8rem 2.1rem 1rem 2.1rem;
 }
 
 .modalConfirmBtn {
   background: #e7efff;
   border: 0.1rem solid #e7efff;
+
+  &:hover {
+    background: #9290ea;
+    color: white;
+  }
 }
 
-.btnBox {
-  @include flexSort(null, center, center, 1.2rem);
+.modalCloseBtn {
+  &:hover {
+    background: #969595;
+    color: white;
+  }
 }
