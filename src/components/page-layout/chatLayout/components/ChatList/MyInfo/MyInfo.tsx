@@ -37,7 +37,9 @@ export default function MyInfo() {
   return (
     <div className={cn("container")}>
       <div className={cn("profileContainer")}>
-        <Image src={data.profileImageUrl} alt="profile" className={cn("profileImg")} width={50} height={50} />
+        <div className={cn("profileImgBox")}>
+          <Image src={data.profileImageUrl} alt="profile" className={cn("profileImg")} width={50} height={50} />
+        </div>
         <p className={cn("name")}>{data.name}</p>
       </div>
     </div>

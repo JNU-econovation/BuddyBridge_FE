@@ -155,6 +155,7 @@ export default function DeclarationLayout() {
                     checkId={checkId}
                     setCheckId={setCheckId}
                     isBlackListed={item.isBlackListed}
+                    postType={item.postType}
                   />
                 ))}
               </ul>

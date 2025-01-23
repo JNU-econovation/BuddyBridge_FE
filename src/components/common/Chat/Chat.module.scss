@@ -30,6 +30,11 @@
   @include nsnFont(1.3rem, 700, normal);
 }
 
+.name {
+  @include line-clamp(1);
+  max-width: 5rem;
+}
+
 .dot {
   color: #ccc;
 }

@@ -108,7 +108,7 @@ export default function HelpMeRegisterLayout() {
     mutationFn: (content: helpMeFormData) => postHelpMeRegister(content),
     onSuccess: () => {
       router.push(ROUTE.HELP_ME);
-      openToast("error", "게시글 등록에 성공했습니다.");
+      openToast("success", "게시글 등록에 성공했습니다.");
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response?.data.error.invalidParams) {
