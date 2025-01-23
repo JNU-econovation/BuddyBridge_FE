@@ -38,75 +38,94 @@ export interface SurveyData {
   participantEmail: string;
 }
 
-const surveySchema = z.object({
-  firstQuestion: z
-    .enum(["yes", "no"])
-    .nullable()
-    .refine((value) => value !== null, {
-      message: "응답을 선택해주세요.",
-    }),
-  firstQuestionAdditional: z.string().min(1, "필수로 작성해주세요."),
-  secondQuestion: z
-    .enum(["성능", "디자인", "기능 추가", "기타"])
-    .nullable()
-    .refine((value) => value !== null, {
-      message: "응답을 선택해주세요.",
-    }),
-  secondQuestionAdditional: z.string().min(1, "필수로 작성해주세요."),
-  thirdQuestion: z
-    .enum(["1점", "2점", "3점", "4점", "5점"])
-    .nullable()
-    .refine((value) => value !== null, {
-      message: "응답을 선택해주세요.",
-    }),
-  thirdQuestionAdditional: z.string().optional(),
-  fourthQuestion: z
-    .enum(["1점", "2점", "3점", "4점", "5점"])
-    .nullable()
-    .refine((value) => value !== null, {
-      message: "응답을 선택해주세요.",
-    }),
-  fourthQuestionAdditional: z.string().optional(),
-  fifthQuestion: z
-    .enum(["1점", "2점", "3점", "4점", "5점"])
-    .nullable()
-    .refine((value) => value !== null, {
-      message: "응답을 선택해주세요.",
-    }),
-  fifthQuestionAdditional: z.string().optional(),
-  sixthQuestion: z
-    .enum(["1점", "2점", "3점", "4점", "5점"])
-    .nullable()
-    .refine((value) => value !== null, {
-      message: "응답을 선택해주세요.",
-    }),
-  sixthQuestionAdditional: z.string().optional(),
-  seventhQuestion: z
-    .enum(["yes", "no"])
-    .nullable()
-    .refine((value) => value !== null, {
-      message: "응답을 선택해주세요.",
-    }),
-  seventhDetailQuestion: z.string().min(1, "필수로 작성해주세요."),
-  seventhOneQuestion: z
-    .enum(["yes", "no"])
-    .nullable()
-    .refine((value) => value !== null, {
-      message: "응답을 선택해주세요.",
-    }),
-  seventhOneDetailQuestion: z.string().min(1, "필수로 작성해주세요."),
-  participantEmail: z
-    .string()
-    .optional()
-    .superRefine((value, ctx) => {
-      if (value && !z.string().email().safeParse(value).success) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "유효한 이메일을 입력해주세요.",
-        });
-      }
-    }),
-});
+const surveySchema = z
+  .object({
+    firstQuestion: z
+      .enum(["yes", "no"])
+      .nullable()
+      .refine((value) => value !== null, {
+        message: "응답을 선택해주세요.",
+      }),
+    firstQuestionAdditional: z.string().min(1, "필수로 작성해주세요."),
+    secondQuestion: z
+      .enum(["성능", "디자인", "기능 추가", "기타"])
+      .nullable()
+      .refine((value) => value !== null, {
+        message: "응답을 선택해주세요.",
+      }),
+    secondQuestionAdditional: z.string().min(1, "필수로 작성해주세요."),
+    thirdQuestion: z
+      .enum(["1점", "2점", "3점", "4점", "5점"])
+      .nullable()
+      .refine((value) => value !== null, {
+        message: "응답을 선택해주세요.",
+      }),
+    thirdQuestionAdditional: z.string().optional(),
+    fourthQuestion: z
+      .enum(["1점", "2점", "3점", "4점", "5점"])
+      .nullable()
+      .refine((value) => value !== null, {
+        message: "응답을 선택해주세요.",
+      }),
+    fourthQuestionAdditional: z.string().optional(),
+    fifthQuestion: z
+      .enum(["1점", "2점", "3점", "4점", "5점"])
+      .nullable()
+      .refine((value) => value !== null, {
+        message: "응답을 선택해주세요.",
+      }),
+    fifthQuestionAdditional: z.string().optional(),
+    sixthQuestion: z
+      .enum(["1점", "2점", "3점", "4점", "5점"])
+      .nullable()
+      .refine((value) => value !== null, {
+        message: "응답을 선택해주세요.",
+      }),
+    sixthQuestionAdditional: z.string().optional(),
+    seventhQuestion: z
+      .enum(["yes", "no"])
+      .nullable()
+      .refine((value) => value !== null, {
+        message: "응답을 선택해주세요.",
+      }),
+    seventhDetailQuestion: z.string().optional(),
+    seventhOneQuestion: z
+      .enum(["yes", "no"])
+      .nullable()
+      .refine((value) => value !== null, {
+        message: "응답을 선택해주세요.",
+      }),
+    seventhOneDetailQuestion: z.string().optional(),
+    participantEmail: z
+      .string()
+      .optional()
+      .superRefine((value, ctx) => {
+        if (value && !z.string().email().safeParse(value).success) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "유효한 이메일을 입력해주세요.",
+          });
+        }
+      }),
+  })
+  .superRefine((data, ctx) => {
+    if (data.seventhQuestion === "no" && !data.seventhDetailQuestion) {
+      ctx.addIssue({
+        path: ["seventhDetailQuestion"],
+        message: "필수로 작성해주세요.",
+        code: z.ZodIssueCode.custom,
+      });
+    }
+  })
+  .superRefine((data, ctx) => {
+    if (data.seventhOneQuestion === "no" && !data.seventhOneDetailQuestion) {
+      ctx.addIssue({
+        path: ["seventhOneDetailQuestion"],
+        message: "필수로 작성해주세요.",
+        code: z.ZodIssueCode.custom,
+      });
+    }
+  });
 
 export default function SurveyLayout() {
   const router = useRouter();
@@ -117,6 +136,7 @@ export default function SurveyLayout() {
     formState: { errors },
   } = useForm<SurveyData>({
     resolver: zodResolver(surveySchema),
+    mode: "onChange",
     defaultValues: {
       firstQuestion: undefined,
       firstQuestionAdditional: "",
@@ -641,7 +661,7 @@ export default function SurveyLayout() {
                 <input
                   type="text"
                   {...register("seventhDetailQuestion")}
-                  placeholder="필수로 작성해주세요."
+                  placeholder="아니요를 선택한 경우 필수로 작성해주세요."
                   className={cn("additionalQuestionInput")}
                 />
                 {errors.seventhDetailQuestion && (
@@ -686,7 +706,7 @@ export default function SurveyLayout() {
                   <input
                     type="text"
                     {...register("seventhOneDetailQuestion")}
-                    placeholder="필수로 작성해주세요."
+                    placeholder="아니요를 선택한 경우 필수로 작성해주세요."
                     className={cn("additionalQuestionInput")}
                   />
                   {errors.seventhOneDetailQuestion && (
