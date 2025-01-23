@@ -15,14 +15,16 @@ import { useReadAllNotifications, useReadNotification } from "../../../hooks/use
 const cn = classNames.bind(styles);
 
 export interface AlarmDropDownProps {
-  sseNotifications: {
-    url: string;
-    content: string;
-    id: string;
-    isRead: boolean;
-    type: string;
-  };
+  sseNotifications: alarmType;
   setIsOpen: (prev: boolean) => void;
+}
+
+interface alarmType {
+  url: string;
+  content: string;
+  id: string;
+  isRead: boolean;
+  type: string;
 }
 
 interface DropdownOption {
@@ -53,11 +55,15 @@ export default function AlarmDropDown({ sseNotifications, setIsOpen }: AlarmDrop
 
   const handleShowAll = () => {
     updateQueryParam("is-read", "");
+    console.log(isRead);
   };
 
   const handleShowUnread = () => {
     updateQueryParam("is-read", "false");
+    console.log(isRead);
   };
+
+  const { totalUnreadCount } = useNotification(sseNotifications as alarmType, "", "");
 
   const [selectedOption, setSelectedOption] = useState<DropdownOption | null>({ label: "전체", value: "" });
 
@@ -75,14 +81,11 @@ export default function AlarmDropDown({ sseNotifications, setIsOpen }: AlarmDrop
         </div>
         <div className={cn("titleBoxRow")}>
           <div className={cn("isReadedToggle")}>
-            <button onClick={handleShowAll}>모든 알림</button>
-            <button onClick={handleShowUnread}>
-              안 읽은 알림
-              {data?.filter(
-                (notification) =>
-                  notification.isRead === false &&
-                  (notification.type === selectedOption?.value || selectedOption?.value === ""),
-              ).length || 0}
+            <button onClick={handleShowAll} className={cn({ active: isRead == "" })}>
+              모든 알림
+            </button>
+            <button onClick={handleShowUnread} className={cn({ active: isRead == "false" })}>
+              안 읽은 알림 {totalUnreadCount}
             </button>
           </div>
           <button onClick={() => readAllNotifications()} className={cn("readAllBtn")}>
@@ -112,7 +115,10 @@ export default function AlarmDropDown({ sseNotifications, setIsOpen }: AlarmDrop
             >
               {notification.type === "COMMENT" ? "댓글" : "채팅"}
             </div>
-            {notification?.content}
+            <div className={cn("alarmTextContent")}>
+              <p className={cn("alarmDefaultText")}>{notification?.content.split("-")[0].trim()}</p>
+              <p className={cn("alarmMessage")}>{notification?.content.split("-")[1].trim()}</p>
+            </div>
           </Link>
         ))}
         {isFetchingNextPage ? (
