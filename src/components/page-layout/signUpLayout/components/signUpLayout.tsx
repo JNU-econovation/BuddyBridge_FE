@@ -43,6 +43,7 @@ const signUpSchema = z.object({
     })
     .refine(
       (date) => {
+        if (!date) return false;
         const today = new Date();
         const age = today.getFullYear() - date.getFullYear();
         const monthDiff = today.getMonth() - date.getMonth();
