@@ -32,7 +32,7 @@
 
 .name {
   @include line-clamp(1);
-  width: 5rem;
+  max-width: 5rem;
 }
 
 .dot {
