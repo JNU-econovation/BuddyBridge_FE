@@ -236,13 +236,12 @@ export default function CertifyVolunteeringModal({
         <div className={cn("thoughtsContainer")}>
           <p className={cn("thoughtsTitle")}>6. 봉사 활동 내용 및 소감 </p>
           <header className={cn("thoughtsHeader")}>
-            봉사 활동 내용 및 소감을 자유롭게 작성해 주세요. (200자 이상){e.length}
+            봉사 활동 내용 및 소감을 자유롭게 작성해 주세요. (200자 이상){""}
           </header>
           <div className={cn("thoughtsContentBox")}>
             <Textarea
               placeholder="답변을 입력해 주세요."
               className={cn("thoughtsContent")}
-              onChange={countChar}
               {...register("content", { required: true })}
             />
             {errors.content && <p className={cn("errorMessage")}>{errors.content.message}</p>}
