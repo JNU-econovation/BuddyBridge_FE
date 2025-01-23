@@ -93,10 +93,13 @@ export default function RegisterCertifyVolunteeringModal({
     control,
     setValue,
     formState: { errors },
+    watch,
   } = useForm<FormData>({
     resolver: zodResolver(volunteerSchema),
     mode: "onSubmit",
   });
+
+  const contentText = watch("content", "");
 
   const handleVolunteerComplete = (data: FormData) => {
     certificationsFormMutation.mutate(data);
@@ -203,6 +206,7 @@ export default function RegisterCertifyVolunteeringModal({
               className={cn("thoughtsContent")}
               {...register("content", { required: true })}
             />
+            <p className={cn("charCount")}>{contentText.length}/1000</p>
             {errors.content && <p className={cn("errorMessage")}>{errors.content.message}</p>}
           </div>
         </div>
