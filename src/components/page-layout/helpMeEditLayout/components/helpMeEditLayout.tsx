@@ -108,7 +108,11 @@ export default function HelpMeEditLayout() {
     setValue,
     control,
     formState: { errors, isValid },
+    watch,
   } = useForm<helpMeFormData>({ resolver: zodResolver(editSchema), mode: "onChange" });
+
+  const title = watch("title", "");
+  const contentText = watch("content", "");
 
   const { data: prevData, isPending } = useQuery({
     queryKey: ["takerDetail", query.id],
@@ -214,6 +218,7 @@ export default function HelpMeEditLayout() {
                   placeholder="구체적으로 필요한 도움을 적어주세요. 예) 이동 도움 필요"
                   {...register("title")}
                 />
+                <p className={cn("charCount")}>{title.length}/30</p>
                 {errors.title && <p className={cn("errorMessage")}>{errors.title.message}</p>}
               </div>
               <div className={cn("dateContainer")}>
@@ -364,6 +369,7 @@ ex, 2시에 전대치과병원에서 진료 이동 도움이 필요합니다."
                   className={cn("detailTextarea")}
                   {...register("content", { required: true })}
                 />
+                <p className={cn("charCount")}>{contentText.length}/500</p>
                 {errors.content && <p className={cn("errorMessage")}>{errors.content.message}</p>}
               </div>
               <Button className={cn("registerBox", { active: isValid })}>

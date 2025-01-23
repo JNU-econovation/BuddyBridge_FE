@@ -203,3 +203,9 @@
   background: #e6e6ea;
   box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
 }
+
+.charCount {
+  padding: 0 1rem;
+  @include nsnFont(1.4rem, 400, normal);
+  float: right;
+}
