@@ -10,7 +10,9 @@ import styles from "@/components/common/Comment/ChatButton/ChatButton.module.scs
 import getTakerDetail from "@/components/page-layout/helpMeDetailLayout/apis/getTakerDetail";
 import { ROUTE } from "@/constants/route";
 import useOutsideClick from "@/hooks/useOutsideClick";
+import Close from "@/icons/close.svg";
 
+import Modal from "../../Modal/Modal";
 import openToast from "../../Toast/features/openToast";
 import postChatAccept from "../apis/postChatAccept";
 
@@ -82,16 +84,16 @@ export default function ChatButton({ commentId, type }: ChatButtonProps) {
         채팅하기
       </button>
       {isChatClick && (
-        <div className={cn("editBox")} ref={editBoxRef}>
-          <p className={cn("title")}>채팅 후, 매칭 여부를 선택할 수 있습니다! </p>
-          <p className={cn("content")}>
-            채팅하기를 진행한다면 상대방에게
-            <br /> 실명이 공개됩니다.
-          </p>
-          <button onClick={handleChatButtonClick} className={cn("chatButton", { helpMeChat: type === "taker" })}>
-            채팅하기
-          </button>
-        </div>
+        <Modal setState={setIsChatClick} className={cn("modal")}>
+          <div className={cn("editBox")} ref={editBoxRef}>
+            <p className={cn("title")}>채팅 후, 매칭 여부를 선택할 수 있습니다! </p>
+            <p className={cn("content")}>채팅하기를 진행한다면 상대방에게 실명이 공개됩니다.</p>
+            <button onClick={handleChatButtonClick} className={cn("chatButton", { helpMeChat: type === "taker" })}>
+              채팅하기
+            </button>
+          </div>
+          <Close className={cn("close")} onClick={() => setIsChatClick(false)} />
+        </Modal>
       )}
     </div>
   );
