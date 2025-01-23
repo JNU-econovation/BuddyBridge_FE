@@ -1,4 +1,8 @@
 .container {
   @include flexSort(column, null, null, null);
   overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
