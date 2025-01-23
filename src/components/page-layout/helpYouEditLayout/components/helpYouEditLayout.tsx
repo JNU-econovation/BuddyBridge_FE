@@ -27,7 +27,7 @@ import RegisterArrow from "@/icons/send_arrow.svg";
 import { ErrorResponse } from "@/types/error";
 
 import styles from "./helpYouEditLayout.module.scss";
-import patchHelpMeRegister from "../../helpMeEditLayout/apis/patchHelpMeRegister";
+import putHelpMeRegister from "../../helpMeEditLayout/apis/putHelpMeRegister";
 import { helpMeFormData } from "../../helpMeRegisterLayout/types";
 import getGiverDetail from "../../helpYouDetailLayout/apis/getGiverDetail";
 import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
@@ -87,7 +87,7 @@ export default function HelpYouEditLayout() {
   const queryClient = useQueryClient();
   const { query } = router;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [content, setContent] = useState<null | Partial<helpMeFormData>>(null);
+  const [content, setContent] = useState<Partial<helpMeFormData> | null>(null);
   const [prevHelpMeData, setPrevHelpMeData] = useState<helpMeFormData | null>(null);
 
   const { data: myInfoData, isFetching } = useQuery({
@@ -109,7 +109,7 @@ export default function HelpYouEditLayout() {
   });
 
   const updateHelpMeMutation = useMutation({
-    mutationFn: (content: helpMeFormData) => patchHelpMeRegister(content, query.id as string),
+    mutationFn: (content: helpMeFormData) => putHelpMeRegister(content, query.id as string),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["takerDetail", query.id] });
       router.push((ROUTE.HELP_YOU + "/" + query.id) as string);
@@ -156,24 +156,20 @@ export default function HelpYouEditLayout() {
 
   const handleHelpMeSubmit = (data: helpMeFormData) => {
     setIsModalOpen((prev) => !prev);
-    const modifiedContent: Partial<helpMeFormData> = {};
+    const content = {
+      title: data.title,
+      assistanceType: data.assistanceType,
+      startDate: data.startDate,
+      endDate: data.endDate,
+      scheduleType: data.scheduleType,
+      scheduleDetails: data.scheduleDetails,
+      district: data.district,
+      content: data.content,
+      assistanceStartTime: data.assistanceStartTime,
+      assistanceEndTime: data.assistanceEndTime,
+    };
 
-    Object.entries(data).forEach(([key, value]) => {
-      const typedKey = key as keyof helpMeFormData;
-      if (prevHelpMeData) {
-        if (value instanceof Date) {
-          const prevDate = new Date(prevHelpMeData[typedKey]);
-          if (value.getTime !== prevDate.getTime) {
-            (modifiedContent[typedKey] as Date) = value;
-          }
-        } else {
-          if (value !== prevHelpMeData[typedKey]) {
-            modifiedContent[typedKey] = value;
-          }
-        }
-      }
-    });
-    setContent(modifiedContent);
+    setContent(content);
   };
 
   useEffect(() => {
