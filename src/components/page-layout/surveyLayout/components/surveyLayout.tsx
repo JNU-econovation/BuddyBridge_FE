@@ -172,7 +172,7 @@ export default function SurveyLayout() {
         <div className={cn("questionBox")}>
           <header className={cn("questionHeader")}>1. 서비스에서 제공하는 기능이 충분하다고 생각하시나요?</header>
           <div className={cn("yesNoBox")}>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, firstQuestion: true })}
                 type="radio"
@@ -180,9 +180,11 @@ export default function SurveyLayout() {
                 {...register("firstQuestion")}
                 value="yes"
               />
-              <label htmlFor="yes"> 예</label>
+              <label htmlFor="yes" className={cn("label")}>
+                예
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, firstQuestion: true })}
                 type="radio"
@@ -190,7 +192,9 @@ export default function SurveyLayout() {
                 {...register("firstQuestion")}
                 value="no"
               />
-              <label htmlFor="no"> 아니요</label>
+              <label htmlFor="no" className={cn("label")}>
+                아니요
+              </label>
             </div>
             {errors.firstQuestion && <p className={cn("errorMessage")}>{errors.firstQuestion.message}</p>}
           </div>
@@ -212,7 +216,7 @@ export default function SurveyLayout() {
         <div className={cn("questionBox")}>
           <header className={cn("questionHeader")}>2. 서비스 개선이 필요하다고 느끼는 부분은 무엇인가요?</header>
           <div className={cn("multipleChoiceBox")}>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, secondQuestion: true })}
                 type="radio"
@@ -220,9 +224,11 @@ export default function SurveyLayout() {
                 {...register("secondQuestion")}
                 value="성능"
               />
-              <label htmlFor="performance"> 성능</label>
+              <label htmlFor="performance" className={cn("label")}>
+                성능
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, secondQuestion: true })}
                 type="radio"
@@ -230,9 +236,11 @@ export default function SurveyLayout() {
                 {...register("secondQuestion")}
                 value="디자인"
               />
-              <label htmlFor="design"> 디자인</label>
+              <label htmlFor="design" className={cn("label")}>
+                디자인
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, secondQuestion: true })}
                 type="radio"
@@ -240,9 +248,11 @@ export default function SurveyLayout() {
                 {...register("secondQuestion")}
                 value="기능 추가"
               />
-              <label htmlFor="features"> 기능 추가</label>
+              <label htmlFor="features" className={cn("label")}>
+                기능 추가
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, secondQuestion: true })}
                 type="radio"
@@ -250,7 +260,9 @@ export default function SurveyLayout() {
                 {...register("secondQuestion")}
                 value="기타"
               />
-              <label htmlFor="etc"> 기타</label>
+              <label htmlFor="etc" className={cn("label")}>
+                기타
+              </label>
             </div>
             {errors.secondQuestion && <p className={cn("errorMessage")}>{errors.secondQuestion.message}</p>}
           </div>
@@ -274,7 +286,7 @@ export default function SurveyLayout() {
             3. 서비스 화면이 깔끔하고 필요한 정보를 잘 전달한다고 생각하시나요?
           </header>
           <div className={cn("multipleChoiceBox")}>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, thirdQuestion: true })}
                 type="radio"
@@ -282,9 +294,11 @@ export default function SurveyLayout() {
                 {...register("thirdQuestion")}
                 value="1점"
               />
-              <label htmlFor="thirdQuestionOnePoint"> 1점</label>
+              <label htmlFor="thirdQuestionOnePoint" className={cn("label")}>
+                1점
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 type="radio"
                 onClick={() => setIsClicked({ ...isClicked, thirdQuestion: true })}
@@ -292,9 +306,11 @@ export default function SurveyLayout() {
                 {...register("thirdQuestion")}
                 value="2점"
               />
-              <label htmlFor="thirdQuestionTwoPoint"> 2점</label>
+              <label htmlFor="thirdQuestionTwoPoint" className={cn("label")}>
+                2점
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, thirdQuestion: true })}
                 type="radio"
@@ -302,9 +318,11 @@ export default function SurveyLayout() {
                 {...register("thirdQuestion")}
                 value="3점"
               />
-              <label htmlFor="thirdQuestionThreePoint"> 3점</label>
+              <label htmlFor="thirdQuestionThreePoint" className={cn("label")}>
+                3점
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, thirdQuestion: true })}
                 type="radio"
@@ -312,9 +330,11 @@ export default function SurveyLayout() {
                 {...register("thirdQuestion")}
                 value="4점"
               />
-              <label htmlFor="thirdQuestionFourPoint"> 4점</label>
+              <label htmlFor="thirdQuestionFourPoint" className={cn("label")}>
+                4점
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, thirdQuestion: true })}
                 type="radio"
@@ -322,7 +342,9 @@ export default function SurveyLayout() {
                 {...register("thirdQuestion")}
                 value="5점"
               />
-              <label htmlFor="thirdQuestionFivePoint"> 5점</label>
+              <label htmlFor="thirdQuestionFivePoint" className={cn("label")}>
+                5점
+              </label>
             </div>
             {errors.thirdQuestion && <p className={cn("errorMessage")}>{errors.thirdQuestion.message}</p>}
           </div>
@@ -341,7 +363,7 @@ export default function SurveyLayout() {
         <div className={cn("questionBox")}>
           <header className={cn("questionHeader")}>4. 봉사 인증 플로우 시스템이 사용하기 쉬웠나요?</header>
           <div className={cn("multipleChoiceBox")}>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, fourthQuestion: true })}
                 type="radio"
@@ -349,9 +371,11 @@ export default function SurveyLayout() {
                 {...register("fourthQuestion")}
                 value="1점"
               />
-              <label htmlFor="fourthQuestionOnePoint"> 1점</label>
+              <label htmlFor="fourthQuestionOnePoint" className={cn("label")}>
+                1점
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, fourthQuestion: true })}
                 type="radio"
@@ -359,9 +383,11 @@ export default function SurveyLayout() {
                 {...register("fourthQuestion")}
                 value="2점"
               />
-              <label htmlFor="fourthQuestionTwoPoint"> 2점</label>
+              <label htmlFor="fourthQuestionTwoPoint" className={cn("label")}>
+                2점
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, fourthQuestion: true })}
                 type="radio"
@@ -369,9 +395,11 @@ export default function SurveyLayout() {
                 {...register("fourthQuestion")}
                 value="3점"
               />
-              <label htmlFor="fourthQuestionThreePoint"> 3점</label>
+              <label htmlFor="fourthQuestionThreePoint" className={cn("label")}>
+                3점
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, fourthQuestion: true })}
                 type="radio"
@@ -379,9 +407,11 @@ export default function SurveyLayout() {
                 {...register("fourthQuestion")}
                 value="4점"
               />
-              <label htmlFor="fourthQuestionFourPoint"> 4점</label>
+              <label htmlFor="fourthQuestionFourPoint" className={cn("label")}>
+                4점
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, fourthQuestion: true })}
                 type="radio"
@@ -389,7 +419,9 @@ export default function SurveyLayout() {
                 {...register("fourthQuestion")}
                 value="5점"
               />
-              <label htmlFor="fourthQuestionFivePoint"> 5점</label>
+              <label htmlFor="fourthQuestionFivePoint" className={cn("label")}>
+                5점
+              </label>
             </div>
             {errors.fourthQuestion && <p className={cn("errorMessage")}>{errors.fourthQuestion.message}</p>}
           </div>
@@ -410,7 +442,7 @@ export default function SurveyLayout() {
             5. 필요한 장애 지원 인력을 찾는 과정이 이 서비스를 통해 얼마나 간편해졌다고 느끼셨나요?
           </header>
           <div className={cn("multipleChoiceBox")}>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, fifthQuestion: true })}
                 type="radio"
@@ -418,9 +450,11 @@ export default function SurveyLayout() {
                 {...register("fifthQuestion")}
                 value="1점"
               />
-              <label htmlFor="fifthQuestionOnePoint"> 1점</label>
+              <label htmlFor="fifthQuestionOnePoint" className={cn("label")}>
+                1점
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, fifthQuestion: true })}
                 type="radio"
@@ -428,9 +462,11 @@ export default function SurveyLayout() {
                 {...register("fifthQuestion")}
                 value="2점"
               />
-              <label htmlFor="fifthQuestionTwoPoint"> 2점</label>
+              <label htmlFor="fifthQuestionTwoPoint" className={cn("label")}>
+                2점
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, fifthQuestion: true })}
                 type="radio"
@@ -438,9 +474,11 @@ export default function SurveyLayout() {
                 {...register("fifthQuestion")}
                 value="3점"
               />
-              <label htmlFor="fifthQuestionThreePoint"> 3점</label>
+              <label htmlFor="fifthQuestionThreePoint" className={cn("label")}>
+                3점
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, fifthQuestion: true })}
                 type="radio"
@@ -448,9 +486,11 @@ export default function SurveyLayout() {
                 {...register("fifthQuestion")}
                 value="4점"
               />
-              <label htmlFor="fifthQuestionFourPoint"> 4점</label>
+              <label htmlFor="fifthQuestionFourPoint" className={cn("label")}>
+                4점
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 onClick={() => setIsClicked({ ...isClicked, fifthQuestion: true })}
                 type="radio"
@@ -458,7 +498,9 @@ export default function SurveyLayout() {
                 {...register("fifthQuestion")}
                 value="5점"
               />
-              <label htmlFor="fifthQuestionFivePoint"> 5점</label>
+              <label htmlFor="fifthQuestionFivePoint" className={cn("label")}>
+                5점
+              </label>
             </div>
             {errors.fifthQuestion && <p className={cn("errorMessage")}>{errors.fifthQuestion.message}</p>}
           </div>
@@ -477,7 +519,7 @@ export default function SurveyLayout() {
         <div className={cn("questionBox")}>
           <header className={cn("questionHeader")}>6. 서비스의 전반적인 완성도를 평가해주세요.</header>
           <div className={cn("multipleChoiceBox")}>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 type="radio"
                 onClick={() => setIsClicked({ ...isClicked, sixthQuestion: true })}
@@ -485,9 +527,11 @@ export default function SurveyLayout() {
                 {...register("sixthQuestion")}
                 value="1점"
               />
-              <label htmlFor="sixthQuestionOnePoint"> 1점</label>
+              <label htmlFor="sixthQuestionOnePoint" className={cn("label")}>
+                1점
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 type="radio"
                 onClick={() => setIsClicked({ ...isClicked, sixthQuestion: true })}
@@ -495,9 +539,11 @@ export default function SurveyLayout() {
                 {...register("sixthQuestion")}
                 value="2점"
               />
-              <label htmlFor="sixthQuestionTwoPoint"> 2점</label>
+              <label htmlFor="sixthQuestionTwoPoint" className={cn("label")}>
+                2점
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 type="radio"
                 onClick={() => setIsClicked({ ...isClicked, sixthQuestion: true })}
@@ -505,9 +551,11 @@ export default function SurveyLayout() {
                 {...register("sixthQuestion")}
                 value="3점"
               />
-              <label htmlFor="sixthQuestionThreePoint"> 3점</label>
+              <label htmlFor="sixthQuestionThreePoint" className={cn("label")}>
+                3점
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 type="radio"
                 onClick={() => setIsClicked({ ...isClicked, sixthQuestion: true })}
@@ -515,9 +563,11 @@ export default function SurveyLayout() {
                 {...register("sixthQuestion")}
                 value="4점"
               />
-              <label htmlFor="sixthQuestionFourPoint"> 4점</label>
+              <label htmlFor="sixthQuestionFourPoint" className={cn("label")}>
+                4점
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 type="radio"
                 onClick={() => setIsClicked({ ...isClicked, sixthQuestion: true })}
@@ -525,7 +575,9 @@ export default function SurveyLayout() {
                 {...register("sixthQuestion")}
                 value="5점"
               />
-              <label htmlFor="sixthQuestionFivePoint"> 5점</label>
+              <label htmlFor="sixthQuestionFivePoint" className={cn("label")}>
+                5점
+              </label>
             </div>
             {errors.sixthQuestion && <p className={cn("errorMessage")}>{errors.sixthQuestion.message}</p>}
           </div>
@@ -546,7 +598,7 @@ export default function SurveyLayout() {
             7. 서비스가 현재 상태에서도 충분히 실사용 가능하다고 느끼셨나요?
           </header>
           <div className={cn("yesNoBox")}>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 type="radio"
                 onClick={() => setIsClicked({ ...isClicked, seventhQuestion: true })}
@@ -554,9 +606,11 @@ export default function SurveyLayout() {
                 {...register("seventhQuestion")}
                 value="yes"
               />
-              <label htmlFor="seventh-yes"> 예</label>
+              <label htmlFor="seventh-yes" className={cn("label")}>
+                예
+              </label>
             </div>
-            <div>
+            <div className={cn("labelBox")}>
               <input
                 type="radio"
                 onClick={() => {
@@ -566,7 +620,9 @@ export default function SurveyLayout() {
                 {...register("seventhQuestion")}
                 value="no"
               />
-              <label htmlFor="seventh-no"> 아니요</label>
+              <label htmlFor="seventh-no" className={cn("label")}>
+                아니요
+              </label>
             </div>
             {errors.seventhQuestion && <p className={cn("errorMessage")}>{errors.seventhQuestion.message}</p>}
           </div>
@@ -576,7 +632,7 @@ export default function SurveyLayout() {
                 7-1 그렇다면, 귀하는 이 서비스를 실사용 해보실 의향이 있습니까?
               </header>
               <div className={cn("yesNoBox")}>
-                <div>
+                <div className={cn("labelBox")}>
                   <input
                     onClick={() => setIsClicked({ ...isClicked, seventhOneQuestion: true })}
                     type="radio"
@@ -584,9 +640,11 @@ export default function SurveyLayout() {
                     {...register("seventhOneQuestion")}
                     value="yes"
                   />
-                  <label htmlFor="seventh-one-yes"> 예</label>
+                  <label htmlFor="seventh-one-yes" className={cn("label")}>
+                    예
+                  </label>
                 </div>
-                <div>
+                <div className={cn("labelBox")}>
                   <input
                     onClick={() => setIsClicked({ ...isClicked, seventhOneQuestion: false })}
                     type="radio"
@@ -594,7 +652,9 @@ export default function SurveyLayout() {
                     {...register("seventhOneQuestion")}
                     value="no"
                   />
-                  <label htmlFor="seventh-one-no"> 아니요</label>
+                  <label htmlFor="seventh-one-no" className={cn("label")}>
+                    아니요
+                  </label>
                 </div>
                 {errors.seventhOneQuestion && <p className={cn("errorMessage")}>{errors.seventhOneQuestion.message}</p>}
               </div>

@@ -133,6 +133,14 @@
   }
 }
 
+.labelBox {
+  @include flexSort(row, null, null, 1rem);
+}
+
+.label {
+  width: 100%;
+}
+
 .additionalQuestionBox {
   @include flexSort(column, null, null, 2rem);
 }
