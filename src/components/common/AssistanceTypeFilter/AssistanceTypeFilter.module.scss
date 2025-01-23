@@ -6,7 +6,7 @@
 .takerBox,
 .giverBox {
   @include flexSort(column, center, center, null);
-  color: #efefef;
+  color: #8d8989;
 }
 
 .takerBox {
