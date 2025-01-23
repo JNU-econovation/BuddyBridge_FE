@@ -17,6 +17,7 @@ import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/RegisterCertifyVolunteeringModal/RegisterCertifyVolunteeringModal.module.scss";
 import Calendar from "@/icons/calendar.svg";
 import Close from "@/icons/close.svg";
+import { ErrorResponse } from "@/types/error";
 
 import getPostEnums from "./apis/getPostEnums";
 import postCertificationsForm, { formType } from "./apis/postCertificationsForm";
@@ -38,12 +39,6 @@ interface FormData {
   startTime: Date;
   endTime: Date;
   content: string;
-}
-
-interface ErrorResponse {
-  error: {
-    message: string;
-  };
 }
 
 const volunteerSchema = z.object({
@@ -82,7 +77,9 @@ export default function RegisterCertifyVolunteeringModal({
       queryClient.invalidateQueries({ queryKey: ["chattingRoomData", matchingId] });
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      if (error.response) {
+      if (error.response?.data.error.invalidParams) {
+        openToast("error", error.response.data.error.invalidParams[0].message);
+      } else if (error.response?.data.error.message) {
         openToast("error", error.response.data.error.message);
       } else {
         openToast("error", "에러가 발생했습니다.");
