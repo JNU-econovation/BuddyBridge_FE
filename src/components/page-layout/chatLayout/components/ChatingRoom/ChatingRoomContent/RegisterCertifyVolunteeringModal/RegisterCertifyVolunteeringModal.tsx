@@ -155,7 +155,12 @@ export default function RegisterCertifyVolunteeringModal({
                 <CustomDatePicker
                   locale={ko}
                   selected={field.value}
-                  onChange={field.onChange}
+                  onChange={(date: Date) => {
+                    if (date) {
+                      const adjustedDate = new Date(date.setHours(12, 0, 0, 0));
+                      field.onChange(adjustedDate);
+                    }
+                  }}
                   dateFormat="yyyy.MM.dd"
                   customInputRef={field.ref}
                   placeholder="봉사한 날짜를 선택해 주세요."
