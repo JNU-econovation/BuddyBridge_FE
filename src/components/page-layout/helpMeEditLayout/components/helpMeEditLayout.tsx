@@ -229,10 +229,15 @@ export default function HelpMeEditLayout() {
                         <CustomDatePicker
                           locale={ko}
                           selected={field.value}
-                          onChange={field.onChange}
                           dateFormat="yyyy.MM.dd"
                           customInputRef={field.ref}
                           placeholder="0000.00.00"
+                          onChange={(date: Date) => {
+                            if (date) {
+                              const adjustedDate = new Date(date.setHours(12, 0, 0, 0));
+                              field.onChange(adjustedDate);
+                            }
+                          }}
                           classNames={cn("dateFont")}
                         />
                       )}
@@ -250,7 +255,12 @@ export default function HelpMeEditLayout() {
                         <CustomDatePicker
                           locale={ko}
                           selected={field.value}
-                          onChange={field.onChange}
+                          onChange={(date: Date) => {
+                            if (date) {
+                              const adjustedDate = new Date(date.setHours(12, 0, 0, 0));
+                              field.onChange(adjustedDate);
+                            }
+                          }}
                           dateFormat="yyyy.MM.dd"
                           customInputRef={field.ref}
                           placeholder="0000.00.00"
