@@ -7,8 +7,11 @@ import classNames from "classnames/bind";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { useRouter } from "next/router";
+
 import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/surveyLayout/components/surveyLayout.module.scss";
+import { ROUTE } from "@/constants/route";
 import { ErrorResponse } from "@/types/error";
 
 import postSurvey from "../apis/postSurvey";
@@ -105,11 +108,12 @@ const surveySchema = z
   });
 
 export default function SurveyLayout() {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
     reset,
-    setValue,
     formState: { errors },
   } = useForm<SurveyData>({
     resolver: zodResolver(surveySchema),
@@ -145,12 +149,16 @@ export default function SurveyLayout() {
   const uploadHelpYouMutation = useMutation({
     mutationFn: (content: SurveyData) => postSurvey(content),
     onSuccess: () => {
+      router.push(ROUTE.SURVEY_COMPLETE);
       openToast("success", "설문 조사가 완료되었습니다.");
-      reset();
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      if (error.response) {
+      if (error.response?.data.error.invalidParams) {
+        openToast("error", error.response.data.error.invalidParams[0].message);
+      } else if (error.response?.data.error.message) {
         openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "설문 조사 작성에 실패하였습니다.");
       }
     },
   });

@@ -18,5 +18,5 @@ export const ROUTE = {
   MY_PAGE_Likes: "/my-page/likes",
   MY_PAGE_My_Writings: "/my-page/my-writings",
   MY_PAGE_Finished: "/my-page/finished",
-  FEEDBACK: "/feedback",
+  SURVEY_COMPLETE: "/survey/complete",
 } as const;
