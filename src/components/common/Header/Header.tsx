@@ -23,7 +23,7 @@ export default function Header() {
         <header className={cn("box")}>
           <div className={cn("header")}>
             <Link href={ROUTE.HOME} className={cn("logoContainer")}>
-              <Logo />
+              <Logo width={250} height={60} className={cn("logo")} />
             </Link>
             <nav className={cn("nav")}>
               <Link href={ROUTE.HELP_ME} className={cn("navContent", helpMe)}>

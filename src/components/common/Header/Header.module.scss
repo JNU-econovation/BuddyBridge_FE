@@ -8,45 +8,53 @@
   position: relative;
   width: 100%;
   max-width: 150rem;
-
-  .logoContainer {
-    @include flexSort(null, null, null, 0.4rem);
-  }
-
-  .nav {
-    @include nsnFont(2rem, 500, normal);
-    @include flexSort(null, null, center, 15rem);
-    height: 100%;
-
-    @include smallDesktop {
-      gap: 5rem;
-    }
-  }
-
-  .navContent {
-    padding: 2rem 0;
-    height: 100%;
-    color: black;
-    @include flexSort(null, null, center, null);
-
-    &.helpMe {
-      color: $taker;
-      font-weight: 700;
-    }
-
-    &.helpYou {
-      color: $giver;
-      font-weight: 700;
-    }
-
-    &.myWrite {
-      color: black;
-      font-weight: 700;
-    }
-  }
 }
 
 .header {
   @include flexSort(null, space-between, center, null);
   width: 100%;
+}
+
+.logoContainer {
+  @include flexSort(null, null, null, 0.4rem);
+}
+
+.logo {
+  @include smallDesktop {
+    width: 20rem;
+    height: 4rem;
+  }
+}
+
+.nav {
+  @include nsnFont(2rem, 500, normal);
+  @include flexSort(null, null, center, 10rem);
+  height: 100%;
+
+  @include smallDesktop {
+    gap: 5rem;
+    font-size: 1.8rem;
+  }
+}
+
+.navContent {
+  padding: 2rem 0;
+  height: 100%;
+  color: black;
+  @include flexSort(null, null, center, null);
+
+  &.helpMe {
+    color: $taker;
+    font-weight: 700;
+  }
+
+  &.helpYou {
+    color: $giver;
+    font-weight: 700;
+  }
+
+  &.myWrite {
+    color: black;
+    font-weight: 700;
+  }
 }
