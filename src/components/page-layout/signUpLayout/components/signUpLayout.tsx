@@ -29,7 +29,11 @@ import postSignUp from "../apis/postSignUp";
 const cn = classNames.bind(styles);
 
 const signUpSchema = z.object({
-  name: z.string().min(2, "이름은 최소 2자 이상이어야 합니다.").max(18, "이름은 최대 18자입니다."),
+  name: z
+    .string()
+    .min(2, "이름은 최소 2자 이상이어야 합니다.")
+    .max(18, "이름은 최대 18자입니다.")
+    .regex(/^[^\s!@#$%^&*()_+={}\[\]:;"'<>,.?~`\\/-]+$/, "이름에는 특수문자를 포함할 수 없습니다."),
   nickname: z
     .string()
     .min(2, "닉네임은 최소 2자 이상이어야 합니다.")
@@ -50,9 +54,9 @@ const signUpSchema = z.object({
         const monthDiff = today.getMonth() - date.getMonth();
         const dayDiff = today.getDate() - date.getDate();
 
-        if (age > 19) return true;
+        if (age > 17) return true;
 
-        if (age === 19) {
+        if (age === 17) {
           if (monthDiff > 0) return true;
           if (monthDiff === 0 && dayDiff >= 0) return true;
         }
@@ -60,13 +64,30 @@ const signUpSchema = z.object({
         return false;
       },
       {
-        message: "만 19세 이상이어야 합니다.",
+        message: `만 17세 이상이어야 합니다. (${new Date().getFullYear() - 17}년 ${
+          new Date().getMonth() + 1
+        }월 ${new Date().getDate()}일 이후 출생자만 가능합니다.)`,
+      },
+    )
+    .refine(
+      (date) => {
+        if (!date) return false;
+        const today = new Date();
+        const age = today.getFullYear() - date.getFullYear();
+
+        return age <= 100;
+      },
+      {
+        message: `100세 이하이어야 합니다. (${new Date().getFullYear() - 100}년 ${
+          new Date().getMonth() + 1
+        }월 ${new Date().getDate()}일 이후 출생자만 가능합니다.)`,
       },
     ),
   email: z.string().email("유효한 이메일을 입력해주세요."),
   password: z
     .string()
     .min(8, "비밀번호는 최소 8자 이상이어야 합니다.")
+    .regex(/^[^\u3131-\u3163\uac00-\ud7a3]+$/, "비밀번호에는 한글을 포함할 수 없습니다.")
     .max(18, "비밀번호는 최대 16자입니다.")
     .regex(/[a-z]/, "비밀번호에는 최소 1개의 소문자가 포함되어야 합니다.")
     .regex(/[0-9]/, "비밀번호에는 최소 1개의 숫자가 포함되어야 합니다.")
