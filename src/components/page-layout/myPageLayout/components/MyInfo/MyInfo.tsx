@@ -32,7 +32,8 @@ export default function MyInfo() {
             <p>{myInfoData?.email}</p>
           </div>
           <div className={cn("detailBox")}>
-            <p className={cn("name")}>{myInfoData?.name}/{myInfoData?.nickname}</p>
+            <p className={cn("name")}>{myInfoData?.nickname}</p>
+            <p>이름 : {myInfoData?.name}</p>
             <p>나이 : {myInfoData?.age}</p>
             <p>성별 : {myInfoData?.gender}</p>
             <p>장애유형 : {myInfoData?.disabilityType}</p>
