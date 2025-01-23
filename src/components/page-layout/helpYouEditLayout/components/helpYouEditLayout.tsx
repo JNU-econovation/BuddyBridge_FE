@@ -90,6 +90,12 @@ export default function HelpYouEditLayout() {
   const [content, setContent] = useState<Partial<helpMeFormData> | null>(null);
   const [prevHelpMeData, setPrevHelpMeData] = useState<helpMeFormData | null>(null);
 
+  const normalizeDate = (date: string | Date): Date => {
+    const utcDate = new Date(date);
+    const adjustedDate = new Date(utcDate.getUTCFullYear(), utcDate.getUTCMonth(), utcDate.getUTCDate(), 12, 0, 0, 0);
+    return adjustedDate;
+  };
+
   const { data: myInfoData, isFetching } = useQuery({
     queryKey: ["userInfo"],
     queryFn: () => getMyInfo(),
@@ -132,8 +138,8 @@ export default function HelpYouEditLayout() {
       const newPrevHelpMeData: helpMeFormData = {
         title: prevData.post.title,
         assistanceType: prevData.post.assistance.assistanceType,
-        startDate: new Date(prevData.post.schedule.startDate),
-        endDate: new Date(prevData.post.schedule.endDate),
+        startDate: normalizeDate(prevData.post.schedule.startDate),
+        endDate: normalizeDate(prevData.post.schedule.endDate),
         scheduleType: prevData.post.schedule.scheduleType,
         scheduleDetails: prevData.post.schedule.scheduleDetails,
         district: prevData.post.district,
@@ -217,7 +223,7 @@ export default function HelpYouEditLayout() {
                           selected={field.value}
                           onChange={(date: Date) => {
                             if (date) {
-                              const adjustedDate = new Date(date.setHours(12, 0, 0, 0));
+                              const adjustedDate = normalizeDate(date);
                               field.onChange(adjustedDate);
                             }
                           }}
@@ -243,7 +249,7 @@ export default function HelpYouEditLayout() {
                           selected={field.value}
                           onChange={(date: Date) => {
                             if (date) {
-                              const adjustedDate = new Date(date.setHours(12, 0, 0, 0));
+                              const adjustedDate = normalizeDate(date);
                               field.onChange(adjustedDate);
                             }
                           }}
