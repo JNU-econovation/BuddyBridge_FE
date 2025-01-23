@@ -14,6 +14,7 @@ import { ROUTE } from "@/constants/route";
 import { ErrorResponse } from "@/types/error";
 
 import CertificationContent, { CertificationContentProps } from "./CertificationContent/CertificationContent";
+import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
 import deleteCertification from "../apis/deleteCertification";
 import getCertifications from "../apis/getCertifications";
 import postCertification from "../apis/postCertification";
@@ -27,6 +28,11 @@ export default function CertificationLayout() {
   const params = new URLSearchParams(router.query as any);
 
   const currentPage = Number(params.get("page")) || 0;
+
+  const { data: myInfoData, isFetching } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: () => getMyInfo(),
+  });
 
   const { data, error, isPending } = useQuery({
     queryKey: ["certification", currentPage > 0 ? currentPage : 1],
@@ -69,6 +75,13 @@ export default function CertificationLayout() {
       router.push(ROUTE.HOME);
     }
   }, [error, router]);
+
+  useEffect(() => {
+    if (!myInfoData && !isFetching) {
+      router.push(ROUTE.LOGIN);
+      openToast("error", "로그인을 해주세요.");
+    }
+  }, [myInfoData, router, isFetching]);
 
   if (isPending) return <>...로딩</>;
 

@@ -15,6 +15,7 @@ import Cancel from "@/icons/cancel.svg";
 import { ErrorResponse } from "@/types/error";
 
 import DeclarationContent, { DeclarationContentProps } from "./DeclarationContent/DeclarationContent";
+import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
 import deleteDeclaration from "../apis/deleteDeclaration";
 import getDeclaration from "../apis/getDeclaration";
 import postBlackList from "../apis/postBlackList";
@@ -22,6 +23,11 @@ import postBlackList from "../apis/postBlackList";
 const cn = classNames.bind(styles);
 
 export default function DeclarationLayout() {
+  const { data: myInfoData, isFetching } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: () => getMyInfo(),
+  });
+
   const [type, setType] = useState<"all" | "posts" | "comments" | "matchings">("all");
   const [checkId, setCheckId] = useState({
     id: 0,
@@ -89,6 +95,13 @@ export default function DeclarationLayout() {
       router.push(ROUTE.HOME);
     }
   }, [error, router]);
+
+  useEffect(() => {
+    if (!myInfoData && !isFetching) {
+      router.push(ROUTE.LOGIN);
+      openToast("error", "로그인을 해주세요.");
+    }
+  }, [myInfoData, router, isFetching]);
 
   if (isPending) return <>...로딩</>;
 
