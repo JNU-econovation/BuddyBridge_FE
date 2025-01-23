@@ -8,6 +8,7 @@ import { z } from "zod";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+import Loader from "@/components/common/Loader/Loader";
 import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/adminLoginLayout/components/adminLoginLayout.module.scss";
 import { ROUTE } from "@/constants/route";
@@ -120,7 +121,7 @@ export default function AdminLoginLayout() {
             </div>
             <div className={cn("buttonBox")}>
               <button type="submit" className={cn("loginBtn", { active: isValid })}>
-                로그인
+                {login.isPending ? <Loader /> : "로그인"}
               </button>
               <Link href={ROUTE.SIGN_UP} type="button" className={cn("signUpBtn")}>
                 이메일 회원가입
