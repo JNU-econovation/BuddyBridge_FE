@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import CustomDatePicker from "@/components/common/DatePicker/DatePicker";
 import { GENDER } from "@/components/common/DropDown/constants";
 import Dropdown from "@/components/common/DropDown/DropDown";
+import Loader from "@/components/common/Loader/Loader";
 import Modal from "@/components/common/Modal/Modal";
 import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/signUpLayout/components/signUpLayout.module.scss";
@@ -254,7 +255,7 @@ export default function SignUpLayout() {
             </div>
           </div>
           <button type="submit" className={cn("signUpBtn", { active: isValid })}>
-            회원가입
+            {signUp.isPending ? <Loader /> : "회원가입"}
           </button>
         </form>
       </article>
