@@ -35,7 +35,7 @@ const cn = classNames.bind(styles);
 
 const registerSchema = z
   .object({
-    title: z.string().min(1, "제목 최소 1자 이상이어야 합니다.").max(30, "제목은 최대 30자입니다."),
+    title: z.string().min(1, "제목은 최소 1자 이상이어야 합니다.").max(30, "제목은 최대 30자입니다."),
     startDate: z
       .date()
       .optional()

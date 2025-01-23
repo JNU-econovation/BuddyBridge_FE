@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 import { ko } from "date-fns/locale";
 import { Controller, useForm } from "react-hook-form";
@@ -23,6 +24,7 @@ import openToast from "@/components/common/Toast/features/openToast";
 import { ROUTE } from "@/constants/route";
 import Calendar from "@/icons/calendar.svg";
 import RegisterArrow from "@/icons/send_arrow.svg";
+import { ErrorResponse } from "@/types/error";
 
 import styles from "./helpYouEditLayout.module.scss";
 import patchHelpMeRegister from "../../helpMeEditLayout/apis/patchHelpMeRegister";
@@ -32,28 +34,53 @@ import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
 
 const cn = classNames.bind(styles);
 
-const editSchema = z.object({
-  title: z.string().min(1, "제목 최소 1자 이상이어야 합니다."),
-  startDate: z
-    .date()
-    .optional()
-    .refine((date) => date !== undefined, {
-      message: "시작 기간을 선택해주세요",
-    }),
-  endDate: z
-    .date()
-    .optional()
-    .refine((date) => date !== undefined, {
-      message: "마무리 기간을 선택해주세요",
-    }),
-  assistanceStartTime: z.string().min(1, "시작 시간을 선택해주세요."),
-  assistanceEndTime: z.string().min(1, "시작 시간을 선택해주세요."),
-  scheduleType: z.string().min(1, "주기를 선택해주세요."),
-  scheduleDetails: z.string().min(1, "상세 주기를 입력해주세요."),
-  district: z.string().min(1, "장소를 선택해주세요."),
-  assistanceType: z.string().min(1, "도움 유형을 선택해주세요."),
-  content: z.string().min(1, "상세 내용을 입력해주세요."),
-});
+const editSchema = z
+  .object({
+    title: z.string().min(1, "제목은 최소 1자 이상이어야 합니다.").max(30, "제목은 최대 30자까지만 가능합니다."),
+    startDate: z
+      .date()
+      .optional()
+      .refine((date) => date !== undefined, {
+        message: "시작 기간을 선택해주세요",
+      }),
+    endDate: z
+      .date()
+      .optional()
+      .refine((date) => date !== undefined, {
+        message: "마무리 기간을 선택해주세요",
+      }),
+    assistanceStartTime: z.string().min(1, "시작 시간을 선택해주세요."),
+    assistanceEndTime: z.string().min(1, "시작 시간을 선택해주세요."),
+    scheduleType: z.string().min(1, "주기를 선택해주세요."),
+    scheduleDetails: z.string().min(1, "상세 주기를 입력해주세요."),
+    district: z.string().min(1, "장소를 선택해주세요."),
+    assistanceType: z.string().min(1, "도움 유형을 선택해주세요."),
+    content: z.string().min(1, "상세 내용을 입력해주세요."),
+  })
+  .refine(
+    (data) => {
+      if (data.startDate && data.endDate) {
+        return data.startDate <= data.endDate;
+      }
+      return true;
+    },
+    {
+      message: "시작 기간은 마무리 기간을 초과할 수 없습니다.",
+      path: ["startDate"],
+    },
+  )
+  .refine(
+    (data) => {
+      const { assistanceStartTime, assistanceEndTime } = data;
+      const startTime = new Date(`1970-01-01T${assistanceStartTime}:00`);
+      const endTime = new Date(`1970-01-01T${assistanceEndTime}:00`);
+      return startTime <= endTime;
+    },
+    {
+      message: "시작 시간은 끝나는 시간보다 늦을 수 없습니다.",
+      path: ["assistanceStartTime"],
+    },
+  );
 
 export default function HelpYouEditLayout() {
   const router = useRouter();
@@ -83,12 +110,20 @@ export default function HelpYouEditLayout() {
 
   const updateHelpMeMutation = useMutation({
     mutationFn: (content: helpMeFormData) => patchHelpMeRegister(content, query.id as string),
-    onError: () => {
-      openToast("error", "게시글을 수정하는 중 문제가 발생했습니다. 다시 시도해 주세요.");
-    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["takerDetail", query.id] });
       router.push((ROUTE.HELP_YOU + "/" + query.id) as string);
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response) {
+        const invalidParams = error.response.data.error.invalidParams;
+        if (invalidParams) {
+          const fullInvalidMessage = invalidParams.map((param) => param.message).join(", ");
+          openToast("error", fullInvalidMessage);
+        } else {
+          openToast("error", error.response.data.error.message);
+        }
+      }
     },
   });
 
@@ -184,7 +219,12 @@ export default function HelpYouEditLayout() {
                         <CustomDatePicker
                           locale={ko}
                           selected={field.value}
-                          onChange={field.onChange}
+                          onChange={(date: Date) => {
+                            if (date) {
+                              const adjustedDate = new Date(date.setHours(12, 0, 0, 0));
+                              field.onChange(adjustedDate);
+                            }
+                          }}
                           dateFormat="yyyy.MM.dd"
                           customInputRef={field.ref}
                           placeholder="0000.00.00"
@@ -205,7 +245,12 @@ export default function HelpYouEditLayout() {
                         <CustomDatePicker
                           locale={ko}
                           selected={field.value}
-                          onChange={field.onChange}
+                          onChange={(date: Date) => {
+                            if (date) {
+                              const adjustedDate = new Date(date.setHours(12, 0, 0, 0));
+                              field.onChange(adjustedDate);
+                            }
+                          }}
                           dateFormat="yyyy.MM.dd"
                           customInputRef={field.ref}
                           placeholder="0000.00.00"

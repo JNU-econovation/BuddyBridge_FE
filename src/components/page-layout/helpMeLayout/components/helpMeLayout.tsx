@@ -47,19 +47,19 @@ export default function HelpMeLayout() {
 
   const handleFilter = (category: string, optionId: string) => {
     const searchParams = new URLSearchParams(params.toString());
-    const selectedAllType = searchParams.get("allType") ?? "";
+    const selectedAllType = searchParams.get("all") ?? "";
     const selectedDisabilityType = searchParams.get("disabilityType") ?? "";
     const selectedAssistanceType = searchParams.get("assistanceType") ?? "";
     const selectedPostStatus = searchParams.get("postStatus") ?? "";
 
-    let allTypeList = selectedAllType ? selectedAllType.split(",") : [];
+    let isAllType = selectedAllType;
     let disabilityTypeList = selectedDisabilityType ? selectedDisabilityType.split(",") : [];
     let assistanceTypeList = selectedAssistanceType ? selectedAssistanceType.split(",") : [];
     let postStatusList = selectedPostStatus ? selectedPostStatus.split(",") : [];
 
     if (category === "all") {
-      allTypeList.push(optionId);
-      searchParams.set("all", allTypeList.join(","));
+      isAllType = optionId;
+      searchParams.set("all", isAllType);
       searchParams.delete("disabilityType");
       searchParams.delete("assistanceType");
       searchParams.delete("postStatus");
@@ -98,9 +98,17 @@ export default function HelpMeLayout() {
           searchParams.set("postStatus", postStatusList.join(","));
         }
       } else {
-        postStatusList.push(optionId);
-        searchParams.set("postStatus", postStatusList.join(","));
-        searchParams.delete("all");
+        if (postStatusList.length === 1) {
+          if (postStatusList[0] === "FINISHED") {
+            searchParams.set("postStatus", "RECRUITING");
+          } else {
+            searchParams.set("postStatus", "FINISHED");
+          }
+        } else {
+          postStatusList.push(optionId);
+          searchParams.set("postStatus", postStatusList.join(","));
+          searchParams.delete("all");
+        }
       }
     }
 
@@ -111,11 +119,11 @@ export default function HelpMeLayout() {
   };
 
   useEffect(() => {
-    if (!params.has("allType")) {
+    if (params.toString() === "") {
       params.set("all", "true");
       router.replace(`${router.pathname}?${params.toString()}`);
     }
-  }, []);
+  }, [params]);
 
   return (
     <main className={cn("container")}>
@@ -143,7 +151,13 @@ export default function HelpMeLayout() {
             </Post>
           ))}
         </div>
-        <Pagination currentPage={page} itemsPerPage={8} totalItems={data?.totalElements} setPage={setPage} />
+        <Pagination
+          currentPage={page}
+          itemsPerPage={8}
+          totalItems={data?.totalElements}
+          setPage={setPage}
+          pageType="TAKER"
+        />
       </div>
     </main>
   );

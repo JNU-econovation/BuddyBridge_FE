@@ -41,6 +41,8 @@ interface FinishedPostProps {
   matchingStatus: string;
   memberRole: "TAKER" | "GIVER";
   canRequest: boolean;
+  pageId: number;
+  isToggleOn: boolean;
 }
 
 export default function FinishedPost({
@@ -59,6 +61,8 @@ export default function FinishedPost({
   matchingStatus,
   memberRole,
   canRequest,
+  pageId,
+  isToggleOn
 }: FinishedPostProps) {
   const [isConfirmVolunteeringModalOpen, setIsConfirmVolunteeringModalOpen] = useState(false);
   const [isCompleteVolunteeringModalOpen, setIsCompleteVolunteeringModalOpen] = useState(false);
@@ -72,7 +76,13 @@ export default function FinishedPost({
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response) {
-        openToast("error", error.response.data.error.message);
+        const invalidParams = error.response.data.error.invalidParams;
+        if (invalidParams) {
+          const fullInvalidMessage = invalidParams.map((param) => param.message).join(", ");
+          openToast("error", fullInvalidMessage);
+        } else {
+          openToast("error", error.response.data.error.message);
+        }
       }
     },
   });
@@ -166,6 +176,9 @@ export default function FinishedPost({
           postType={postType}
           setIsCompleteVolunteeringModalOpen={setIsCompleteVolunteeringModalOpen}
           setIsGetNoVolunteeringModalOpen={setIsGetNoVolunteeringModalOpen}
+          memberRole={memberRole}
+          pageId={pageId}
+          isToggleOn={isToggleOn}
         />
       )}
       {isGetNoVolunteeringModalOpen && (

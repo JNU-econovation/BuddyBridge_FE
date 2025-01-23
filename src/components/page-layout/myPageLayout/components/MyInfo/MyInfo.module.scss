@@ -20,6 +20,7 @@
   @include flexSort(column, null, null, null);
   background-color: #E6E6E6;
   box-shadow: 0rem 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
+  padding: 2rem 3rem;
 }
 
 .myInfoBox {
@@ -38,12 +39,15 @@
 }
 
 .detailBox {
+  position: relative;
+  top: -0.1rem;
   @include flexSort(column, null, null, 1rem);
   p {
-    @include nsnFont(1.8rem, 300, normal);
+    @include nsnFont(1.5rem, 300, normal);
   }
   .name {
     @include nsnFont(2.3rem, 400, normal);
+    margin-bottom: 1rem;
   }
 }
 

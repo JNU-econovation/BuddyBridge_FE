@@ -13,8 +13,13 @@
   background: white;
   color: black;
 
-  &.active {
-    background: #4885fe;
+  &.activeGiver {
+    background: $giver;
+    color: white;
+  }
+
+  &.activeTaker {
+    background: $taker;
     color: white;
   }
 }

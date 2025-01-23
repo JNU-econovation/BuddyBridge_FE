@@ -20,9 +20,10 @@ interface PaginationBoxProps {
   filter: string;
   pageId: number;
   postType: string;
+  pageType: "GIVER" | "TAKER"
 }
 
-export default function PaginationBox({ postData, commentData, filter, pageId }: PaginationBoxProps) {
+export default function PaginationBox({ postData, commentData, filter, pageId, pageType}: PaginationBoxProps) {
   const router = useRouter();
   const params = new URLSearchParams(router.query as any);
 
@@ -43,6 +44,7 @@ export default function PaginationBox({ postData, commentData, filter, pageId }:
           itemsPerPage={4}
           totalItems={postData?.totalElements}
           setPage={setPage}
+          pageType={pageType}
         />
       )}
       {filter === "comment" && (
@@ -51,6 +53,7 @@ export default function PaginationBox({ postData, commentData, filter, pageId }:
           itemsPerPage={4}
           totalItems={commentData?.totalElements}
           setPage={setPage}
+          pageType={pageType}
         />
       )}
     </div>

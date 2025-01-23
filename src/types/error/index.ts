@@ -1,10 +1,11 @@
+interface InvalidParam {
+  field: string;
+  message: string;
+}
+
 export interface ErrorResponse {
   error: {
     message: string;
-    invalidParams?: [
-      {
-        message: string;
-      },
-    ];
+    invalidParams?: InvalidParam[];
   };
 }
