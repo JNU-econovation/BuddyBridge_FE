@@ -14,6 +14,7 @@ import styles from "@/components/page-layout/userAdminLayout/components/userAdmi
 import { ROUTE } from "@/constants/route";
 
 import UserContent, { UserContentProps } from "./UserContent/UserContent";
+import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
 import deleteUser from "../apis/deleteUser";
 import getUsers from "../apis/getUsers";
 
@@ -30,6 +31,11 @@ export default function UserAdminLayout() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const params = new URLSearchParams(router.query as any);
+
+  const { data: myInfoData, isFetching } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: () => getMyInfo(),
+  });
 
   const currentPage = Number(params.get("page")) || 1;
 
@@ -72,6 +78,13 @@ export default function UserAdminLayout() {
       router.push(ROUTE.HOME);
     }
   }, [error, router]);
+
+  useEffect(() => {
+    if (!myInfoData && !isFetching) {
+      router.push(ROUTE.LOGIN);
+      openToast("error", "로그인을 해주세요.");
+    }
+  }, [myInfoData, router, isFetching]);
 
   if (isPending) return <>...로딩</>;
 

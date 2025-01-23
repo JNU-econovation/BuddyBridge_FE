@@ -13,37 +13,59 @@
   }
 }
 
+.modal {
+  @include flexSort(null, center, center, null);
+  position: relative;
+}
+
 .editBox {
-  position: absolute;
-  bottom: 0rem;
-  right: 0rem;
   border-radius: 1rem;
-  border: 0.1rem solid #4d4d4d;
-  padding: 2rem;
-  @include flexSort(column, null, center, 1rem);
-  width: 30rem;
-  z-index: 1;
-  background-color: white;
+  padding: 5rem 20rem;
+  @include flexSort(column, null, center, 2rem);
+  background: #fff;
+  box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
 }
 
 .title {
-  @include nsnFont(1.3rem, 700, normal);
+  @include nsnFont(2rem, 700, normal);
 }
 
 .content {
-  @include nsnFont(1.1rem, 300, normal);
+  @include nsnFont(1.5rem, 350, normal);
   text-align: center;
+  color: #474545;
 }
 
 .chatButton {
-  padding: 0.7rem 1rem;
+  padding: 1rem 4rem;
   background-color: white;
   border: 0.1rem solid #97b8f9;
   color: #97b8f9;
   border-radius: 2rem;
-  @include nsnFont(1.1rem, 600, normal);
-  &.helpMeChat {
-    border: 0.1rem solid #9b99fc;
-    color: #9b99fc;
+  @include nsnFont(1.5rem, 700, normal);
+
+  &:hover {
+    color: white;
+    background-color: #97b8f9;
   }
+
+  &.helpMeChat {
+    border: 0.1rem solid #9897e9;
+    color: #9897e9;
+
+    &:hover {
+      color: white;
+      background-color: #9897e9;
+    }
+  }
+}
+
+.close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 3rem;
+  height: 3rem;
+  fill: black;
+  cursor: pointer;
 }

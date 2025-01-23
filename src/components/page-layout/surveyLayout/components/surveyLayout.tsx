@@ -32,7 +32,9 @@ export interface SurveyData {
   sixthQuestion: "1점" | "2점" | "3점" | "4점" | "5점";
   sixthQuestionAdditional: string;
   seventhQuestion: "yes" | "no";
-  seventhOneQuestion: string;
+  seventhDetailQuestion: string;
+  seventhOneQuestion: "yes" | "no";
+  seventhOneDetailQuestion: string;
   participantEmail: string;
 }
 
@@ -86,23 +88,41 @@ const surveySchema = z
       .refine((value) => value !== null, {
         message: "응답을 선택해주세요.",
       }),
-    seventhOneQuestion: z.string().optional(),
-    participantEmail: z.string().optional(),
+    seventhDetailQuestion: z.string().optional(),
+    seventhOneQuestion: z
+      .enum(["yes", "no"])
+      .nullable()
+      .refine((value) => value !== null, {
+        message: "응답을 선택해주세요.",
+      }),
+    seventhOneDetailQuestion: z.string().optional(),
+    participantEmail: z
+      .string()
+      .optional()
+      .superRefine((value, ctx) => {
+        if (value && !z.string().email().safeParse(value).success) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "유효한 이메일을 입력해주세요.",
+          });
+        }
+      }),
   })
   .superRefine((data, ctx) => {
-    if (data.seventhQuestion === "yes" && !data.seventhOneQuestion) {
+    if (data.seventhQuestion === "no" && !data.seventhDetailQuestion) {
       ctx.addIssue({
-        path: ["seventhOneQuestion"],
-        code: z.ZodIssueCode.custom,
+        path: ["seventhDetailQuestion"],
         message: "필수로 작성해주세요.",
+        code: z.ZodIssueCode.custom,
       });
     }
-
-    if (data.seventhOneQuestion === "yes" && !data.participantEmail) {
+  })
+  .superRefine((data, ctx) => {
+    if (data.seventhOneQuestion === "no" && !data.seventhOneDetailQuestion) {
       ctx.addIssue({
-        path: ["participantEmail"],
-        code: z.ZodIssueCode.custom,
+        path: ["seventhOneDetailQuestion"],
         message: "필수로 작성해주세요.",
+        code: z.ZodIssueCode.custom,
       });
     }
   });
@@ -113,10 +133,10 @@ export default function SurveyLayout() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<SurveyData>({
     resolver: zodResolver(surveySchema),
+    mode: "onChange",
     defaultValues: {
       firstQuestion: undefined,
       firstQuestionAdditional: "",
@@ -131,7 +151,9 @@ export default function SurveyLayout() {
       sixthQuestion: undefined,
       sixthQuestionAdditional: "",
       seventhQuestion: undefined,
-      seventhOneQuestion: "",
+      seventhDetailQuestion: "",
+      seventhOneQuestion: undefined,
+      seventhOneDetailQuestion: "",
       participantEmail: "",
     },
   });
@@ -622,7 +644,7 @@ export default function SurveyLayout() {
               <input
                 type="radio"
                 onClick={() => {
-                  setIsClicked({ ...isClicked, seventhQuestion: false, seventhOneQuestion: false });
+                  setIsClicked({ ...isClicked, seventhQuestion: true });
                 }}
                 id="seventh-no"
                 {...register("seventhQuestion")}
@@ -633,53 +655,77 @@ export default function SurveyLayout() {
               </label>
             </div>
             {errors.seventhQuestion && <p className={cn("errorMessage")}>{errors.seventhQuestion.message}</p>}
-          </div>
-          {isClicked.seventhQuestion && (
-            <div className={cn("additionalQuestionBox")}>
-              <header className={cn("additionalQuestion")}>
-                7-1 그렇다면, 귀하는 이 서비스를 실사용 해보실 의향이 있습니까?
-              </header>
-              <div className={cn("yesNoBox")}>
-                <div className={cn("labelBox")}>
-                  <input
-                    onClick={() => setIsClicked({ ...isClicked, seventhOneQuestion: true })}
-                    type="radio"
-                    id="seventh-one-yes"
-                    {...register("seventhOneQuestion")}
-                    value="yes"
-                  />
-                  <label htmlFor="seventh-one-yes" className={cn("label")}>
-                    예
-                  </label>
-                </div>
-                <div className={cn("labelBox")}>
-                  <input
-                    onClick={() => setIsClicked({ ...isClicked, seventhOneQuestion: false })}
-                    type="radio"
-                    id="seventh-one-no"
-                    {...register("seventhOneQuestion")}
-                    value="no"
-                  />
-                  <label htmlFor="seventh-one-no" className={cn("label")}>
-                    아니요
-                  </label>
-                </div>
-                {errors.seventhOneQuestion && <p className={cn("errorMessage")}>{errors.seventhOneQuestion.message}</p>}
+            {isClicked.seventhQuestion && (
+              <div className={cn("additionalQuestionBox")}>
+                <p className={cn("additionalQuestion")}>그렇게 생각하신 이유를 작성해주세요.</p>
+                <input
+                  type="text"
+                  {...register("seventhDetailQuestion")}
+                  placeholder="아니요를 선택한 경우 필수로 작성해주세요."
+                  className={cn("additionalQuestionInput")}
+                />
+                {errors.seventhDetailQuestion && (
+                  <p className={cn("errorMessage")}>{errors.seventhDetailQuestion.message}</p>
+                )}
               </div>
+            )}
+          </div>
+          <div className={cn("additionalQuestionBox")}>
+            <header className={cn("additionalQuestion")}>
+              7-1 그렇다면, 귀하는 이 서비스를 실사용 해보실 의향이 있습니까?
+            </header>
+            <div className={cn("yesNoBox")}>
+              <div className={cn("labelBox")}>
+                <input
+                  onClick={() => setIsClicked({ ...isClicked, seventhOneQuestion: true })}
+                  type="radio"
+                  id="seventh-one-yes"
+                  {...register("seventhOneQuestion")}
+                  value="yes"
+                />
+                <label htmlFor="seventh-one-yes" className={cn("label")}>
+                  예
+                </label>
+              </div>
+              <div className={cn("labelBox")}>
+                <input
+                  onClick={() => setIsClicked({ ...isClicked, seventhOneQuestion: true })}
+                  type="radio"
+                  id="seventh-one-no"
+                  {...register("seventhOneQuestion")}
+                  value="no"
+                />
+                <label htmlFor="seventh-one-no" className={cn("label")}>
+                  아니요
+                </label>
+              </div>
+              {errors.seventhOneQuestion && <p className={cn("errorMessage")}>{errors.seventhOneQuestion.message}</p>}
+              {isClicked.seventhOneQuestion && (
+                <div className={cn("additionalQuestionBox")}>
+                  <p className={cn("additionalQuestion")}>그렇게 생각하신 이유를 작성해주세요.</p>
+                  <input
+                    type="text"
+                    {...register("seventhOneDetailQuestion")}
+                    placeholder="아니요를 선택한 경우 필수로 작성해주세요."
+                    className={cn("additionalQuestionInput")}
+                  />
+                  {errors.seventhOneDetailQuestion && (
+                    <p className={cn("errorMessage")}>{errors.seventhOneDetailQuestion.message}</p>
+                  )}
+                </div>
+              )}
             </div>
-          )}
-          {isClicked.seventhOneQuestion && (
-            <div className={cn("additionalQuestionBox")}>
-              <p className={cn("additionalQuestion")}>7-2 참여자의 이메일을 작성해주세요.</p>
-              <input
-                type="text"
-                {...register("participantEmail")}
-                placeholder="example@naver.com"
-                className={cn("additionalQuestionInput")}
-              />
-              {errors.participantEmail && <p className={cn("errorMessage")}>{errors.participantEmail.message}</p>}
-            </div>
-          )}
+          </div>
+          <div className={cn("additionalQuestionBox")}>
+            <p className={cn("additionalQuestion")}>7-2 참여자의 이메일을 작성해주세요.</p>
+            <input
+              type="text"
+              {...register("participantEmail")}
+              placeholder="example@naver.com"
+              className={cn("additionalQuestionInput")}
+            />
+            {errors.participantEmail && <p className={cn("errorMessage")}>{errors.participantEmail.message}</p>}
+          </div>
         </div>
         <button type="submit" className={cn("submitBtn")}>
           제출하기
