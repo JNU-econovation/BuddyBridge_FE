@@ -35,7 +35,7 @@ export default function DropDown({ isNameClick }: DropDownProps) {
     onSuccess: async () => {
       window.localStorage.removeItem("accessToken");
       window.localStorage.removeItem("refreshToken");
-      await queryClient.invalidateQueries({ queryKey: ["userLogIn"] });
+      await queryClient.removeQueries({ queryKey: ["userLogIn"] });
       router.push(ROUTE.HOME);
       openToast("success", "로그아웃되었습니다.");
     },
@@ -65,12 +65,12 @@ export default function DropDown({ isNameClick }: DropDownProps) {
           height={80}
           alt="카카오톡 프로필"
         />
-        <p>{data.nickname}님</p>
+        <p>{data?.nickname}님</p>
       </div>
       <Link href={ROUTE.MY_PAGE} className={cn("myPage")}>
         마이페이지
       </Link>
-      {data.role === "ADMIN" && (
+      {data?.role === "ADMIN" && (
         <Link href={ROUTE.ADMIN_DECLARATION} className={cn("adminPage")}>
           관리자페이지
         </Link>
