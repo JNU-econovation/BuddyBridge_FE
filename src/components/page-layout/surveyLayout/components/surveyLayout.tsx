@@ -151,7 +151,7 @@ export default function SurveyLayout() {
   const uploadHelpYouMutation = useMutation({
     mutationFn: (content: SurveyData) => postSurvey(content),
     onSuccess: () => {
-      // router.push(ROUTE.SURVEY_COMPLETE);
+      router.push(ROUTE.SURVEY_COMPLETE);
       openToast("success", "설문 조사가 완료되었습니다.");
     },
     onError: (error: AxiosError<ErrorResponse>) => {
