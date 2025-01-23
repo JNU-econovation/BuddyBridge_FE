@@ -10,10 +10,8 @@
 }
 
 .profileImgBox {
-  border-top: 0.3rem solid #6562e2;
-  border-left: 0.3rem solid #6562e2;
-  border-bottom: 0.3rem solid #4885fe;
-  border-right: 0.3rem solid #4885fe;
+  border: 0.2rem solid transparent;
+  background: linear-gradient(to right, #6562e2 50%, #4885fe 50%);
   border-radius: 50%;
   overflow: hidden;
   transform: rotate(45deg);
