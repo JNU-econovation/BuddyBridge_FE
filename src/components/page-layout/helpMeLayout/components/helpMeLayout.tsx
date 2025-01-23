@@ -152,7 +152,7 @@ export default function HelpMeLayout() {
             </Post>
           ))}
         </div>
-        <Pagination currentPage={page} itemsPerPage={8} totalItems={data?.totalElements} setPage={setPage} />
+        <Pagination currentPage={page} itemsPerPage={8} totalItems={data?.totalElements} setPage={setPage} pageType="TAKER"/>
       </div>
     </main>
   );

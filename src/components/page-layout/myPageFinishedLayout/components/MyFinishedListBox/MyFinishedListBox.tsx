@@ -68,6 +68,7 @@ export default function MyFinishedListBox() {
             itemsPerPage={4}
             totalItems={Number(FinishedList?.totalElements)}
             setPage={setPage}
+            pageType={memberRole}
           />
         </div>
       </div>

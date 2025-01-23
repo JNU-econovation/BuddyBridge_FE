@@ -151,7 +151,7 @@ export default function HelpYouLayout() {
             </Post>
           ))}
         </div>
-        <Pagination currentPage={page} itemsPerPage={8} totalItems={data?.totalElements} setPage={setPage} />
+        <Pagination currentPage={page} itemsPerPage={8} totalItems={data?.totalElements} setPage={setPage} pageType="GIVER"/>
       </div>
     </main>
   );
