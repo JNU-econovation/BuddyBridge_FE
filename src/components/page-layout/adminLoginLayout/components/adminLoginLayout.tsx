@@ -8,6 +8,7 @@ import { z } from "zod";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+import Loader from "@/components/common/Loader/Loader";
 import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/adminLoginLayout/components/adminLoginLayout.module.scss";
 import { ROUTE } from "@/constants/route";
@@ -120,7 +121,7 @@ export default function AdminLoginLayout() {
             </div>
             <div className={cn("buttonBox")}>
               <button type="submit" className={cn("loginBtn", { active: isValid })}>
-                로그인
+                {login.isPending ? <Loader /> : "로그인"}
               </button>
               <Link href={ROUTE.SIGN_UP} type="button" className={cn("signUpBtn")}>
                 이메일 회원가입
@@ -136,7 +137,6 @@ export default function AdminLoginLayout() {
           </button>
         </div>
       </div>
-      <p className={cn("loginInfo")}>※ 사용자의 신원을 보장하기 위해 카카오 로그인만 제공합니다. </p>
     </article>
   );
 }

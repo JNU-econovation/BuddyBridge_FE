@@ -35,7 +35,7 @@ const cn = classNames.bind(styles);
 
 const registerSchema = z
   .object({
-    title: z.string().min(1, "제목은 최소 1자 이상이어야 합니다.").max(30, "제목은 최대 30자까지만 가능합니다."),
+    title: z.string().min(1, "제목은 최소 1자 이상이어야 합니다.").max(30, "제목은 최대 30자입니다."),
     startDate: z
       .date()
       .optional()
@@ -54,7 +54,7 @@ const registerSchema = z
     scheduleDetails: z.string().min(1, "상세 주기를 입력해주세요."),
     district: z.string().min(1, "장소를 선택해주세요."),
     assistanceType: z.string().min(1, "도움 유형을 선택해주세요."),
-    content: z.string().min(1, "상세 내용을 입력해주세요."),
+    content: z.string().min(1, "상세 내용을 입력해주세요.").max(500, "상세 내용은 최대 500자입니다."),
   })
   .refine(
     (data) => {
@@ -96,23 +96,26 @@ export default function HelpYouRegisterLayout() {
     handleSubmit,
     setValue,
     control,
+    watch,
     formState: { errors, isValid },
   } = useForm<helpMeFormData>({ resolver: zodResolver(registerSchema), mode: "onChange" });
+
+  const title = watch("title", "");
+  const contentText = watch("content", "");
 
   const uploadHelpYouMutation = useMutation({
     mutationFn: (content: helpMeFormData) => postHelpMeRegister(content),
     onSuccess: () => {
       router.push(ROUTE.HELP_YOU);
+      openToast("error", "게시글 등록에 성공했습니다.");
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      if (error.response) {
-        const invalidParams = error.response.data.error.invalidParams;
-        if (invalidParams) {
-          const fullInvalidMessage = invalidParams.map((param) => param.message).join(", ");
-          openToast("error", fullInvalidMessage);
-        } else {
-          openToast("error", error.response.data.error.message);
-        }
+      if (error.response?.data.error.invalidParams) {
+        openToast("error", error.response.data.error.invalidParams[0].message);
+      } else if (error.response?.data.error.message) {
+        openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "게시글 등록에 실패했습니다.");
       }
     },
   });
@@ -176,6 +179,7 @@ export default function HelpYouRegisterLayout() {
                   placeholder="구체적으로 줄 수 있는 도움을 적어주세요. 예) 대필, 조리봉사, 촬영 등"
                   {...register("title")}
                 />
+                <p className={cn("charCount")}>{title.length}/30</p>
                 {errors.title && <p className={cn("errorMessage")}>{errors.title.message}</p>}
               </div>
               <div className={cn("dateContainer")}>
@@ -325,6 +329,7 @@ export default function HelpYouRegisterLayout() {
                   className={cn("detailTextarea")}
                   {...register("content", { required: true })}
                 />
+                <p className={cn("charCount")}>{contentText.length}/500</p>
                 {errors.content && <p className={cn("errorMessage")}>{errors.content.message}</p>}
               </div>
               <Button className={cn("registerBox", { active: isValid })}>

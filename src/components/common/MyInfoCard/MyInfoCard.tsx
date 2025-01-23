@@ -2,11 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 
 import Image from "next/image";
-import Link from "next/link";
 
 import styles from "@/components/common/MyInfoCard/MyInfoCard.module.scss";
 import getMyInfo from "@/components/page-layout/myPageEditLayout/apis/getMyInfo";
-import { ROUTE } from "@/constants/route";
 
 const cn = classNames.bind(styles);
 

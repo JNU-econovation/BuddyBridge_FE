@@ -51,6 +51,12 @@
   }
 }
 
+.charCount {
+  padding: 0 1rem;
+  @include nsnFont(1.4rem, 400, normal);
+  float: right;
+}
+
 .errorMessage {
   @include nsnFont(1.3rem, 500, normal);
   color: red;

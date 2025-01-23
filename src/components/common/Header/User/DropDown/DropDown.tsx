@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 
 import Image from "next/image";
@@ -10,6 +11,7 @@ import styles from "@/components/common/Header/User/DropDown/DropDown.module.scs
 import openToast from "@/components/common/Toast/features/openToast";
 import { ROUTE } from "@/constants/route";
 import NoImg from "@/images/noimg.png";
+import { ErrorResponse } from "@/types/error";
 
 import getLogIn from "../../apis/getLogIn";
 
@@ -33,16 +35,18 @@ export default function DropDown({ isNameClick }: DropDownProps) {
     onSuccess: async () => {
       window.localStorage.removeItem("accessToken");
       window.localStorage.removeItem("refreshToken");
-
+      await queryClient.invalidateQueries({ queryKey: ["userLogIn"] });
+      router.push(ROUTE.HOME);
       openToast("success", "로그아웃되었습니다.");
-      await router.push(ROUTE.HOME);
-      queryClient.invalidateQueries({ queryKey: ["userLogIn"] });
-      queryClient.invalidateQueries({ queryKey: ["giverPost"] });
-      queryClient.invalidateQueries({ queryKey: ["takerPost"] });
     },
-    onError: () => {
-      queryClient.invalidateQueries({ queryKey: ["userLogIn"] });
-      openToast("error", "로그아웃이 실패하였습니다.");
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response?.data.error.invalidParams) {
+        openToast("error", error.response.data.error.invalidParams[0].message);
+      } else if (error.response?.data.error.message) {
+        openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "로그아웃이 실패하였습니다.");
+      }
     },
   });
 
@@ -61,7 +65,7 @@ export default function DropDown({ isNameClick }: DropDownProps) {
           height={80}
           alt="카카오톡 프로필"
         />
-        <p>{data.nickname}</p>
+        <p>{data.nickname}님</p>
       </div>
       <Link href={ROUTE.MY_PAGE} className={cn("myPage")}>
         마이페이지

@@ -1,17 +1,27 @@
 .container {
   @include flexSort(null, null, center, 2rem);
+}
 
-  .nameBox {
-    @include flexSort(null, null, center, 1rem);
-    @include nsnFont(1.5rem, 400, normal);
-    border: 0.1rem solid $gray;
-    padding: 0.7rem 2rem;
-    border-radius: 3rem;
-    cursor: pointer;
+.nameBox {
+  @include flexSort(null, null, center, 1rem);
+  @include nsnFont(1.5rem, 400, normal);
+  border: 0.1rem solid $gray;
+  padding: 0.7rem 2rem;
+  border-radius: 3rem;
+  cursor: pointer;
+
+  @include smallDesktop {
+    padding: 0.7rem 1.7rem;
+    font-size: 1.3rem;
   }
+}
 
-  .iconBox {
-    @include flexSort(null, null, center, 3rem);
+.name {
+  @include line-clamp(1);
+  width: 10rem;
+
+  @include smallDesktop {
+    width: 5rem;
   }
 }
 
@@ -19,9 +29,18 @@
   position: relative;
 }
 
+.iconBox {
+  @include flexSort(null, null, center, 3rem);
+}
+
 .chat,
 .alarm {
   cursor: pointer;
+
+  @include smallDesktop {
+    width: 2rem;
+    height: 2rem;
+  }
 }
 
 .alarmNumber {
