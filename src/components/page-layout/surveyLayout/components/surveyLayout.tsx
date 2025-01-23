@@ -173,6 +173,9 @@ export default function SurveyLayout() {
         <div className={cn("headerBox")}>
           <header className={cn("header")}>버디 브릿지 설문조사</header>
           <p className={cn("headerContent")}>본 설문은 사용자 만족도 조사입니다.</p>
+          <p className={cn("headerContent")}>
+            수집된 개인정보는 서비스 홍보 목적으로만 활용되며, 해당 목적이 완료된 후 즉시 안전하게 삭제됩니다.
+          </p>
         </div>
         <div className={cn("questionBox")}>
           <header className={cn("questionHeader")}>1. 서비스에서 제공하는 기능이 충분하다고 생각하시나요?</header>
