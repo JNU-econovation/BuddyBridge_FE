@@ -14,6 +14,7 @@ import { ROUTE } from "@/constants/route";
 import Email from "@/icons/email.svg";
 import Kakao from "@/icons/kakao.svg";
 import Password from "@/icons/password.svg";
+import { ErrorResponse } from "@/types/error";
 
 import postLogin from "../apis/postLogin";
 
@@ -41,12 +42,6 @@ interface LoginInfo {
   };
 }
 
-interface ErrorResponse {
-  error: {
-    message: string;
-  };
-}
-
 export default function LoginLayout() {
   const router = useRouter();
 
@@ -61,11 +56,13 @@ export default function LoginLayout() {
     onSuccess: (response) => {
       window.localStorage.setItem("accessToken", response.data.accessToken);
       window.localStorage.setItem("refreshToken", response.data.refreshToken);
-      router.push(ROUTE.HOME);
+      // router.push(ROUTE.HOME);
       openToast("success", "로그인이 완료되었습니다.");
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      if (error.response) {
+      if (error.response?.data.error.invalidParams) {
+        openToast("error", error.response.data.error.invalidParams[0].message);
+      } else if (error.response?.data.error.message) {
         openToast("error", error.response.data.error.message);
       } else {
         openToast("error", "에러가 발생했습니다.");
