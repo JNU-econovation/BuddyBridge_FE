@@ -24,6 +24,7 @@ export interface DeclarationContentProps {
   setCheckId: (checkId: { id: number; reportedId: number }) => void;
   isBlackListed: boolean;
   reportedId: number;
+  postType: "GIVER" | "TAKER";
 }
 
 export default function DeclarationContent({
@@ -38,6 +39,7 @@ export default function DeclarationContent({
   reportedId,
   setCheckId,
   isBlackListed,
+  postType,
 }: DeclarationContentProps) {
   const handleCheckBoxClick = (e: React.MouseEvent<HTMLInputElement>): void => {
     e.stopPropagation();
@@ -75,7 +77,7 @@ export default function DeclarationContent({
             {isBlackListed && <Black_List className={cn("blackList")} />}
           </p>
         </div>
-        <p className={cn("postInfo")}>{postId}번</p>
+        <p className={cn("postInfo")}>{`${postType === "TAKER" ? "도와줄래요?" : "도와줄게요!"} ${postId}`}번</p>
         <p className={cn("declarationContent")}>{reportContent}</p>
         <div className={cn("declarationTypeBox")}>
           <p className={cn("declarationType")}>{reportType}</p>
