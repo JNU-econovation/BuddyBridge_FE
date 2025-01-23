@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 import { ko } from "date-fns/locale";
 import { Controller, useForm } from "react-hook-form";
@@ -24,6 +25,7 @@ import styles from "@/components/page-layout/helpYouRegisterLayout/components/he
 import { ROUTE } from "@/constants/route";
 import Calendar from "@/icons/calendar.svg";
 import RegisterArrow from "@/icons/send_arrow.svg";
+import { ErrorResponse } from "@/types/error";
 
 import postHelpMeRegister from "../../helpMeRegisterLayout/apis/postHelpMeRegister";
 import { helpMeFormData } from "../../helpMeRegisterLayout/types";
@@ -101,6 +103,16 @@ export default function HelpYouRegisterLayout() {
     mutationFn: (content: helpMeFormData) => postHelpMeRegister(content),
     onSuccess: () => {
       router.push(ROUTE.HELP_YOU);
+      openToast("error", "게시글 등록에 성공했습니다.");
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response?.data.error.invalidParams) {
+        openToast("error", error.response.data.error.invalidParams[0].message);
+      } else if (error.response?.data.error.message) {
+        openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "게시글 등록에 실패했습니다.");
+      }
     },
   });
 

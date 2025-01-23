@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 import { fi, ko } from "date-fns/locale";
 import { Controller, useForm } from "react-hook-form";
@@ -24,6 +25,7 @@ import styles from "@/components/page-layout/helpMeRegisterLayout/components/hel
 import { ROUTE } from "@/constants/route";
 import Calendar from "@/icons/calendar.svg";
 import RegisterArrow from "@/icons/send_arrow.svg";
+import { ErrorResponse } from "@/types/error";
 
 import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
 import postHelpMeRegister from "../apis/postHelpMeRegister";
@@ -95,7 +97,6 @@ export default function HelpMeRegisterLayout() {
     handleSubmit,
     setValue,
     control,
-    setFocus,
     formState: { errors, isValid },
   } = useForm<helpMeFormData>({ resolver: zodResolver(registerSchema), mode: "onChange" });
 
@@ -103,6 +104,16 @@ export default function HelpMeRegisterLayout() {
     mutationFn: (content: helpMeFormData) => postHelpMeRegister(content),
     onSuccess: () => {
       router.push(ROUTE.HELP_ME);
+      openToast("error", "게시글 등록에 성공했습니다.");
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response?.data.error.invalidParams) {
+        openToast("error", error.response.data.error.invalidParams[0].message);
+      } else if (error.response?.data.error.message) {
+        openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "게시글 등록에 실패했습니다.");
+      }
     },
   });
 
