@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 import { fi, ko } from "date-fns/locale";
 import { Controller, useForm } from "react-hook-form";
@@ -24,6 +25,7 @@ import styles from "@/components/page-layout/helpMeRegisterLayout/components/hel
 import { ROUTE } from "@/constants/route";
 import Calendar from "@/icons/calendar.svg";
 import RegisterArrow from "@/icons/send_arrow.svg";
+import { ErrorResponse } from "@/types/error";
 
 import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
 import postHelpMeRegister from "../apis/postHelpMeRegister";
@@ -33,7 +35,7 @@ const cn = classNames.bind(styles);
 
 const registerSchema = z
   .object({
-    title: z.string().min(1, "제목 최소 1자 이상이어야 합니다."),
+    title: z.string().min(1, "제목 최소 1자 이상이어야 합니다.").max(30, "제목은 최대 30자입니다."),
     startDate: z
       .date()
       .optional()
@@ -52,7 +54,7 @@ const registerSchema = z
     scheduleDetails: z.string().min(1, "상세 주기를 입력해주세요."),
     district: z.string().min(1, "장소를 선택해주세요."),
     assistanceType: z.string().min(1, "도움 유형을 선택해주세요."),
-    content: z.string().min(1, "상세 내용을 입력해주세요."),
+    content: z.string().min(1, "상세 내용을 입력해주세요.").max(500, "상세 내용은 최대 500자입니다."),
   })
   .refine(
     (data) => {
@@ -95,14 +97,27 @@ export default function HelpMeRegisterLayout() {
     handleSubmit,
     setValue,
     control,
-    setFocus,
+    watch,
     formState: { errors, isValid },
   } = useForm<helpMeFormData>({ resolver: zodResolver(registerSchema), mode: "onChange" });
+
+  const title = watch("title", "");
+  const contentText = watch("content", "");
 
   const uploadHelpMeMutation = useMutation({
     mutationFn: (content: helpMeFormData) => postHelpMeRegister(content),
     onSuccess: () => {
       router.push(ROUTE.HELP_ME);
+      openToast("error", "게시글 등록에 성공했습니다.");
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response?.data.error.invalidParams) {
+        openToast("error", error.response.data.error.invalidParams[0].message);
+      } else if (error.response?.data.error.message) {
+        openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "게시글 등록에 실패했습니다.");
+      }
     },
   });
 
@@ -174,6 +189,7 @@ export default function HelpMeRegisterLayout() {
                   placeholder="구체적으로 필요한 도움을 적어주세요. 예) 이동 도움 필요"
                   {...register("title")}
                 />
+                <p className={cn("charCount")}>{title.length}/30</p>
                 {errors.title && <p className={cn("errorMessage")}>{errors.title.message}</p>}
               </div>
               <div className={cn("dateContainer")}>
@@ -324,6 +340,7 @@ ex, 2시에 전대치과병원에서 진료 이동 도움이 필요합니다."
                   className={cn("detailTextarea")}
                   {...register("content", { required: true })}
                 />
+                <p className={cn("charCount")}>{contentText.length}/500</p>
                 {errors.content && <p className={cn("errorMessage")}>{errors.content.message}</p>}
               </div>
               <Button className={cn("registerBox", { active: isValid })}>
