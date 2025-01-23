@@ -18,6 +18,8 @@
   overflow: hidden;
   transform: rotate(45deg);
   @include flexSort(null, center, center, null);
+  width: 5rem;
+  height: 5rem;
 }
 
 .profileImg {
