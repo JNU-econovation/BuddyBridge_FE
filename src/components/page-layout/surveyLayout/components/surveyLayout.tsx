@@ -41,7 +41,7 @@ const surveySchema = z
       .refine((value) => value !== null, {
         message: "응답을 선택해주세요.",
       }),
-    firstQuestionAdditional: z.string().optional(),
+    firstQuestionAdditional: z.string().min(1, "필수로 작성해주세요."),
     secondQuestion: z
       .enum(["성능", "디자인", "기능 추가", "기타"])
       .nullable()
@@ -87,14 +87,6 @@ const surveySchema = z
     participantEmail: z.string().optional(),
   })
   .superRefine((data, ctx) => {
-    if (data.firstQuestion === "yes" && !data.firstQuestionAdditional) {
-      ctx.addIssue({
-        path: ["firstQuestionAdditional"],
-        code: z.ZodIssueCode.custom,
-        message: "필수로 작성해주세요.",
-      });
-    }
-
     if (data.seventhQuestion === "yes" && !data.seventhOneQuestion) {
       ctx.addIssue({
         path: ["seventhOneQuestion"],
@@ -192,7 +184,7 @@ export default function SurveyLayout() {
             </div>
             <div>
               <input
-                onClick={() => setIsClicked({ ...isClicked, firstQuestion: false })}
+                onClick={() => setIsClicked({ ...isClicked, firstQuestion: true })}
                 type="radio"
                 id="no"
                 {...register("firstQuestion")}
