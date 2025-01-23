@@ -36,6 +36,8 @@ export default function DropDown({ isNameClick }: DropDownProps) {
       window.localStorage.removeItem("accessToken");
       window.localStorage.removeItem("refreshToken");
       await queryClient.invalidateQueries({ queryKey: ["userLogIn"] });
+      await queryClient.invalidateQueries({ queryKey: ["mainHelpMePostList"] });
+      await queryClient.invalidateQueries({ queryKey: ["mainHelpYouPostList"] });
       router.push(ROUTE.HOME);
       openToast("success", "로그아웃되었습니다.");
     },
