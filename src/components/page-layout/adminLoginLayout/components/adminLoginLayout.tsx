@@ -136,7 +136,6 @@ export default function AdminLoginLayout() {
           </button>
         </div>
       </div>
-      <p className={cn("loginInfo")}>※ 사용자의 신원을 보장하기 위해 카카오 로그인만 제공합니다. </p>
     </article>
   );
 }
