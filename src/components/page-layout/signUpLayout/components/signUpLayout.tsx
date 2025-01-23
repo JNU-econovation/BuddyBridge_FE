@@ -21,6 +21,7 @@ import DropDownImg from "@/icons/dropdown.svg";
 import Email from "@/icons/email.svg";
 import Name from "@/icons/name.svg";
 import Password from "@/icons/password.svg";
+import { ErrorResponse } from "@/types/error";
 
 import postSignUp from "../apis/postSignUp";
 
@@ -75,12 +76,6 @@ interface SignUpInfo {
   password: string;
 }
 
-interface ErrorResponse {
-  error: {
-    message: string;
-  };
-}
-
 export default function SignUpLayout() {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -102,7 +97,9 @@ export default function SignUpLayout() {
       openToast("success", "회원가입이 완료되었습니다.");
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      if (error.response) {
+      if (error.response?.data.error.invalidParams) {
+        openToast("error", error.response.data.error.invalidParams[0].message);
+      } else if (error.response?.data.error.message) {
         openToast("error", error.response.data.error.message);
       } else {
         openToast("error", "에러가 발생했습니다.");
