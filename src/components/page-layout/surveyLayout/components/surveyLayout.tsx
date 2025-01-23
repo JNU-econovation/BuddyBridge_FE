@@ -332,7 +332,7 @@ export default function SurveyLayout() {
               <input
                 type="text"
                 {...register("thirdQuestionAdditional")}
-                placeholder="필수는 아닙니다."
+                placeholder="작성해주시면 큰 도움이 됩니다."
                 className={cn("additionalQuestionInput")}
               />
             </div>
@@ -399,7 +399,7 @@ export default function SurveyLayout() {
               <input
                 type="text"
                 {...register("fourthQuestionAdditional")}
-                placeholder="필수는 아닙니다."
+                placeholder="작성해주시면 큰 도움이 됩니다."
                 className={cn("additionalQuestionInput")}
               />
             </div>
@@ -468,7 +468,7 @@ export default function SurveyLayout() {
               <input
                 type="text"
                 {...register("fifthQuestionAdditional")}
-                placeholder="필수는 아닙니다."
+                placeholder="작성해주시면 큰 도움이 됩니다."
                 className={cn("additionalQuestionInput")}
               />
             </div>
@@ -535,7 +535,7 @@ export default function SurveyLayout() {
               <input
                 type="text"
                 {...register("sixthQuestionAdditional")}
-                placeholder="필수는 아닙니다."
+                placeholder="작성해주시면 큰 도움이 됩니다."
                 className={cn("additionalQuestionInput")}
               />
             </div>
