@@ -163,11 +163,3 @@
     @include nsnFont(1.8rem, 400, normal);
   }
 }
-
-.loginInfo {
-  @include nsnFont(1.3rem, 400, normal);
-
-  @include desktop {
-    @include nsnFont(1.8rem, 400, normal);
-  }
-}

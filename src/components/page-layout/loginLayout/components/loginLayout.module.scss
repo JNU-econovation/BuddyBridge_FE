@@ -1,5 +1,5 @@
 .loginContainer {
-  padding: 3rem 4rem;
+  padding: 4rem 5rem;
   background-color: $white;
   border-radius: 2rem;
   @include flexSort(column, null, center, 2rem);
@@ -158,14 +158,6 @@
 
 .kakaoLogin {
   @include nsnFont(1.4rem, 400, normal);
-
-  @include desktop {
-    @include nsnFont(1.8rem, 400, normal);
-  }
-}
-
-.loginInfo {
-  @include nsnFont(1.3rem, 400, normal);
 
   @include desktop {
     @include nsnFont(1.8rem, 400, normal);
