@@ -28,19 +28,44 @@ import postSignUp from "../apis/postSignUp";
 const cn = classNames.bind(styles);
 
 const signUpSchema = z.object({
-  name: z.string().min(1, "이름은 최소 1자 이상이어야 합니다."),
-  nickname: z.string().min(1, "닉네임은 최소 1자 이상이어야 합니다."),
+  name: z.string().min(2, "이름은 최소 2자 이상이어야 합니다.").max(18, "이름은 최대 18자입니다."),
+  nickname: z
+    .string()
+    .min(2, "닉네임은 최소 2자 이상이어야 합니다.")
+    .max(18, "닉네임은 최대 18자 이하이어야 합니다.")
+    .regex(/^[^\s!@#$%^&*()_+={}\[\]:;"'<>,.?~`\\/-]+$/, "닉네임은 공백 및 특수문자를 포함할 수 없습니다."),
   gender: z.string().min(1, "성별을 선택해야 합니다."),
   birthDate: z
     .date()
     .optional()
     .refine((date) => date !== undefined, {
       message: "날짜를 선택해주세요",
-    }),
+    })
+    .refine(
+      (date) => {
+        const today = new Date();
+        const age = today.getFullYear() - date.getFullYear();
+        const monthDiff = today.getMonth() - date.getMonth();
+        const dayDiff = today.getDate() - date.getDate();
+
+        if (age > 19) return true;
+
+        if (age === 19) {
+          if (monthDiff > 0) return true;
+          if (monthDiff === 0 && dayDiff >= 0) return true;
+        }
+
+        return false;
+      },
+      {
+        message: "만 19세 이상이어야 합니다.",
+      },
+    ),
   email: z.string().email("유효한 이메일을 입력해주세요."),
   password: z
     .string()
     .min(8, "비밀번호는 최소 8자 이상이어야 합니다.")
+    .max(18, "비밀번호는 최대 16자입니다.")
     .regex(/[a-z]/, "비밀번호에는 최소 1개의 소문자가 포함되어야 합니다.")
     .regex(/[0-9]/, "비밀번호에는 최소 1개의 숫자가 포함되어야 합니다.")
     .regex(/[\W_]/, "비밀번호에는 최소 1개의 특수문자가 포함되어야 합니다."),
