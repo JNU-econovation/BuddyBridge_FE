@@ -69,7 +69,7 @@ export default function HelpMeDetailLayout() {
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: ["comment"],
-    queryFn: ({ pageParam }) => getAllComment(pageId as string, 4, pageParam),
+    queryFn: ({ pageParam }) => getAllComment(pageId as string, 100, pageParam),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) =>
       lastPage.nextPage ? lastPage.cursor : undefined,
