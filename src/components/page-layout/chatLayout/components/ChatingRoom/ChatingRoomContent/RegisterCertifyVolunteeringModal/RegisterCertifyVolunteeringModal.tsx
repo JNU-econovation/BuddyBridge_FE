@@ -139,7 +139,7 @@ export default function RegisterCertifyVolunteeringModal({
         <div className={cn("postBox")}>
           <p className={cn("postTitle")}>3. 봉사한 게시글</p>
           <div className={cn("postContentBox")}>
-            <p className={cn("postType")}>{postType}</p>
+            <p className={cn("postType")}>{postType === "TAKER" ? "도와줄래요?" : "도와줄게요!"}</p>
             <p className={cn("postId")}>{postId}</p>
           </div>
         </div>
