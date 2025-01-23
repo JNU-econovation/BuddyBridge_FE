@@ -35,7 +35,7 @@ const cn = classNames.bind(styles);
 
 const registerSchema = z
   .object({
-    title: z.string().min(1, "제목 최소 1자 이상이어야 합니다."),
+    title: z.string().min(1, "제목 최소 1자 이상이어야 합니다.").max(30, "제목은 최대 30자입니다."),
     startDate: z
       .date()
       .optional()
@@ -54,7 +54,7 @@ const registerSchema = z
     scheduleDetails: z.string().min(1, "상세 주기를 입력해주세요."),
     district: z.string().min(1, "장소를 선택해주세요."),
     assistanceType: z.string().min(1, "도움 유형을 선택해주세요."),
-    content: z.string().min(1, "상세 내용을 입력해주세요."),
+    content: z.string().min(1, "상세 내용을 입력해주세요.").max(1000, "상세 내용은 최대 1000자입니다."),
   })
   .refine(
     (data) => {
