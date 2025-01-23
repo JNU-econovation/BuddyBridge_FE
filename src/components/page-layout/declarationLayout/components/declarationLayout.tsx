@@ -166,7 +166,7 @@ export default function DeclarationLayout() {
                 itemsPerPage={6}
                 totalItems={data?.totalElements}
                 setPage={setPage}
-                pageType="TAKER"
+                pageType="GIVER"
               />
             </div>
           </div>
