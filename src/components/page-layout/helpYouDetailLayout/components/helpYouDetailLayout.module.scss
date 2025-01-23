@@ -79,6 +79,7 @@
 .titleBox {
   @include flexSort(column, null, null, 0.3rem);
   margin-bottom: 3rem;
+  padding: 0 4rem;
 }
 
 .title {
@@ -148,7 +149,7 @@
 }
 
 .postDetailInfo {
-  @include flexSort(column, null, flex-start, 1.5rem);
+  @include flexSort(column, null, flex-start, 1.7rem);
   max-width: 100%;
 }
 
@@ -158,8 +159,16 @@
 }
 
 .periodContent {
-  @include flexSort(null, null, null, 1rem);
+  @include flexSort(column, null, null, 0.7rem);
   max-width: 55rem;
+}
+
+.periodSimpleContent {
+  @include flexSort(null, null, null, 1rem);
+}
+
+.periodDetailContent {
+  word-break: break-all;
 }
 
 .assistanceType,

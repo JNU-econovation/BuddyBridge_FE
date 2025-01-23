@@ -56,13 +56,19 @@ export default function MyFinishedListBox() {
       <AssistanceTypeFilter pageId={`${pageId}`} memberRole={memberRole} />
       <div className={cn("myFinishedListBox")}>
         <CompleteToggle isOn={isToggleOn} toggleSwitch={toggleSwitch} />
-        <MyFinishedList finishedList={FinishedList.content} memberRole={memberRole} />
+        <MyFinishedList
+          finishedList={FinishedList.content}
+          memberRole={memberRole}
+          pageId={pageId}
+          isToggleOn={isToggleOn}
+        />
         <div className={cn("paginationBox")}>
           <Pagination
             currentPage={Number(pageId)}
             itemsPerPage={4}
             totalItems={Number(FinishedList?.totalElements)}
             setPage={setPage}
+            pageType={memberRole}
           />
         </div>
       </div>

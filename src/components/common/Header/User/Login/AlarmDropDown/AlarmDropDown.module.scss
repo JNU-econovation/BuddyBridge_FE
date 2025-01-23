@@ -43,6 +43,10 @@
   @include nsnFont(1.3rem, 500, normal);
 }
 
+.active {
+  @include nsnFont(1.4rem, 700, normal);
+}
+
 .isReadedToggle button.off {
   color: #8d8989;
 }
@@ -69,8 +73,7 @@
 .alarm {
   padding: 1rem;
   color: black;
-  @include nsnFont(1.5rem, 400, normal);
-  @include line-clamp(2);
+  @include flexSort(null, null, center, 1rem);
 
   &.isRead {
     background-color: #ededed;
@@ -81,7 +84,6 @@
 .alarmTag {
   display: inline-block;
   padding: 0.3rem 1.2rem;
-  margin-right: 1rem;
   border-radius: 0.4rem;
   @include nsnFont(1.3rem, 500, normal);
   &.comment {
@@ -92,6 +94,21 @@
     background-color: #fff7de;
     color: #ff8e1e;
   }
+}
+
+.alarmTextContent {
+  @include flexSort(column, null, null, 0.4rem);
+
+}
+
+.alarmDefaultText {
+  @include line-clamp(2);
+  @include nsnFont(1rem, 300, normal);
+}
+
+.alarmMessage {
+  @include line-clamp(2);
+  @include nsnFont(1.5rem, 400, normal);
 }
 
 .fetchButton {

@@ -53,6 +53,7 @@ export default function MyLikesListBox() {
             itemsPerPage={4}
             totalItems={Number(likesList?.totalElements)}
             setPage={setPage}
+            pageType={postType}
           />
         </div>
       </div>

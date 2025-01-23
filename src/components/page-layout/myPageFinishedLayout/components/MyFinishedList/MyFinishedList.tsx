@@ -10,9 +10,11 @@ const cn = classNames.bind(styles);
 interface MyFinishedListProps {
   finishedList: MyFinishedPostType[];
   memberRole: "TAKER"|"GIVER"
+  pageId: number;
+  isToggleOn: boolean;
 }
 
-export default function MyFinishedList({ finishedList, memberRole }: MyFinishedListProps) {
+export default function MyFinishedList({ finishedList, memberRole, pageId, isToggleOn}: MyFinishedListProps) {
   return (
     <div className={cn("container")}>
       {finishedList?.map((post) => (
@@ -33,6 +35,8 @@ export default function MyFinishedList({ finishedList, memberRole }: MyFinishedL
           matchingStatus={post.matchingStatus}
           memberRole={memberRole}
           canRequest={post.canVerificationRequest}
+          pageId={pageId}
+          isToggleOn={isToggleOn}
         />
       ))}
     </div>

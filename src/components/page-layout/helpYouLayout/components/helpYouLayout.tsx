@@ -22,7 +22,7 @@ export default function HelpYouLayout() {
   const router = useRouter();
   const params = new URLSearchParams(router.query as any);
   const currentPage = params.get("page");
-  const allType = params.get("allType") ?? "";
+  const all = params.get("all") ?? "";
   const disabilityType = params.get("disabilityType") ?? "";
   const assistanceType = params.get("assistanceType") ?? "";
   const postStatus = params.get("postStatus") ?? "";
@@ -39,61 +39,75 @@ export default function HelpYouLayout() {
 
   const { data } = useQuery({
     queryKey: ["helpYouPostList", `${page}`, postStatus, disabilityType, assistanceType],
-    queryFn: () => getPaginationItems("GIVER", page - 1, 8, allType, postStatus, disabilityType, assistanceType),
+    queryFn: () => getPaginationItems("GIVER", page - 1, 8, all, postStatus, disabilityType, assistanceType),
     placeholderData: keepPreviousData,
-    enabled: !!allType || !!disabilityType || !!assistanceType || !!postStatus,
+    enabled: !!all || !!disabilityType || !!assistanceType || !!postStatus,
   });
 
   const handleFilter = (category: string, optionId: string) => {
     const searchParams = new URLSearchParams(params.toString());
-    const selectedAllType = searchParams.get("allType") ?? "";
+    const selectedAllType = searchParams.get("all") ?? "";
     const selectedDisabilityType = searchParams.get("disabilityType") ?? "";
     const selectedAssistanceType = searchParams.get("assistanceType") ?? "";
     const selectedPostStatus = searchParams.get("postStatus") ?? "";
 
-    let allTypeList = selectedAllType ? selectedAllType.split(",") : [];
+    let isAllType = selectedAllType;
     let disabilityTypeList = selectedDisabilityType ? selectedDisabilityType.split(",") : [];
     let assistanceTypeList = selectedAssistanceType ? selectedAssistanceType.split(",") : [];
     let postStatusList = selectedPostStatus ? selectedPostStatus.split(",") : [];
 
-    if (category === "allType") {
-      if (allTypeList.includes(optionId)) {
-        allTypeList = allTypeList.filter((e) => e !== optionId);
-        searchParams.set("allType", allTypeList.join(","));
-        searchParams.delete("allType");
-      } else {
-        allTypeList.push(optionId);
-        searchParams.set("allType", allTypeList.join(","));
-        searchParams.delete("disabilityType");
-        searchParams.delete("assistanceType");
-        searchParams.delete("postStatus");
-      }
+    if (category === "all") {
+      isAllType = optionId;
+      searchParams.set("all", isAllType);
+      searchParams.delete("disabilityType");
+      searchParams.delete("assistanceType");
+      searchParams.delete("postStatus");
     } else if (category === "disabilityType") {
       if (disabilityTypeList.includes(optionId)) {
         disabilityTypeList = disabilityTypeList.filter((e) => e !== optionId);
-        searchParams.set("disabilityType", disabilityTypeList.join(","));
+        if (disabilityTypeList.length === 0) {
+          searchParams.delete("disabilityType");
+        } else {
+          searchParams.set("disabilityType", disabilityTypeList.join(","));
+        }
       } else {
         disabilityTypeList.push(optionId);
         searchParams.set("disabilityType", disabilityTypeList.join(","));
-        searchParams.delete("allType");
+        searchParams.delete("all");
       }
     } else if (category === "assistanceType") {
       if (assistanceTypeList.includes(optionId)) {
         assistanceTypeList = assistanceTypeList.filter((e) => e !== optionId);
-        searchParams.set("assistanceType", assistanceTypeList.join(","));
+        if (assistanceTypeList.length === 0) {
+          searchParams.delete("assistanceType");
+        } else {
+          searchParams.set("assistanceType", assistanceTypeList.join(","));
+        }
       } else {
         assistanceTypeList.push(optionId);
         searchParams.set("assistanceType", assistanceTypeList.join(","));
-        searchParams.delete("allType");
+        searchParams.delete("all");
       }
     } else if (category === "postStatus") {
       if (postStatusList.includes(optionId)) {
         postStatusList = postStatusList.filter((e) => e !== optionId);
-        searchParams.set("postStatus", postStatusList.join(","));
+        if (postStatusList.length === 0) {
+          searchParams.delete("postStatus");
+        } else {
+          searchParams.set("postStatus", postStatusList.join(","));
+        }
       } else {
-        postStatusList.push(optionId);
-        searchParams.set("postStatus", postStatusList.join(","));
-        searchParams.delete("allType");
+        if (postStatusList.length === 1) {
+          if (postStatusList[0] === "FINISHED") {
+            searchParams.set("postStatus", "RECRUITING");
+          } else {
+            searchParams.set("postStatus", "FINISHED");
+          }
+        } else {
+          postStatusList.push(optionId);
+          searchParams.set("postStatus", postStatusList.join(","));
+          searchParams.delete("all");
+        }
       }
     }
 
@@ -104,11 +118,11 @@ export default function HelpYouLayout() {
   };
 
   useEffect(() => {
-    if (!params.has("allType")) {
-      params.set("allType", "전체");
+    if (params.toString() === "") {
+      params.set("all", "true");
       router.replace(`${router.pathname}?${params.toString()}`);
     }
-  }, []);
+  }, [params]);
 
   return (
     <main className={cn("container")}>
@@ -136,7 +150,13 @@ export default function HelpYouLayout() {
             </Post>
           ))}
         </div>
-        <Pagination currentPage={page} itemsPerPage={8} totalItems={data?.totalElements} setPage={setPage} />
+        <Pagination
+          currentPage={page}
+          itemsPerPage={8}
+          totalItems={data?.totalElements}
+          setPage={setPage}
+          pageType="GIVER"
+        />
       </div>
     </main>
   );

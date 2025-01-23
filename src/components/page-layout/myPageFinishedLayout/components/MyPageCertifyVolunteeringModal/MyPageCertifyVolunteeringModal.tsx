@@ -188,7 +188,12 @@ export default function CertifyVolunteeringModal({
                 <CustomDatePicker
                   locale={ko}
                   selected={field.value}
-                  onChange={field.onChange}
+                  onChange={(date: Date) => {
+                    if (date) {
+                      const adjustedDate = new Date(date.setHours(12, 0, 0, 0));
+                      field.onChange(adjustedDate);
+                    }
+                  }}
                   dateFormat="yyyy.MM.dd"
                   customInputRef={field.ref}
                   placeholder="봉사한 날짜를 선택해 주세요."
@@ -231,7 +236,7 @@ export default function CertifyVolunteeringModal({
         <div className={cn("thoughtsContainer")}>
           <p className={cn("thoughtsTitle")}>6. 봉사 활동 내용 및 소감 </p>
           <header className={cn("thoughtsHeader")}>
-            봉사 활동 내용 및 소감을 자유롭게 작성해 주세요. (200자 이상){" "}
+            봉사 활동 내용 및 소감을 자유롭게 작성해 주세요. (200자 이상){""}
           </header>
           <div className={cn("thoughtsContentBox")}>
             <Textarea

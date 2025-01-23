@@ -5,6 +5,7 @@ import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 
 import openToast from "@/components/common/Toast/features/openToast";
+import { ErrorResponse } from "@/types/error";
 
 import getReportTypes from "./apis/getReportTypes";
 import sendReport from "./apis/sendReport";
@@ -27,13 +28,6 @@ interface formProps {
   setIsReportOpen: (value: boolean) => void;
 }
 
-interface ErrorResponse {
-  error: {
-    code: string;
-    message: string;
-  };
-}
-
 export default function ReportForm({ nickname, postId, postType, contentType, content, setIsReportOpen }: formProps) {
   const [reportType, setReportType] = useState("");
   const [reportContent, setReportContent] = useState("");
@@ -51,10 +45,14 @@ export default function ReportForm({ nickname, postId, postType, contentType, co
       openToast("success", "신고가 성공적으로 접수되었습니다.");
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      if (error?.response?.data.error.code === "R002") {
-        openToast("error", error.response.data.error.message);
-      } else {
-        openToast("error", "신고를 접수하는 중 문제가 발생했습니다. 다시 시도해 주세요.");
+      if (error.response) {
+        const invalidParams = error.response.data.error.invalidParams;
+        if (invalidParams) {
+          const fullInvalidMessage = invalidParams.map((param) => param.message).join(", ");
+          openToast("error", fullInvalidMessage);
+        } else {
+          openToast("error", error.response.data.error.message);
+        }
       }
     },
   });
@@ -105,11 +103,7 @@ export default function ReportForm({ nickname, postId, postType, contentType, co
             {postId}
           </p>
           <p className={cn("postInfoContent")}>
-            {contentType === "posts" ? (
-              <span className={cn("postInfoLabel")}>신고 대상 내용</span>
-            ) : (
-              <span className={cn("postInfoLabel")}>신고 대상 내용</span>
-            )}
+            <span className={cn("postInfoLabel")}>신고 대상 내용</span>
             <span className={cn("bar")}>|</span>
             {content}
           </p>
@@ -124,17 +118,11 @@ export default function ReportForm({ nickname, postId, postType, contentType, co
               className={cn("selectTypeBox", { defaultMsg: reportType === "" })}
             >
               <option value="">신고할 유형을 선택해 주세요.</option>
-              {reportTypes?.map((value: string, index: number) =>
-                value === "기타" ? (
-                  <option className={cn("reportType")} key={index}>
-                    {value} (신고 내용을 필수로 작성해 주세요!)
-                  </option>
-                ) : (
-                  <option className={cn("reportType")} key={index}>
-                    {value}
-                  </option>
-                ),
-              )}
+              {reportTypes?.map((value: string, index: number) => (
+                <option className={cn("reportType")} key={index}>
+                  {value}
+                </option>
+              ))}
             </select>
           </div>
           <div className={cn("reportContentBox")}>

@@ -123,6 +123,7 @@ export default function UserAdminLayout() {
                 itemsPerPage={6}
                 totalItems={data?.totalElements}
                 setPage={setPage}
+                pageType="TAKER"
               />
             </div>
           </div>

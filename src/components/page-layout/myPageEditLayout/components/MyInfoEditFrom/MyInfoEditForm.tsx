@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import classNames from "classnames/bind";
@@ -37,6 +38,15 @@ interface ErrorResponse {
   };
 }
 
+const nickNameSchema = z.object({
+  nickname: z
+    .string()
+    .min(2, "닉네임은 최소 2자 이상이어야 합니다.")
+    .max(10, "닉네임은 최대 10자까지만 가능합니다.")
+    .regex(/^[a-zA-Z가-힣ㄱ-ㅎㅏ-ㅣ0-9]*$/, "공백 및 특수 문자는 불가능합니다."),
+  disabilityType: z.string().optional(),
+});
+
 export default function MyInfoEditForm() {
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -52,7 +62,10 @@ export default function MyInfoEditForm() {
     setValue,
     setError,
     formState: { errors, isValid },
-  } = useForm<FormType>();
+  } = useForm<FormType>({
+    resolver: zodResolver(nickNameSchema),
+    mode: "onChange",
+  });
 
   useEffect(() => {
     if (myInfoData?.disabilityType) {
@@ -105,19 +118,7 @@ export default function MyInfoEditForm() {
           </div>
           <div className={cn("nicknameContainer")}>
             <p className={cn("nicknameTitle")}>닉네임</p>
-            <input
-              className={cn("nickname")}
-              {...register("nickname", {
-                required: "닉네임을 입력해주세요.",
-                minLength: { value: 2, message: "닉네임은 2~20글자만 가능합니다." },
-                maxLength: { value: 20, message: "닉네임은 2~20글자만 가능합니다." },
-                pattern: {
-                  value: /^[a-zA-Z가-힣0-9]*$/,
-                  message: "공백 및 특수 문자는 불가능합니다.",
-                },
-              })}
-              defaultValue={myInfoData?.nickname}
-            />
+            <input className={cn("nickname")} {...register("nickname")} defaultValue={myInfoData?.nickname} />
             {errors.nickname && <p className={cn("errorMessage")}>{errors.nickname.message}</p>}
           </div>
           <div className={cn("ageContainer")}>

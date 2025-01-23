@@ -9,6 +9,7 @@ import Image from "next/image";
 
 import styles from "@/components/common/commentWrite/commentWrite.module.scss";
 import openToast from "@/components/common/Toast/features/openToast";
+import { ErrorResponse } from "@/types/error";
 
 import postComment from "./apis/postComment";
 import BanIcon from "../../../../public/icons/ban.svg";
@@ -28,6 +29,7 @@ interface CommentWriteProps {
   commentMemIds: Array<number>;
   gender: string;
   type: string;
+  postStatus: string;
 }
 
 interface CommentData {
@@ -39,13 +41,7 @@ interface Comment {
   content: string;
 }
 
-interface ErrorResponse {
-  error: {
-    message: string;
-  };
-}
-
-export default function CommentWrite({ user, id, commentMemIds, gender, type }: CommentWriteProps) {
+export default function CommentWrite({ user, id, commentMemIds, gender, type, postStatus }: CommentWriteProps) {
   const { register, handleSubmit, reset } = useForm<Comment>();
   const queryClient = useQueryClient();
 
@@ -66,7 +62,13 @@ export default function CommentWrite({ user, id, commentMemIds, gender, type }: 
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response) {
-        openToast("error", error.response?.data.error.message);
+        const invalidParams = error.response.data.error.invalidParams;
+        if (invalidParams) {
+          const fullInvalidMessage = invalidParams.map((param) => param.message).join(", ");
+          openToast("error", fullInvalidMessage);
+        } else {
+          openToast("error", error.response.data.error.message);
+        }
       }
     },
   });
@@ -100,15 +102,16 @@ export default function CommentWrite({ user, id, commentMemIds, gender, type }: 
           <p className={cn("nickname")}>{user?.nickname}</p>
         </div>
         <textarea
-          {...register("content", { required: "내용을 입력하세요." ,})}
-          placeholder="내용을 작성하세요."
+          {...register("content", { required: "내용을 입력하세요." })}
+          placeholder={postStatus === "FINISHED" ? "모집이 완료되어 댓글을 작성할 수 없습니다." : "내용을 작성하세요."}
           className={cn("textarea")}
           ref={(e) => {
-            register('content').ref(e);
+            register("content").ref(e);
             textarea.current = e;
           }}
           onKeyDown={handleKeyDown}
           onInput={handleResizeHeight}
+          disabled={postStatus === "FINISHED"}
         ></textarea>
         <button>
           <Register className={cn("register", { helpMeRegister: type === "taker" })} />

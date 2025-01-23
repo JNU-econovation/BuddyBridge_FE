@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 
@@ -9,18 +9,13 @@ import openToast from "@/components/common/Toast/features/openToast";
 import putMatchingStatus from "@/components/page-layout/chatLayout/apis/putMatchingStatus";
 import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/ConfirmVolunteeringModal/ConfirmVolunteeringModal.module.scss";
 import Close from "@/icons/close.svg";
+import { ErrorResponse } from "@/types/error";
 
 const cn = classNames.bind(styles);
 
 interface PutMatchingType {
   matchingId: number;
   status: string;
-}
-
-interface ErrorType {
-  error: {
-    message: string;
-  };
 }
 
 interface ConfirmVolunteeringModalProps {
@@ -30,6 +25,9 @@ interface ConfirmVolunteeringModalProps {
   matchingId: number;
   setIsCompleteVolunteeringModalOpen: Dispatch<SetStateAction<boolean>>;
   setIsGetNoVolunteeringModalOpen: Dispatch<SetStateAction<boolean>>;
+  memberRole: "TAKER" | "GIVER";
+  pageId: number;
+  isToggleOn: boolean;
 }
 
 export default function ConfirmVolunteeringModal({
@@ -39,32 +37,42 @@ export default function ConfirmVolunteeringModal({
   postType,
   setIsCompleteVolunteeringModalOpen,
   setIsGetNoVolunteeringModalOpen,
+  memberRole,
+  pageId,
+  isToggleOn,
 }: ConfirmVolunteeringModalProps) {
+  const queryClient = useQueryClient();
   const matchingStatusMutation = useMutation({
     mutationFn: ({ matchingId, status }: PutMatchingType) => putMatchingStatus(matchingId, status),
     onSuccess: (variables) => {
       setState((prev) => !prev);
-      if(variables.status === "MARK_AS_HELP_NOT_RECEIVED") {
+      if (variables.status === "MARK_AS_HELP_NOT_RECEIVED") {
         setIsGetNoVolunteeringModalOpen((prev) => !prev);
       } else {
         setIsCompleteVolunteeringModalOpen((prev) => !prev);
       }
-      window.location.reload();
+      queryClient.invalidateQueries({ queryKey: ["Finished",pageId, memberRole, isToggleOn] });
     },
-    onError: (error: AxiosError<ErrorType>) => {
+    onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response) {
-        openToast("warn", error.response.data.error.message);
-        setState((prev) => !prev);
+        const invalidParams = error.response.data.error.invalidParams;
+        if (invalidParams) {
+          const fullInvalidMessage = invalidParams.map((param) => param.message).join(", ");
+          openToast("error", fullInvalidMessage);
+        } else {
+          openToast("error", error.response.data.error.message);
+        }
       }
+      setState((prev) => !prev);
     },
   });
 
   const handleGetNoHelpBtnClick = () => {
-    matchingStatusMutation.mutate({matchingId, status:"MARK_AS_HELP_NOT_RECEIVED"});
+    matchingStatusMutation.mutate({ matchingId, status: "MARK_AS_HELP_NOT_RECEIVED" });
   };
 
   const handleGetHelpBtnClick = () => {
-    matchingStatusMutation.mutate({matchingId, status:"MARK_AS_HELP_RECEIVED"});
+    matchingStatusMutation.mutate({ matchingId, status: "MARK_AS_HELP_RECEIVED" });
   };
 
   return (
