@@ -11,6 +11,7 @@ import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/certificationDetailLayout/components/CertificationDetailLayout.module.scss";
 import { ROUTE } from "@/constants/route";
 
+import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
 import PostContent from "../../postDeclarationDetailLayout/components/PostContent/PostContent";
 import getCertificationDetail from "../apis/getCertificationDetail";
 
@@ -18,6 +19,11 @@ const cn = classNames.bind(styles);
 
 export default function CertificationDetailLayout() {
   const router = useRouter();
+
+  const { data: myInfoData, isFetching } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: () => getMyInfo(),
+  });
 
   const { data, error, isPending } = useQuery({
     queryKey: ["certificationDetail"],
@@ -31,6 +37,13 @@ export default function CertificationDetailLayout() {
       router.push(ROUTE.HOME);
     }
   }, [error, router]);
+
+  useEffect(() => {
+    if (!myInfoData && !isFetching) {
+      router.push(ROUTE.LOGIN);
+      openToast("error", "로그인을 해주세요.");
+    }
+  }, [myInfoData, router, isFetching]);
 
   if (isPending) return <>...로딩</>;
 
