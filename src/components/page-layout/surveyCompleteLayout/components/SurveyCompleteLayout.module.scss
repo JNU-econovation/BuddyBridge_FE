@@ -1,0 +1,6 @@
+.container {
+  @include flexSort(null, center, center, null);
+  height: 100%;
+  @include nsnFont(2rem, 400, normal);
+  background-color: #ffffff;
+}

@@ -17,6 +17,7 @@ import openToast from "@/components/common/Toast/features/openToast";
 import styles from "@/components/page-layout/chatLayout/components/ChatingRoom/ChatingRoomContent/RegisterCertifyVolunteeringModal/RegisterCertifyVolunteeringModal.module.scss";
 import Calendar from "@/icons/calendar.svg";
 import Close from "@/icons/close.svg";
+import { ErrorResponse } from "@/types/error";
 
 import getPostEnums from "./apis/getPostEnums";
 import postCertificationsForm, { formType } from "./apis/postCertificationsForm";
@@ -38,12 +39,6 @@ interface FormData {
   startTime: Date;
   endTime: Date;
   content: string;
-}
-
-interface ErrorResponse {
-  error: {
-    message: string;
-  };
 }
 
 const volunteerSchema = z.object({
@@ -82,7 +77,9 @@ export default function RegisterCertifyVolunteeringModal({
       queryClient.invalidateQueries({ queryKey: ["chattingRoomData", matchingId] });
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      if (error.response) {
+      if (error.response?.data.error.invalidParams) {
+        openToast("error", error.response.data.error.invalidParams[0].message);
+      } else if (error.response?.data.error.message) {
         openToast("error", error.response.data.error.message);
       } else {
         openToast("error", "에러가 발생했습니다.");
@@ -96,10 +93,13 @@ export default function RegisterCertifyVolunteeringModal({
     control,
     setValue,
     formState: { errors },
+    watch,
   } = useForm<FormData>({
     resolver: zodResolver(volunteerSchema),
     mode: "onSubmit",
   });
+
+  const contentText = watch("content", "");
 
   const handleVolunteerComplete = (data: FormData) => {
     certificationsFormMutation.mutate(data);
@@ -139,7 +139,7 @@ export default function RegisterCertifyVolunteeringModal({
         <div className={cn("postBox")}>
           <p className={cn("postTitle")}>3. 봉사한 게시글</p>
           <div className={cn("postContentBox")}>
-            <p className={cn("postType")}>{postType}</p>
+            <p className={cn("postType")}>{postType === "TAKER" ? "도와줄래요?" : "도와줄게요!"}</p>
             <p className={cn("postId")}>{postId}</p>
           </div>
         </div>
@@ -155,7 +155,12 @@ export default function RegisterCertifyVolunteeringModal({
                 <CustomDatePicker
                   locale={ko}
                   selected={field.value}
-                  onChange={field.onChange}
+                  onChange={(date: Date) => {
+                    if (date) {
+                      const adjustedDate = new Date(date.setHours(12, 0, 0, 0));
+                      field.onChange(adjustedDate);
+                    }
+                  }}
                   dateFormat="yyyy.MM.dd"
                   customInputRef={field.ref}
                   placeholder="봉사한 날짜를 선택해 주세요."
@@ -206,6 +211,7 @@ export default function RegisterCertifyVolunteeringModal({
               className={cn("thoughtsContent")}
               {...register("content", { required: true })}
             />
+            <p className={cn("charCount")}>{contentText.length}/1000</p>
             {errors.content && <p className={cn("errorMessage")}>{errors.content.message}</p>}
           </div>
         </div>
