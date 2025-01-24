@@ -33,12 +33,14 @@ const signUpSchema = z.object({
     .string()
     .min(2, "이름은 최소 2자 이상이어야 합니다.")
     .max(18, "이름은 최대 18자입니다.")
-    .regex(/^[^\s!@#$%^&*()_+={}\[\]:;"'<>,.?~`\\/-]+$/, "이름에는 특수문자를 포함할 수 없습니다."),
+    .regex(/^[^\s!@#$%^&*()_+={}\[\]:;"'<>,.?~`\\/-]+$/, "이름에는 특수문자를 포함할 수 없습니다.")
+    .regex(/^[a-zA-Z가-힣0-9]*$/, "자음만 있거나 모음만 있는 글자가 있으면 안됩니다."),
   nickname: z
     .string()
     .min(2, "닉네임은 최소 2자 이상이어야 합니다.")
     .max(18, "닉네임은 최대 18자 이하이어야 합니다.")
-    .regex(/^[^\s!@#$%^&*()_+={}\[\]:;"'<>,.?~`\\/-]+$/, "닉네임은 공백 및 특수문자를 포함할 수 없습니다."),
+    .regex(/^[^\s!@#$%^&*()_+={}\[\]:;"'<>,.?~`\\/-]+$/, "닉네임은 공백 및 특수문자를 포함할 수 없습니다.")
+    .regex(/^[a-zA-Z가-힣0-9]*$/, "자음만 있거나 모음만 있는 글자가 있으면 안됩니다."),
   gender: z.string().min(1, "성별을 선택해야 합니다."),
   birthDate: z
     .date()
@@ -54,9 +56,9 @@ const signUpSchema = z.object({
         const monthDiff = today.getMonth() - date.getMonth();
         const dayDiff = today.getDate() - date.getDate();
 
-        if (age > 17) return true;
+        if (age > 16) return true;
 
-        if (age === 17) {
+        if (age === 16) {
           if (monthDiff > 0) return true;
           if (monthDiff === 0 && dayDiff >= 0) return true;
         }
@@ -64,9 +66,9 @@ const signUpSchema = z.object({
         return false;
       },
       {
-        message: `만 17세 이상이어야 합니다. (${new Date().getFullYear() - 17}년 ${
+        message: `만 16세 이상이어야 합니다. (${new Date().getFullYear() - 16}년 ${
           new Date().getMonth() + 1
-        }월 ${new Date().getDate()}일 이후 출생자만 가능합니다.)`,
+        }월 ${new Date().getDate()}일 이전 출생자만 가능합니다.)`,
       },
     )
     .refine(
