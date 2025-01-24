@@ -54,8 +54,12 @@ export default function LikesPost({
       queryClient.invalidateQueries({ queryKey: ["LikesList", pageId, postType] });
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      if (error.response) {
+      if (error.response?.data.error.invalidParams) {
+        openToast("error", error.response.data.error.invalidParams[0].message);
+      } else if (error.response?.data.error.message) {
         openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "찜한 목록 수정에 실패했습니다.");
       }
     },
   });

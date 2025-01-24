@@ -93,14 +93,12 @@ export default function HelpMeDetailLayout() {
       openToast("success", "성공적으로 삭제되었습니다.");
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      if (error.response) {
-        const invalidParams = error.response.data.error.invalidParams;
-        if (invalidParams) {
-          const fullInvalidMessage = invalidParams.map((param) => param.message).join(", ");
-          openToast("error", fullInvalidMessage);
-        } else {
-          openToast("error", error.response.data.error.message);
-        }
+      if (error.response?.data.error.invalidParams) {
+        openToast("error", error.response.data.error.invalidParams[0].message);
+      } else if (error.response?.data.error.message) {
+        openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "게시글 삭제에 실패했습니다.");
       }
     },
   });
@@ -238,8 +236,8 @@ export default function HelpMeDetailLayout() {
               <p className={cn("contentDetailLabel")}>상세 내용</p>
               <div className={cn("contentDetailBox")}>{content}</div>
             </div>
-            <p className={cn("createdAt")}>작성일자: {formatDateString(createdAt)}</p>
           </div>
+          <p className={cn("createdAt")}>작성일자: {formatDateString(createdAt)}</p>
         </div>
         {userData && (
           <>

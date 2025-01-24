@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import classNames from "classnames/bind";
 
 import { useRouter } from "next/router";
@@ -11,6 +12,7 @@ import openToast from "@/components/common/Toast/features/openToast";
 import { ROUTE } from "@/constants/route";
 import useGetMyComment from "@/hooks/useGetMyComment";
 import useGetMyPost from "@/hooks/useGetMyPost";
+import { ErrorResponse } from "@/types/error";
 
 import styles from "./myRegisterPost.module.scss";
 import PostTypeFilter, {
@@ -27,31 +29,46 @@ export default function MyRegisterPost() {
   const postType = (router.query.postType as PostTypeFilterProps["postType"]) || "TAKER";
   const filter = (router.query.state as string) || "post";
   const pageId = Number(router.query.pageId) || 1;
-  const queryKey = (router.query.state || "post")+"Data";
+  const queryKey = (router.query.state || "post") + "Data";
 
   const [contentType, setContentType] = useState(filter);
 
   const defaultData = { content: [], totalElements: 0, last: true };
-  const { data:postData = defaultData, isError } = useGetMyPost(pageId - 1, postType, filter);
+  const { data: postData = defaultData, isError } = useGetMyPost(pageId - 1, postType, filter);
 
-  const {
-    data: commentData = defaultData,
-    isError: isCommentError,
-  } = useGetMyComment(pageId - 1, postType, filter);
+  const { data: commentData = defaultData, isError: isCommentError } = useGetMyComment(pageId - 1, postType, filter);
 
   const deletePostMutation = useMutation({
     mutationFn: (selectedContents: number[]) => deletePosts(selectedContents),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["postData", pageId - 1, postType]} );
+      queryClient.invalidateQueries({ queryKey: ["postData", pageId - 1, postType] });
       openToast("success", "성공적으로 삭제되었습니다.");
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response?.data.error.invalidParams) {
+        openToast("error", error.response.data.error.invalidParams[0].message);
+      } else if (error.response?.data.error.message) {
+        openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "삭제에 실패했습니다.");
+      }
     },
   });
 
   const deleteCommentMutation = useMutation({
     mutationFn: (selectedContents: number[]) => deleteComments(selectedContents),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["commentData", pageId - 1 , postType] });
+      queryClient.invalidateQueries({ queryKey: ["commentData", pageId - 1, postType] });
       openToast("success", "성공적으로 삭제되었습니다.");
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response?.data.error.invalidParams) {
+        openToast("error", error.response.data.error.invalidParams[0].message);
+      } else if (error.response?.data.error.message) {
+        openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "삭제에 실패했습니다.");
+      }
     },
   });
 
@@ -75,7 +92,6 @@ export default function MyRegisterPost() {
   };
 
   if (isError) return <div>에러...</div>;
-
 
   if (isCommentError) return <div>에러...</div>;
 

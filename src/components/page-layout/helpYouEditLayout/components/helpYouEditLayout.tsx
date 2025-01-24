@@ -27,7 +27,7 @@ import RegisterArrow from "@/icons/send_arrow.svg";
 import { ErrorResponse } from "@/types/error";
 
 import styles from "./helpYouEditLayout.module.scss";
-import patchHelpMeRegister from "../../helpMeEditLayout/apis/patchHelpMeRegister";
+import putHelpMeRegister from "../../helpMeEditLayout/apis/putHelpMeRegister";
 import { helpMeFormData } from "../../helpMeRegisterLayout/types";
 import getGiverDetail from "../../helpYouDetailLayout/apis/getGiverDetail";
 import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
@@ -87,8 +87,14 @@ export default function HelpYouEditLayout() {
   const queryClient = useQueryClient();
   const { query } = router;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [content, setContent] = useState<null | Partial<helpMeFormData>>(null);
+  const [content, setContent] = useState<Partial<helpMeFormData> | null>(null);
   const [prevHelpMeData, setPrevHelpMeData] = useState<helpMeFormData | null>(null);
+
+  const normalizeDate = (date: string | Date): Date => {
+    const utcDate = new Date(date);
+    const adjustedDate = new Date(utcDate.getUTCFullYear(), utcDate.getUTCMonth(), utcDate.getUTCDate(), 12, 0, 0, 0);
+    return adjustedDate;
+  };
 
   const { data: myInfoData, isFetching } = useQuery({
     queryKey: ["userInfo"],
@@ -101,7 +107,11 @@ export default function HelpYouEditLayout() {
     setValue,
     control,
     formState: { errors, isValid },
+    watch,
   } = useForm<helpMeFormData>({ resolver: zodResolver(editSchema), mode: "onChange" });
+
+  const title = watch("title", "");
+  const contentText = watch("content", "");
 
   const { data: prevData, isPending } = useQuery({
     queryKey: ["giverDetail", query.id],
@@ -109,20 +119,18 @@ export default function HelpYouEditLayout() {
   });
 
   const updateHelpMeMutation = useMutation({
-    mutationFn: (content: helpMeFormData) => patchHelpMeRegister(content, query.id as string),
+    mutationFn: (content: helpMeFormData) => putHelpMeRegister(content, query.id as string),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["takerDetail", query.id] });
       router.push((ROUTE.HELP_YOU + "/" + query.id) as string);
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      if (error.response) {
-        const invalidParams = error.response.data.error.invalidParams;
-        if (invalidParams) {
-          const fullInvalidMessage = invalidParams.map((param) => param.message).join(", ");
-          openToast("error", fullInvalidMessage);
-        } else {
-          openToast("error", error.response.data.error.message);
-        }
+      if (error.response?.data.error.invalidParams) {
+        openToast("error", error.response.data.error.invalidParams[0].message);
+      } else if (error.response?.data.error.message) {
+        openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "게시글 수정에 실패했습니다.");
       }
     },
   });
@@ -132,8 +140,8 @@ export default function HelpYouEditLayout() {
       const newPrevHelpMeData: helpMeFormData = {
         title: prevData.post.title,
         assistanceType: prevData.post.assistance.assistanceType,
-        startDate: new Date(prevData.post.schedule.startDate),
-        endDate: new Date(prevData.post.schedule.endDate),
+        startDate: normalizeDate(prevData.post.schedule.startDate),
+        endDate: normalizeDate(prevData.post.schedule.endDate),
         scheduleType: prevData.post.schedule.scheduleType,
         scheduleDetails: prevData.post.schedule.scheduleDetails,
         district: prevData.post.district,
@@ -156,24 +164,20 @@ export default function HelpYouEditLayout() {
 
   const handleHelpMeSubmit = (data: helpMeFormData) => {
     setIsModalOpen((prev) => !prev);
-    const modifiedContent: Partial<helpMeFormData> = {};
+    const content = {
+      title: data.title,
+      assistanceType: data.assistanceType,
+      startDate: data.startDate,
+      endDate: data.endDate,
+      scheduleType: data.scheduleType,
+      scheduleDetails: data.scheduleDetails,
+      district: data.district,
+      content: data.content,
+      assistanceStartTime: data.assistanceStartTime,
+      assistanceEndTime: data.assistanceEndTime,
+    };
 
-    Object.entries(data).forEach(([key, value]) => {
-      const typedKey = key as keyof helpMeFormData;
-      if (prevHelpMeData) {
-        if (value instanceof Date) {
-          const prevDate = new Date(prevHelpMeData[typedKey]);
-          if (value.getTime !== prevDate.getTime) {
-            (modifiedContent[typedKey] as Date) = value;
-          }
-        } else {
-          if (value !== prevHelpMeData[typedKey]) {
-            modifiedContent[typedKey] = value;
-          }
-        }
-      }
-    });
-    setContent(modifiedContent);
+    setContent(content);
   };
 
   useEffect(() => {
@@ -202,6 +206,7 @@ export default function HelpYouEditLayout() {
                   placeholder="구체적으로 줄 수 있는 도움을 적어주세요. 예) 대필, 조리봉사, 촬영 등"
                   {...register("title")}
                 />
+                <p className={cn("charCount")}>{title.length}/30</p>
                 {errors.title && <p className={cn("errorMessage")}>{errors.title.message}</p>}
               </div>
               <div className={cn("dateContainer")}>
@@ -221,7 +226,7 @@ export default function HelpYouEditLayout() {
                           selected={field.value}
                           onChange={(date: Date) => {
                             if (date) {
-                              const adjustedDate = new Date(date.setHours(12, 0, 0, 0));
+                              const adjustedDate = normalizeDate(date);
                               field.onChange(adjustedDate);
                             }
                           }}
@@ -247,7 +252,7 @@ export default function HelpYouEditLayout() {
                           selected={field.value}
                           onChange={(date: Date) => {
                             if (date) {
-                              const adjustedDate = new Date(date.setHours(12, 0, 0, 0));
+                              const adjustedDate = normalizeDate(date);
                               field.onChange(adjustedDate);
                             }
                           }}
@@ -351,6 +356,7 @@ export default function HelpYouEditLayout() {
                   className={cn("detailTextarea")}
                   {...register("content", { required: true })}
                 />
+                <p className={cn("charCount")}>{contentText.length}/500</p>
                 {errors.content && <p className={cn("errorMessage")}>{errors.content.message}</p>}
               </div>
               <Button className={cn("registerBox", { active: isValid })}>

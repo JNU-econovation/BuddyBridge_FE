@@ -75,14 +75,12 @@ export default function FinishedPost({
       openToast("success", "봉사 인증 요청이 완료되었습니다.");
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      if (error.response) {
-        const invalidParams = error.response.data.error.invalidParams;
-        if (invalidParams) {
-          const fullInvalidMessage = invalidParams.map((param) => param.message).join(", ");
-          openToast("error", fullInvalidMessage);
-        } else {
-          openToast("error", error.response.data.error.message);
-        }
+      if (error.response?.data.error.invalidParams) {
+        openToast("error", error.response.data.error.invalidParams[0].message);
+      } else if (error.response?.data.error.message) {
+        openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "봉사 인증 요청에 실패했습니다.");
       }
     },
   });

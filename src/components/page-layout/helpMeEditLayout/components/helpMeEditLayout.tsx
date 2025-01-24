@@ -30,7 +30,7 @@ import styles from "./helpMeEditLayout.module.scss";
 import getTakerDetail from "../../helpMeDetailLayout/apis/getTakerDetail";
 import { helpMeFormData } from "../../helpMeRegisterLayout/types";
 import getMyInfo from "../../myPageEditLayout/apis/getMyInfo";
-import patchHelpMeRegister from "../apis/patchHelpMeRegister";
+import putHelpMeRegister from "../apis/putHelpMeRegister";
 
 const cn = classNames.bind(styles);
 
@@ -91,6 +91,12 @@ export default function HelpMeEditLayout() {
   const [content, setContent] = useState<null | Partial<helpMeFormData>>(null);
   const [prevHelpMeData, setPrevHelpMeData] = useState<helpMeFormData | null>(null);
 
+  const normalizeDate = (date: string | Date): Date => {
+    const utcDate = new Date(date);
+    const adjustedDate = new Date(utcDate.getUTCFullYear(), utcDate.getUTCMonth(), utcDate.getUTCDate(), 12, 0, 0, 0);
+    return adjustedDate;
+  };
+
   const { data: myInfoData, isFetching } = useQuery({
     queryKey: ["userInfo"],
     queryFn: () => getMyInfo(),
@@ -102,7 +108,11 @@ export default function HelpMeEditLayout() {
     setValue,
     control,
     formState: { errors, isValid },
+    watch,
   } = useForm<helpMeFormData>({ resolver: zodResolver(editSchema), mode: "onChange" });
+
+  const title = watch("title", "");
+  const contentText = watch("content", "");
 
   const { data: prevData, isPending } = useQuery({
     queryKey: ["takerDetail", query.id],
@@ -110,20 +120,18 @@ export default function HelpMeEditLayout() {
   });
 
   const updateHelpMeMutation = useMutation({
-    mutationFn: (content: helpMeFormData) => patchHelpMeRegister(content, query.id as string),
+    mutationFn: (content: helpMeFormData) => putHelpMeRegister(content, query.id as string),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["takerDetail", query.id] });
       router.push((ROUTE.HELP_ME + "/" + query.id) as string);
     },
     onError: (error: AxiosError<ErrorResponse>) => {
-      if (error.response) {
-        const invalidParams = error.response.data.error.invalidParams;
-        if (invalidParams) {
-          const fullInvalidMessage = invalidParams.map((param) => param.message).join(", ");
-          openToast("error", fullInvalidMessage);
-        } else {
-          openToast("error", error.response.data.error.message);
-        }
+      if (error.response?.data.error.invalidParams) {
+        openToast("error", error.response.data.error.invalidParams[0].message);
+      } else if (error.response?.data.error.message) {
+        openToast("error", error.response.data.error.message);
+      } else {
+        openToast("error", "게시글 수정에 실패했습니다.");
       }
     },
   });
@@ -133,8 +141,8 @@ export default function HelpMeEditLayout() {
       const newPrevHelpMeData: helpMeFormData = {
         title: prevData.post.title,
         assistanceType: prevData.post.assistance.assistanceType,
-        startDate: new Date(prevData.post.schedule.startDate),
-        endDate: new Date(prevData.post.schedule.endDate),
+        startDate: normalizeDate(prevData.post.schedule.startDate),
+        endDate: normalizeDate(prevData.post.schedule.endDate),
         scheduleType: prevData.post.schedule.scheduleType,
         scheduleDetails: prevData.post.schedule.scheduleDetails,
         district: prevData.post.district,
@@ -157,24 +165,20 @@ export default function HelpMeEditLayout() {
 
   const handleHelpMeSubmit = (data: helpMeFormData) => {
     setIsModalOpen((prev) => !prev);
-    const modifiedContent: Partial<helpMeFormData> = {};
+    const content = {
+      title: data.title,
+      assistanceType: data.assistanceType,
+      startDate: data.startDate,
+      endDate: data.endDate,
+      scheduleType: data.scheduleType,
+      scheduleDetails: data.scheduleDetails,
+      district: data.district,
+      content: data.content,
+      assistanceStartTime: data.assistanceStartTime,
+      assistanceEndTime: data.assistanceEndTime,
+    };
 
-    Object.entries(data).forEach(([key, value]) => {
-      const typedKey = key as keyof helpMeFormData;
-      if (prevHelpMeData) {
-        if (value instanceof Date) {
-          const prevDate = new Date(prevHelpMeData[typedKey]);
-          if (value.getTime !== prevDate.getTime) {
-            (modifiedContent[typedKey] as Date) = value;
-          }
-        } else {
-          if (value !== prevHelpMeData[typedKey]) {
-            modifiedContent[typedKey] = value;
-          }
-        }
-      }
-    });
-    setContent(modifiedContent);
+    setContent(content);
   };
 
   useEffect(() => {
@@ -212,6 +216,7 @@ export default function HelpMeEditLayout() {
                   placeholder="구체적으로 필요한 도움을 적어주세요. 예) 이동 도움 필요"
                   {...register("title")}
                 />
+                <p className={cn("charCount")}>{title.length}/30</p>
                 {errors.title && <p className={cn("errorMessage")}>{errors.title.message}</p>}
               </div>
               <div className={cn("dateContainer")}>
@@ -229,15 +234,15 @@ export default function HelpMeEditLayout() {
                         <CustomDatePicker
                           locale={ko}
                           selected={field.value}
-                          dateFormat="yyyy.MM.dd"
-                          customInputRef={field.ref}
-                          placeholder="0000.00.00"
                           onChange={(date: Date) => {
                             if (date) {
-                              const adjustedDate = new Date(date.setHours(12, 0, 0, 0));
+                              const adjustedDate = normalizeDate(date);
                               field.onChange(adjustedDate);
                             }
                           }}
+                          dateFormat="yyyy.MM.dd"
+                          customInputRef={field.ref}
+                          placeholder="0000.00.00"
                           classNames={cn("dateFont")}
                         />
                       )}
@@ -257,7 +262,7 @@ export default function HelpMeEditLayout() {
                           selected={field.value}
                           onChange={(date: Date) => {
                             if (date) {
-                              const adjustedDate = new Date(date.setHours(12, 0, 0, 0));
+                              const adjustedDate = normalizeDate(date);
                               field.onChange(adjustedDate);
                             }
                           }}
@@ -362,6 +367,7 @@ ex, 2시에 전대치과병원에서 진료 이동 도움이 필요합니다."
                   className={cn("detailTextarea")}
                   {...register("content", { required: true })}
                 />
+                <p className={cn("charCount")}>{contentText.length}/500</p>
                 {errors.content && <p className={cn("errorMessage")}>{errors.content.message}</p>}
               </div>
               <Button className={cn("registerBox", { active: isValid })}>

@@ -112,11 +112,14 @@ export default function CertifyVolunteeringModal({
     control,
     setValue,
     formState: { errors },
+    watch
   } = useForm<FormData>({
     resolver: zodResolver(volunteerSchema),
     mode: "onSubmit",
     defaultValues: prevCertification || {},
   });
+
+  const contentText = watch("content", "");
 
   useEffect(() => {
     if (prevCertification) {
@@ -236,7 +239,7 @@ export default function CertifyVolunteeringModal({
         <div className={cn("thoughtsContainer")}>
           <p className={cn("thoughtsTitle")}>6. 봉사 활동 내용 및 소감 </p>
           <header className={cn("thoughtsHeader")}>
-            봉사 활동 내용 및 소감을 자유롭게 작성해 주세요. (200자 이상){""}
+            봉사 활동 내용 및 소감을 자유롭게 작성해 주세요. (200자 이상)
           </header>
           <div className={cn("thoughtsContentBox")}>
             <Textarea
@@ -244,6 +247,7 @@ export default function CertifyVolunteeringModal({
               className={cn("thoughtsContent")}
               {...register("content", { required: true })}
             />
+            <p className={cn("charCount")}>{contentText.length}/1000</p>
             {errors.content && <p className={cn("errorMessage")}>{errors.content.message}</p>}
           </div>
         </div>
